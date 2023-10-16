@@ -89,6 +89,7 @@ import {
   
   export const defaultInputRanges = [
     {
+      label: "days up to today",
       range(value) {
         return {
           startDate: addDays(defineds.startOfToday, (Math.max(Number(value), 1) - 1) * -1),
@@ -102,7 +103,9 @@ import {
       },
     },
     {
-      
+      label: (
+        <span style={{ color: 'black' }}>days up to today</span>
+      ),
       range(value) {
         const today = new Date();
         return {

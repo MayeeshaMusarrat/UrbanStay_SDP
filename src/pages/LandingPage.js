@@ -4,10 +4,9 @@ import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
 import styles from "./LandingPage.module.css";
-import { ArrowDropDownIcon } from "@mui/x-date-pickers";
-
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import DateRangeSelector from "../components/DateRangeSelector";
+
 
 const LandingPage = ({ onClose }) => {
 
@@ -15,11 +14,33 @@ const LandingPage = ({ onClose }) => {
 
 
 
-  //rooms and guests
+  //counter
+
+  const [countRooms, setCountRooms] = useState(1);
+  const handleChangeRooms = (event) => {
+    setCountRooms(Math.max(Number(event.target.value), 1));
+  };
+
+  const [countGuests, setCountGuests] = useState(1);
+  const handleChangeGuests = (event) => {
+    setCountGuests(Math.max(Number(event.target.value), 1));
+  };
+
+
+
+  /// =========================
+
+  const [popupCalender, setPopupCalender] = useState(false);
+  const toggleCalender = () => {
+    if(popup) setPopup(!popup);
+    setPopupCalender(!popupCalender);
+  };
 
   const [popup, setPopup] = useState(false);
-
   const toggle = () => {
+    setCountRooms(1);
+    setCountGuests(1);
+    if(popupCalender) setPopupCalender(!popupCalender);
     setPopup(!popup);
   };
 
@@ -171,10 +192,13 @@ const LandingPage = ({ onClose }) => {
 
         <div className={styles.landingpageItem} />
 
-        
+        { 
+        popupCalender && (
         <div className={styles.datePopup}>
             <DateRangeSelector />
         </div>
+
+        )}
 
 
 
@@ -186,28 +210,46 @@ const LandingPage = ({ onClose }) => {
         >
 
           
-
-
-      
           <div className={styles.searchbarParent}>
             <div className={styles.searchbar}>
-              <TextField
+              
+              <div
                 onClick={toggle}
                 className={styles.roomsAndGuestsSearchBar}
-                color="info"
-                placeholder="2 Rooms, 1 Guest"
-                fullWidth={true}
-                sx={{ width: 282 }}
-                variant="outlined"
-                
-                
-              />
+               
+                style={{
+                  width: 282,
+                  color: '#c2c2c2',
+                  textAlign: 'left',
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: 15,
+                  fontFamily: 'Roboto',
+                  fontSize: 'medium', 
+                }}
+              >
+              2 rooms, 3 guests
+              </div>
              
              
-              <div className={styles.reservationDates} />
+              <div className={styles.reservationDates} 
+              onClick = {toggleCalender}
+              style={{
+                color: '#c2c2c2',
+                textAlign: 'left',
+                display: 'flex',
+                alignItems: 'center',
+                padding: 15,
+                fontFamily: 'Roboto',
+                fontSize: 'medium', 
+              }}
+              >
+                19 Oct - 23 Nov
+              </div>
+              
               <TextField
                 className={styles.destination}
-                color="info"
+                
                 size="medium"
                 sx={{ width: 425 }}
                 placeholder="Enter Destination"
@@ -240,20 +282,33 @@ const LandingPage = ({ onClose }) => {
             </button>
             <div className={styles.roomplusminus}>
               <button className={styles.roomcounterframe}>
-                <button className={styles.button}>1</button>
+                <button className={styles.button}
+                 onChange={handleChangeRooms} value={countRooms}>
+
+                  {countRooms}
+                  
+                </button>
               </button>
-              <button className={styles.minussign}>
+              <button className={styles.minussign}
+                  onClick={() => setCountRooms((prev) => prev - 1)}
+                  disabled={countRooms === 1}
+              >
+                
                 <div className={styles.minussignChild} />
                 <img
+
                   className={styles.mdiLightminusIcon}
                   alt=""
                   src="/mdilightminus.svg"
                 />
               </button>
-              <button className={styles.plussign} id="plusRooms">
+              <button className={styles.plussign} id="plusRooms"
+              onClick={() => setCountRooms((prev) => prev + 1)}
+              >
                 <div className={styles.plusrectangle} />
                 <img
                   className={styles.phplusLightIcon}
+                  
                   alt=""
                   src="/phpluslight.svg"
                 />
@@ -261,9 +316,16 @@ const LandingPage = ({ onClose }) => {
             </div>
             <div className={styles.guestplusminus}>
               <button className={styles.roomcounterframe}>
-                <button className={styles.button}>1</button>
+                <button className={styles.button}
+                  onChange={handleChangeGuests} value={countGuests}
+                >
+                  {countGuests}
+                </button>
               </button>
-              <button className={styles.minussign1} id="minusGuests">
+              <button className={styles.minussign1} id="minusGuests"
+                  onClick={() => setCountGuests((prev) => prev - 1)}
+                  disabled={countGuests === 1}
+              >
                 <div className={styles.plusrectangle} />
                 <img
                   className={styles.mdiLightminusIcon}
@@ -271,7 +333,9 @@ const LandingPage = ({ onClose }) => {
                   src="/mdilightminus.svg"
                 />
               </button>
-              <button className={styles.plussign} id="plusGuests">
+              <button className={styles.plussign} id="plusGuests"
+                  onClick={() => setCountGuests((prev) => prev + 1)}
+              >
                 <div className={styles.plusrectangle} />
                 <img
                   className={styles.phplusLightIcon}
@@ -298,8 +362,6 @@ const LandingPage = ({ onClose }) => {
         </div>
 
       )}
-
-
 
 
 

@@ -28,10 +28,10 @@ const DateRangeSelector = ({ ranges, onChange, onSubmit, ...rest }) => {
           console.log(ranges.selection);
      };
 
-     // const onClickDone = () => {
-     //      onSubmit(selectedDateRange);
-     //      setShow(true);
-     // };
+      const onClickDone = () => {
+           onSubmit(selectedDateRange);
+          setShow(true);
+      };
 
      const onClickClear = () => {
           setSelectedDateRange({
