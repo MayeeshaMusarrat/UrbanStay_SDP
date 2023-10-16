@@ -1,0 +1,14 @@
+.rdr-buttons-position{
+    bottom: 1rem;
+}
+
+.btn.btn-transparent.text-danger.rounded-0.px-4 {
+    font-family: 'Poppins';
+    font-size: 11px;
+    font-weight: 500;
+   
+}
+.shadow.d-inline-block {
+    background-color: white;
+    border-radius: var(--br-3xs);
+}

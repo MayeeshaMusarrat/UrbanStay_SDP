@@ -1,0 +1,121 @@
+.loginPopupWithoutLogoutGrpChild {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: var(--br-3xs);
+  background-color: var(--shade-01);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--color-gray-1000);
+  box-sizing: border-box;
+  width: 427px;
+  height: 141px;
+}
+.cancel,
+.cancelbtn {
+  cursor: pointer;
+  border: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cancel {
+  padding: 0;
+  position: relative;
+  font-size: 16px;
+  text-transform: capitalize;
+  font-weight: 700;
+  font-family: var(--font-poppins);
+  color: var(--color-black);
+  text-align: center;
+  width: 212px;
+  flex-shrink: 0;
+}
+.cancelbtn {
+  padding: var(--padding-3xs);
+  top: 83px;
+  left: 0;
+  width: 214px;
+  height: 50px;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.cancelbtn:hover,
+.signoutbtn:hover {
+  gap: var(--gap-3xs);
+  cursor: pointer;
+}
+.cancelbtn,
+.groupChild,
+.signoutbtn {
+  position: absolute;
+  box-sizing: border-box;
+}
+.signoutbtn {
+  cursor: pointer;
+  border: 0;
+  padding: var(--padding-3xs);
+  background-color: transparent;
+  top: 51px;
+  left: 214px;
+  width: 213px;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.groupChild {
+  top: 48.75px;
+  left: 213.75px;
+  border-right: 0.5px solid var(--color-gray-200);
+  width: 0.5px;
+  height: 60.5px;
+}
+.areYouSure {
+  position: absolute;
+  top: 0;
+  left: 37px;
+  text-transform: capitalize;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 355px;
+  height: 33px;
+}
+.separator {
+  position: absolute;
+  top: 48.5px;
+  left: -0.5px;
+  border-top: 1px solid var(--color-lightgray-100);
+  box-sizing: border-box;
+  width: 431px;
+  height: 1px;
+}
+.loginPopupWithoutLogoutGrp,
+.signoutbtnParent {
+  position: absolute;
+  top: 32px;
+  left: 0;
+  width: 430px;
+  height: 109px;
+}
+.loginPopupWithoutLogoutGrp {
+  top: 3px;
+  left: 3px;
+  height: 141px;
+}
+.signoutConfirmationPopup {
+  background-color: var(--color-gray-900);
+  width: 436px;
+  height: 153px;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  text-align: center;
+  font-size: var(--font-size-xl);
+  color: var(--color-black);
+  font-family: var(--font-inter);
+}

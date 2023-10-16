@@ -1,0 +1,209 @@
+.choose {
+  position: relative;
+  display: none;
+}
+.chooseWrapper,
+.gradient {
+  flex-direction: row;
+  align-items: center;
+}
+.chooseWrapper {
+  display: none;
+  justify-content: flex-start;
+}
+.gradient {
+  position: absolute;
+  top: -25px;
+  left: -19px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(-90deg, #5f589e, #584b8e);
+  width: 1499px;
+  height: 274px;
+  display: flex;
+  justify-content: center;
+  padding: var(--padding-base) var(--padding-5xl);
+  box-sizing: border-box;
+}
+.signInPageChild {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1674px;
+  height: 1079px;
+  object-fit: cover;
+}
+.groupChild,
+.h3 {
+  position: absolute;
+  right: 0;
+  width: 536px;
+}
+.groupChild {
+  top: 53px;
+  border-radius: var(--br-3xs);
+  background-color: var(--shade-01);
+  box-shadow: 0 4px 63px rgba(0, 0, 0, 0.15);
+  height: 499px;
+}
+.h3 {
+  top: 88px;
+  letter-spacing: 0.1px;
+  line-height: 32px;
+  display: inline-block;
+  color: var(--color-darkblue);
+}
+.emaillabel {
+  top: 155px;
+  right: 432px;
+  font-size: var(--font-size-mid);
+  letter-spacing: 0.2px;
+  line-height: 24px;
+  font-weight: 600;
+  text-align: left;
+}
+.emaillabel,
+.pwd,
+.pwdlabel {
+  position: absolute;
+}
+.pwdlabel {
+  top: 297px;
+  right: 395px;
+  font-size: var(--font-size-mid);
+  letter-spacing: 0.2px;
+  line-height: 24px;
+  font-weight: 600;
+  text-align: left;
+}
+.pwd {
+  border: 0;
+  background-color: transparent;
+  top: 342px;
+  right: 60px;
+}
+.enterbtnChild {
+  top: 0;
+  right: 0;
+  border-radius: 9.08px;
+  height: 50px;
+}
+.enter,
+.enterbtn,
+.enterbtnChild {
+  position: absolute;
+  width: 114px;
+}
+.enter {
+  top: 13px;
+  right: 0;
+  font-size: var(--font-size-mid);
+  letter-spacing: 0.18px;
+  line-height: 25.42px;
+  font-weight: 500;
+  font-family: var(--font-poppins);
+  color: var(--shade-01);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 23px;
+}
+.enterbtn {
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  top: 443px;
+  right: 215px;
+  height: 50px;
+}
+.enterbtn,
+.enterbtn:hover {
+  cursor: pointer;
+}
+.email {
+  position: absolute;
+  top: 200px;
+  right: 61px;
+}
+.continueYourJourney {
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 32px;
+  text-transform: capitalize;
+  display: inline-block;
+  color: var(--shade-01);
+  width: 530px;
+}
+.rectangleParent {
+  position: absolute;
+  top: 87px;
+  right: 490px;
+  width: 536px;
+  height: 552px;
+  text-align: center;
+  font-size: var(--font-size-xl);
+  color: var(--text-color);
+}
+.dontHaveAn {
+  font-weight: 500;
+}
+.signUp {
+  text-decoration: underline;
+}
+.dontHaveAnContainer1 {
+  line-break: anywhere;
+  width: 100%;
+}
+.dontHaveAnContainer {
+  position: absolute;
+  top: 654px;
+  left: 494px;
+  font-size: var(--font-size-mid);
+  letter-spacing: 0.18px;
+  line-height: 25.42px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  width: 536px;
+  height: 30px;
+  cursor: pointer;
+}
+.urbanstaylogotext {
+  position: absolute;
+  top: 33px;
+  left: 30px;
+  letter-spacing: -1px;
+  line-height: 70px;
+  text-transform: capitalize;
+  display: inline-block;
+  width: 125px;
+  height: 57px;
+}
+.urbanstaylogopicIcon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 147px;
+  height: 50px;
+  object-fit: cover;
+}
+.urbanstayLogo {
+  position: absolute;
+  top: 29px;
+  left: 16px;
+  width: 155px;
+  height: 90px;
+  font-family: var(--font-inter);
+}
+.signInPage {
+  position: relative;
+  background-color: var(--shade-01);
+  width: 100%;
+  height: 774px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-base);
+  color: var(--shade-01);
+  font-family: var(--font-poppins);
+}

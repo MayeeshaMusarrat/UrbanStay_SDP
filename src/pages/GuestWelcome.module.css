@@ -1,0 +1,118 @@
+.createAGuest {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  position: relative;
+  font-size: var(--font-size-xl);
+  text-transform: capitalize;
+  font-weight: 700;
+  font-family: var(--font-inter);
+  color: var(--shade-01);
+  text-align: center;
+  display: inline-block;
+}
+.createAGuestAccountWrapper {
+  cursor: pointer;
+  border: 0;
+  padding: var(--padding-3xs);
+  background-color: var(--color-darkblue);
+  position: absolute;
+  top: 507px;
+  left: 874px;
+  border-radius: 9.08px;
+  width: 287px;
+  height: 55px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.createAGuestAccountWrapper:hover {
+  background-color: var(--color-blueviolet);
+  gap: var(--gap-3xs);
+  cursor: pointer;
+}
+.renterpicIcon {
+  position: absolute;
+  top: 32px;
+  left: 36px;
+  width: 632px;
+  height: 632px;
+  object-fit: cover;
+}
+.toRentOut {
+  top: 295px;
+  left: 691px;
+  line-height: 40px;
+  text-transform: capitalize;
+  font-weight: 500;
+  color: var(--color-black);
+  display: inline-block;
+  width: 652px;
+}
+.h3,
+.toRentOut,
+.urbanstay {
+  position: absolute;
+}
+.h3 {
+  top: 136px;
+  left: 691px;
+  font-size: var(--font-size-21xl);
+  letter-spacing: 0.1px;
+  line-height: 55px;
+  display: inline-block;
+  font-family: var(--font-poppins);
+  width: 666px;
+  height: 113px;
+}
+.urbanstay {
+  top: 64px;
+  left: 36px;
+  letter-spacing: -1px;
+  line-height: 70px;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  width: 133px;
+  height: 27px;
+}
+.image31,
+.urbanstayParent {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.image31 {
+  width: 168.57px;
+  height: 63.83px;
+  object-fit: cover;
+}
+.urbanstayParent {
+  width: 169px;
+  height: 91px;
+  cursor: pointer;
+  text-align: left;
+  font-size: var(--font-size-xl);
+}
+.frameParent {
+  position: absolute;
+  top: 57px;
+  left: 81px;
+  width: 1357px;
+  height: 664px;
+}
+.guestWelcome {
+  position: relative;
+  background-color: var(--shade-01);
+  width: 100%;
+  height: 750px;
+  overflow: hidden;
+  text-align: center;
+  font-size: var(--font-size-5xl);
+  color: var(--color-darkblue);
+  font-family: var(--font-inter);
+}
