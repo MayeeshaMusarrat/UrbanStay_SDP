@@ -106,7 +106,7 @@ const LandingPage = ({ onClose }) => {
     
 
   
-  const [dateShow, setDateShow]  = useState("10/17/23 - 10/15/23");
+  const [dateShow, setDateShow]  = useState("19 Oct, 2023 - 25 Oct, 2023");
   
 
   
