@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import {
   TextField,
   Select,
@@ -24,35 +24,41 @@ const HostSignupPage = () => {
 
   const fileInputRef = useRef(null);
 
-  const handleBrowseClick = () => {
-    fileInputRef.current.click();
-  };
+  const [str, setStr] = useState(" Supported: JPG, JPEG, PNG");
+  
 
   const handleFileChange = (event) => {
     const selectedFiles = event.target.files;
     if (selectedFiles.length > 0) {
-      console.log("Selected file: " + selectedFiles[0].name);
+      setStr("Uploaded file: " + selectedFiles[0].name);
     }
   };
+  
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+
 
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
 
   const handleCountryChange = (event, newValue) => {
     setSelectedCountry(newValue);
-    setSelectedState(null); // Reset the selected state when the country changes
+    setSelectedState(null); 
   };
 
 
-  const [
-    birthdateInputDateTimePickerValue,
-    setBirthdateInputDateTimePickerValue,
-  ] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
+  
+
   const navigate = useNavigate();
-  const handleShowPasswordClick = () => {
-    setShowPassword(!showPassword);
+
+  const handleShowPasswordClick1 = () => {
+    setShowPassword1(!showPassword1);
   };
+
+  const handleShowPasswordClick2 = () => {
+    setShowPassword2(!showPassword2);
+  }
+
 
   const onBecomeMemberBtnClick = useCallback(() => {
     navigate("/urbanstay-landing-page");
@@ -61,6 +67,70 @@ const HostSignupPage = () => {
   const onAlreadyHaveAnClick = useCallback(() => {
     navigate("/sign-in-page");
   }, [navigate]);
+
+  
+  const [
+    birthdateInputDateTimePickerValue,
+    setBirthdateInputDateTimePickerValue,
+  ] = useState(null);
+
+  const [firstname,setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+
+
+  const handleSubmit = (e)=>{
+    e.preventDefault();
+    
+    const user = {
+      firstname: firstname, 
+      lastname: lastname,
+      phone_number: phone,
+      country: country,
+      state: state,
+      birthdate: birthdateInputDateTimePickerValue,
+      email: email,
+      password: password
+    };
+    
+    
+    fetch("http://localhost:5001/signup-page",{
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+    .then(result=>{
+      
+      if(result.status==200) {
+        
+        navigate("/");
+      }
+      else {
+        console.log("oops");
+       
+      }
+    })
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -220,16 +290,16 @@ const HostSignupPage = () => {
             required={true}
             sx={{ width: 482 }}
             variant="outlined"
-            type={showPassword ? "text" : "password"}
+            type={showPassword1 ? "text" : "password"}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
-                    onClick={handleShowPasswordClick}
+                    onClick={handleShowPasswordClick1}
                     aria-label="toggle password visibility"
                   >
                     <Icon>
-                      {showPassword ? "visibility_off" : "visibility"}
+                      {showPassword1 ? "visibility_off" : "visibility"}
                     </Icon>
                   </IconButton>
                 </InputAdornment>
@@ -253,16 +323,16 @@ const HostSignupPage = () => {
             required={true}
             sx={{ width: 496 }}
             variant="outlined"
-            type={showPassword ? "text" : "password"}
+            type={showPassword2 ? "text" : "password"}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
-                    onClick={handleShowPasswordClick}
+                    onClick={handleShowPasswordClick2}
                     aria-label="toggle password visibility"
                   >
                     <Icon>
-                      {showPassword ? "visibility_off" : "visibility"}
+                      {showPassword2 ? "visibility_off" : "visibility"}
                     </Icon>
                   </IconButton>
                 </InputAdornment>
@@ -296,15 +366,33 @@ const HostSignupPage = () => {
                   className={styles.dragYourImages}
                 >{`Drag your images here, or `}</span>
 
-                <b className={styles.browse}>
+                <label className={styles.browse} htmlFor="fileInput"  >
                   
-                  browse</b>
+                  <b>browse </b>
+                  
+                  
+                  </label>
+                  <input
+                  type="file"
+                  id="fileInput"
+                  ref={fileInputRef}
+                  style={{ display: 'none' }}
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
 
 
               </div>
+
               <div className={styles.supportedJpgJpeg}>
-                Supported: JPG, JPEG, PNG
+               {str}
               </div>
+
+
+
+
+
+
             </div>
           </div>
           <button
