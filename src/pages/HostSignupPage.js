@@ -46,8 +46,10 @@ const HostSignupPage = () => {
     setSelectedState(null); 
   };
 
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
 
-  
+
 
   const navigate = useNavigate();
 
@@ -58,11 +60,6 @@ const HostSignupPage = () => {
   const handleShowPasswordClick2 = () => {
     setShowPassword2(!showPassword2);
   }
-
-
-  const onBecomeMemberBtnClick = useCallback(() => {
-    navigate("/urbanstay-landing-page");
-  }, [navigate]);
 
   const onAlreadyHaveAnClick = useCallback(() => {
     navigate("/sign-in-page");
@@ -77,28 +74,26 @@ const HostSignupPage = () => {
   const [firstname,setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
-  const [country, setCountry] = useState("");
-  const [state, setState] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
 
 
   const handleSubmit = (e)=>{
     e.preventDefault();
+
+    navigate("/");
     
     const user = {
       firstname: firstname, 
       lastname: lastname,
       phone_number: phone,
-      country: country,
-      state: state,
       birthdate: birthdateInputDateTimePickerValue,
       email: email,
       password: password
     };
     
     
-    fetch("http://localhost:5001/signup-page",{
+    fetch("http://localhost:5001/host-signup-page",{
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -137,7 +132,7 @@ const HostSignupPage = () => {
       <div className={styles.hostSignupPage}>
         <div className={styles.gradient}>
           <div className={styles.chooseWrapper}>
-            <div className={styles.choose}>Reserve</div>
+            <div className={styles.choose}></div>
           </div>
         </div>
         <img
@@ -145,7 +140,7 @@ const HostSignupPage = () => {
           alt=""
           src="/group-1945@2x.png"
         />
-        <form className={styles.rectangleParent}>
+        <form className={styles.rectangleParent} onSubmit={handleSubmit} >
           <div className={styles.frameChild} />
           <b className={styles.h3}>Sign Up for UrbanStay</b>
           <div className={styles.becomeAMember}>
@@ -160,7 +155,8 @@ const HostSignupPage = () => {
             fullWidth={true}
             sx={{ width: 336 }}
             variant="outlined"
-            multiline
+            value = {firstname}
+            onChange = {(e) => setFirstname(e.target.value)}
           />
           <TextField
             className={styles.lastnameinput}
@@ -170,7 +166,8 @@ const HostSignupPage = () => {
             fullWidth={true}
             sx={{ width: 336 }}
             variant="outlined"
-            multiline
+            value = {lastname}
+            onChange = {(e) => setLastname(e.target.value)}
           />
           <div className={styles.formControl}>
             <span className={styles.firstName}>{`First Name `}</span>
@@ -193,8 +190,9 @@ const HostSignupPage = () => {
             sx={{ width: 480 }}
             fullwidth = {true}
             options={countryData}
-            value={selectedCountry}
-             onChange={handleCountryChange}
+            value = {countryData.label}
+            onChange = {(e) => setCountry(e.target.value)}
+            onChange={handleCountryChange}
             autoHighlight
             getOptionLabel={(option) => option.label}
             renderOption={(props, option) => (
@@ -218,6 +216,7 @@ const HostSignupPage = () => {
                   ...params.inputProps,
                   autoComplete: 'new-password', 
                 }}
+
                
               />
             )}
@@ -244,25 +243,22 @@ const HostSignupPage = () => {
 
 
 
-          <FormControl
-            className={styles.cityinput}
-            sx={{ width: 505 }}
-            variant="outlined">
-
+          <FormControl className={styles.cityinput} sx={{ width: 505 }} variant="outlined">
           <Autocomplete
-                  options={selectedCountry?.states || []}
-                  getOptionLabel={(option) => option}
-                  value={selectedState}
-                  onChange={(_, newValue) => setSelectedState(newValue)}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      placeholder="Select a State"
-                      variant="outlined"
-                    />
-                  )}
+            options={selectedCountry?.states || []}
+            getOptionLabel={(option) => option}
+            onChange={(_, newValue) => setSelectedState(newValue)}
+            
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder="Select a State"
+                variant="outlined"
+                value = {state}
+              />
+            )}
           />
-          </FormControl>
+        </FormControl>
 
 
 
@@ -291,6 +287,8 @@ const HostSignupPage = () => {
             sx={{ width: 482 }}
             variant="outlined"
             type={showPassword1 ? "text" : "password"}
+            value = {password}
+            onChange = {(e) => setPassword(e.target.value)}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -314,7 +312,8 @@ const HostSignupPage = () => {
             fullWidth={true}
             sx={{ width: 496 }}
             variant="outlined"
-            multiline
+            value = {email}
+            onChange = {(e) => setEmail(e.target.value)}
           />
           <TextField
             className={styles.pwdconfirminput}
@@ -389,20 +388,16 @@ const HostSignupPage = () => {
               </div>
 
 
-
-
-
-
             </div>
           </div>
           <button
             className={styles.becomememberbtn}
             id="member"
-            onClick={onBecomeMemberBtnClick}
           >
             <button
               className={styles.becomememberbtnChild}
               id="becomeMemberBtn"
+              type = "submit"
             />
             <div className={styles.becomeAMember1}>Become a Member</div>
           </button>
@@ -414,7 +409,8 @@ const HostSignupPage = () => {
             fullWidth={true}
             sx={{ width: 336 }}
             variant="outlined"
-            multiline
+            value = {phone}
+            onChange = {(e) => setPhone(e.target.value)}
           />
         </form>
         <div className={styles.urbanstayLogo}>

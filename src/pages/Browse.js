@@ -294,6 +294,9 @@ const Browse = ({ onClose }) => {
             </div>
           </div>
         </div>
+
+
+
         <div className={styles.somanypropertycardsFrame}>
           <div className={styles.card}>
             <img className={styles.imageIcon} alt="" src="/image@2x.png" />
@@ -321,6 +324,15 @@ const Browse = ({ onClose }) => {
             </div>
           </div>
         </div>
+
+
+
+
+
+
+
+
+        
 
         
         <div className={styles.sortByParent}>

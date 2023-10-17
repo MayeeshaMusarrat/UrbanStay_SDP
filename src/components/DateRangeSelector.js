@@ -29,7 +29,10 @@ const DateRangeSelector = ({ ranges, onChange, onSubmit, ...rest }) => {
      };
 
       const onClickDone = () => {
-          onSubmit(selectedDateRange); //selectedDateRange chacchi
+         // onSubmit(selectedDateRange); 
+    
+          localStorage.setItem('DateRange', JSON.stringify(selectedDateRange));
+         console.log(selectedDateRange);
           setShow(true);
       };
 
@@ -40,6 +43,7 @@ const DateRangeSelector = ({ ranges, onChange, onSubmit, ...rest }) => {
                key: "selection"
           });
           setShow(false);
+          localStorage.clear();
      };
 
      return (
@@ -54,6 +58,12 @@ const DateRangeSelector = ({ ranges, onChange, onSubmit, ...rest }) => {
                          direction="horizontal"
                     />
                     <div className="text-right position-relative rdr-buttons-position mt-2 mr-3" >
+                         <button
+                              className="btn btn-transparent text-primary rounded-0 px-4 mr-2"
+                              onClick={onClickDone}
+                         >
+                              Done
+                         </button>
 
                          <button
                               className="btn text-danger rounded-0 px-4"

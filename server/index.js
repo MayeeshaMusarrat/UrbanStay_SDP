@@ -26,7 +26,6 @@ async function connectAndStartServer()
 
   app.post('/guest-signup-page', async (req, res) => {
     const {firstname, lastname, phone_number, email, password} = req.body;
-
     const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
     pool.getConnection((err, connection) => {
       if (err) throw err;
@@ -63,10 +62,13 @@ async function connectAndStartServer()
   app.post('/host-signup-page', async (req, res) => {
     const {firstname, lastname, phone_number, country, city, birthdate, email, password} = req.body;
     const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    const date = new Date(birthdate);
+    const birthdatePart = date.toISOString().split('T')[0];
+    console.log(req.body);
     pool.getConnection((err, connection) => {
       if (err) throw err;
-      const userSql = `INSERT INTO USER (First_name, Last_name, Phone, Country, City, Birthdate, Email, Password, Joining_date) VALUES (?, ?, ?, ?, ?, ?)`;
-      const userValues = [firstname, lastname, phone_number, country, city, birthdate, email, password, currentDate];
+      const userSql = `INSERT INTO USER (First_name, Last_name, Phone, Birthdate, Email, Password, Joining_date) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+      const userValues = [firstname, lastname, phone_number, birthdatePart, email, password, currentDate];
       connection.query(userSql, userValues, (userErr, userResults) => {
         if (userErr) {
           console.error('Error inserting data into USER:', userErr);
@@ -123,17 +125,6 @@ async function connectAndStartServer()
       connection.release();
     });
   });
-
-
-
-
-
-
-
-
-
-
-
 
 
 

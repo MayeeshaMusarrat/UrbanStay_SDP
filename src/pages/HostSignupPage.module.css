@@ -271,6 +271,7 @@
 }
 .browse {
   color: #2654ca;
+  cursor: pointer;
 }
 .dragYourImagesContainer,
 .supportedJpgJpeg {

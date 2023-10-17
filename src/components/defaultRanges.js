@@ -103,9 +103,7 @@ import {
       },
     },
     {
-      label: (
-        <span style={{ color: 'black' }}>days up to today</span>
-      ),
+    
       range(value) {
         const today = new Date();
         return {

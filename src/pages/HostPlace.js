@@ -236,7 +236,7 @@ const HostPlace = () => {
     }).then(result=>{
       
       if(result.status==200) {
-       //DOESNT WORK
+      
       }
       else {
         console.log("oops");

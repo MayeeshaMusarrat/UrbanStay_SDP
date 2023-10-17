@@ -1,14 +1,120 @@
-import { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { TextField, InputAdornment, Icon, IconButton } from "@mui/material";
 import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
 import styles from "./LandingPage.module.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import DateRangeSelector from "../components/DateRangeSelector";
+
+import { DateRangePicker } from "react-date-range";
+import { defaultStaticRanges } from "../components/defaultRanges";
+import { format } from "date-fns";
+
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
+
+import "../components/Datepicker.css";
+
+import PropTypes from "prop-types";
 
 
 const LandingPage = ({ onClose }) => {
+
+
+  
+
+  const [selectedDateRange, setSelectedDateRange] = useState({
+       startDate: new Date(),
+       endDate: new Date(),
+       key: "selection"
+  });
+  const [show, setShow] = useState(false);
+
+  function formatDateDisplay(date, defaultText) {
+       if (!date) return defaultText;
+       return format(date, "d MMM, yyyy");
+  }
+
+  const handleSelect = ranges => {
+       setSelectedDateRange(ranges.selection);
+       console.log(ranges.selection);
+  };
+
+   const onClickDone = () => {
+      // onSubmit(selectedDateRange); 
+
+      const datesCalendar = JSON.parse(localStorage.getItem('dateRange'));
+      if(datesCalendar!==null)
+      {
+        const dates = {
+          startDate: datesCalendar.startDate,
+          endDate: datesCalendar.endDate,
+          key: datesCalendar.key
+        };
+        const dateToFormatStart = new Date(dates.startDate);
+        const dateToFormatEnd = new Date(dates.endDate);
+
+        const formattedDateStart = formatDateDisplay(dateToFormatStart, 'N/A');
+        const formattedDateEnd = formatDateDisplay(dateToFormatEnd, 'N/A');
+
+        setDateShow(`${formattedDateStart} - ${formattedDateEnd}`);
+      }
+
+       setShow(true);
+   };
+
+  const onClickClear = () => {
+       setSelectedDateRange({
+            startDate: new Date(),
+            endDate: new Date(),
+            key: "selection"
+       });
+       setShow(false);
+       localStorage.clear();
+  };
+
+
+
+
+
+  useEffect(() => {
+    // Fetch the start and end dates from selectedDateRange
+    const { startDate, endDate } = selectedDateRange;
+  
+    // Increase the startDate and endDate by one day
+    const newStartDate = new Date(startDate);
+    newStartDate.setDate(startDate.getDate() + 1);
+  
+    const newEndDate = new Date(endDate);
+    newEndDate.setDate(endDate.getDate() + 1);
+  
+    // Create an object to store in localStorage
+    const dateRange = {
+      startDate: newStartDate.toISOString().split('T')[0],
+      endDate: newEndDate.toISOString().split('T')[0],
+      key: "selection"
+    };
+  
+    // Convert the object to a JSON string and store it in localStorage
+    localStorage.setItem('dateRange', JSON.stringify(dateRange));
+  }, [selectedDateRange]);
+
+
+
+
+
+    
+
+  
+  const [dateShow, setDateShow]  = useState("10/17/23 - 10/15/23");
+  
+
+  
+
+
+
+
+ 
 
   // Implement conditional popup thing.
   const storedValue = localStorage.getItem('email');
@@ -25,6 +131,9 @@ const LandingPage = ({ onClose }) => {
     setPopupLogin(!popupLogin);
   };
 
+  //calender values
+
+ 
 
   //counter
 
@@ -211,7 +320,60 @@ const LandingPage = ({ onClose }) => {
         { 
         popupCalender && (
         <div className={styles.datePopup}>
-            <DateRangeSelector />
+            
+            <React.Fragment>
+               <div className="shadow d-inline-block">
+                    <DateRangePicker
+                         onChange={handleSelect}
+                         showSelectionPreview={true}
+                         moveRangeOnFirstSelection={false}
+                         months={2}
+                         ranges={[selectedDateRange]}
+                         direction="horizontal"
+                    />
+                    <div className="text-right position-relative rdr-buttons-position mt-2 mr-3" >
+                         <button
+                              className="btn btn-transparent text-primary rounded-0 px-4 mr-2"
+                              onClick={onClickDone}
+                         >
+                              Done
+                         </button>
+
+                         <button
+                              className="btn text-danger rounded-0 px-4"
+                              onClick={onClickClear}
+                         >
+                              Clear
+                         </button>
+                    </div>
+               </div>
+
+              
+          </React.Fragment>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
 
         )}
@@ -260,7 +422,7 @@ const LandingPage = ({ onClose }) => {
                 fontSize: 'medium', 
               }}
               >
-                19 Oct - 23 Nov
+              {dateShow}
               </div>
               
               <TextField
