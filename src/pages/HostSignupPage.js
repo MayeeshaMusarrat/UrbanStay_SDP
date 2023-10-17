@@ -22,6 +22,19 @@ import countryData from "./countryData";
 
 const HostSignupPage = () => {
 
+  const fileInputRef = useRef(null);
+
+  const handleBrowseClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    const selectedFiles = event.target.files;
+    if (selectedFiles.length > 0) {
+      console.log("Selected file: " + selectedFiles[0].name);
+    }
+  };
+
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
 
@@ -282,7 +295,12 @@ const HostSignupPage = () => {
                 <span
                   className={styles.dragYourImages}
                 >{`Drag your images here, or `}</span>
-                <b className={styles.browse}>browse</b>
+
+                <b className={styles.browse}>
+                  
+                  browse</b>
+
+
               </div>
               <div className={styles.supportedJpgJpeg}>
                 Supported: JPG, JPEG, PNG
