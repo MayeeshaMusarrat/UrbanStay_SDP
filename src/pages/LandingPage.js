@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { TextField, InputAdornment, Icon, IconButton } from "@mui/material";
 import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
 import PortalPopup from "../components/PortalPopup";
@@ -11,7 +11,19 @@ import DateRangeSelector from "../components/DateRangeSelector";
 const LandingPage = ({ onClose }) => {
 
   // Implement conditional popup thing.
+  const storedValue = localStorage.getItem('email');
+  const [loggedIn, setLoggedIn] = useState(storedValue);
 
+  useEffect(() => {
+    if (storedValue) {
+      setLoggedIn(true);
+    }
+  }, [storedValue]);
+
+  const [popupLogin, setPopupLogin] = useState(false);
+  const toggleLogin = () => {
+    setPopupLogin(!popupLogin);
+  };
 
 
   //counter
@@ -54,6 +66,10 @@ const LandingPage = ({ onClose }) => {
 
   const onSignInBtnClick = useCallback(() => {
     navigate("/sign-in-page");
+  }, [navigate]); 
+
+  const onSignUpBtnClick = useCallback(() => {
+    navigate("/leading-page");
   }, [navigate]);
 
   const onItemLink5Click = useCallback(() => {
@@ -1176,26 +1192,19 @@ const LandingPage = ({ onClose }) => {
             </div>
             <img className={styles.image31} alt="" src="/image-3-11@2x.png" />
           </div>
+
+
           <img
             className={styles.profileIcon}
             alt=""
             src="/profile-icon4@2x.png"
+            onClick = {toggleLogin}
           />
-          <div className={styles.signinPopupWithoutSignout}>
-            <div className={styles.loginPopupWithoutLogoutGrp}>
-              <div className={styles.loginPopupWithoutLogoutGrpChild} />
-              <button
-                className={styles.signinbtn}
-                id="signin"
-                onClick={onSignInBtnClick}
-              >
-                <button className={styles.signIn}> Sign In</button>
-              </button>
-              <button className={styles.signupbtn} id="signUp">
-                <button className={styles.signUp}>{`    Sign up `}</button>
-              </button>
-            </div>
-          </div>
+
+
+
+
+
           <div className={styles.itemLinkParent}>
             <div className={styles.itemLink5} onClick={onItemLink5Click}>
               <b className={styles.home1}>HOME</b>
@@ -1216,6 +1225,10 @@ const LandingPage = ({ onClose }) => {
               <div className={styles.contactUs}>CONTACT US</div>
             </div>
           </div>
+
+
+           { loggedIn && popupLogin ? (
+
           <div className={styles.signinPopupWithSignout}>
             <div className={styles.loginPopupWithLogoutGrp}>
               <div className={styles.loginPopupWithLogoutGrpChild} />
@@ -1247,8 +1260,31 @@ const LandingPage = ({ onClose }) => {
               </button>
             </div>
           </div>
+           ) : popupLogin ?  (
+            <div className={styles.signinPopupWithoutSignout}>
+            <div className={styles.loginPopupWithoutLogoutGrp}>
+              <div className={styles.loginPopupWithoutLogoutGrpChild} />
+              <button
+                className={styles.signinbtn}
+                id="signin"
+                onClick={onSignInBtnClick}
+              >
+                <button className={styles.signIn}> Sign In</button>
+              </button>
+              <button className={styles.signupbtn} id="signUp" onClick={onSignUpBtnClick}>
+                <button className={styles.signUp}>{`    Sign up `}</button>
+              </button>
+            </div>
+          </div>
+          ) : (
+            null
+          )}
+
         </div>
       </div>
+
+
+
       {isSignoutConfirmationPopupOpen && (
         <PortalPopup
           overlayColor="rgba(113, 113, 113, 0.3)"

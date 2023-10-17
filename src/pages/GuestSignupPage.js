@@ -14,21 +14,77 @@ import { useNavigate } from "react-router-dom";
 import styles from "./GuestSignupPage.module.css";
 
 const GuestSignupPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const navigate = useNavigate();
-  const handleShowPasswordClick = () => {
-    setShowPassword(!showPassword);
+
+  const handleShowPasswordClick1 = () => {
+    setShowPassword1(!showPassword1);
   };
 
-  const onBecomeMemberBtnClick = useCallback(() => {
-    navigate("/urbanstay-landing-page");
-  }, [navigate]);
+  const handleShowPasswordClick2 = () => {
+    setShowPassword2(!showPassword2);
+  }
 
+
+  const [firstname,setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [Error, setError] = useState(null);
+
+  function isValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
+
+  const handleChange = event => {
+    if (!isValidEmail(event.target.value)) {
+      setError('Email is invalid');
+    } else {
+      setError(null);
+    }
+
+    setEmail(event.target.value);
+  };
+
+  const handleSubmit = (e)=>{
+    e.preventDefault();
+  
+    
+    const user = {
+      firstname: firstname, 
+      lastname: lastname,
+      phone_number: phone,
+      email: email,
+      password: password
+    };
+    
+    
+    fetch("http://localhost:5001/guest-signup-page",{
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    }).then(result=>{
+      
+      if(result.status==500) {
+        alert("Error occured.");
+      }
+      else {
+        navigate("/");
+      }
+    })
+  }
   const onAlreadyHaveAnClick = useCallback(() => {
     navigate("/sign-in-page");
   }, [navigate]);
 
   return (
+    
     <div className={styles.guestSignupPage}>
       <div className={styles.gradient}>
         <div className={styles.chooseWrapper}>
@@ -40,7 +96,7 @@ const GuestSignupPage = () => {
         alt=""
         src="/group-1945@2x.png"
       />
-      <form className={styles.rectangleParent}>
+      <form className={styles.rectangleParent} onSubmit = {handleSubmit}>
         <div className={styles.frameChild} />
         <b className={styles.h3}>Create a Guest Account on UrbanStay</b>
         <div className={styles.becomeAGuest}>
@@ -55,7 +111,8 @@ const GuestSignupPage = () => {
           fullWidth={true}
           sx={{ width: 473 }}
           variant="outlined"
-          multiline
+          value = {firstname}
+          onChange = {(e) => setFirstname(e.target.value)}
         />
         <TextField
           className={styles.lastnameinput}
@@ -65,7 +122,8 @@ const GuestSignupPage = () => {
           fullWidth={true}
           sx={{ width: 495 }}
           variant="outlined"
-          multiline
+          value = {lastname}
+          onChange = {(e) => setLastname(e.target.value)}
         />
         <div className={styles.formControl}>
           <span className={styles.firstName}>{`First Name `}</span>
@@ -82,15 +140,7 @@ const GuestSignupPage = () => {
           <span className={styles.firstName}>{`Phone Number `}</span>
           <span className={styles.span}>*</span>
         </div>
-        <FormControl
-          className={styles.stateinput}
-          sx={{ width: 336 }}
-          variant="outlined"
-        >
-          <InputLabel color="info" />
-          <Select color="info" />
-          <FormHelperText />
-        </FormControl>
+     
         <TextField
           className={styles.pwdinput}
           color="info"
@@ -98,15 +148,17 @@ const GuestSignupPage = () => {
           required={true}
           sx={{ width: 482 }}
           variant="outlined"
-          type={showPassword ? "text" : "password"}
+          type={showPassword1 ? "text" : "password"}
+          value = {password}
+          onChange = {(e) => setPassword(e.target.value)}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
-                  onClick={handleShowPasswordClick}
+                  onClick={handleShowPasswordClick1}
                   aria-label="toggle password visibility"
                 >
-                  <Icon>{showPassword ? "visibility_off" : "visibility"}</Icon>
+                  <Icon>{showPassword1 ? "visibility_off" : "visibility"}</Icon>
                 </IconButton>
               </InputAdornment>
             ),
@@ -120,24 +172,31 @@ const GuestSignupPage = () => {
           fullWidth={true}
           sx={{ width: 496 }}
           variant="outlined"
-          multiline
+          value = {email}
+          onChange = {handleChange}
+          error = {Error && email.length!=0}
+          helperText={Error && email.length!=0 ? 'Email is not valid.' : ''}
         />
         <TextField
           className={styles.pwdconfirminput}
           color="info"
           placeholder="Confirm Password"
           required={true}
+          error = {password!=confirmPassword && confirmPassword.length!=0}
+          helperText={password!=confirmPassword && confirmPassword.length!=0 ? 'Password does not match' : ''}
           sx={{ width: 496 }}
           variant="outlined"
-          type={showPassword ? "text" : "password"}
+          type={showPassword2 ? "text" : "password"}
+          value = {confirmPassword}
+          onChange = {(e) => setConfirmPassword(e.target.value)}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
-                  onClick={handleShowPasswordClick}
+                  onClick={handleShowPasswordClick2}
                   aria-label="toggle password visibility"
                 >
-                  <Icon>{showPassword ? "visibility_off" : "visibility"}</Icon>
+                  <Icon>{showPassword2 ? "visibility_off" : "visibility"}</Icon>
                 </IconButton>
               </InputAdornment>
             ),
@@ -160,11 +219,12 @@ const GuestSignupPage = () => {
         <button
           className={styles.becomememberbtn}
           id="member"
-          onClick={onBecomeMemberBtnClick}
+          
         >
           <button
             className={styles.becomememberbtnChild}
             id="becomeMemberBtn"
+            type = "submit" 
           />
           <div className={styles.becomeAGuest1}>Become a Guest</div>
         </button>
@@ -174,9 +234,12 @@ const GuestSignupPage = () => {
           placeholder="Enter Phone Number"
           required={true}
           fullWidth={true}
+          error = {phone.length != 11 && phone.length>0}
+          helperText={ phone.length!=0 && phone.length!=11 ? 'Phone Number must be of 11 digits' : ''}
           sx={{ width: 469 }}
           variant="outlined"
-          multiline
+          value = {phone}
+          onChange = {(e) => setPhone(e.target.value)}
         />
         <div
           className={styles.alreadyHaveAnContainer}

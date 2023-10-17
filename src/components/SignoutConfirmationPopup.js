@@ -6,19 +6,33 @@ const SignoutConfirmationPopup = ({ onClose }) => {
   const navigate = useNavigate();
 
   const onSignOutBtnClick = useCallback(() => {
+    localStorage.clear();
+    onclose
     navigate("/");
   }, [navigate]);
 
+  
   return (
     <div className={styles.signoutConfirmationPopup}>
       <div className={styles.loginPopupWithoutLogoutGrp}>
         <div className={styles.loginPopupWithoutLogoutGrpChild} />
         <div className={styles.loginPopupWithoutLogoutGrpChild} />
         <div className={styles.loginPopupWithoutLogoutGrpChild} />
-        <button className={styles.cancelbtn} id="cancel" onClick={onClose}>
-          <button className={styles.cancel}>Cancel</button>
+
+        <button className={styles.cancelbtn} 
+        id="cancel"
+        onClick={onClose} >
+          <button className={styles.cancel} >
+            
+          Cancel
+          
         </button>
-        <div className={styles.signoutbtnParent}>
+        </button>
+
+
+        <div className={styles.signoutbtnParent}
+       
+        >
           <button
             className={styles.signoutbtn}
             id="signOut"

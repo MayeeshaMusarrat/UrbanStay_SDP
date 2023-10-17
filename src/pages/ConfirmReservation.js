@@ -5,6 +5,13 @@ import { useNavigate } from "react-router-dom";
 import styles from "./ConfirmReservation.module.css";
 
 const ConfirmReservation = () => {
+  
+  const [popup, setPopup] = useState(false);
+
+  const toggle = () => {
+    setPopup(!popup);
+  };
+
   const [isSignoutConfirmationPopupOpen, setSignoutConfirmationPopupOpen] =
     useState(false);
   const navigate = useNavigate();
@@ -325,7 +332,9 @@ const ConfirmReservation = () => {
             className={styles.profileIcon}
             alt=""
             src="/profile-icon@2x.png"
+            onClick = {toggle}
           />
+          { popup && (
           <div className={styles.signinPopupWithSignout}>
             <div className={styles.loginPopupWithLogoutGrp}>
               <div className={styles.loginPopupWithLogoutGrpChild} />
@@ -357,6 +366,7 @@ const ConfirmReservation = () => {
               </button>
             </div>
           </div>
+          )}
         </div>
       </div>
       {isSignoutConfirmationPopupOpen && (

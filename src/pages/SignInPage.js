@@ -10,6 +10,50 @@ const SignInPage = () => {
     setShowPassword(!showPassword);
   };
 
+///===================================================================
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const signin = {
+      email: email,
+      password: password
+    };
+
+    fetch("http://localhost:5001/signin-page", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(signin),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          localStorage.setItem('email', email);
+          navigate("/temp-profile");
+          return response.json();
+        } 
+        else if(response.status === 404) {
+          alert("No such user found.");
+          throw new Error("Sign in failed");
+        }
+        else if(response.status === 500) {
+          alert("Invalid sign-in attempt.");
+          throw new Error("Sign in failed");
+        }
+      })
+      .catch((error) => {
+        console.log("Error occurred:", error);
+      
+      });
+  };
+
+//======================================================================
+
+
   const onDontHaveAnClick = useCallback(() => {
     navigate("/leading-page");
   }, [navigate]);
@@ -26,11 +70,15 @@ const SignInPage = () => {
         alt=""
         src="/group-19451@2x.png"
       />
+
+      <form onSubmit = {handleSubmit} > 
       <div className={styles.rectangleParent}>
         <div className={styles.groupChild} />
         <b className={styles.h3}>Sign In</b>
         <div className={styles.emaillabel}>{`Email `}</div>
         <div className={styles.pwdlabel}>Password</div>
+
+
         <TextField
           className={styles.pwd}
           color="info"
@@ -38,6 +86,8 @@ const SignInPage = () => {
           sx={{ width: 420 }}
           variant="outlined"
           type={showPassword ? "text" : "password"}
+          value = {password}
+          onChange = {(e) => setPassword(e.target.value)}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -51,6 +101,8 @@ const SignInPage = () => {
             ),
           }}
         />
+
+
         <button className={styles.enterbtn} id="enterBtn">
           <img
             className={styles.enterbtnChild}
@@ -59,6 +111,8 @@ const SignInPage = () => {
           />
           <div className={styles.enter}>Enter</div>
         </button>
+
+
         <TextField
           className={styles.email}
           color="info"
@@ -66,12 +120,17 @@ const SignInPage = () => {
           fullWidth={true}
           sx={{ width: 420 }}
           variant="outlined"
-          multiline
+          value = {email}
+          onChange = {(e) => setEmail(e.target.value)}
         />
         <b className={styles.continueYourJourney}>
           Continue your journey with UrbanStay
         </b>
       </div>
+
+      </form>
+
+
       <div className={styles.dontHaveAnContainer} onClick={onDontHaveAnClick}>
         <span className={styles.dontHaveAnContainer1}>
           <span className={styles.dontHaveAn}>{`Don’t have an account? `}</span>

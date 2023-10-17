@@ -449,7 +449,7 @@ const TempProfile = () => {
           placement="Centered"
           onOutsideClick={closeSignoutConfirmationPopup}
         >
-          <SignoutConfirmationPopup onClose={closeSignoutConfirmationPopup} />
+        <SignoutConfirmationPopup onClose={closeSignoutConfirmationPopup} />
         </PortalPopup>
       )}
     </>

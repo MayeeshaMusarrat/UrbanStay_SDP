@@ -21,7 +21,7 @@ const ProfileDetailsPopup = () => {
         label="Enter State"
         sx={{ width: 348 }}
         variant="outlined"
-        multiline
+        
       />
       <TextField
         className={styles.city}
@@ -31,7 +31,7 @@ const ProfileDetailsPopup = () => {
         label="Enter City"
         sx={{ width: 348 }}
         variant="outlined"
-        multiline
+        
       />
       <button className={styles.saveWrapper} onClick={onFrameButtonClick}>
         <button className={styles.save}>{`Save `}</button>

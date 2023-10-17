@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Radio, FormControlLabel } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import styles from "./LeadingPage.module.css";
@@ -13,6 +13,24 @@ const LeadingPage = () => {
   const onGroupContainerClick = useCallback(() => {
     navigate("/");
   }, [navigate]);
+
+  const [value,setValue] = useState("");
+
+  const handleRadioChange = (event) => {
+    setValue(event.target.value);
+   
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (value === "1") {
+      navigate("/host-welcome");
+     
+    } else if (value === "2") {
+      navigate("/guest-welcome");
+      
+    } 
+  };
 
   return (
     <div className={styles.leadingPage}>
@@ -30,15 +48,21 @@ const LeadingPage = () => {
           className={styles.radio2}
           label=""
           control={<Radio color="info" />}
+          value = "2"
+          onChange={handleRadioChange}
         />
         <FormControlLabel
           className={styles.radio1}
           label=""
           control={<Radio color="info" />}
+          value = "1"
+          onChange={handleRadioChange}
         />
-        <button className={styles.continueWrapper} onClick={onFrameButtonClick}>
-          <button className={styles.continue}>Continue</button>
+        <form  onSubmit={handleSubmit} > 
+        <button className={styles.continueWrapper}>
+          <button className={styles.continue} >Continue</button>
         </button>
+        </form>
         <div className={styles.iWantTo}>I want to rent out my place</div>
         <div className={styles.iWantTo1}>
           I want to Browse for places to stay

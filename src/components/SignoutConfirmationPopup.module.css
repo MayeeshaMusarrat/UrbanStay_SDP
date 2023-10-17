@@ -1,7 +1,6 @@
 .loginPopupWithoutLogoutGrpChild {
   position: absolute;
-  top: 0;
-  left: 0;
+ 
   border-radius: var(--br-3xs);
   background-color: var(--shade-01);
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
@@ -24,27 +23,28 @@
   position: relative;
   font-size: 16px;
   text-transform: capitalize;
+  
   font-weight: 700;
   font-family: var(--font-poppins);
   color: var(--color-black);
   text-align: center;
   width: 212px;
   flex-shrink: 0;
+  cursor: pointer;
 }
 .cancelbtn {
   padding: var(--padding-3xs);
-  top: 83px;
-  left: 0;
-  width: 214px;
-  height: 50px;
+  z-index: 300;
+  top: 380px;
+  left: 540px;
+  width: 215px;
+  height: 60px;
   flex-direction: row;
+  background-color: transparent;
   flex-wrap: wrap;
-}
-.cancelbtn:hover,
-.signoutbtn:hover {
-  gap: var(--gap-3xs);
   cursor: pointer;
 }
+
 .cancelbtn,
 .groupChild,
 .signoutbtn {
@@ -59,7 +59,7 @@
   top: 51px;
   left: 214px;
   width: 213px;
-  height: 50px;
+  height: 60px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -84,6 +84,7 @@
   justify-content: center;
   width: 355px;
   height: 33px;
+  z-index: 100;
 }
 .separator {
   position: absolute;
@@ -95,20 +96,25 @@
   height: 1px;
 }
 .loginPopupWithoutLogoutGrp,
-.signoutbtnParent {
+ {
   position: absolute;
-  top: 32px;
-  left: 0;
+  top: 340px;
+  left: 550px;
   width: 430px;
   height: 109px;
 }
-.loginPopupWithoutLogoutGrp {
-  top: 3px;
-  left: 3px;
-  height: 141px;
+
+.signoutbtnParent{
+  position: absolute;
+  top: 328px;
+  left: 540px;
+  width: 430px;
+  height: 109px;
 }
+
 .signoutConfirmationPopup {
   background-color: var(--color-gray-900);
+
   width: 436px;
   height: 153px;
   max-width: 100%;

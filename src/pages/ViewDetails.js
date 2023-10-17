@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import ReviewDetails from "../components/ReviewDetails";
 import PortalPopup from "../components/PortalPopup";
 import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
@@ -8,6 +8,21 @@ import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import DateRangeSelector from "../components/DateRangeSelector";
 
 const ViewDetails = ({ onClose }) => {
+
+  const storedValue = localStorage.getItem('email');
+  const [loggedIn, setLoggedIn] = useState(storedValue);
+
+  useEffect(() => {
+    if (storedValue) {
+      setLoggedIn(true);
+    }
+  }, [storedValue]);
+
+  const [popupLogin, setPopupLogin] = useState(false);
+  const toggleLogin = () => {
+    setPopupLogin(!popupLogin);
+  };
+
   const [isReviewDetailsPopupOpen, setReviewDetailsPopupOpen] = useState(false);
   const [isReviewDetailsPopup1Open, setReviewDetailsPopup1Open] =
     useState(false);
@@ -15,9 +30,11 @@ const ViewDetails = ({ onClose }) => {
     useState(false);
   const navigate = useNavigate();
 
-  const onButtonContainer4Click = useCallback(() => {
-    navigate("/confirm-reservation");
-  }, [navigate]);
+  const onButtonContainer4Click = () => {
+    console.log("here");
+    if(storedValue) navigate("/confirm-reservation");
+    else navigate("/sign-in-page");
+  };
 
   const openReviewDetailsPopup = useCallback(() => {
     setReviewDetailsPopupOpen(true);
@@ -749,12 +766,17 @@ const ViewDetails = ({ onClose }) => {
                 </div>
                 <div
                   className={styles.button4}
-                  onClick={onButtonContainer4Click}
+                  onClick={onButtonContainer4Click} 
                 >
-                  <div className={styles.spantb4j57xmaskGroup} />
-                  <div className={styles.spanc9x5udt}>
-                    <div className={styles.reserve}>Reserve</div>
+                  
+
+                  <div className={styles.spanc9x5udt} >
+                    <div className={styles.reserve} >Reserve</div>
                   </div>
+
+
+
+
                 </div>
               </div>
               <div className={styles.div1o0c7xj}>
@@ -873,22 +895,10 @@ const ViewDetails = ({ onClose }) => {
             className={styles.profileIcon}
             alt=""
             src="/profile-icon@2x.png"
+            onClick = {toggleLogin}
           />
-          <div className={styles.signinPopupWithoutSignout}>
-            <div className={styles.loginPopupWithoutLogoutGrp}>
-              <div className={styles.loginPopupWithoutLogoutGrpChild} />
-              <button
-                className={styles.signinbtn}
-                id="signin"
-                onClick={onSignInBtnClick}
-              >
-                <button className={styles.signIn}> Sign In</button>
-              </button>
-              <button className={styles.signupbtn} id="signUp">
-                <button className={styles.signUp}>{`    Sign up `}</button>
-              </button>
-            </div>
-          </div>
+        { loggedIn && popupLogin ? (
+
           <div className={styles.signinPopupWithSignout}>
             <div className={styles.loginPopupWithLogoutGrp}>
               <div className={styles.loginPopupWithLogoutGrpChild} />
@@ -920,6 +930,31 @@ const ViewDetails = ({ onClose }) => {
               </button>
             </div>
           </div>
+          ) : popupLogin ?  (
+            <div className={styles.signinPopupWithoutSignout}>
+            <div className={styles.loginPopupWithoutLogoutGrp}>
+              <div className={styles.loginPopupWithoutLogoutGrpChild} />
+              <button
+                className={styles.signinbtn}
+                id="signin"
+                onClick={onSignInBtnClick}
+              >
+                <button className={styles.signIn}> Sign In</button>
+              </button>
+              <button className={styles.signupbtn} id="signUp">
+                <button className={styles.signUp}>{`    Sign up `}</button>
+              </button>
+            </div>
+          </div>
+          ) : (
+            null
+          )}
+
+
+
+
+
+
           <div className={styles.itemLinkParent}>
             <div className={styles.itemLink5} onClick={onItemLink5Click}>
               <div className={styles.contactUs}>CONTACT US</div>

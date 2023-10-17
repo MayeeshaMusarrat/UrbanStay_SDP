@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   Select,
   InputLabel,
@@ -23,6 +23,21 @@ const Browse = ({ onClose }) => {
   const onGroupContainer2Click = useCallback(() => {
     navigate("/");
   }, [navigate]);
+
+  const storedValue = localStorage.getItem('email');
+  const [loggedIn, setLoggedIn] = useState(storedValue);
+
+  useEffect(() => {
+    if (storedValue) {
+      setLoggedIn(true);
+    }
+  }, [storedValue]);
+
+  const [popupLogin, setPopupLogin] = useState(false);
+  const toggleLogin = () => {
+    setPopupLogin(!popupLogin);
+  };
+
 
   const onItemLink5Click = useCallback(() => {
     const anchor = document.querySelector("[data-scroll-to='footerContainer']");
@@ -350,6 +365,7 @@ const Browse = ({ onClose }) => {
             className={styles.profileIcon}
             alt=""
             src="/profile-icon@2x.png"
+            onClick = {toggleLogin}
           />
           <div className={styles.itemLinkParent}>
             <div className={styles.itemLink5} onClick={onItemLink5Click}>
@@ -462,6 +478,10 @@ const Browse = ({ onClose }) => {
               </div>
             </div>
           </div>
+
+
+          { loggedIn && popupLogin ? (
+
           <div className={styles.signinPopupWithSignout}>
             <div className={styles.loginPopupWithLogoutGrp}>
               <div className={styles.loginPopupWithLogoutGrpChild} />
@@ -493,7 +513,8 @@ const Browse = ({ onClose }) => {
               </button>
             </div>
           </div>
-          <div className={styles.signinPopupWithoutSignout}>
+          ) : popupLogin ?  (
+            <div className={styles.signinPopupWithoutSignout}>
             <div className={styles.loginPopupWithoutLogoutGrp}>
               <div className={styles.loginPopupWithoutLogoutGrpChild} />
               <button
@@ -508,6 +529,13 @@ const Browse = ({ onClose }) => {
               </button>
             </div>
           </div>
+          ) : (
+            null
+          )}
+
+
+
+
         </div>
       </div>
       {isSignoutConfirmationPopupOpen && (

@@ -9,13 +9,28 @@ import {
   Icon,
   InputAdornment,
   IconButton,
+  Box,
+  Autocomplete
 } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useNavigate } from "react-router-dom";
 import styles from "./HostSignupPage.module.css";
+import countryData from "./countryData";
+
+
 
 const HostSignupPage = () => {
+
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+
+  const handleCountryChange = (event, newValue) => {
+    setSelectedCountry(newValue);
+    setSelectedState(null); // Reset the selected state when the country changes
+  };
+
+
   const [
     birthdateInputDateTimePickerValue,
     setBirthdateInputDateTimePickerValue,
@@ -82,24 +97,51 @@ const HostSignupPage = () => {
             <span className={styles.firstName}>{`Last Name `}</span>
             <span className={styles.span}>*</span>
           </div>
+
+
           <FormControl
             className={styles.countryinput}
-            sx={{ width: 482 }}
-            variant="outlined"
-          >
-            <InputLabel color="primary" />
-            <Select color="primary">
-              <MenuItem value="United States of America">
-                United States of America
-              </MenuItem>
-              <MenuItem value="Bangladesh">Bangladesh</MenuItem>
-              <MenuItem value="India">India</MenuItem>
-              <MenuItem value="Spain">Spain</MenuItem>
-              <MenuItem value="China">China</MenuItem>
-            </Select>
-            <FormHelperText />
+            sx={{ width: 832 }}
+            variant="outlined">
+
+              
+            <Autocomplete
+            id="country-select-demo"
+            sx={{ width: 480 }}
+            fullwidth = {true}
+            options={countryData}
+            value={selectedCountry}
+             onChange={handleCountryChange}
+            autoHighlight
+            getOptionLabel={(option) => option.label}
+            renderOption={(props, option) => (
+              <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                <img
+                  loading="lazy"
+                  width="20"
+                  srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                  src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                  alt=""
+                />
+                {option.label} ({option.code}) +{option.phoneCode}
+                
+              </Box>
+            )}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder = "Select Country"
+                inputProps={{
+                  ...params.inputProps,
+                  autoComplete: 'new-password', 
+                }}
+               
+              />
+            )}
+          />
           </FormControl>
-          <div className={styles.selectcountrytext}>Select Country</div>
+
+
           <div className={styles.email}>
             Make sure the provided information matches your Government ID.
           </div>
@@ -115,15 +157,32 @@ const HostSignupPage = () => {
             <span className={styles.firstName}>{`City `}</span>
             <span className={styles.span}>*</span>
           </div>
+
+
+
+
           <FormControl
             className={styles.cityinput}
             sx={{ width: 505 }}
-            variant="outlined"
-          >
-            <InputLabel color="info" />
-            <Select color="info" size="medium" />
-            <FormHelperText />
+            variant="outlined">
+
+          <Autocomplete
+                  options={selectedCountry?.states || []}
+                  getOptionLabel={(option) => option}
+                  value={selectedState}
+                  onChange={(_, newValue) => setSelectedState(newValue)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      placeholder="Select a State"
+                      variant="outlined"
+                    />
+                  )}
+          />
           </FormControl>
+
+
+
           <div className={styles.birthdateinput}>
             <DatePicker
               value={birthdateInputDateTimePickerValue}

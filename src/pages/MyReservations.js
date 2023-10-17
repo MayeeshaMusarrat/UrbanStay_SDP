@@ -72,15 +72,15 @@ const columns = [
 ];
 
 const rows = [
-   {id:1, Property: "Neel Oboni 5th floor",Status: "Available", bedrooms: "2", beds: "2", bathrooms: "2", location: "Shahinbagh, Dhaka", check_in: "17/10/23", check_out: "18/10/23", price: "1400$"}
+   {id:1, Property: "Neel Oboni 5th floor",Status: "Reserved", bedrooms: "2", beds: "2", bathrooms: "2", location: "Shahinbagh, Dhaka", check_in: "17/10/23", check_out: "18/10/23", price: "1400$"}
 ];
 
 
-const [popup, setPopup] = useState(false);
+  const [popup, setPopup] = useState(false);
 
-const toggle = () => {
-  setPopup(!popup);
-};
+  const toggle = () => {
+    setPopup(!popup);
+  };
 
 
 

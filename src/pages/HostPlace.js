@@ -45,7 +45,6 @@ const HostPlace = () => {
   ];
   
   const [checkboxes, setCheckboxes] = useState(initialCheckboxes);
-  
   const handleCheckboxChange = (value) => {
     const updatedCheckboxes = checkboxes.map((checkbox) => {
       if (checkbox.value === value) {
@@ -161,14 +160,14 @@ const HostPlace = () => {
   const [bathroomCnt, setBath] = useState("");
   const [room, setRoom] = useState("");
   const [guest, setGuest] = useState("");
-  const [area, setArea] = useState(null);
-  const [description, setDescription] = useState(null);
-  const [country, setCountry] = useState(null);
-  const [state, setState] = useState(null);
-  const [zipcode, setZipcode] = useState(null);
-  const [address, setAddress] = useState(null);
+  const [area, setArea] = useState("");
+  const [description, setDescription] = useState("");
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
+  const [zipcode, setZipcode] = useState("");
+  const [address, setAddress] = useState("");
 
-  const [selectedDate, setSelectedDate] = useState([null, null]);
+  const [selectedDate, setSelectedDate] = useState(["", ""]);
 
   // Function to handle changes in the date range field
   const handleDateChange = (newValue) => {
@@ -206,7 +205,6 @@ const HostPlace = () => {
   const handleSubmit = (e)=>{
     e.preventDefault();
 
-    console.log("Im in handleSubmit");
     navigate("/mylistings");
    
     const property = {
@@ -238,7 +236,7 @@ const HostPlace = () => {
     }).then(result=>{
       
       if(result.status==200) {
-       
+       //DOESNT WORK
       }
       else {
         console.log("oops");
