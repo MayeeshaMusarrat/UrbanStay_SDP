@@ -10,17 +10,14 @@ import { DateRangePicker } from "react-date-range";
 import { defaultStaticRanges } from "../components/defaultRanges";
 import { format } from "date-fns";
 
-import "react-date-range/dist/styles.css"; // main style file
-import "react-date-range/dist/theme/default.css"; // theme css file
-
+import "react-date-range/dist/styles.css"; 
+import "react-date-range/dist/theme/default.css"; 
 import "../components/Datepicker.css";
 
 import PropTypes from "prop-types";
 
 
 const LandingPage = ({ onClose }) => {
-
-
   
 
   const [selectedDateRange, setSelectedDateRange] = useState({
@@ -41,7 +38,6 @@ const LandingPage = ({ onClose }) => {
   };
 
    const onClickDone = () => {
-      // onSubmit(selectedDateRange); 
 
       const datesCalendar = JSON.parse(localStorage.getItem('dateRange'));
       if(datesCalendar!==null)
@@ -58,10 +54,17 @@ const LandingPage = ({ onClose }) => {
         const formattedDateEnd = formatDateDisplay(dateToFormatEnd, 'N/A');
 
         setDateShow(`${formattedDateStart} - ${formattedDateEnd}`);
+        setFontColor('black');
+        
+        setCheckIn(dateToFormatStart);
+        setCheckOut(dateToFormatEnd);
       }
-
-       setShow(true);
+      setPopupCalender(!popupCalender);
    };
+
+  
+  
+   
 
   const onClickClear = () => {
        setSelectedDateRange({
@@ -73,50 +76,29 @@ const LandingPage = ({ onClose }) => {
        localStorage.clear();
   };
 
-
-
-
-
   useEffect(() => {
-    // Fetch the start and end dates from selectedDateRange
     const { startDate, endDate } = selectedDateRange;
-  
-    // Increase the startDate and endDate by one day
+
     const newStartDate = new Date(startDate);
     newStartDate.setDate(startDate.getDate() + 1);
   
     const newEndDate = new Date(endDate);
     newEndDate.setDate(endDate.getDate() + 1);
-  
-    // Create an object to store in localStorage
     const dateRange = {
       startDate: newStartDate.toISOString().split('T')[0],
       endDate: newEndDate.toISOString().split('T')[0],
       key: "selection"
     };
-  
-    // Convert the object to a JSON string and store it in localStorage
     localStorage.setItem('dateRange', JSON.stringify(dateRange));
   }, [selectedDateRange]);
 
-
-
-
-
-    
-
   
   const [dateShow, setDateShow]  = useState("19 Oct, 2023 - 25 Oct, 2023");
+  const [fontColor, setFontColor] = useState('#c2c2c2');
+
+  const [contentColor, setContentColor] = useState('#c2c2c2');
   
-
   
-
-
-
-
- 
-
-  // Implement conditional popup thing.
   const storedValue = localStorage.getItem('email');
   const [loggedIn, setLoggedIn] = useState(storedValue);
 
@@ -131,21 +113,23 @@ const LandingPage = ({ onClose }) => {
     setPopupLogin(!popupLogin);
   };
 
-  //calender values
-
- 
 
   //counter
 
   const [countRooms, setCountRooms] = useState(1);
   const handleChangeRooms = (event) => {
     setCountRooms(Math.max(Number(event.target.value), 1));
+   
   };
 
   const [countGuests, setCountGuests] = useState(1);
   const handleChangeGuests = (event) => {
     setCountGuests(Math.max(Number(event.target.value), 1));
+   
   };
+
+
+  let content = `${countRooms} Room${countRooms > 1 ? 's' : ''}, ${countGuests} Guest${countGuests > 1 ? 's' : ''}`;
 
 
 
@@ -165,13 +149,18 @@ const LandingPage = ({ onClose }) => {
     setPopup(!popup);
   };
 
+
+  const confirmAccomodation = () => {
+    localStorage.setItem('Rooms', countRooms);
+    localStorage.setItem('Guests', countGuests);
+    setContentColor('black');
+    setPopup(!popup);
+  }
+
+ 
   const [isSignoutConfirmationPopupOpen, setSignoutConfirmationPopupOpen] =
   useState(false);
   const navigate = useNavigate();
-
-  const onSearchPropertyComponentContainerClick = useCallback(() => {
-    navigate("/browse");
-  }, [navigate]);
 
   const onSignInBtnClick = useCallback(() => {
     navigate("/sign-in-page");
@@ -238,6 +227,49 @@ const LandingPage = ({ onClose }) => {
   const closeSignoutConfirmationPopup = useCallback(() => {
     setSignoutConfirmationPopupOpen(false);
   }, []);
+
+// =========================================== API FETCH =====================================================
+
+
+const [destination, setDestination] = useState("");
+const [checkin, setCheckIn] = useState("");
+const [checkout, setCheckOut] = useState("");
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  const search = {
+    destination: destination,
+    checkin: checkin,
+    checkout: checkout,
+    rooms: countRooms,
+    guests: countGuests
+  };
+
+  fetch("http://localhost:5001/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(search),
+  })
+    .then((response) => {
+      
+      if (response.status === 200) {
+        navigate("/browse");
+      } else {
+        throw new Error("Failed");
+      }
+    })
+    .catch((error) => {
+      console.log("Error occurred:", error);
+    
+    });
+};
+
+//=======================================================================================================================
+
+
 
   return (
     <>
@@ -351,29 +383,6 @@ const LandingPage = ({ onClose }) => {
               
           </React.Fragment>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </div>
 
         )}
@@ -387,7 +396,7 @@ const LandingPage = ({ onClose }) => {
          
         >
 
-          
+          <form onSubmit = {handleSubmit} > 
           <div className={styles.searchbarParent}>
             <div className={styles.searchbar}>
               
@@ -397,7 +406,7 @@ const LandingPage = ({ onClose }) => {
                
                 style={{
                   width: 282,
-                  color: '#c2c2c2',
+                  color: contentColor,
                   textAlign: 'left',
                   display: 'flex',
                   alignItems: 'center',
@@ -406,14 +415,14 @@ const LandingPage = ({ onClose }) => {
                   fontSize: 'medium', 
                 }}
               >
-              2 rooms, 3 guests
+             { content }
               </div>
              
              
               <div className={styles.reservationDates} 
               onClick = {toggleCalender}
               style={{
-                color: '#c2c2c2',
+                color: fontColor,
                 textAlign: 'left',
                 display: 'flex',
                 alignItems: 'center',
@@ -427,29 +436,30 @@ const LandingPage = ({ onClose }) => {
               
               <TextField
                 className={styles.destination}
-                
+                required={true}
                 size="medium"
                 sx={{ width: 425 }}
                 placeholder="Enter Destination"
                 fullWidth={true}
                 variant="outlined"
                 type="text"
+                value = {destination}
+                onChange = {(e) => setDestination(e.target.value)}
+
               />
             </div>
             <img
-              onClick={onSearchPropertyComponentContainerClick}
+              onClick={handleSubmit}
               className={styles.searchbuttonIcon}
               alt=""
               src="/searchbutton1.svg"
             />
           </div>
+          </form>
         </div>
-
        
 
-
-
-
+      
 
       { popup && (
         <div className={styles.roomsAndGuestsPopup}>
@@ -532,7 +542,7 @@ const LandingPage = ({ onClose }) => {
               <button className={styles.cancelbtn} id="cancel">
                 <button className={styles.cancel} onClick={toggle}>Cancel</button>
               </button>
-              <button className={styles.confirmbtn} id="confirm">
+              <button className={styles.confirmbtn} id="confirm" onClick = {confirmAccomodation} >
                 <button className={styles.cancel}>Confirm</button>
               </button>
             </div>

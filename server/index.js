@@ -95,7 +95,6 @@ async function connectAndStartServer()
 
 
 
-
   app.post('/signin-page', async (req, res) => {
     const { email, password } = req.body;
   
@@ -125,6 +124,67 @@ async function connectAndStartServer()
       connection.release();
     });
   });
+
+
+  app.post('/', async (req, res) => {
+    const {destination, checkin, checkout, rooms, guests} = req.body;
+    const check_in = checkin.toString().split('T')[0];
+    const check_out = checkout.split('T')[0];
+    console.log(req.body);
+
+    pool.getConnection((err, connection) => {
+      if (err) throw err;
+
+      const searchSql = `SELECT * FROM PROPERTY WHERE Country = ? AND ? BETWEEN Check_in_date AND Check_out_date AND ? BETWEEN Check_in_date AND Check_out_date AND Num_of_rooms >= ? AND Num_of_guests >= ?;`;
+
+      const searchValues = [destination, checkin, checkout, rooms, guests ];
+
+      connection.query(searchSql, searchValues, (searchErr, searchResults) => {
+        if (searchErr) {
+          console.error('Error fetching data:', searchErr);
+          res.status(500).json({ message: 'Fetching Error' });
+        } else {
+          console.log('Data fetched from PROPERTY successfully.');
+          console.log(searchResults);
+          res.status(200).json({message: "Data fetched"});
+        }
+      });
+      connection.release(); 
+    });
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
