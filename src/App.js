@@ -20,7 +20,8 @@ import HostingIntro from "./pages/HostingIntro";
 import MyReservations from "./pages/MyReservations";
 import Profile from "./pages/Profile";
 import TempProfile from "./pages/TempProfile";
-import ViewDetails from "./pages/ViewDetails";
+import ViewDetails from "./pages/ViewDetails"
+import ConfirmListing from "./pages/ConfirmListing";
 import Browse from "./pages/Browse";
 
 
@@ -143,6 +144,7 @@ function App() {
       <Route path="/temp-profile" element={<TempProfile />} />
       <Route path="/view-details" element={<ViewDetails />} />
       <Route path="/browse" element={<Browse />} />
+      <Route path="/confirm-listing" element={<ConfirmListing />} />
      
     </Routes>
   );

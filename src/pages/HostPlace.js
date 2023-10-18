@@ -28,16 +28,20 @@ const HostPlace = () => {
     { label: "CCTV Surveillance", value: "CCTV", isChecked: false, className: styles.amenityFrameInner },
     { label: "Smoke Alarm", value: "Smoke", isChecked: false, className: styles.amenityFrameItem },
     { label: "Emergency Radio", value: "Radio", isChecked: false, className: styles.groupFormcontrollabel },
+
     { label: "Dryer", value: "Dryer", isChecked: false, className: styles.amenityFrameChild8 },
     { label: "Carbon monoxide alarm", value: "CO", isChecked: false, className: styles.amenityFrameChild1 },
     { label: "First aid kit", value: "firstAid", isChecked: false, className: styles.amenityFrameChild2 },
+
     { label: "Fire extinguisher", value: "FireExtinguisher", isChecked: false, className: styles.amenityFrameChild3 },
     { label: "Wi-fi", value: "wifi", isChecked: false, className: styles.amenityFrameChild4 },
     { label: "Parking spot", value: "parking", isChecked: false, className: styles.amenityFrameChild5 },
     { label: "Kitchen", value: "kitchen", isChecked: false, className: styles.amenityFrameChild6 },
+
     { label: "Waterfront", value: "waterfront", isChecked: false, className: styles.amenityFrameChild7},
     { label: "Washing Machine", value: "washer", isChecked: false, className: styles.amenityFrameChild9 },
     { label: "Hot tub", value: "hotTub", isChecked: false, className: styles.amenityFrameChild10 },
+    
     { label: "TV", value: "tv", isChecked: false, className: styles.amenityFrameChild11 },
     { label: "Workspace", value: "workspace", isChecked: false, className: styles.amenityFrameChild12 },
     { label: "Air Conditioning", value: "AC", isChecked: false, className: styles.amenityFrameChild13 }
@@ -202,10 +206,8 @@ const HostPlace = () => {
   };
  */
 
-  const handleSubmit = (e)=>{
-    e.preventDefault();
-
-    navigate("/mylistings");
+  const handleSubmit = ()=>{
+  
    
     const property = {
             property_name: propertyname,
@@ -225,23 +227,9 @@ const HostPlace = () => {
             amenities: selectedCheckboxes,
             pics: picURL
     };
+    localStorage.setItem('Property', JSON.stringify(property));
+    navigate("/confirm-listing");
     
-    
-    fetch("http://localhost:5001/host-place",{
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(property),
-    }).then(result=>{
-      
-      if(result.status==200) {
-      
-      }
-      else {
-        console.log("oops");
-      }
-    })
   }
 
 
@@ -672,7 +660,7 @@ const HostPlace = () => {
           className={styles.confirmlistingbtn}
         
         >
-          <button className={styles.confirmListing} type = "submit" >Confirm Listing</button>
+          <button className={styles.confirmListing} type = "submit" >Continue</button>
         </div>
         <div className={styles.rectangleParent}>
           <div className={styles.frameChild} />

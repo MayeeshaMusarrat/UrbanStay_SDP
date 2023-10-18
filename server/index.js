@@ -55,16 +55,13 @@ async function connectAndStartServer()
   });
 
 
-
-
-
-
   app.post('/host-signup-page', async (req, res) => {
     const {firstname, lastname, phone_number, country, city, birthdate, email, password} = req.body;
     const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const date = new Date(birthdate);
     const birthdatePart = date.toISOString().split('T')[0];
     console.log(req.body);
+
     pool.getConnection((err, connection) => {
       if (err) throw err;
       const userSql = `INSERT INTO USER (First_name, Last_name, Phone, Birthdate, Email, Password, Joining_date) VALUES (?, ?, ?, ?, ?, ?, ?)`;
@@ -154,73 +151,79 @@ async function connectAndStartServer()
   });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    app.post('/host-place', async (req, res) => {
-
-        const { 
-            property_name, 
-            property_type, 
-            bedroom_count, 
-            bed_count, 
-            bathroom_count, 
-            room_count, 
-            guest_count, 
-            area, 
-            availability, 
-            description,
-            country,
-            state,
-            zipcode,
-            address_line,
-            amenities,
-            pics
-         } = req.body;
-
-
-         console.log(req.body);
+  app.post('/confirm-listing', async (req, res) => {
+    const {
+      property_title,
+      property_category,
+      bedroom_count,
+      bed_count,
+      bathroom_count,
+      room_count,
+      guest_count,
+      area,
+      availability,
+      description,
+      country,
+      state,
+      zipcode,
+      address_line,
+      amenities,
+      pics,
+      pricePerNight,
+      email,
+    } = req.body;
   
-        pool.getConnection((err, connection) => {
-          if (err) throw err;
+    console.log(req.body);
+    const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    const startDate = new Date(availability[0]);
+    const endDate = new Date(availability[1]);
+    const formattedStartDate = startDate.toISOString().slice(0, 19).replace('T', ' ');
+    const formattedEndDate = endDate.toISOString().slice(0, 19).replace('T', ' ');
+  
+    console.log(formattedStartDate);
+  
+    pool.getConnection((err, connection) => {
+      if (err) {
+        throw err;
+      }
+  
+      const userSql = `SELECT UID FROM user WHERE Email = '${email}'`;
+  
+      connection.query(userSql, (userErr, userResults) => {
+
+        if (userErr) 
+        {
+          console.error('Error extracting data from USER:', userErr);
+          res.status(500).json({ message: 'Error inserting data into USER' });
+        } 
+        else 
+        {
+          console.log('USER UID extracted successfully');
+          const userUID = userResults[0].UID;
+  
+          const listingSql = `INSERT INTO PROPERTY (Property_title, Zipcode, Num_of_guests, Price_per_night, Created, Check_in_date, Check_out_date, Num_of_ratings, Avg_ratings, UID, City, Country, Description, Num_of_rooms, Address_line, Category, Num_of_bedrooms, Num_of_bathrooms, Num_of_beds ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
           
-         
-          connection.release(); // Release the connection back to the pool
+          const price = parseFloat(Price_per_night);
+
+          const listingValues = [property_title, zipcode, guest_count, price, currentDate, formattedStartDate, formattedEndDate, '0', '0.0', userUID, state, country, description, room_count, address_line, property_category, bedroom_count, bathroom_count, bed_count];
+  
+          connection.query(listingSql, listingValues, (listingErr, listingResults) => {
+            if (listingErr) {
+              console.error('Error inserting data into PROPERTY:', listingErr);
+              res.status(500).json({ message: 'Error inserting data into PROPERTY' });
+            } else {
+              console.log('Data inserted into PROPERTY successfully');
+              res.status(200).json({ message: 'Data inserted successfully' });
+            }
+          });
+        }
+        connection.release();
       });
+    });
+  });
   
 
-  });
+  
 
   app.listen(5001, () => {
     console.log(`Example app listening on port 5001`);

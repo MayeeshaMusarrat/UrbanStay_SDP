@@ -387,10 +387,6 @@ const handleSubmit = (e) => {
 
         )}
 
-
-
-
-
         <div
           className={styles.searchPropertyComponent}
          
