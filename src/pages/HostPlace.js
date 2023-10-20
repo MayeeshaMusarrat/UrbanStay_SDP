@@ -11,6 +11,8 @@ import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
 import styles from "./HostPlace.module.css";
 
+
+import axios from 'axios';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 
@@ -79,11 +81,13 @@ const [selectedFiles, setSelectedFiles] = useState([]);
 const hiddenFileInput = useRef(null);
 
 const handleChange = (event) => {
+  const filess = Array.from(event.target.files);
   const file = event.target.files[0];
-  setSelectedFiles([...selectedFiles, file]); 
+  setSelectedFiles([...selectedFiles, ...filess]); 
   setPicURL([...picURL, URL.createObjectURL(file)]);
   setName(file.name);
 };
+
 
 
 
@@ -535,6 +539,7 @@ const handleUpload = async () => {
               <input
               type="file"
               onChange={handleChange}
+              
               ref={hiddenFileInput}
               style={{ display: "none" }} 
             />
@@ -542,6 +547,7 @@ const handleUpload = async () => {
 
 
         <div className={styles.pictureContainer}>
+
         {selectedFiles.map((file, index) => (
           <div key={index} className={styles.propertyGalleryFrameItem}>
             <img
@@ -552,6 +558,15 @@ const handleUpload = async () => {
 
           </div>
         ))}
+      {/*
+       {imageUrls.map((url, index) => (
+        <div key={index} className={styles.propertyGalleryFrameItem}>
+          <img src={url} alt={`Uploaded Image ${index + 1}`} />
+        </div>
+      ))}
+
+       */}
+
       </div>
 
 
@@ -694,7 +709,7 @@ const handleUpload = async () => {
           className={styles.confirmlistingbtn}
         
         >
-          <button className={styles.confirmListing} type = "submit" >Continue</button>
+          <button className={styles.confirmListing} type = "submit" >Continue </button>
         </div>
         <div className={styles.rectangleParent}>
           <div className={styles.frameChild} />
