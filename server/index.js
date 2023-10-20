@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-
+const multer = require('multer');
+const path = require('path');
 var mysql = require('mysql');
 const cors = require('cors');
 app.use(cors(), express.json());
@@ -15,13 +16,39 @@ const pool = mysql.createPool({
 
 const port = 5001;
 
+const storage = multer.diskStorage({
+  destination: 'uploads/',
+  filename: (req, file, cb) => {
+    // Use the original file name as the filename
+    cb(null, file.originalname);
+  },
+});
+
+// Initialize Multer
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 10000000 }, // Adjust file size limit as needed
+});
+
+// Serve static files in the 'uploads' directory
+app.use('/uploads', express.static('uploads'));
+
+
 async function connectAndStartServer() 
 {
-
-  app.get('/', (req, res) => {
-    res.send('Hello World!');
-  }); 
   
+  
+  app.post('/upload-pics', (req, res) => {
+    const fileFields = Object.keys(req.files);
+    
+    if (fileFields.length === 0) {
+      return res.status(400).json({ error: 'No files were uploaded.' });
+    }
+    const filePaths = fileFields.map((field) => req.files[field][0].path);
+
+    console.log(filePaths);
+    res.json({ filePaths });
+  });
 
 
   app.post('/guest-signup-page', async (req, res) => {
@@ -56,7 +83,7 @@ async function connectAndStartServer()
 
 
   app.post('/host-signup-page', async (req, res) => {
-    const {firstname, lastname, phone_number, country, city, birthdate, email, password} = req.body;
+    const {firstname, lastname, phone_number, country, city, birthdate, email, password, profile_pic} = req.body;
     const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const date = new Date(birthdate);
     const birthdatePart = date.toISOString().split('T')[0];
@@ -64,8 +91,8 @@ async function connectAndStartServer()
 
     pool.getConnection((err, connection) => {
       if (err) throw err;
-      const userSql = `INSERT INTO USER (First_name, Last_name, Phone, Birthdate, Email, Password, Joining_date) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-      const userValues = [firstname, lastname, phone_number, birthdatePart, email, password, currentDate];
+      const userSql = `INSERT INTO USER (First_name, Last_name, Phone, Birthdate, Email, Password, Joining_date, Profile_picture) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+      const userValues = [firstname, lastname, phone_number, birthdatePart, email, password, currentDate, profile_pic];
       connection.query(userSql, userValues, (userErr, userResults) => {
         if (userErr) {
           console.error('Error inserting data into USER:', userErr);
@@ -88,8 +115,6 @@ async function connectAndStartServer()
       connection.release(); 
     });
   });
-
-
 
 
   app.post('/signin-page', async (req, res) => {
@@ -123,7 +148,7 @@ async function connectAndStartServer()
   });
 
 
-  app.post('/', async (req, res) => {
+  app.post('/browse', async (req, res) => {
     const {destination, checkin, checkout, rooms, guests} = req.body;
     const check_in = checkin.toString().split('T')[0];
     const check_out = checkout.split('T')[0];
@@ -143,7 +168,7 @@ async function connectAndStartServer()
         } else {
           console.log('Data fetched from PROPERTY successfully.');
           console.log(searchResults);
-          res.status(200).json({message: "Data fetched"});
+          res.status(200).json({ searchResults });
         }
       });
       connection.release(); 
@@ -174,11 +199,11 @@ async function connectAndStartServer()
     } = req.body;
   
     console.log(req.body);
-    const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    const currentDate = new Date().toISOString().split('T')[0];
     const startDate = new Date(availability[0]);
     const endDate = new Date(availability[1]);
-    const formattedStartDate = startDate.toISOString().slice(0, 19).replace('T', ' ');
-    const formattedEndDate = endDate.toISOString().slice(0, 19).replace('T', ' ');
+    const formattedStartDate = startDate.toISOString().split('T')[0];
+    const formattedEndDate = endDate.toISOString().split('T')[0];
   
     console.log(formattedStartDate);
   
@@ -203,7 +228,7 @@ async function connectAndStartServer()
   
           const listingSql = `INSERT INTO PROPERTY (Property_title, Zipcode, Num_of_guests, Price_per_night, Created, Check_in_date, Check_out_date, Num_of_ratings, Avg_ratings, UID, City, Country, Description, Num_of_rooms, Address_line, Category, Num_of_bedrooms, Num_of_bathrooms, Num_of_beds ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
           
-          const price = parseFloat(Price_per_night);
+          const price = parseFloat(pricePerNight);
 
           const listingValues = [property_title, zipcode, guest_count, price, currentDate, formattedStartDate, formattedEndDate, '0', '0.0', userUID, state, country, description, room_count, address_line, property_category, bedroom_count, bathroom_count, bed_count];
   
@@ -221,7 +246,31 @@ async function connectAndStartServer()
       });
     });
   });
+
+
+  app.get('/getListings/:userEmail', (req, res) => {
+    const userEmail = req.params.userEmail;
   
+    pool.getConnection((err, connection) => {
+      if (err) throw err;
+      var sql = `SELECT UID FROM USER WHERE Email = '${userEmail}'`;
+      connection.query(sql, function (err, results, fields) {
+        if (err) throw err;
+        const userUID = results[0].UID;
+  
+        const fetchSql = `SELECT * FROM PROPERTY WHERE UID = ?`;
+        const fetchValues = [userUID];
+        connection.query(fetchSql, fetchValues, (fetchErr, fetchResults) => {
+          console.log(fetchResults);
+          res.json(fetchResults);
+        });
+      });
+      connection.release();
+    });
+  });
+
+
+
 
   
 

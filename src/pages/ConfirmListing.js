@@ -16,9 +16,6 @@ const ConfirmListing = () => {
   };
 
 
-
-
-
   const [propertyName, setPropertyName] = useState(null);
   const [propertyLocation, setPropertyLocation] = useState(null);
 
@@ -34,11 +31,9 @@ const ConfirmListing = () => {
   
   const [myPrice, setMyPrice] = useState(null);
   const Property = JSON.parse(localStorage.getItem('Property'));
+  const propertyURL = Property.pics[0];
 
   useEffect(() => {
-   
-   
-
    
     if (Property) {
       const { property_name,
@@ -203,7 +198,7 @@ const ConfirmListing = () => {
           <img
             className={styles.propertyimageIcon}
             alt=""
-            src="/propertyimage@2x.png"
+            src={propertyURL}
           />
           <div className={styles.neelOboni5th}>
            {propertyName}

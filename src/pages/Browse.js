@@ -15,7 +15,25 @@ import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
 import styles from "./Browse.module.css";
 
+
 const Browse = ({ onClose }) => {
+
+  const [dateShow, setDateShow]  = useState("19 Oct, 2023 - 25 Oct, 2023");
+  const [checkin, setCheckIn] = useState("");
+  const [checkout, setCheckOut] = useState("");
+
+  const openFrame = () => {
+    navigate("/view-details");
+  }
+
+
+  const destination = localStorage.getItem('Destination');
+  const rooms = localStorage.getItem('Rooms');
+  const guests = localStorage.getItem('Guests');
+  const datesCalendar = JSON.parse(localStorage.getItem('dateRange'));
+
+ 
+
   const [isSignoutConfirmationPopupOpen, setSignoutConfirmationPopupOpen] =
     useState(false);
   const navigate = useNavigate();
@@ -37,6 +55,8 @@ const Browse = ({ onClose }) => {
   const toggleLogin = () => {
     setPopupLogin(!popupLogin);
   };
+
+
 
 
   const onItemLink5Click = useCallback(() => {
@@ -297,7 +317,7 @@ const Browse = ({ onClose }) => {
 
 
 
-        <div className={styles.somanypropertycardsFrame}>
+        <div className={styles.somanypropertycardsFrame} onClick = {openFrame}>
           <div className={styles.card}>
             <img className={styles.imageIcon} alt="" src="/image@2x.png" />
             <img className={styles.heartIcon} alt="" src="/heart.svg" />
@@ -356,7 +376,7 @@ const Browse = ({ onClose }) => {
             <FormHelperText />
           </FormControl>
         </div>
-        <div className={styles.showing647Places}>Showing 647 Places</div>
+        <div className={styles.showing647Places}>Showing 1 Place</div>
         <div className={styles.browseChild} data-scroll-to="rectangle" />
         <div className={styles.stickyNavBar}>
           <div className={styles.whiterectangle} />

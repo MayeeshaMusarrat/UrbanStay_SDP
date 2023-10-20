@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
@@ -7,91 +7,56 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import Rating from '@mui/material/Rating';
 
+import MyDataGrid from "./MyDataGrid"
+
+
 
 const MyListings = () => {
 
+const [data, setData] = useState([]);
+const userEmail = localStorage.getItem('email');
 
-const columns = [
-  {
-    field: 'Property',
-    headerName: 'Property',
-    width: 210,
-    
-  },
-  {
-    field: 'Status',
-    headerName: 'Status',
-    width: 100,
-    
-  },
-  {
-    field: 'bedrooms',
-    headerName: 'Bedrooms',
+useEffect(() => {
+  fetch(`http://localhost:5001/getListings/${userEmail}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then((fetchedData) => {
+      if (Array.isArray(fetchedData)) {
+        console.log("Data fetched");
+        setData(fetchedData);
+      } else {
+        console.error('Fetched data is not an array:', fetchedData);
+      }
+    })
+    .catch((error) => {
+      console.error('Error fetching data:', error);
+    });
+}, []);
+
+
+
+
+const rows = data.map((item) => ({
+   
+  id: item.PID, 
+  Property: item.Property_title,
+  Status: 'Available', 
+  bedrooms: item.Num_of_bedrooms,
+  beds: item.Num_of_beds,
+  baths: item.Num_of_bathrooms,
+  rooms: item.Num_of_rooms,
+  guests: item.Num_of_guests,
+  location: item.City,
+  Check_in: new Date(item.Check_in_date).toISOString().split('T')[0],
+  Check_out: new Date(item.Check_out_date).toISOString().split('T')[0], 
+  price: item.Price_per_night+'$',
+  ratings: item.Avg_ratings
   
-    width: 100,
-    
-  },
-  {
-    field: 'beds',
-    headerName: 'Beds',
-    
-    width: 80,
-    
-  },
-  {
-    field: 'baths',
-    headerName: 'Baths',
-    width: 80,
-    
-  },
-  {
-    field: 'rooms',
-    headerName: 'Rooms',
-    width: 100,
-    
-  },
-  {
-    field: 'guests',
-    headerName: 'Guests',
-    width: 100,
-    
-  },
-  {
-    field: 'location',
-    headerName: 'Location',
-    width: 160,
-    
-  },
-  {
-    field: 'availability',
-    headerName: 'Availability',
-    width: 160,
-    
-  },
-  {
-    field: 'price',
-    headerName: 'Total Price',
-    width: 130,
-    
-  },
-  {
-    field: 'ratings',
-    headerName: 'Average Rating',
-    width: 150,
-    renderCell: (params) => (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-       
-        <Rating name="read-only" value={params.value} readOnly />
-        
-      </div>
-    ),
-    
-  },
-];
-
-const rows = [
-   {id:1, Property: "Neel Oboni 5th floor",Status: "Available", bedrooms: "2", beds: "2", baths: "2", rooms: "3", guests: "4", location: "Shahinbagh, Dhaka", availability: "14/10/23 - 17/10/23",price: "1400$", ratings: 2}
-];
+}));
 
 
 const [popup, setPopup] = useState(false);
@@ -378,22 +343,7 @@ const toggle = () => {
         <div className={styles.listingsDatagridWrapper}>
           <div className={styles.listingsDatagrid}>
 
-          <Box sx={{ height: 600, width: '100%' }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5,
-                },
-              },
-            }}
-            pageSizeOptions={[5]}
-            checkboxSelection
-            disableRowSelectionOnClick
-          />
-        </Box>
+           <MyDataGrid data = {rows} />
 
           </div>
         </div>

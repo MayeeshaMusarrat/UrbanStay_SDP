@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { TextField, Checkbox, FormControlLabel , InputAdornment, OutlinedInput, FormControl} from "@mui/material";
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -18,6 +18,14 @@ const HostPlace = () => {
 
   const position = [51.505, -0.09]; 
   const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const localStorageValue = localStorage.getItem('Property');
+    if (localStorageValue) 
+    {
+      localStorage.removeItem('Property');
+    }
+  }, []);
 
   const [picURL, setPicURL] = useState([]);
   const [Name, setName] = useState("");
@@ -66,21 +74,47 @@ const HostPlace = () => {
   };
 
 
-  const [selectedFiles, setSelectedFiles] = useState([]); 
-  const hiddenFileInput = useRef(null);
+const [imageUrls, setImageUrls] = useState([]);
+const [selectedFiles, setSelectedFiles] = useState([]); 
+const hiddenFileInput = useRef(null);
 
-  const handleChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedFiles([...selectedFiles, file]); 
-    setPicURL([...picURL, URL.createObjectURL(file)]);
-    setName(file.name);
-  };
+const handleChange = (event) => {
+  const file = event.target.files[0];
+  setSelectedFiles([...selectedFiles, file]); 
+  setPicURL([...picURL, URL.createObjectURL(file)]);
+  setName(file.name);
+};
 
-  const handleClick = (event) => {
-    setCount((prev) => prev + 1);
-    hiddenFileInput.current.click();
-  };
 
+
+const handleUpload = async () => {
+  setCount((prev) => prev + 1);
+   hiddenFileInput.current.click();
+  const uploadPromises = selectedFiles.map(async (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const response = await axios.post('https://api.imgbb.com/1/upload', formData, {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+        params: {
+          key: '08e06e8964e64a3f1d8bb8fb36fee354'
+        },
+      });
+
+      return response.data.data.url;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      return null;
+    }
+  });
+
+  const uploadedImageUrls = await Promise.all(uploadPromises);
+  setImageUrls([...imageUrls, ...uploadedImageUrls.filter((url) => url !== null)]);
+};
+ 
 
 
   const [popup, setPopup] = useState(false);
@@ -225,7 +259,7 @@ const HostPlace = () => {
             zipcode: zipcode,
             address_line: address,
             amenities: selectedCheckboxes,
-            pics: picURL
+            pics: imageUrls
     };
     localStorage.setItem('Property', JSON.stringify(property));
     navigate("/confirm-listing");
@@ -495,14 +529,14 @@ const HostPlace = () => {
 
               </div>
           <div className={styles.uploadbtn}>
-            <button onClick={handleClick} type="button" disabled={count===5} className={styles.upload}  >
+            <button onClick={handleUpload} type="button" disabled={count===5} className={styles.upload}  >
               Upload</button>
 
               <input
               type="file"
               onChange={handleChange}
               ref={hiddenFileInput}
-              style={{ display: "none" }} // Make the file input element invisible
+              style={{ display: "none" }} 
             />
           </div>
 

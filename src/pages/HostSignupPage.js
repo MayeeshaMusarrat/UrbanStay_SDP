@@ -18,6 +18,8 @@ import { useNavigate } from "react-router-dom";
 import styles from "./HostSignupPage.module.css";
 import countryData from "./countryData";
 
+import axios from "axios";
+
 
 
 const HostSignupPage = () => {
@@ -26,14 +28,46 @@ const HostSignupPage = () => {
 
   const [str, setStr] = useState(" Supported: JPG, JPEG, PNG");
   
+ 
+const [imageUrls, setImageUrls] = useState([]);
+const [selectedFiles, setSelectedFiles] = useState([]); 
 
   const handleFileChange = (event) => {
-    const selectedFiles = event.target.files;
-    if (selectedFiles.length > 0) {
-      setStr("Uploaded file: " + selectedFiles[0].name);
+    const selectedFiless = event.target.files;
+    if (selectedFiless.length > 0) {
+      setStr("Uploaded file: " + selectedFiless[0].name);
+      setSelectedFiles([...selectedFiles, event.target.files[0]]); 
     }
   };
+
+  const handleUpload = async () => {
   
+    const uploadPromises = selectedFiles.map(async (file) => {
+      const formData = new FormData();
+      formData.append('image', file);
+  
+      try {
+        const response = await axios.post('https://api.imgbb.com/1/upload', formData, {
+          headers: {
+            'content-type': 'multipart/form-data',
+          },
+          params: {
+            key: '08e06e8964e64a3f1d8bb8fb36fee354'
+          },
+        });
+  
+        return response.data.data.url;
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        return null;
+      }
+    });
+  
+    const uploadedImageUrls = await Promise.all(uploadPromises);
+    setImageUrls([...imageUrls, ...uploadedImageUrls.filter((url) => url !== null)]);
+  };
+   
+
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
 
@@ -76,13 +110,15 @@ const HostSignupPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const [profile_pic, setProfilePic] = useState("");
+
 
 
   const handleSubmit = (e)=>{
     e.preventDefault();
 
-    navigate("/");
-    
+   
+  
     const user = {
       firstname: firstname, 
       lastname: lastname,
@@ -91,7 +127,7 @@ const HostSignupPage = () => {
       email: email,
       password: password
     };
-    
+  
     
     fetch("http://localhost:5001/host-signup-page",{
       method: "POST",
@@ -112,18 +148,6 @@ const HostSignupPage = () => {
       }
     })
   }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -151,7 +175,7 @@ const HostSignupPage = () => {
             className={styles.firstnameinput}
             color="info"
             placeholder="Enter First Name"
-            required={true}
+      //      required={true}
             fullWidth={true}
             sx={{ width: 336 }}
             variant="outlined"
@@ -162,7 +186,7 @@ const HostSignupPage = () => {
             className={styles.lastnameinput}
             color="info"
             placeholder="Enter Last Name"
-            required={true}
+       //     required={true}
             fullWidth={true}
             sx={{ width: 336 }}
             variant="outlined"
@@ -273,7 +297,7 @@ const HostSignupPage = () => {
                   variant: "standard",
                   size: "medium",
                   fullWidth: true,
-                  required: true,
+         //         required: true,
                   color: "info",
                 },
               }}
@@ -283,7 +307,7 @@ const HostSignupPage = () => {
             className={styles.pwdinput}
             color="info"
             placeholder="Choose a password (At least 8 characters long)"
-            required={true}
+      //      required={true}
             sx={{ width: 482 }}
             variant="outlined"
             type={showPassword1 ? "text" : "password"}
@@ -308,7 +332,7 @@ const HostSignupPage = () => {
             className={styles.emailinput}
             color="info"
             placeholder="Enter Email"
-            required={true}
+     //       required={true}
             fullWidth={true}
             sx={{ width: 496 }}
             variant="outlined"
@@ -319,7 +343,7 @@ const HostSignupPage = () => {
             className={styles.pwdconfirminput}
             color="info"
             placeholder="Confirm Password"
-            required={true}
+       //     required={true}
             sx={{ width: 496 }}
             variant="outlined"
             type={showPassword2 ? "text" : "password"}
@@ -365,7 +389,7 @@ const HostSignupPage = () => {
                   className={styles.dragYourImages}
                 >{`Drag your images here, or `}</span>
 
-                <label className={styles.browse} htmlFor="fileInput"  >
+                <label className={styles.browse} htmlFor="fileInput"  onClick = {handleUpload} >
                   
                   <b>browse </b>
                   
@@ -374,7 +398,6 @@ const HostSignupPage = () => {
                   <input
                   type="file"
                   id="fileInput"
-                  ref={fileInputRef}
                   style={{ display: 'none' }}
                   accept="image/*"
                   onChange={handleFileChange}
@@ -405,7 +428,7 @@ const HostSignupPage = () => {
             className={styles.phonenumberinput}
             color="info"
             placeholder="Enter Phone Number"
-            required={true}
+         //   required={true}
             fullWidth={true}
             sx={{ width: 336 }}
             variant="outlined"

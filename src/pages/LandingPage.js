@@ -238,6 +238,8 @@ const [checkout, setCheckOut] = useState("");
 const handleSubmit = (e) => {
   e.preventDefault();
 
+
+
   const search = {
     destination: destination,
     checkin: checkin,
@@ -245,8 +247,8 @@ const handleSubmit = (e) => {
     rooms: countRooms,
     guests: countGuests
   };
-
-  fetch("http://localhost:5001/", {
+  localStorage.setItem('Destination', destination);
+  fetch("http://localhost:5001/browse", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
