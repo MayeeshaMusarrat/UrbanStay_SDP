@@ -236,10 +236,7 @@ const [checkin, setCheckIn] = useState("");
 const [checkout, setCheckOut] = useState("");
 
 const handleSubmit = (e) => {
-  e.preventDefault();
-
-
-
+ 
   const search = {
     destination: destination,
     checkin: checkin,
@@ -248,25 +245,7 @@ const handleSubmit = (e) => {
     guests: countGuests
   };
   localStorage.setItem('Destination', destination);
-  fetch("http://localhost:5001/browse", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(search),
-  })
-    .then((response) => {
-      
-      if (response.status === 200) {
-        navigate("/browse");
-      } else {
-        throw new Error("Failed");
-      }
-    })
-    .catch((error) => {
-      console.log("Error occurred:", error);
-    
-    });
+  navigate("/browse");
 };
 
 //=======================================================================================================================

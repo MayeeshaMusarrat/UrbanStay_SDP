@@ -601,24 +601,29 @@
   font-family: var(--body-copy-14pt-regular);
 }
 .card {
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
-  width: 303px;
+  width: 323px;
   height: 413px;
+  margin-right: 10px;
+  border-right: 10px solid hsl(0, 0%, 100%);
 }
 .card:hover {
   cursor: pointer;
-  animation: 1s ease-out 1s 1 normal none scale-up;
+  
   opacity: 1;
 }
 .somanypropertycardsFrame {
-  position: absolute;
-  top: 404px;
+  position: relative;
+  top: 400px;
   left: 81px;
   width: 1351px;
   height: 2392px;
-  overflow: hidden;
+  overflow: visible;
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -20px;
   font-size: var(--body-copy-14pt-regular-size);
   color: var(--neutral-08);
   font-family: var(--font-poppins);

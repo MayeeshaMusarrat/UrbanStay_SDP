@@ -15,7 +15,6 @@ import styles from "./HostPlace.module.css";
 import axios from 'axios';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
-
 const HostPlace = () => {
 
   const position = [51.505, -0.09]; 
@@ -84,16 +83,14 @@ const handleChange = (event) => {
   const filess = Array.from(event.target.files);
   const file = event.target.files[0];
   setSelectedFiles([...selectedFiles, ...filess]); 
-  setPicURL([...picURL, URL.createObjectURL(file)]);
   setName(file.name);
 };
 
 
 
-
 const handleUpload = async () => {
   setCount((prev) => prev + 1);
-   hiddenFileInput.current.click();
+  hiddenFileInput.current.click();
   const uploadPromises = selectedFiles.map(async (file) => {
     const formData = new FormData();
     formData.append('image', file);
@@ -107,7 +104,7 @@ const handleUpload = async () => {
           key: '08e06e8964e64a3f1d8bb8fb36fee354'
         },
       });
-
+      console.log(response.data.data.url);
       return response.data.data.url;
     } catch (error) {
       console.error('Error uploading image:', error);
@@ -538,8 +535,8 @@ const handleUpload = async () => {
 
               <input
               type="file"
+              multiple
               onChange={handleChange}
-              
               ref={hiddenFileInput}
               style={{ display: "none" }} 
             />
@@ -558,14 +555,6 @@ const handleUpload = async () => {
 
           </div>
         ))}
-      {/*
-       {imageUrls.map((url, index) => (
-        <div key={index} className={styles.propertyGalleryFrameItem}>
-          <img src={url} alt={`Uploaded Image ${index + 1}`} />
-        </div>
-      ))}
-
-       */}
 
       </div>
 

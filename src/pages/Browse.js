@@ -19,20 +19,63 @@ import styles from "./Browse.module.css";
 const Browse = ({ onClose }) => {
 
   const [dateShow, setDateShow]  = useState("19 Oct, 2023 - 25 Oct, 2023");
-  const [checkin, setCheckIn] = useState("");
-  const [checkout, setCheckOut] = useState("");
 
   const openFrame = () => {
     navigate("/view-details");
   }
+
+  const [fetchedProperties, setFetchedProperties] = useState([]);
+
+
+  /***************** I am extracting the parameters to be sent to nodeJS backend **************/
 
 
   const destination = localStorage.getItem('Destination');
   const rooms = localStorage.getItem('Rooms');
   const guests = localStorage.getItem('Guests');
   const datesCalendar = JSON.parse(localStorage.getItem('dateRange'));
+  const dates = {
+    startDate: datesCalendar.startDate,
+    endDate: datesCalendar.endDate,
+    key: datesCalendar.key
+  };
+  let checkIn = new Date(dates.startDate);
+  let checkOut = new Date(dates.endDate);
+  checkIn = checkIn.toISOString().split('T')[0];
+  checkOut = checkOut.toISOString().split('T')[0];
 
- 
+
+  /**************************** End ***********************************************************/
+
+
+
+  const [propertyData, setPropertyData] = useState([]);
+
+  useEffect(() => {
+
+    // Make the request to your server with the destination parameter
+    fetch(`http://localhost:5001/browse?destination=${destination}&checkIn=${checkIn}&checkOut=${checkOut}&rooms=${rooms}&guests=${guests}`)
+      .then(response => response.json())
+      .then(data => {
+        const formattedPropertyData = data.results.map(result => ({
+         // imageUrl: '/default-image.jpg', // Replace with the actual image URL or property-specific logic
+          property_title: result.Property_title,
+          destination: `${result.City}, ${result.Country}`,
+          dates: `${result.Check_in_date} to ${result.Check_out_date}`,
+          price: result.Price_per_night,
+          rating: result.Avg_ratings,
+         // isSuperhost: result.isSuperhost, // Replace with the actual logic for determining if it's a superhost
+        }));
+        
+        setPropertyData(formattedPropertyData);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+  
+  
+
+
+
 
   const [isSignoutConfirmationPopupOpen, setSignoutConfirmationPopupOpen] =
     useState(false);
@@ -317,32 +360,31 @@ const Browse = ({ onClose }) => {
 
 
 
-        <div className={styles.somanypropertycardsFrame} onClick = {openFrame}>
-          <div className={styles.card}>
-            <img className={styles.imageIcon} alt="" src="/image@2x.png" />
-            <img className={styles.heartIcon} alt="" src="/heart.svg" />
+        <div className={styles.somanypropertycardsFrame}>
+        {propertyData.map((property, index) => (
+          <div key={index} className={styles.card}>
+            <img className={styles.imageIcon}  alt="" />
+            <img className={styles.heartIcon} src="/heart.svg" alt="" />
             <div className={styles.locationDates}>
               <div className={styles.info}>
-                <b className={styles.line1}>Groveland, California</b>
-                <div className={styles.dates}>Yosemite National Park</div>
-                <div className={styles.dates}>Oct 23 - 28</div>
+                <b className={styles.line1}>{property.property_title}</b>
+                <div className={styles.dates}>{property.destination}</div>
+                <div className={styles.dates}>{property.dates}</div>
               </div>
               <div className={styles.price}>
                 <div className={styles.dates}>
-                  <b>$289</b>
+                  <b>${property.price}</b>
                   <span> night</span>
                 </div>
               </div>
             </div>
             <div className={styles.star}>
-              <img className={styles.starChild} alt="" src="/star-1.svg" />
-              <div className={styles.dates}>4.91</div>
+              <img className={styles.starChild} src="/star-1.svg" alt="" />
+              <div className={styles.dates}>{property.rating}</div>
             </div>
-            <img className={styles.ellipsesIcon} alt="" src="/ellipses.svg" />
-            <div className={styles.superhostBadge}>
-              <div className={styles.superhost}>Superhost</div>
-            </div>
+            <img className={styles.ellipsesIcon} src="/ellipses.svg" alt="" />
           </div>
+        ))}
         </div>
 
 
@@ -442,6 +484,7 @@ const Browse = ({ onClose }) => {
               <img
                 className={styles.searchbuttonIcon}
                 alt=""
+                
                 src="/searchbutton.svg"
               />
             </div>

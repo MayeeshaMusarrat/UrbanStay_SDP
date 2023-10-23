@@ -1,7 +1,5 @@
 const express = require('express');
 const app = express();
-const multer = require('multer');
-const path = require('path');
 var mysql = require('mysql');
 const cors = require('cors');
 app.use(cors(), express.json());
@@ -16,40 +14,10 @@ const pool = mysql.createPool({
 
 const port = 5001;
 
-const storage = multer.diskStorage({
-  destination: 'uploads/',
-  filename: (req, file, cb) => {
-    // Use the original file name as the filename
-    cb(null, file.originalname);
-  },
-});
-
-// Initialize Multer
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 10000000 }, // Adjust file size limit as needed
-});
-
-// Serve static files in the 'uploads' directory
-app.use('/uploads', express.static('uploads'));
-
 
 async function connectAndStartServer() 
 {
   
-  
-  app.post('/upload-pics', (req, res) => {
-    const fileFields = Object.keys(req.files);
-    
-    if (fileFields.length === 0) {
-      return res.status(400).json({ error: 'No files were uploaded.' });
-    }
-    const filePaths = fileFields.map((field) => req.files[field][0].path);
-
-    console.log(filePaths);
-    res.json({ filePaths });
-  });
-
 
   app.post('/guest-signup-page', async (req, res) => {
     const {firstname, lastname, phone_number, email, password} = req.body;
@@ -148,18 +116,22 @@ async function connectAndStartServer()
   });
 
 
-  app.post('/browse', async (req, res) => {
-    const {destination, checkin, checkout, rooms, guests} = req.body;
-    const check_in = checkin.toString().split('T')[0];
-    const check_out = checkout.split('T')[0];
-    console.log(req.body);
+
+  /********************************** Browse   */ 
+
+
+  app.get('/browse', async (req, res) => {
+    const { destination, checkin, checkout, rooms, guests } = req.query;
+   
+    console.log(req.query);
+    
 
     pool.getConnection((err, connection) => {
       if (err) throw err;
 
-      const searchSql = `SELECT * FROM PROPERTY WHERE Country = ? AND ? BETWEEN Check_in_date AND Check_out_date AND ? BETWEEN Check_in_date AND Check_out_date AND Num_of_rooms >= ? AND Num_of_guests >= ?;`;
+      const searchSql = `SELECT * FROM PROPERTY WHERE Country = ? AND Num_of_rooms >= ? AND Num_of_guests >= ?;`;
 
-      const searchValues = [destination, checkin, checkout, rooms, guests ];
+      const searchValues = [destination, rooms, guests ];
 
       connection.query(searchSql, searchValues, (searchErr, searchResults) => {
         if (searchErr) {
@@ -173,7 +145,27 @@ async function connectAndStartServer()
       });
       connection.release(); 
     });
+
+
+
+    
   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   app.post('/confirm-listing', async (req, res) => {
@@ -282,6 +274,5 @@ async function connectAndStartServer()
 connectAndStartServer().catch(err => {
   console.error(err);
 });
-
 
 
