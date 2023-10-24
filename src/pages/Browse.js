@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Select,
   InputLabel,
@@ -14,6 +14,8 @@ import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
 import styles from "./Browse.module.css";
+import ViewDetails from "./ViewDetails";
+import ReactDOM from 'react-dom';
 
 
 const Browse = ({ onClose }) => {
@@ -50,18 +52,28 @@ const Browse = ({ onClose }) => {
   const [propertyData, setPropertyData] = useState([]);
 
   useEffect(() => {
-
-    // Make the request to your server with the destination parameter
     fetch(`http://localhost:5001/browse?destination=${destination}&checkIn=${checkIn}&checkOut=${checkOut}&rooms=${rooms}&guests=${guests}`)
       .then(response => response.json())
       .then(data => {
+        console.log("data: ",data);
+          
         const formattedPropertyData = data.searchResults.map(result => ({
-          //imageUrl: '/default-image.jpg', // Replace with the actual image URL or property-specific logic
+          
+          PID: result.PID,
+          imageUrl: result.pics, 
           property_title: result.Property_title,
+          guests_prop: result.Num_of_guests,
+          rooms_prop: result.Num_of_rooms,
+          bedrooms: result.Num_of_bedrooms,
+          baths: result.Num_of_bathrooms,
+          beds: result.Num_of_beds,
+          description: result.description,
           destination: `${result.City}, ${result.Country}`,
           dates: `${result.Check_in_date} to ${result.Check_out_date}`,
           price: result.Price_per_night,
           rating: result.Avg_ratings,
+          rating_num: result.Num_of_ratings,
+          address: result.Address_line,
           
         }));
         
@@ -70,7 +82,6 @@ const Browse = ({ onClose }) => {
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
-
 
 
 
@@ -96,7 +107,18 @@ const Browse = ({ onClose }) => {
     setPopupLogin(!popupLogin);
   };
 
+  /**************************** Open view-details page depending on the clicked component*******/
+  const [selectedProperty, setSelectedProperty] = useState(null);
 
+  const openPropertyFrame = (property) => {
+    console.log("passed param: ", property);
+    const prop = encodeURIComponent(JSON.stringify(property));
+    navigate(`/view-details/${prop}`);
+  };
+
+  const closePropertyFrame = () => {
+    setSelectedProperty(null);
+  };
 
 
   const onItemLink5Click = useCallback(() => {
@@ -358,15 +380,15 @@ const Browse = ({ onClose }) => {
 
        {
         <div className={styles.somanypropertycardsFrame}>
-        {propertyData.map((property, index) => (
-          <div key={index} className={styles.card}>
-            <img className={styles.imageIcon}  alt="" />
+    {propertyData.map((property, index) => (
+          <div key={index} className={styles.card} onClick={() => openPropertyFrame(property)}>
+            <img className={styles.imageIcon} src={property.imageUrl} alt="" />
             <img className={styles.heartIcon} src="/heart.svg" alt="" />
             <div className={styles.locationDates}>
               <div className={styles.info}>
                 <b className={styles.line1}>{property.property_title}</b>
                 <div className={styles.dates}>{property.destination}</div>
-                
+              {/*  <div className={styles.dates}>{property.dates}</div> */}
               </div>
               <div className={styles.price}>
                 <div className={styles.dates}>
@@ -382,6 +404,7 @@ const Browse = ({ onClose }) => {
             <img className={styles.ellipsesIcon} src="/ellipses.svg" alt="" />
           </div>
         ))}
+       
         </div>
 
         }

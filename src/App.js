@@ -142,7 +142,7 @@ function App() {
       <Route path="/myreservations" element={<MyReservations />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/temp-profile" element={<TempProfile />} />
-      <Route path="/view-details" element={<ViewDetails />} />
+      <Route path="/view-details/:prop" element={<ViewDetails />} />
       <Route path="/browse" element={<Browse />} />
       <Route path="/confirm-listing" element={<ConfirmListing />} />
      

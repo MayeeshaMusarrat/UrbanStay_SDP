@@ -33,7 +33,7 @@ const ConfirmListing = () => {
   
   const [myPrice, setMyPrice] = useState(null);
   const Property = JSON.parse(localStorage.getItem('Property'));
-  const propertyURL = Property.pics[0];
+  const propertyURL = Property.pics;
 
   useEffect(() => {
    
@@ -120,7 +120,7 @@ const ConfirmListing = () => {
             zipcode: Property.zipcode,
             address_line: Property.address_line,
             amenities: Property.amenities,
-            pics: Property.picURL,
+            pics: Property.pics,
             pricePerNight: totalPrice, 
             email: email
            

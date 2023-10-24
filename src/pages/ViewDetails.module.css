@@ -64,6 +64,7 @@
 .symbol {
   position: relative;
   line-height: 18px;
+  width: 60px;
 }
 .ifaBrands,
 .itemLink {
@@ -1127,7 +1128,7 @@
 .item17 {
   top: 0;
   left: 161.69px;
-  width: 60.15px;
+  width: 63px;
 }
 .item17,
 .item18,
@@ -1138,7 +1139,7 @@
 .item18 {
   top: 0;
   left: 222.04px;
-  width: 55.51px;
+  width: 66px;
   font-size: var(--font-size-base-5);
 }
 .orderedList {
@@ -1183,13 +1184,14 @@
   text-decoration: underline;
   line-height: 20px;
   font-weight: 600;
+  width: 100px;
 }
 .link18 {
   position: absolute;
   top: calc(50% - 10px);
   left: 66.83px;
   border-radius: var(--br-9xs);
-  width: 79.59px;
+  width: 100px;
   height: 20px;
 }
 .divrk4wssy,
@@ -1311,6 +1313,7 @@
 .span {
   text-decoration: line-through;
   font-weight: 600;
+  
 }
 .span1 {
   color: var(--shade-02);
@@ -1340,7 +1343,7 @@
 .realPrice {
   position: absolute;
   top: 0;
-  width: 53.88px;
+  width: 60px;
 }
 .div3 {
   left: 0;
@@ -1356,7 +1359,7 @@
 }
 .night {
   top: 5.28px;
-  left: 107.51px;
+  left: 120.51px;
   font-size: var(--font-size-base);
   line-height: 20px;
   display: flex;
@@ -1399,7 +1402,7 @@
   overflow: hidden;
 }
 .divW149nr {
-  width: calc(100% - 24px);
+  width: calc(100% - 10px);
   top: 12px;
   right: 12px;
   left: 12px;
@@ -1440,7 +1443,7 @@
   overflow: hidden;
 }
 .divW149nr1 {
-  width: calc(100% - 24.8px);
+  width: calc(100% - 10px);
   top: 12px;
   right: 12px;
   left: 12.8px;
@@ -1505,6 +1508,7 @@
 }
 .div1e5z145 {
   padding: 0 220.73001098632812px 0 0;
+  width: 60px;
 }
 .divW149nr2,
 .divguestpickerBookItTrigge {

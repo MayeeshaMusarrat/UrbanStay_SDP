@@ -606,8 +606,10 @@
   left: 0;
   width: 323px;
   height: 413px;
+  bottom: -10px;
   border-right: 10px solid hsl(0, 0%, 100%);
-  margin-bottom: 10px;
+  border-bottom: 10px;
+  
 }
 .card:hover {
   cursor: pointer;
@@ -615,14 +617,14 @@
   opacity: 1;
 }
 .somanypropertycardsFrame {
-  position: relative;
+  position: absolute;
   top: 400px;
-  left: 81px;
-  width: 1351px;
+  left: 30px;
   height: 2392px;
   display: flex;
-  flex-wrap: wrap; /* Cards wrap to the next line when they exceed container width */
+  flex-flow: row wrap;
   justify-content: space-between; 
+ 
   font-size: var(--body-copy-14pt-regular-size);
   color: var(--neutral-08);
   font-family: var(--font-poppins);

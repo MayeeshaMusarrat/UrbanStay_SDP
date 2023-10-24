@@ -6,8 +6,12 @@ import { useNavigate } from "react-router-dom";
 import styles from "./ViewDetails.module.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import DateRangeSelector from "../components/DateRangeSelector";
+import { useParams } from 'react-router-dom';
 
 const ViewDetails = ({ onClose }) => {
+  const { prop } = useParams();
+  const decodedPropValueString = decodeURIComponent(prop);
+  const propValue = JSON.parse(decodedPropValueString);
 
   const storedValue = localStorage.getItem('email');
   const [loggedIn, setLoggedIn] = useState(storedValue);
@@ -337,12 +341,12 @@ const ViewDetails = ({ onClose }) => {
         <img
           className={styles.viewDetailsChild}
           alt=""
-          src="/rectangle-126@2x.png"
+          src={propValue.imageUrl}
           data-scroll-to="rectangleImage"
         />
         <div className={styles.divh2d91f33e72}>
           <div className={styles.heading1}>
-            Lac Brochet | Ski Mont-Tremblant | Spa 4 Seasons
+          {propValue.property_title}
           </div>
         </div>
         <div className={styles.div88xxct}>
@@ -614,15 +618,15 @@ const ViewDetails = ({ onClose }) => {
           </div>
           <div className={styles.section}>
             <div className={styles.orderedList}>
-              <div className={styles.x18Nights}>8 guests</div>
+              <div className={styles.x18Nights}>{propValue.guests_prop + ' guests'}</div>
               <div className={styles.item16}>
-                <div className={styles.bedrooms}>· 3 bedrooms</div>
+                <div className={styles.bedrooms}> · {propValue.bedrooms + ' bedrooms'}</div>
               </div>
               <div className={styles.item17}>
-                <div className={styles.bedrooms}>· 4 beds</div>
+                <div className={styles.bedrooms}>· {propValue.beds + ' beds'} </div>
               </div>
               <div className={styles.item18}>
-                <div className={styles.bedrooms}>· 1 bath</div>
+                <div className={styles.bedrooms}>· {propValue.baths + ' baths'}</div>
               </div>
             </div>
             <div className={styles.divrk4wssy}>
@@ -632,30 +636,19 @@ const ViewDetails = ({ onClose }) => {
                 src="/divs197t1q2margin.svg"
               />
               <div className={styles.divr1lutz1s}>
-                <div className={styles.div}>4.90</div>
+                <div className={styles.div}>{propValue.rating}</div>
               </div>
               <div className={styles.spanh2dDc59958f}>
                 <div className={styles.div}>·</div>
               </div>
               <div className={styles.link18}>
-                <div className={styles.reviews}>83 reviews</div>
+                <div className={styles.reviews}>{propValue.rating_num+' reviews'}</div>
               </div>
             </div>
           </div>
         </div>
         <div className={styles.ourBeautifullyDesigned}>
-          Our beautifully designed, brand new villa, offering a large space with
-          fantastic amenities to ensure a comfortable and enjoyable stay. Our
-          villa features a spacious working space area/conference room and a
-          rooftop with a full mountain view, perfect for catching up on work or
-          relaxing with friends and family. Our property is maintained and
-          cleaned by professionals, ensuring a pristine and hygienic environment
-          throughout your stay. Our large kitchen and dining areas on all floors
-          are fully equipped to cater to your meal preparation needs, while our
-          modern lighted pool provides a perfect setting to cool off and unwind.
-          Our villa's prime location grants easy access to a variety of high-end
-          restaurants and cafes, all located less than a mile away, making it a
-          perfect base for your next getaway.
+         {propValue.description}
         </div>
         <div className={styles.location} data-scroll-to="locationContainer">
           <div className={styles.mapPicture} />
@@ -665,7 +658,7 @@ const ViewDetails = ({ onClose }) => {
             <div className={styles.vectorParent}>
               <img className={styles.vectorIcon} alt="" src="/vector.svg" />
               <div className={styles.tampaksiringBaliIndonesia}>
-                Tampaksiring, Bali, Indonesia
+                {propValue.address+', '+propValue.destination}
               </div>
             </div>
           </div>
@@ -683,13 +676,13 @@ const ViewDetails = ({ onClose }) => {
                   <div className={styles.slicedPrice}>
                     <div className={styles.div2}>
                       <span className={styles.txt}>
-                        <span className={styles.span}>$180</span>
+                        <span className={styles.span}>{'$'+propValue.price}</span>
                         <span className={styles.span1}> </span>
                       </span>
                     </div>
                   </div>
                   <div className={styles.realPrice}>
-                    <div className={styles.div3}>$108 </div>
+                    <div className={styles.div3}>{'$'+propValue.price}</div>
                   </div>
                   <div className={styles.night}>night</div>
                 </div>
@@ -721,7 +714,7 @@ const ViewDetails = ({ onClose }) => {
                                   </div>
                                   <div className={styles.divW149nr1}>
                                     <div className={styles.checkIn}>
-                                      Checkout
+                                      Check-out
                                     </div>
                                   </div>
                                 </div>
