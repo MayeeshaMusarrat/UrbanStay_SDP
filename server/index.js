@@ -140,7 +140,7 @@ async function connectAndStartServer()
         } else {
           console.log('Data fetched from PROPERTY successfully.');
           console.log(searchResults);
-          res.status(200).json({ searchResults });
+          res.json({ searchResults });
         }
       });
       connection.release(); 
@@ -150,22 +150,6 @@ async function connectAndStartServer()
 
     
   });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   app.post('/confirm-listing', async (req, res) => {
@@ -190,14 +174,11 @@ async function connectAndStartServer()
       email,
     } = req.body;
   
-    console.log(req.body);
     const currentDate = new Date().toISOString().split('T')[0];
     const startDate = new Date(availability[0]);
     const endDate = new Date(availability[1]);
     const formattedStartDate = startDate.toISOString().split('T')[0];
     const formattedEndDate = endDate.toISOString().split('T')[0];
-  
-    console.log(formattedStartDate);
   
     pool.getConnection((err, connection) => {
       if (err) {
@@ -207,7 +188,6 @@ async function connectAndStartServer()
       const userSql = `SELECT UID FROM user WHERE Email = '${email}'`;
   
       connection.query(userSql, (userErr, userResults) => {
-
         if (userErr) 
         {
           console.error('Error extracting data from USER:', userErr);
@@ -221,15 +201,44 @@ async function connectAndStartServer()
           const listingSql = `INSERT INTO PROPERTY (Property_title, Zipcode, Num_of_guests, Price_per_night, Created, Check_in_date, Check_out_date, Num_of_ratings, Avg_ratings, UID, City, Country, Description, Num_of_rooms, Address_line, Category, Num_of_bedrooms, Num_of_bathrooms, Num_of_beds ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
           
           const price = parseFloat(pricePerNight);
-
+  
           const listingValues = [property_title, zipcode, guest_count, price, currentDate, formattedStartDate, formattedEndDate, '0', '0.0', userUID, state, country, description, room_count, address_line, property_category, bedroom_count, bathroom_count, bed_count];
   
           connection.query(listingSql, listingValues, (listingErr, listingResults) => {
             if (listingErr) {
               console.error('Error inserting data into PROPERTY:', listingErr);
               res.status(500).json({ message: 'Error inserting data into PROPERTY' });
-            } else {
+            } 
+            else 
+            {
               console.log('Data inserted into PROPERTY successfully');
+              const PID = listingResults.insertId;
+  
+              amenities.forEach((amenity) => {
+                const sql = `INSERT INTO Amenities (Name, property_PID) VALUES (?, ?)`;
+                
+                connection.query(sql, [amenity, PID], (error, results) => {
+                  if (error) {
+                    console.error('Error inserting amenity:', error);
+                  } else {
+                    console.log(`Amenity inserted: ${amenity}`);
+                  }
+                });
+
+              });
+
+              const picSql = `INSERT INTO PROPERTY_PICTURES (PID, Picture_url) VALUES (?, ?)`;
+              connection.query(picSql, [PID, pics], (picErr, picResults) => {
+                if(picErr)
+                {
+                  console.log('Error inserting into Property picture:', picErr);
+                }
+                else
+                {
+                  console.log(picResults);
+                }
+              })
+
               res.status(200).json({ message: 'Data inserted successfully' });
             }
           });
@@ -238,6 +247,23 @@ async function connectAndStartServer()
       });
     });
   });
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
 
   app.get('/getListings/:userEmail', (req, res) => {

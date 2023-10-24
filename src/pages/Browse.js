@@ -24,8 +24,6 @@ const Browse = ({ onClose }) => {
     navigate("/view-details");
   }
 
-  const [fetchedProperties, setFetchedProperties] = useState([]);
-
 
   /***************** I am extracting the parameters to be sent to nodeJS backend **************/
 
@@ -57,22 +55,21 @@ const Browse = ({ onClose }) => {
     fetch(`http://localhost:5001/browse?destination=${destination}&checkIn=${checkIn}&checkOut=${checkOut}&rooms=${rooms}&guests=${guests}`)
       .then(response => response.json())
       .then(data => {
-        const formattedPropertyData = data.results.map(result => ({
-         // imageUrl: '/default-image.jpg', // Replace with the actual image URL or property-specific logic
+        const formattedPropertyData = data.searchResults.map(result => ({
+          //imageUrl: '/default-image.jpg', // Replace with the actual image URL or property-specific logic
           property_title: result.Property_title,
           destination: `${result.City}, ${result.Country}`,
           dates: `${result.Check_in_date} to ${result.Check_out_date}`,
           price: result.Price_per_night,
           rating: result.Avg_ratings,
-         // isSuperhost: result.isSuperhost, // Replace with the actual logic for determining if it's a superhost
+          
         }));
         
         setPropertyData(formattedPropertyData);
+       
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
-  
-  
 
 
 
@@ -359,7 +356,7 @@ const Browse = ({ onClose }) => {
         </div>
 
 
-
+       {
         <div className={styles.somanypropertycardsFrame}>
         {propertyData.map((property, index) => (
           <div key={index} className={styles.card}>
@@ -369,7 +366,7 @@ const Browse = ({ onClose }) => {
               <div className={styles.info}>
                 <b className={styles.line1}>{property.property_title}</b>
                 <div className={styles.dates}>{property.destination}</div>
-                <div className={styles.dates}>{property.dates}</div>
+                
               </div>
               <div className={styles.price}>
                 <div className={styles.dates}>
@@ -387,7 +384,7 @@ const Browse = ({ onClose }) => {
         ))}
         </div>
 
-
+        }
 
 
 

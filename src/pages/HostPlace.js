@@ -115,7 +115,6 @@ const handleUpload = async () => {
   const uploadedImageUrls = await Promise.all(uploadPromises);
   setImageUrls([...imageUrls, ...uploadedImageUrls.filter((url) => url !== null)]);
 };
- 
 
 
   const [popup, setPopup] = useState(false);
@@ -260,7 +259,7 @@ const handleUpload = async () => {
             zipcode: zipcode,
             address_line: address,
             amenities: selectedCheckboxes,
-            pics: imageUrls
+            pics: imageUrls[0]
     };
     localStorage.setItem('Property', JSON.stringify(property));
     navigate("/confirm-listing");
@@ -545,16 +544,11 @@ const handleUpload = async () => {
 
         <div className={styles.pictureContainer}>
 
-        {selectedFiles.map((file, index) => (
-          <div key={index} className={styles.propertyGalleryFrameItem}>
-            <img
-              src={URL.createObjectURL(file)}
-              alt="Uploaded"
-              style={{ width: '100%', height: '100%' }}
-            />
-
-          </div>
-        ))}
+        {imageUrls.map((url, index) => (
+        <div key={index} className={styles.propertyGalleryFrameItem}>
+          <img src={url} alt={`Uploaded Image ${index + 1}`} />
+        </div>
+      ))}
 
       </div>
 

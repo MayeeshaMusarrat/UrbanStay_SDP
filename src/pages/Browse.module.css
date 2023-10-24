@@ -606,8 +606,8 @@
   left: 0;
   width: 323px;
   height: 413px;
-  margin-right: 10px;
   border-right: 10px solid hsl(0, 0%, 100%);
+  margin-bottom: 10px;
 }
 .card:hover {
   cursor: pointer;
@@ -620,10 +620,9 @@
   left: 81px;
   width: 1351px;
   height: 2392px;
-  overflow: visible;
   display: flex;
-  flex-wrap: wrap;
-  margin-right: -20px;
+  flex-wrap: wrap; /* Cards wrap to the next line when they exceed container width */
+  justify-content: space-between; 
   font-size: var(--body-copy-14pt-regular-size);
   color: var(--neutral-08);
   font-family: var(--font-poppins);
