@@ -1,4 +1,5 @@
-import { useState, useCallback } from "react";
+
+import { useState, useCallback, useEffect } from "react";
 import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
@@ -10,21 +11,58 @@ import { DataGrid } from '@mui/x-data-grid';
 
 const MyReservations = () => {
 
+  const [data, setData] = useState([]);
+  const userEmail = localStorage.getItem('email');
+  
+  useEffect(() => {
+    fetch(`http://localhost:5001/getReservations/${userEmail}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((fetchedData) => {
+        if (Array.isArray(fetchedData)) {
+          console.log("Data fetched");
+          setData(fetchedData);
+        } else {
+          console.error('Fetched data is not an array:', fetchedData);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+  
+  
+  
+  
+  const rows = data.map((item) => ({
+     
+    id: item.PID, 
+    Property: item.Property_title,
+    bedrooms: item.Num_of_bedrooms,
+    beds: item.Num_of_beds,
+    baths: item.Num_of_bathrooms,
+    rooms: item.Num_of_rooms,
+    location: item.City,
+    Check_in: new Date(item.Check_in_date).toISOString().split('T')[0],
+    Check_out: new Date(item.Check_out_date).toISOString().split('T')[0], 
+    price: item.Price_per_night+'$',
+    
+  }));
+
   
 const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
+  
   {
     field: 'Property',
     headerName: 'Property',
     width: 280,
     
   },
-  {
-    field: 'Status',
-    headerName: 'Status',
-    width: 120,
-    
-  },
+  
   {
     field: 'bedrooms',
     headerName: 'Bedrooms',
@@ -40,27 +78,35 @@ const columns = [
     
   },
   {
-    field: 'bathrooms',
+    field: 'baths',
     headerName: 'Bathrooms',
-    width: 120,
+    width: 160,
     
   },
+
+  {
+    field: 'rooms',
+    headerName: 'Rooms',
+    width: 160,
+    
+  },
+
   {
     field: 'location',
     headerName: 'Location',
-    width: 200,
+    width: 180,
     
   },
   {
-    field: 'check_in',
+    field: 'Check_in',
     headerName: 'Check-in',
     width: 100,
     
   },
   {
-    field: 'check_out',
+    field: 'Check_out',
     headerName: 'Check-out',
-    width: 100,
+    width: 120,
     
   },
   {
@@ -69,11 +115,13 @@ const columns = [
     width: 100,
     
   }
+
+
 ];
 
-const rows = [
+/* const rows = [
    {id:1, Property: "Neel Oboni 5th floor",Status: "Reserved", bedrooms: "2", beds: "2", bathrooms: "2", location: "Shahinbagh, Dhaka", check_in: "17/10/23", check_out: "18/10/23", price: "1400$"}
-];
+]; */
 
 
   const [popup, setPopup] = useState(false);

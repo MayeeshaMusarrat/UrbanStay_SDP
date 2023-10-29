@@ -5,13 +5,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { SingleInputDateRangeField } from '@mui/x-date-pickers-pro/SingleInputDateRangeField';
 
-
 import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
 import styles from "./HostPlace.module.css";
-
-
 import axios from 'axios';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
@@ -84,6 +81,8 @@ const handleChange = (event) => {
   const file = event.target.files[0];
   setSelectedFiles([...selectedFiles, ...filess]); 
   setName(file.name);
+
+  
 };
 
 
@@ -190,8 +189,7 @@ const handleUpload = async () => {
   }, [navigate]);
 
 
-  let propertytype="House";
-  
+  const [propType, setPropType] = useState("House");
   const [propertyname,setPropName] = useState("");
   const [bedroomCnt, setBedroom] = useState("");
   const [bedCnt, setBed] = useState("");
@@ -245,7 +243,7 @@ const handleUpload = async () => {
    
     const property = {
             property_name: propertyname,
-            property_type: propertytype,
+            property_type: propType,
             bedroom_count: bedroomCnt,
             bed_count: bedCnt,
             bathroom_count: bathroomCnt,
@@ -271,7 +269,7 @@ const handleUpload = async () => {
 
   const handleButtonClick1 = () => {
     setIsPressedHouse(!isPressedHouse); // Toggle the pressed state
-    if(isPressedHouse) propertytype="House";
+    if(isPressedHouse) setPropType("House");
    
   };
 
@@ -279,7 +277,7 @@ const handleUpload = async () => {
 
   const handleButtonClick2 = () => {
     setIsPressedAp(!isPressedAp); // Toggle the pressed state
-    if(isPressedAp) propertytype="Apartment";
+    if(isPressedAp) setPropType("Apartment");
     
   };
 
@@ -288,7 +286,7 @@ const handleUpload = async () => {
 
   const handleButtonClick3 = () => {
     setIsPressedGuest(!isPressedGuest); // Toggle the pressed state
-    if(isPressedGuest) propertytype="Guesthouse";
+    if(isPressedGuest) setPropType("Guesthouse");
   };
 
 
@@ -296,7 +294,7 @@ const handleUpload = async () => {
 
   const handleButtonClick4 = () => {
     setIsPressedHotel(!isPressedHotel); // Toggle the pressed state
-    if(isPressedHotel) propertytype="Hotel";
+    if(isPressedHotel) setPropType("Hotel");
   };
 
 
@@ -544,7 +542,7 @@ const handleUpload = async () => {
 
         <div className={styles.pictureContainer}>
 
-        {imageUrls.map((url, index) => (
+        {selectedFiles.map((url, index) => (
         <div key={index} className={styles.propertyGalleryFrameItem}>
           <img src={url} alt={`Uploaded Image ${index + 1}`} />
         </div>

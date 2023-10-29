@@ -55,11 +55,12 @@
   }
   .neelOboni5th {
     top: 365px;
-    font-size: var(--font-size-xl);
+    font-size: 18px;
+    
     font-weight: 500;
   }
   .shahinbaghDhaka {
-    top: 399px;
+    top: 405px;
   }
   .pricePerNight {
     font-weight: 500;
@@ -70,7 +71,7 @@
     left: 68px;
     display: flex;
     align-items: center;
-    width: 342px;
+    width: 350px;
     height: 30px;
   }
   .pricecardpreview {
@@ -687,7 +688,7 @@
   }
   .urbanstayTxt {
     line-break: anywhere;
-    width: 100%;
+    width: 500px;
   }
   .urbanstay {
     position: absolute;

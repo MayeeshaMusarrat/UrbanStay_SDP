@@ -121,17 +121,26 @@ async function connectAndStartServer()
 
 
   app.get('/browse', async (req, res) => {
-    const { destination, checkin, checkout, rooms, guests } = req.query;
+    const { destination, checkIn, checkOut, rooms, guests } = req.query;
    
     console.log(req.query);
-    
 
     pool.getConnection((err, connection) => {
       if (err) throw err;
 
-      const searchSql = `SELECT * FROM PROPERTY WHERE Country = ? AND Num_of_rooms >= ? AND Num_of_guests >= ?;`;
+        const searchSql = `
+        SELECT *
+        FROM PROPERTY
+        WHERE
+          (Country = ?
+            OR
+          City = ?
+          )
+          AND Num_of_rooms >= ?
+          AND Num_of_guests >= ?
+          AND Check_in_date <= ? AND Check_out_date >= ?;`;
 
-      const searchValues = [destination, rooms, guests ];
+      const searchValues = [destination, destination, rooms, guests, checkIn, checkOut];
 
       connection.query(searchSql, searchValues, (searchErr, searchResults) => {
         if (searchErr) {
@@ -146,9 +155,6 @@ async function connectAndStartServer()
       connection.release(); 
     });
 
-
-
-    
   });
 
 
@@ -172,6 +178,9 @@ async function connectAndStartServer()
       pics,
       pricePerNight,
       email,
+      base_price,
+      serviceCharge,
+      number_of_days
     } = req.body;
 
     console.log(req.body);
@@ -200,11 +209,11 @@ async function connectAndStartServer()
           console.log('USER UID extracted successfully');
           const userUID = userResults[0].UID;
   
-          const listingSql = `INSERT INTO PROPERTY (Property_title, Zipcode, Num_of_guests, Price_per_night, Created, Check_in_date, Check_out_date, Num_of_ratings, Avg_ratings, UID, City, Country, Description, Num_of_rooms, Address_line, Category, Num_of_bedrooms, Num_of_bathrooms, Num_of_beds,pics ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+          const listingSql = `INSERT INTO PROPERTY (Property_title, Zipcode, Num_of_guests, Price_per_night, Created, Check_in_date, Check_out_date, Num_of_ratings, Avg_ratings, UID, City, Country, Description, Num_of_rooms, Address_line, Category, Num_of_bedrooms, Num_of_bathrooms, Num_of_beds, pics, service_fee, base_fee, num_of_days ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
           
           const price = parseFloat(pricePerNight);
   
-          const listingValues = [property_title, zipcode, guest_count, price, currentDate, formattedStartDate, formattedEndDate, '0', '0.0', userUID, state, country, description, room_count, address_line, property_category, bedroom_count, bathroom_count, bed_count, pics];
+          const listingValues = [property_title, zipcode, guest_count, price, currentDate, formattedStartDate, formattedEndDate, '0', '0.0', userUID, state, country, description, room_count, address_line, property_category, bedroom_count, bathroom_count, bed_count, pics, serviceCharge, base_price, number_of_days];
   
           connection.query(listingSql, listingValues, (listingErr, listingResults) => {
             if (listingErr) {
@@ -249,24 +258,73 @@ async function connectAndStartServer()
       });
     });
   });
+
+  app.get('/getReservations/:userEmail', (req, res) => {
+    const userEmail = req.params.userEmail;
+  
+    pool.getConnection((err, connection) => {
+      if (err) throw err;
+      var sql = `SELECT UID FROM USER WHERE Email = '${userEmail}'`;
+      connection.query(sql, function (err, results, fields) {
+        if (err) throw err;
+        const userUID = results[0].UID;
+  
+        const fetchSql = `SELECT * FROM GUEST WHERE UID = ?`;
+        const fetchValues = userUID;
+        connection.query(fetchSql, fetchValues, (fetchErr, fetchResults) => {
+          if (err) throw err;
+          const guestID=fetchResults[0].GID;
+
+          const againSql = `SELECT
+          u.*, g.GID, g.Guest_rating_num, g.Avg_rating AS Guest_Avg_rating,
+          r.RID, r.PID, r.Check_in_date, r.Check_out_date, r.number_of_days, r.total_price,
+          p.*
+      FROM user u JOIN guest g ON u.UID = g.UID JOIN reservations r ON g.GID = r.GID
+      JOIN property p ON r.PID = p.PID
+      WHERE
+          g.GID = ?`;
+          const againValues = [guestID];
+
+          connection.query(againSql, againValues, (fetchErr, againResults) => {
+
+          console.log("listings are");
+          console.log(againResults);
+          res.json(againResults);
+          });
+        });
+      });
+      connection.release();
+    });
+  });
+
   
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  app.post('/confirm-reservation', async (req, res) => {
+    const { PID, checkin, em } = req.body;
   
+    pool.getConnection((err, connection) => {
+      if (err) throw err;
+      var sql = `SELECT UID FROM user WHERE Email = '${email}'`;
+      connection.query(sql, function (err, results, fields) {
+        if (err) throw err;
+        const guestSql = `INSERT INTO GUEST (UID, Guest_rating_num, Avg_rating) VALUES (?,?,?)`;
+        const guestValues = [results[0].UID, '0','0.0'];
+        connection.query(guestSql, guestValues, (guestErr, guestResults) => {
+          console.log("GUEST inserted successfully for reservations!");
 
+          //check if the property with the given PID is already reserved or not. 
+          // no need! We can take care
+
+          const checkSql = `SELECT ID FROM `;
+        const guestValues = [results[0].UID, '0','0.0'];
+
+
+        });
+      });
+      connection.release();
+    });
+  });
+  
 
   app.get('/getListings/:userEmail', (req, res) => {
     const userEmail = req.params.userEmail;

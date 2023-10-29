@@ -439,10 +439,10 @@
 }
 .viewDetailsChild {
   position: absolute;
-  top: 162px;
+  top: 120px;
   left: 79px;
   width: 1349px;
-  height: 436px;
+  height: 480px;
   object-fit: cover;
 }
 .heading1 {
@@ -1222,7 +1222,7 @@
   position: absolute;
   top: 889px;
   left: 76px;
-  text-transform: lowercase;
+ 
   font-family: var(--font-poppins);
   color: var(--color-black);
   text-align: justify;
@@ -1304,7 +1304,7 @@
 }
 .divb9672i71 {
   position: absolute;
-  top: 3771px;
+  top: 3650px;
   left: 106px;
   width: 653.32px;
   height: 47.6px;
@@ -1343,7 +1343,7 @@
 .realPrice {
   position: absolute;
   top: 0;
-  width: 60px;
+  width: 300px;
 }
 .div3 {
   left: 0;
@@ -1371,7 +1371,7 @@
   position: absolute;
   top: 2.4px;
   left: 1px;
-  width: 143.51px;
+  width: 190.51px;
   height: 45.8px;
 }
 .divTekaj0 {
@@ -1887,12 +1887,19 @@
   border-radius: 50%;
   background-color: var(--color-black);
 }
-.barchart,
+
 .ratingpiechart {
   position: absolute;
-  top: 127px;
+  top: 150px;
   left: 1px;
-  background-color: var(--color-gainsboro-200);
+  width: 475px;
+  height: 352px;
+}
+
+.barchart {
+  position: absolute;
+  top: 100px;
+  left: 1px;
   width: 475px;
   height: 352px;
 }
@@ -1944,7 +1951,7 @@
 .reviewcomponent,
 .reviewcomponent1 {
   position: absolute;
-  top: 546px;
+  top: 450px;
   left: 7px;
   width: 1326px;
   height: 217px;
@@ -1952,7 +1959,7 @@
   cursor: pointer;
 }
 .reviewcomponent1 {
-  top: 762px;
+  top: 640px;
 }
 .reviewframe,
 .reviewframeItem {
@@ -2015,7 +2022,7 @@
 }
 .profileIcon {
   position: absolute;
-  top: 42px;
+  top: 43px;
   left: 1398px;
   width: 77px;
   height: 36.91px;
@@ -2244,6 +2251,7 @@
 }
 .contactUs {
   position: absolute;
+  width: 100px;
   top: 7px;
   left: 0;
   font-size: 11px;
@@ -2327,10 +2335,9 @@
   color: var(--color-gray-100);
 }
 .stickyNavBar {
- 
+  position: absolute;
   top: -19px;
   left: 0;
-  position: fixed;
   width: 1760px;
   height: 432px;
   overflow: hidden;
@@ -2341,7 +2348,7 @@
   position: relative;
   background-color: var(--shade-01);
   width: 100%;
-  height: 4374px;
+  height: 4250px;
   overflow: hidden;
   text-align: left;
   font-size: var(--font-size-base);

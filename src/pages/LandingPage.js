@@ -416,7 +416,7 @@ const handleSubmit = (e) => {
                 required={true}
                 size="medium"
                 sx={{ width: 425 }}
-                placeholder="Enter Destination"
+                placeholder="Enter Country or City"
                 fullWidth={true}
                 variant="outlined"
                 type="text"

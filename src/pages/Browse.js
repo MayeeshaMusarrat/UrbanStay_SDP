@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Browse.module.css";
 import ViewDetails from "./ViewDetails";
 import ReactDOM from 'react-dom';
+import { format } from "date-fns";
 
 
 const Browse = ({ onClose }) => {
@@ -25,6 +26,12 @@ const Browse = ({ onClose }) => {
   const openFrame = () => {
     navigate("/view-details");
   }
+  
+  function formatDateDisplay(date, defaultText) {
+    if (!date) return defaultText;
+    return format(date, "d MMM, yyyy");
+}
+
 
 
   /***************** I am extracting the parameters to be sent to nodeJS backend **************/
@@ -44,10 +51,12 @@ const Browse = ({ onClose }) => {
   checkIn = checkIn.toISOString().split('T')[0];
   checkOut = checkOut.toISOString().split('T')[0];
 
+  const [resultCount, setResultCount] = useState(0);
+
 
   /**************************** End ***********************************************************/
 
-
+//  dates: `${checkin_date_result} - ${checkout_date_result}`,
 
   const [propertyData, setPropertyData] = useState([]);
 
@@ -56,7 +65,7 @@ const Browse = ({ onClose }) => {
       .then(response => response.json())
       .then(data => {
         console.log("data: ",data);
-          
+       
         const formattedPropertyData = data.searchResults.map(result => ({
           
           PID: result.PID,
@@ -69,7 +78,8 @@ const Browse = ({ onClose }) => {
           beds: result.Num_of_beds,
           description: result.description,
           destination: `${result.City}, ${result.Country}`,
-          dates: `${result.Check_in_date} to ${result.Check_out_date}`,
+          checkin_date_result: result.Check_in_date,
+          checkout_date_result: result.Check_out_date, 
           price: result.Price_per_night,
           rating: result.Avg_ratings,
           rating_num: result.Num_of_ratings,
@@ -82,6 +92,8 @@ const Browse = ({ onClose }) => {
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
+
+
 
 
 
@@ -380,30 +392,32 @@ const Browse = ({ onClose }) => {
 
        {
         <div className={styles.somanypropertycardsFrame}>
-    {propertyData.map((property, index) => (
-          <div key={index} className={styles.card} onClick={() => openPropertyFrame(property)}>
-            <img className={styles.imageIcon} src={property.imageUrl} alt="" />
-            <img className={styles.heartIcon} src="/heart.svg" alt="" />
-            <div className={styles.locationDates}>
-              <div className={styles.info}>
-                <b className={styles.line1}>{property.property_title}</b>
-                <div className={styles.dates}>{property.destination}</div>
-              {/*  <div className={styles.dates}>{property.dates}</div> */}
-              </div>
-              <div className={styles.price}>
-                <div className={styles.dates}>
-                  <b>${property.price}</b>
-                  <span> night</span>
+
+          {propertyData.map((property, index) => (
+            
+                <div key={index} className={styles.card} onClick={() => openPropertyFrame(property)}>
+                  <img className={styles.imageIcon} src={property.imageUrl} alt="" />
+                  <img className={styles.heartIcon} src="/heart.svg" alt="" />
+                  <div className={styles.locationDates}>
+                    <div className={styles.info}>
+                      <b className={styles.line1}>{property.property_title}</b>
+                      <div className={styles.dates}>{property.destination}</div>
+                    {  <div className={styles.dates}>{formatDateDisplay(new Date (property.checkin_date_result))+ ' - ' + formatDateDisplay(new Date (property.checkout_date_result))}</div> }
+                    </div>
+                    <div className={styles.price}>
+                      <div className={styles.dates}>
+                        <b>BDT {property.price}</b>
+                        <span> night</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.star}>
+                    <img className={styles.starChild} src="/star-1.svg" alt="" />
+                    <div className={styles.dates}>{property.rating}</div>
+                  </div>
+                  <img className={styles.ellipsesIcon} src="/ellipses.svg" alt="" />
                 </div>
-              </div>
-            </div>
-            <div className={styles.star}>
-              <img className={styles.starChild} src="/star-1.svg" alt="" />
-              <div className={styles.dates}>{property.rating}</div>
-            </div>
-            <img className={styles.ellipsesIcon} src="/ellipses.svg" alt="" />
-          </div>
-        ))}
+              ))}
        
         </div>
 
@@ -438,7 +452,7 @@ const Browse = ({ onClose }) => {
             <FormHelperText />
           </FormControl>
         </div>
-        <div className={styles.showing647Places}>Showing 1 Place</div>
+        <div className={styles.showing647Places}>{"Showing "+propertyData.length+" Places"}</div>
         <div className={styles.browseChild} data-scroll-to="rectangle" />
         <div className={styles.stickyNavBar}>
           <div className={styles.whiterectangle} />
@@ -495,7 +509,7 @@ const Browse = ({ onClose }) => {
                   className={styles.destination}
                   color="info"
                   size="medium"
-                  placeholder="Enter Destination"
+                  placeholder="Enter Country or City"
                   fullWidth={true}
                   variant="outlined"
                   type="text"

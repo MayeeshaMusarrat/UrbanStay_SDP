@@ -21,7 +21,7 @@ function ImageUpload() {
             'content-type': 'multipart/form-data',
           },
           params: {
-            key: '055cb9e89409d46aa99efa68098b0aae', // Replace with your ImgBB API key
+            key: '055cb9e89409d46aa99efa68098b0aae', 
           },
         });
 

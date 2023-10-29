@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./ConfirmListing.module.css";
 
 import axios from 'axios';
+import { setDayWithOptions } from "date-fns/fp";
 
 const ConfirmListing = () => {
 
@@ -34,7 +35,8 @@ const ConfirmListing = () => {
   const [myPrice, setMyPrice] = useState(null);
   const Property = JSON.parse(localStorage.getItem('Property'));
   const propertyURL = Property.pics;
-
+  const [days, setDays] = useState(null);
+ 
   useEffect(() => {
    
     if (Property) {
@@ -63,7 +65,8 @@ const ConfirmListing = () => {
         const endDate = new Date(availability[1]);
 
         const timeDiff = endDate - startDate;
-        const daysDiff = Math.floor(timeDiff / (24 * 60 * 60 * 1000));
+        const daysDiff = Math.floor(timeDiff / (24*60*60*1000));
+        setDays(daysDiff);
 
         const amenityBasePrices = {
            CCTV: 1,
@@ -83,7 +86,7 @@ const ConfirmListing = () => {
             }
           });
 
-          bprice += (area*5);
+          bprice += (area*50);
           setTotalPrice(scharge + bprice);
           setBasePrice(bprice);
           setServiceCharge(scharge);
@@ -91,8 +94,6 @@ const ConfirmListing = () => {
           console.log("Service charge: ", scharge);
     
     }
-
-   
 
 
   }, []);
@@ -122,7 +123,11 @@ const ConfirmListing = () => {
             amenities: Property.amenities,
             pics: Property.pics,
             pricePerNight: totalPrice, 
-            email: email
+            email: email,
+            base_price: basePrice,
+            serviceCharge: serviceCharge,
+            number_of_days: days,
+            
            
     };
     
@@ -211,7 +216,7 @@ const ConfirmListing = () => {
               <span
                 className={styles.pricePerNight}
               >{`Price per night: `}</span>
-              <span>{totalPrice}$</span>
+              <span>{totalPrice + ' BDT'}</span>
             </span>
           </div>
         </div>
@@ -219,10 +224,10 @@ const ConfirmListing = () => {
         <div className={styles.priceTable}>{`Price Table (per night) `}</div>
         <b className={styles.total}>Total</b>
         <div className={styles.basePrice}>Base price</div>
-        <div className={styles.div}>{basePrice}$</div>
-        <div className={styles.div1}>{serviceCharge}$</div>
+        <div className={styles.div}>{basePrice+ ' BDT'}</div>
+        <div className={styles.div1}>{serviceCharge+ ' BDT'}</div>
         <div className={styles.serviceFee}>Service Fee</div>
-        <b className={styles.b}>{totalPrice}$</b>
+        <b className={styles.b}>{totalPrice+ ' BDT'}</b>
        {/* <div className={styles.yourRevenue}>Your Revenue</div> */}
         <div
           className={styles.urbanstayFixesA}

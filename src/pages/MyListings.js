@@ -44,7 +44,7 @@ const rows = data.map((item) => ({
    
   id: item.PID, 
   Property: item.Property_title,
-  Status: 'Available', 
+  Status: 'Available', //check from backend STUPID, hudai available bollei hobe naki
   bedrooms: item.Num_of_bedrooms,
   beds: item.Num_of_beds,
   baths: item.Num_of_bathrooms,
@@ -53,7 +53,7 @@ const rows = data.map((item) => ({
   location: item.City,
   Check_in: new Date(item.Check_in_date).toISOString().split('T')[0],
   Check_out: new Date(item.Check_out_date).toISOString().split('T')[0], 
-  price: item.Price_per_night+'$',
+  price: item.Price_per_night+' BDT',
   ratings: item.Avg_ratings
   
 }));

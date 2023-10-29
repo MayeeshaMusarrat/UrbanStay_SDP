@@ -7,11 +7,101 @@ import styles from "./ViewDetails.module.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import DateRangeSelector from "../components/DateRangeSelector";
 import { useParams } from 'react-router-dom';
+import { PieChart } from '@mui/x-charts/PieChart';
+import { BarChart } from '@mui/x-charts/BarChart';
+import { axisClasses } from '@mui/x-charts';
 
 const ViewDetails = ({ onClose }) => {
   const { prop } = useParams();
   const decodedPropValueString = decodeURIComponent(prop);
   const propValue = JSON.parse(decodedPropValueString);
+
+  /* pic chart stuff */
+  const chartSetting = {
+   
+    width: 700,
+    height: 300,
+    sx: {
+      [`.${axisClasses.left} .${axisClasses.label}`]: {
+        transform: 'rotate(-90deg) translate(0px, -10px)',
+      },
+    },
+  };
+
+
+  /// use useEffect and PID from propValue to fetch the amenities and show them in a list here!
+  /// also do this for the reviews! 
+
+
+  /**************   barchart stuff */
+
+  const dataset = [
+    { //ekahne stars gula likhbo
+      five: 100,
+      four: 20,
+      three: 5,
+      two: 0,
+      one: 10,
+      month: 'Wifi',
+    },
+    {
+      five: 250,
+      four: 20,
+      three: 50,
+      two: 30,
+      one: 2,
+      month: 'Parking',
+    },
+    {
+      five: 150,
+      four: 12,
+      three: 5,
+      two: 0,
+      one: 5,
+      month: 'Patio',
+    },
+    {
+      five: 50,
+      four: 20,
+      three: 14,
+      two: 0,
+      one: 100,
+      month: 'Scenery',
+    },
+    {
+      five: 100,
+      four: 20,
+      three: 5,
+      two: 0,
+      one: 100,
+      month: 'Accuracy',
+    },
+    {
+      five: 100,
+      four: 20,
+      three: 5,
+      two: 0,
+      one: 100,
+      month: 'Reception',
+    },
+    {
+      five: 100,
+      four: 20,
+      three: 5,
+      two: 0,
+      one: 100,
+      month: 'Cleanliness',
+    },
+  ];
+  
+
+
+
+
+
+
+
+  
 
   const storedValue = localStorage.getItem('email');
   const [loggedIn, setLoggedIn] = useState(storedValue);
@@ -129,6 +219,14 @@ const ViewDetails = ({ onClose }) => {
   const onItemLink11Click = useCallback(() => {
     navigate("/");
   }, [navigate]);
+
+
+  const handleSubmit = (property) => {
+    const propertyParam = encodeURIComponent(JSON.stringify(property));
+    navigate(`/confirm-reservation/${propertyParam}`);
+    
+  };
+
 
   return (
     <>
@@ -351,6 +449,7 @@ const ViewDetails = ({ onClose }) => {
         </div>
         <div className={styles.div88xxct}>
           <div className={styles.div1jdtwz4}>
+
             <div className={styles.divC2acbpmargin}>
               <div className={styles.button}>
                 <div className={styles.div5kaapu}>
@@ -361,6 +460,7 @@ const ViewDetails = ({ onClose }) => {
                 </div>
               </div>
             </div>
+
             <div className={styles.divh2d611e11b6}>
               <div className={styles.buttonAddToWishlist}>
                 <div className={styles.div5kaapu1}>
@@ -636,14 +736,18 @@ const ViewDetails = ({ onClose }) => {
                 src="/divs197t1q2margin.svg"
               />
               <div className={styles.divr1lutz1s}>
-                <div className={styles.div}>{propValue.rating}</div>
+                <span className={styles.div}>{propValue.rating}</span>
               </div>
               <div className={styles.spanh2dDc59958f}>
                 <div className={styles.div}>·</div>
               </div>
+
+              
               <div className={styles.link18}>
-                <div className={styles.reviews}>{propValue.rating_num+' reviews'}</div>
+                <span className={styles.reviews}>{propValue.rating_num+' reviews'}</span>
               </div>
+              
+
             </div>
           </div>
         </div>
@@ -651,7 +755,32 @@ const ViewDetails = ({ onClose }) => {
          {propValue.description}
         </div>
         <div className={styles.location} data-scroll-to="locationContainer">
-          <div className={styles.mapPicture} />
+
+
+
+          <div className={styles.mapPicture} >
+
+            {/* <MapContainer center={position} zoom={13}>
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        <Marker position={position}>
+          <Popup>A sample marker with a popup.</Popup>
+        </Marker>
+      </MapContainer>
+        */}
+
+
+
+
+
+
+          </div>
+
+
+
+
           <div className={styles.whereYoullBe}>Where You’ll Be</div>
           <div className={styles.groupParent}>
             <img className={styles.groupIcon} alt="" src="/group-1991.svg" />
@@ -671,20 +800,13 @@ const ViewDetails = ({ onClose }) => {
         <div className={styles.divh2dCa0a0170}>
           <div className={styles.priceCard}>
             <div className={styles.div1fl88fo}>
-              <div className={styles.divWgmchy}>
+            
                 <div className={styles.slicedPriceParent}>
-                  <div className={styles.slicedPrice}>
-                    <div className={styles.div2}>
-                      <span className={styles.txt}>
-                        <span className={styles.span}>{'$'+propValue.price}</span>
-                        <span className={styles.span1}> </span>
-                      </span>
-                    </div>
-                  </div>
-                  <div className={styles.realPrice}>
-                    <div className={styles.div3}>{'$'+propValue.price}</div>
-                  </div>
-                  <div className={styles.night}>night</div>
+           
+                
+                    <div className={styles.div3}>{'BDT '+propValue.price+ ' Night'}</div>
+                  
+                 
                 </div>
                 <div className={styles.divP03egfmargin}>
                   <div className={styles.divP03egf}>
@@ -764,14 +886,14 @@ const ViewDetails = ({ onClose }) => {
                   
 
                   <div className={styles.spanc9x5udt} >
-                    <div className={styles.reserve} >Reserve</div>
+                    <div className={styles.reserve} onClick={() => handleSubmit(propValue)} >Reserve</div>
                   </div>
 
 
 
 
                 </div>
-              </div>
+             
               <div className={styles.div1o0c7xj}>
                 <div className={styles.youWontBe}>You won't be charged yet</div>
               </div>
@@ -824,8 +946,60 @@ const ViewDetails = ({ onClose }) => {
           <div className={styles.reviews1}>Reviews</div>
           <div className={styles.reviews2}>15 Reviews</div>
           <div className={styles.reviewframeChild} />
-          <div className={styles.ratingpiechart} id="pi" />
-          <div className={styles.barchart} id="pi" />
+
+
+          <div className={styles.ratingpiechart} id="pi" >
+
+          <PieChart
+              series={[
+                {
+                  data: [
+                    { id: 0, value: 100, label: '5 stars' },
+                    { id: 1, value: 30, label: '4 Stars' },
+                    { id: 2, value: 15, label: '3 stars' },
+                    { id: 3, value: 10, label: '2 stars' },
+                    { id: 4, value: 5, label: '1 stars' },
+                  ],
+                  innerRadius: 30,
+                  outerRadius: 100,
+                  paddingAngle: 5,
+                  cornerRadius: 5,
+                  startAngle: -90,
+                  endAngle: 180,
+                  cx: 150,
+                  cy: 95,
+                },
+              ]}
+              width={400}
+              height={200}
+            />
+
+          </div>
+
+
+
+
+
+          <div className={styles.barchart} id="pi" >
+            <BarChart
+            dataset={dataset}
+            xAxis={[{ scaleType: 'band', dataKey: 'month' }]}
+            series={[
+              { dataKey: 'five', label: '5 Stars', stack:'A' }, //london ar paris eke onner upore ase! //london 5 star
+              { dataKey: 'four', label: '4 Stars', stack:'A' },
+              { dataKey: 'three', label: '3 Stars', stack: 'A' },
+              { dataKey: 'two', label: '2 Stars',  stack: 'A' },
+              { dataKey: 'one', label: '1 Star',  stack: 'A' }
+            ]}
+            
+            {...chartSetting}
+          />
+
+          </div>
+
+
+
+
           <div
             className={styles.reviewcomponent}
             onClick={openReviewDetailsPopup}
@@ -870,6 +1044,11 @@ const ViewDetails = ({ onClose }) => {
           </div>
           <img className={styles.reviewframeItem} alt="" src="/star-2.svg" />
         </div>
+
+
+
+
+
         <div className={styles.stickyNavBar}>
           <div className={styles.whiterectangle} />
           <div

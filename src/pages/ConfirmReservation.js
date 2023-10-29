@@ -3,8 +3,14 @@ import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
 import styles from "./ConfirmReservation.module.css";
+import { useParams } from 'react-router-dom';
+
 
 const ConfirmReservation = () => {
+
+  const { propertyParam } = useParams();
+  const decodedPropValueString = decodeURIComponent(propertyParam);
+  const propValue = JSON.parse(decodedPropValueString);
   
   const [popup, setPopup] = useState(false);
 
@@ -36,8 +42,49 @@ const ConfirmReservation = () => {
     setSignoutConfirmationPopupOpen(false);
   }, []);
 
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const em = localStorage.getItem('email');
+    const reserveProperty = {
+      PID: propValue.PID,
+      checkin: propValue.dates,
+      email: em
+    };
+
+    fetch("http://localhost:5001/confirm-reservation", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reserveProperty),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          navigate("/myReservations");
+          return response.json();
+        } 
+      })
+      .catch((error) => {
+        console.log("Error occurred:", error);
+      
+      });
+  };
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <>
+    <form> 
       <div className={styles.confirmReservation}>
         <div className={styles.footer}>
           <div className={styles.divfooterTop}>
@@ -258,11 +305,11 @@ const ConfirmReservation = () => {
         </div>
         <div className={styles.h3Group}>
           <div className={styles.h35}>Rooms</div>
-          <div className={styles.h36}>2 Rooms</div>
+          <div className={styles.h36}>{propValue.rooms_prop + ' Rooms'}</div>
         </div>
         <div className={styles.h3Container}>
           <div className={styles.h37}>Guests</div>
-          <div className={styles.h38}>3 guests</div>
+          <div className={styles.h38}>{propValue.guests_prop + ' Guests'}</div>
         </div>
         <div className={styles.confirmReservationChild} />
         <div className={styles.confirmReservationItem} />
@@ -272,7 +319,7 @@ const ConfirmReservation = () => {
           className={styles.confirmpaymentbtn}
           onClick={onConfirmPaymentBtnContainerClick}
         >
-          <button className={styles.confirmAndPay}>Confirm and Pay</button>
+          <button className={styles.confirmAndPay} type = "submit" onClick = {handleSubmit} >Confirm and Pay </button>
         </div>
         <div className={styles.card}>
           <div className={styles.rectangleParent}>
@@ -280,7 +327,7 @@ const ConfirmReservation = () => {
             <div className={styles.line28Parent}>
               <div className={styles.line28}>500 x 5 nights</div>
               <div className={styles.line33}>Total (USD)</div>
-              <div className={styles.line34}>$2,400</div>
+              <div className={styles.line34}>{'$'+propValue.price}</div>
               <div className={styles.groupItem} />
               <div className={styles.line30}>Cleaning fee</div>
               <div className={styles.line31}>Service fee</div>
@@ -298,19 +345,19 @@ const ConfirmReservation = () => {
                     alt=""
                     src="/star-1.svg"
                   />
-                  <div className={styles.div}>4.66</div>
+                  <div className={styles.div}>{propValue.rating}</div>
                 </div>
-                <div className={styles.reviews}>(110 reviews)</div>
+                <div className={styles.reviews}>{'('+propValue.rating_num+' reviews)'}</div>
               </div>
             </div>
             <div className={styles.line21}>
-              Glacier Pines Cabin (New Hot Tub Installed!)
+              {propValue.property_title}
             </div>
-            <div className={styles.line20}>Entire cabin</div>
+        
             <img
               className={styles.rectangleIcon}
               alt=""
-              src="/rectangle-8@2x.png"
+              src={propValue.imageUrl}
             />
           </div>
         </div>
@@ -334,6 +381,8 @@ const ConfirmReservation = () => {
             src="/profile-icon@2x.png"
             onClick = {toggle}
           />
+
+ 
           { popup && (
           <div className={styles.signinPopupWithSignout}>
             <div className={styles.loginPopupWithLogoutGrp}>
@@ -369,6 +418,7 @@ const ConfirmReservation = () => {
           )}
         </div>
       </div>
+      
       {isSignoutConfirmationPopupOpen && (
         <PortalPopup
           overlayColor="rgba(113, 113, 113, 0.3)"
@@ -378,6 +428,7 @@ const ConfirmReservation = () => {
           <SignoutConfirmationPopup onClose={closeSignoutConfirmationPopup} />
         </PortalPopup>
       )}
+    </form>
     </>
   );
 };
