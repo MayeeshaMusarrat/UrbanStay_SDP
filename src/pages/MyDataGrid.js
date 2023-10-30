@@ -5,12 +5,23 @@ import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
 import styles from "./MyListings.module.css";
 import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridApi, GridCellValue } from '@mui/x-data-grid';
 import Rating from '@mui/material/Rating';
+import Button from "@mui/material/Button";
 
 function MyDataGrid({ data }) {
   
-const columns = [
+const columns: GridColDef[] = [
+  /*{
+    field: "action",
+    headerName: "Action",
+    sortable: false,
+    renderCell: () => {
+      return <Button>Click</Button>;
+    }
+  },*/
+
+
     {
       field: 'Property',
       headerName: 'Property',
@@ -75,7 +86,7 @@ const columns = [
     },
     {
       field: 'price',
-      headerName: 'Total Price',
+      headerName: 'Price/night',
       width: 110,
       
     },

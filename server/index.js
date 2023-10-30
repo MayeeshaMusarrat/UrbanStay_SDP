@@ -87,6 +87,8 @@ async function connectAndStartServer()
 
   app.post('/signin-page', async (req, res) => {
     const { email, password } = req.body;
+
+    console.log("sign in");
   
     pool.getConnection((err, connection) => {
       if (err) throw err;
@@ -118,6 +120,8 @@ async function connectAndStartServer()
 
 
   /********************************** Browse   */ 
+
+
 
 
   app.get('/browse', async (req, res) => {
@@ -156,6 +160,59 @@ async function connectAndStartServer()
     });
 
   });
+
+
+  app.get('/getUserData', (req, res) => {
+    const { email } = req.query;
+  
+    console.log(req.query);
+  
+    pool.getConnection((err, connection) => {
+      if (err) {
+        console.error('Error getting a database connection:', err);
+        return res.status(500).json({ message: 'Database Connection Error' });
+      }
+  
+      const sql = `SELECT UID FROM user WHERE Email = ?`;
+      connection.query(sql, [email], (err, results) => {
+        if (err) {
+          connection.release();
+          console.error('Error querying UID:', err);
+          return res.status(500).json({ message: 'Fetching Error' });
+        }
+  
+        if (results.length > 0) {
+          const userSql = `SELECT * FROM USER WHERE UID = ?`;
+          const userValues = [results[0].UID];
+          connection.query(userSql, userValues, (userErr, userResults) => {
+            if (userErr) {
+              connection.release();
+              console.error('Error querying user data:', userErr);
+              return res.status(500).json({ message: 'Fetching Error' });
+            }
+  
+            const hostSql = `SELECT * FROM HOST WHERE UID = ?`;
+            const hostValues = [userResults[0].UID];
+            connection.query(hostSql, hostValues, (hostErr, hostResults) => {
+              connection.release();
+  
+              if (hostErr) {
+                console.error('Error querying host data:', hostErr);
+                return res.status(500).json({ message: 'Fetching Error' });
+              }
+  
+              console.log('Data fetched from user successfully.');
+              res.json({ userResults, hostResults });
+            });
+          });
+        } else {
+          connection.release();
+          res.status(404).json({ message: 'User not found' });
+        }
+      });
+    });
+  });
+  
 
 
   app.post('/confirm-listing', async (req, res) => {
@@ -209,11 +266,11 @@ async function connectAndStartServer()
           console.log('USER UID extracted successfully');
           const userUID = userResults[0].UID;
   
-          const listingSql = `INSERT INTO PROPERTY (Property_title, Zipcode, Num_of_guests, Price_per_night, Created, Check_in_date, Check_out_date, Num_of_ratings, Avg_ratings, UID, City, Country, Description, Num_of_rooms, Address_line, Category, Num_of_bedrooms, Num_of_bathrooms, Num_of_beds, pics, service_fee, base_fee, num_of_days ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+          const listingSql = `INSERT INTO PROPERTY (Property_title, Zipcode, Num_of_guests, Price_per_night, Created, Check_in_date, Check_out_date, Num_of_ratings, Avg_ratings, UID, City, Country, Description, Num_of_rooms, Address_line, Category, Num_of_bedrooms, Num_of_bathrooms, Num_of_beds, pics, service_fee, base_fee, num_of_days, Area ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
           
           const price = parseFloat(pricePerNight);
   
-          const listingValues = [property_title, zipcode, guest_count, price, currentDate, formattedStartDate, formattedEndDate, '0', '0.0', userUID, state, country, description, room_count, address_line, property_category, bedroom_count, bathroom_count, bed_count, pics, serviceCharge, base_price, number_of_days];
+          const listingValues = [property_title, zipcode, guest_count, price, currentDate, formattedStartDate, formattedEndDate, '0', '0.0', userUID, state, country, description, room_count, address_line, property_category, bedroom_count, bathroom_count, bed_count, pics, serviceCharge, base_price, number_of_days, area];
   
           connection.query(listingSql, listingValues, (listingErr, listingResults) => {
             if (listingErr) {
@@ -259,6 +316,8 @@ async function connectAndStartServer()
     });
   });
 
+
+  /*
   app.get('/getReservations/:userEmail', (req, res) => {
     const userEmail = req.params.userEmail;
   
@@ -296,11 +355,12 @@ async function connectAndStartServer()
       connection.release();
     });
   });
+  */
 
   
 
-  app.post('/confirm-reservation', async (req, res) => {
-    const { PID, checkin, em } = req.body;
+ /* app.post('/confirm-reservation', async (req, res) => {
+    const { PID, checkIn, checkOut, em } = req.body;
   
     pool.getConnection((err, connection) => {
       if (err) throw err;
@@ -313,17 +373,17 @@ async function connectAndStartServer()
           console.log("GUEST inserted successfully for reservations!");
 
           //check if the property with the given PID is already reserved or not. 
-          // no need! We can take care
+          // no need! We can take care from browse page maybe.
 
-          const checkSql = `SELECT ID FROM `;
-        const guestValues = [results[0].UID, '0','0.0'];
+        const reserveSql = `INSERT  `;
+        const reserveValues = [results[0].UID, '0','0.0'];
 
 
         });
       });
       connection.release();
     });
-  });
+  });*/
   
 
   app.get('/getListings/:userEmail', (req, res) => {

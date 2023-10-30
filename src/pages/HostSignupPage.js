@@ -125,7 +125,8 @@ const [selectedFiles, setSelectedFiles] = useState([]);
       phone_number: phone,
       birthdate: birthdateInputDateTimePickerValue,
       email: email,
-      password: password
+      password: password,
+      profile_pic: imageUrls[0]
     };
   
     

@@ -537,7 +537,7 @@
   justify-content: flex-end;
 }
 .div88xxct {
-  top: calc(50% - 1560px);
+  top: calc(50% - 1500px);
   left: calc(50% + 512px);
   height: 34px;
   text-align: center;
@@ -1136,6 +1136,14 @@
   position: absolute;
   height: 20px;
 }
+.item19 {
+  top: 0;
+  position: absolute;
+  height: 20 px;
+  left: 290.04px;
+  width: 200px;
+  font-size: var(--font-size-base-5);
+}
 .item18 {
   top: 0;
   left: 222.04px;
@@ -1144,7 +1152,7 @@
 }
 .orderedList {
   width: calc(100% + 95px);
-  top: 30px;
+  top: 20px;
   right: -95px;
   left: 0;
 }
@@ -1159,6 +1167,7 @@
   position: absolute;
   top: 0;
   left: 0;
+  width: 200px;
   line-height: 20px;
   font-weight: 600;
 }
@@ -1684,8 +1693,9 @@
   line-height: 20px;
 }
 .div6 {
-  left: 273.76px;
+  left: 240.76px;
   font-size: var(--font-size-base);
+  width: 100px;
 }
 .perNightStayPrice {
   position: absolute;
@@ -1708,8 +1718,9 @@
 }
 .div7 {
   top: 36px;
-  left: 288.83px;
+  left: 240.83px;
   font-size: 15.13px;
+ 
 }
 .div8,
 .serviceFee {
@@ -1717,7 +1728,7 @@
   left: 0;
 }
 .div8 {
-  left: 285.55px;
+  left: 275.55px;
 }
 .divh2dDaca06d3 {
   position: absolute;

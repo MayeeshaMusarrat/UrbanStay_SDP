@@ -17,11 +17,13 @@ import styles from "./Browse.module.css";
 import ViewDetails from "./ViewDetails";
 import ReactDOM from 'react-dom';
 import { format } from "date-fns";
+import axios from 'axios';
 
 
 const Browse = ({ onClose }) => {
 
   const [dateShow, setDateShow]  = useState("19 Oct, 2023 - 25 Oct, 2023");
+  
 
   const openFrame = () => {
     navigate("/view-details");
@@ -31,6 +33,7 @@ const Browse = ({ onClose }) => {
     if (!date) return defaultText;
     return format(date, "d MMM, yyyy");
 }
+
 
 
 
@@ -84,6 +87,9 @@ const Browse = ({ onClose }) => {
           rating: result.Avg_ratings,
           rating_num: result.Num_of_ratings,
           address: result.Address_line,
+          area: result.Area,
+          service_fee: result.service_fee,
+          base_fee: result.base_fee
           
         }));
         
@@ -92,6 +98,34 @@ const Browse = ({ onClose }) => {
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
+
+
+  const [selectedSortOption, setSelectedSortOption] = useState('default');
+
+  
+  useEffect(() => {
+  
+    const sortAndRenderCards = () => {
+      let sortedData = [...propertyData]; 
+
+      if (selectedSortOption === 'High to low price') {
+        sortedData.sort((a, b) => b.price - a.price);
+      } 
+      else if (selectedSortOption === 'Low to high price') {
+        sortedData.sort((a, b) => a.price - b.price);
+      }
+      else if (selectedSortOption === 'Large to small area') {
+        sortedData.sort((a, b) => b.area - a.area);
+      }
+      else if (selectedSortOption === 'Small to large area') {
+        sortedData.sort((a, b) => a.area - b.area);
+      }
+
+      setPropertyData(sortedData); 
+    };
+
+    sortAndRenderCards();
+  }, [selectedSortOption]);
 
 
 
@@ -394,7 +428,7 @@ const Browse = ({ onClose }) => {
         <div className={styles.somanypropertycardsFrame}>
 
           {propertyData.map((property, index) => (
-            
+
                 <div key={index} className={styles.card} onClick={() => openPropertyFrame(property)}>
                   <img className={styles.imageIcon} src={property.imageUrl} alt="" />
                   <img className={styles.heartIcon} src="/heart.svg" alt="" />
@@ -423,35 +457,35 @@ const Browse = ({ onClose }) => {
 
         }
 
-
-
-
-
-
         
+<div className={styles.sortByParent}>
+      <div className={styles.sortBy}>Sort By</div>
+      <FormControl className={styles.parent} sx={{ width: 298 }} variant="outlined">
+        <Select
+          onChange={(e) => setSelectedSortOption(e.target.value)}
+          id="sort-select"
+          color="info"
+          size="small"
+        >
+          <MenuItem value="High to low price">High to low price</MenuItem>
+          <MenuItem value="Low to high price">Low to high price</MenuItem>
+          <MenuItem value="Large to small area">
+            Large to small area
+          </MenuItem>
+          <MenuItem value="Small to large area">
+            Small to large area
+          </MenuItem>
+        </Select>
+        <FormHelperText />
+      </FormControl>
+    </div>
 
-        
-        <div className={styles.sortByParent}>
-          <div className={styles.sortBy}>Sort By</div>
-          <FormControl
-            className={styles.parent}
-            sx={{ width: 298 }}
-            variant="outlined"
-          >
-            <InputLabel color="info" />
-            <Select color="info" size="small">
-              <MenuItem value="High to low price">High to low price</MenuItem>
-              <MenuItem value="Low to high price">Low to high price</MenuItem>
-              <MenuItem value="Large to small area">
-                Large to small area
-              </MenuItem>
-              <MenuItem value="Small to large area">
-                Small to large area
-              </MenuItem>
-            </Select>
-            <FormHelperText />
-          </FormControl>
-        </div>
+
+
+
+
+
+
         <div className={styles.showing647Places}>{"Showing "+propertyData.length+" Places"}</div>
         <div className={styles.browseChild} data-scroll-to="rectangle" />
         <div className={styles.stickyNavBar}>

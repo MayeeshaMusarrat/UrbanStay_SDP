@@ -10,11 +10,42 @@ import { useParams } from 'react-router-dom';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts';
+import { format } from "date-fns";
 
 const ViewDetails = ({ onClose }) => {
   const { prop } = useParams();
   const decodedPropValueString = decodeURIComponent(prop);
   const propValue = JSON.parse(decodedPropValueString);
+
+  const datesCalendar = JSON.parse(localStorage.getItem('dateRange'));
+  const dates = {
+    startDate: datesCalendar.startDate,
+    endDate: datesCalendar.endDate,
+    key: datesCalendar.key
+  };
+  const checkIn = new Date(dates.startDate);
+  const checkOut = new Date(dates.endDate);
+
+  const user_guests = localStorage.getItem('Guests');
+  const user_rooms = localStorage.getItem('Rooms');
+
+ 
+  const timeDiff = checkOut - checkIn;
+  const daysDiff = Math.floor(timeDiff / (24*60*60*1000));
+  
+
+
+  function formatDateDisplay(date, defaultText) {
+    if (!date) return defaultText;
+    return format(date, "dd/MM/yyyy");
+}
+
+  const user_check_in = formatDateDisplay(checkIn);
+  const user_check_out = formatDateDisplay(checkOut);
+
+  const user_price_per_night = parseInt(propValue.price,10)*parseInt(daysDiff,10);
+
+
 
   /* pic chart stuff */
   const chartSetting = {
@@ -224,7 +255,6 @@ const ViewDetails = ({ onClose }) => {
   const handleSubmit = (property) => {
     const propertyParam = encodeURIComponent(JSON.stringify(property));
     navigate(`/confirm-reservation/${propertyParam}`);
-    
   };
 
 
@@ -449,6 +479,7 @@ const ViewDetails = ({ onClose }) => {
         </div>
         <div className={styles.div88xxct}>
           <div className={styles.div1jdtwz4}>
+
 
             <div className={styles.divC2acbpmargin}>
               <div className={styles.button}>
@@ -728,6 +759,11 @@ const ViewDetails = ({ onClose }) => {
               <div className={styles.item18}>
                 <div className={styles.bedrooms}>· {propValue.baths + ' baths'}</div>
               </div>
+              <div className={styles.item19}>
+                <div className={styles.bedrooms}>· {propValue.area + ' sq. feet'}</div>
+              </div>
+
+
             </div>
             <div className={styles.divrk4wssy}>
               <img
@@ -771,14 +807,7 @@ const ViewDetails = ({ onClose }) => {
       </MapContainer>
         */}
 
-
-
-
-
-
           </div>
-
-
 
 
           <div className={styles.whereYoullBe}>Where You’ll Be</div>
@@ -819,7 +848,7 @@ const ViewDetails = ({ onClose }) => {
                                 <div className={styles.div19y8o0j}>
                                   <div className={styles.divTekaj0}>
                                     <div className={styles.symbol}>
-                                      10/20/2023
+                                      {user_check_in}
                                     </div>
                                   </div>
                                   <div className={styles.divW149nr}>
@@ -831,7 +860,7 @@ const ViewDetails = ({ onClose }) => {
                                 <div className={styles.div48vms8s}>
                                   <div className={styles.divTekaj01}>
                                     <div className={styles.symbol}>
-                                      11/7/2023
+                                      {user_check_out}
                                     </div>
                                   </div>
                                   <div className={styles.divW149nr1}>
@@ -857,7 +886,7 @@ const ViewDetails = ({ onClose }) => {
                                   >
                                     <div className={styles.div1e5z145}>
                                       <div className={styles.symbol}>
-                                        2 guests
+                                        {user_guests + ' guests'}
                                       </div>
                                     </div>
                                   </div>
@@ -865,11 +894,7 @@ const ViewDetails = ({ onClose }) => {
                                     <div className={styles.checkIn}>Guests</div>
                                   </div>
                                 </div>
-                                <img
-                                  className={styles.divDdq2fyIcon}
-                                  alt=""
-                                  src="/div-ddq2fy.svg"
-                                />
+                              
                               </div>
                               <div className={styles.divfjvzknw1} />
                             </div>
@@ -900,22 +925,22 @@ const ViewDetails = ({ onClose }) => {
               <div className={styles.priceCardPriceSection}>
                 <div className={styles.section1}>
                   <div className={styles.perNightStayPrice}>
-                    <div className={styles.x18Nights}>$180 x 18 nights</div>
-                    <div className={styles.div6}>$3,237</div>
+                    <div className={styles.x18Nights}>{"BDT "+propValue.price + " x " + daysDiff + " nights"}</div>
+                    <div className={styles.div6}>{"BDT " + user_price_per_night}</div>
                   </div>
-                  <div className={styles.cleaningFee}>Cleaning fee</div>
-                  <div className={styles.div7}>$176</div>
+                  <div className={styles.cleaningFee}>Base fee</div>
+                  <div className={styles.div7}>{"BDT " + propValue.base_fee}</div>
                   <div className={styles.serviceFee}>Service fee</div>
-                  <div className={styles.div8}>$344</div>
+                  <div className={styles.div8}>{"BDT " + propValue.service_fee}</div>
                   <div className={styles.div6q0vike}>
                     <div className={styles.div3u0me7}>
                       <div className={styles.span18x3iiu}>
                         <div className={styles.divh2dDaca06d3}>
-                          <div className={styles.div}>{`Total  `}</div>
+                          <div className={styles.div}>{`Total:  `}</div>
                         </div>
                       </div>
                       <div className={styles.span1qs94rc}>
-                        <div className={styles.div}>$2,462</div>
+                        <div className={styles.div}>{"BDT " + user_price_per_night}</div>
                       </div>
                     </div>
                   </div>

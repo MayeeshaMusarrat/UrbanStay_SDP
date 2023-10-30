@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,24 @@ import { BarChart } from '@mui/x-charts/BarChart';
 const Profile = () => {
 
   const [popup, setPopup] = useState(false);
+
+  /*
+  const [userData, setUserData] = useState({ userResults: [], hostResults: [] });
+  const email = localStorage.getItem('email');
+  
+  useEffect(() => {
+    fetch(`http://localhost:5001/getUserData?email=${email}`)
+      .then((response) => response.json())
+      .then((data) => setUserData(data))
+      .catch((error) => console.error(error));
+  }, [email]);
+  
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
+
+  */
+
 
   const toggle = () => {
     setPopup(!popup);
@@ -263,13 +281,13 @@ const Profile = () => {
           </div>
         </div>
         <div className={styles.testimonialSection}>
-          <div className={styles.h3}>Welcome to Your Profile, Mayeesha!</div>
+          <div className={styles.h3}> </div>
         </div>
         <img className={styles.pseudoIcon} alt="" src="/pseudo1@2x.png" />
         <div className={styles.profileCardParent}>
           <div className={styles.profileCard}>
-            <img className={styles.usericon} alt="" src="/usericon1@2x.png" />
-            <div className={styles.mayeeshaMusarrat}>Mayeesha Musarrat</div>
+            <img className={styles.usericon} alt=""  />
+            <div className={styles.mayeeshaMusarrat}> </div>
             <div className={styles.profileCardChild} />
             <div className={styles.userjoin}>
               <img

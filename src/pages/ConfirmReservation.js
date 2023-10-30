@@ -48,7 +48,8 @@ const ConfirmReservation = () => {
     const em = localStorage.getItem('email');
     const reserveProperty = {
       PID: propValue.PID,
-      checkin: propValue.dates,
+      checkin: propValue.checkin_date_result,
+      checkout:propValue.checkout_date_result,
       email: em
     };
 
@@ -326,8 +327,8 @@ const ConfirmReservation = () => {
             <div className={styles.groupChild} />
             <div className={styles.line28Parent}>
               <div className={styles.line28}>500 x 5 nights</div>
-              <div className={styles.line33}>Total (USD)</div>
-              <div className={styles.line34}>{'$'+propValue.price}</div>
+              <div className={styles.line33}>Total (BDT)</div>
+              <div className={styles.line34}>{'BDT '+propValue.price}</div>
               <div className={styles.groupItem} />
               <div className={styles.line30}>Cleaning fee</div>
               <div className={styles.line31}>Service fee</div>

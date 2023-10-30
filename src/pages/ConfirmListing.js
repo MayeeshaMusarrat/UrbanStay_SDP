@@ -86,7 +86,7 @@ const ConfirmListing = () => {
             }
           });
 
-          bprice += (area*50);
+          bprice += (area*5);
           setTotalPrice(scharge + bprice);
           setBasePrice(bprice);
           setServiceCharge(scharge);

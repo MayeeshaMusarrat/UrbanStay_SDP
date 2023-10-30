@@ -4,9 +4,9 @@ import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
 import styles from "./MyReservations.module.css";
-
+import Button from "@mui/material/Button";
 import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridApi, GridCellValue } from '@mui/x-data-grid';
 
 
 const MyReservations = () => {
@@ -54,8 +54,32 @@ const MyReservations = () => {
   }));
 
   
-const columns = [
-  
+const columns: GridColDef[] = [
+  {
+    field: "action",
+    headerName: "Action",
+    sortable: false,
+    renderCell: (params) => {
+      const onClick = (e) => {
+        e.stopPropagation(); // don't select this row after clicking
+
+        const api: GridApi = params.api;
+        const thisRow: Record<string, GridCellValue> = {};
+
+        api
+          .getAllColumns()
+          .filter((c) => c.field !== "__check__" && !!c)
+          .forEach(
+            (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
+          );
+
+        return alert(JSON.stringify(thisRow, null, 4));
+      };
+
+      return <Button onClick={onClick}>Click</Button>;
+    }
+  },
+
   {
     field: 'Property',
     headerName: 'Property',
