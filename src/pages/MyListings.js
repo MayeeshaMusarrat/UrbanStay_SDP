@@ -319,7 +319,7 @@ const toggle = () => {
         <div className={styles.testimonialSectionParent}>
           <div className={styles.testimonialSection}>
             <div className={styles.h3}>
-              View all the properties hosted by you!
+              Filter Properties
             </div>
           </div>
           <img className={styles.pseudoIcon} alt="" src="/pseudo@2x.png" />
@@ -381,40 +381,7 @@ const toggle = () => {
           />
           </div>
 
-        { popup && (
-
-          <div className={styles.signinPopupWithSignout}>
-            <div className={styles.loginPopupWithLogoutGrp}>
-              <div className={styles.loginPopupWithLogoutGrpChild} />
-              <button
-                className={styles.becomehostbtn}
-                id="BecomeHost"
-                onClick={onBecomeHostBtnClick}
-              >
-                <button
-                  className={styles.becomeAHost}
-                >{`    Become a host `}</button>
-              </button>
-              <div className={styles.loginPopupWithLogoutGrpItem} />
-              <button className={styles.accsettingsbtn} id="accSettings">
-                <button className={styles.becomeAHost}>
-                  {" "}
-                  Account Settings
-                </button>
-              </button>
-              <button className={styles.wishlistbtn} id="wishlist">
-                <button className={styles.becomeAHost}> Wishlist</button>
-              </button>
-              <button
-                className={styles.signoutbtn}
-                id="signOut"
-                onClick={openSignoutConfirmationPopup}
-              >
-                <button className={styles.signOut}> Sign out</button>
-              </button>
-            </div>
-          </div>
-        )}
+       
 
 
 
@@ -440,6 +407,41 @@ const toggle = () => {
           </div>
         </div>
       </div>
+
+      { popup && (
+
+<div className={styles.signinPopupWithSignout}>
+  <div className={styles.loginPopupWithLogoutGrp}>
+    <div className={styles.loginPopupWithLogoutGrpChild} />
+    <button
+      className={styles.becomehostbtn}
+      id="BecomeHost"
+      onClick={onBecomeHostBtnClick}
+    >
+      <button
+        className={styles.becomeAHost}
+      >{`    Become a host `}</button>
+    </button>
+    <div className={styles.loginPopupWithLogoutGrpItem} />
+    <button className={styles.accsettingsbtn} id="accSettings">
+      <button className={styles.becomeAHost}>
+        {" "}
+        Account Settings
+      </button>
+    </button>
+    <button className={styles.wishlistbtn} id="wishlist">
+      <button className={styles.becomeAHost}> Wishlist</button>
+    </button>
+    <button
+      className={styles.signoutbtn}
+      id="signOut"
+      onClick={openSignoutConfirmationPopup}
+    >
+      <button className={styles.signOut}> Sign out</button>
+    </button>
+  </div>
+</div>
+)}
 
       {isSignoutConfirmationPopupOpen && (
         <PortalPopup

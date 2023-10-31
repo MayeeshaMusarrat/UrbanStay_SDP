@@ -11,11 +11,20 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts';
 import { format } from "date-fns";
+import {Calendar} from "../components/Calendar";
+import dayjs from "dayjs";
 
 const ViewDetails = ({ onClose }) => {
   const { prop } = useParams();
   const decodedPropValueString = decodeURIComponent(prop);
   const propValue = JSON.parse(decodedPropValueString);
+
+  const [selectedRange, setSelectedRange] = useState(null);
+  const [initialMonthAndYear, setInitialMonthAndYear] = useState(dayjs());
+
+  useEffect(() => {
+    console.log(initialMonthAndYear);
+  }, [initialMonthAndYear]);
 
   const datesCalendar = JSON.parse(localStorage.getItem('dateRange'));
   const dates = {
@@ -260,7 +269,9 @@ const ViewDetails = ({ onClose }) => {
 
   return (
     <>
+
       <div className={styles.viewDetails}>
+        
         <div className={styles.footer} data-scroll-to="footerContainer">
           <div className={styles.divfooterTop}>
             <div className={styles.divcontainer}>
@@ -466,12 +477,27 @@ const ViewDetails = ({ onClose }) => {
             </div>
           </div>
         </div>
+
+
         <img
           className={styles.viewDetailsChild}
           alt=""
           src={propValue.imageUrl}
           data-scroll-to="rectangleImage"
         />
+
+        <div  className={styles.Calendar} style={{ marginTop: '1600px',  marginRight: '65px',  marginLeft: '75px'}}>
+
+        <Calendar
+        initialRangeValuesProps={selectedRange}
+        onRangeChange={(e) => setSelectedRange(e)}
+        setOnRangeDateInScreen={(e) => setInitialMonthAndYear(e.start)}
+        />
+
+        </div>
+
+
+
         <div className={styles.divh2d91f33e72}>
           <div className={styles.heading1}>
           {propValue.property_title}
@@ -728,14 +754,7 @@ const ViewDetails = ({ onClose }) => {
 
 
 
-              <div className={styles.calendar} >
-
-              <DateRangeSelector />
-
-
-              </div>
-
-
+           
 
 
 
@@ -790,6 +809,9 @@ const ViewDetails = ({ onClose }) => {
         <div className={styles.ourBeautifullyDesigned}>
          {propValue.description}
         </div>
+
+
+
         <div className={styles.location} data-scroll-to="locationContainer">
 
 
@@ -808,6 +830,12 @@ const ViewDetails = ({ onClose }) => {
         */}
 
           </div>
+
+             
+
+ 
+
+
 
 
           <div className={styles.whereYoullBe}>Where You’ll Be</div>

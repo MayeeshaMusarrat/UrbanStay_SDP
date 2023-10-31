@@ -523,8 +523,7 @@
   flex-direction: column;
   margin-left: -8px;
 }
-.div1jdtwz4,
-.div88xxct {
+.div1jdtwz4 {
   position: absolute;
   width: 144.32px;
 }
@@ -537,11 +536,13 @@
   justify-content: flex-end;
 }
 .div88xxct {
+  position: absolute;
   top: calc(50% - 1500px);
   left: calc(50% + 512px);
   height: 34px;
   text-align: center;
   font-size: var(--body-copy-14pt-regular-size);
+  width: 1000.32px;
 }
 .amenities {
   position: absolute;
@@ -1087,12 +1088,15 @@
   height: 70px;
 }
 .calendar {
-  position: absolute;
-  top: 80.2px;
-  left: 8px;
+  top: 1000px;
+  left: 79px;
+  width: 1333px;
+  height: 1047px;
+  overflow: hidden;
+  color: var(--color-black);
+  font-family: var(--font-poppins);
+  z-index: 1000;
   
-  width: 982px;
-  height: 580px;
 }
 .divh2dE5412b81 {
   position: absolute;

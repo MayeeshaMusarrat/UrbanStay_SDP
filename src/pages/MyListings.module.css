@@ -467,14 +467,15 @@
   font-family: var(--font-roboto);
 }
 .h3 {
-  top: 161px;
-  left: 0;
+  top: 210px;
+  left: -660px;
   letter-spacing: 0.1px;
   line-height: 32px;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 14px;
   display: inline-block;
   width: 1520px;
+  font-color: black;
 }
 .testimonialSection {
   position: absolute;
@@ -496,7 +497,7 @@
 .testimonialSectionParent {
   position: absolute;
   width: 100%;
-  top: 50px;
+  top: -50px;
   right: 0;
   left: 0;
   height: 100px;
@@ -508,15 +509,15 @@
   position: absolute;
   top: 0;
   left: 40px;
-  width: 1439px;
+  width: 1450px;
   height: 1494px;
 }
 .listingsDatagridWrapper,
 .whiterectangle {
   position: absolute;
-  top: 320px;
+  top: 200px;
   left: 5px;
-  width: 1513px;
+  width: 1525px;
   height: 1534px;
 }
 .whiterectangle {
@@ -783,7 +784,7 @@
   top: -17px;
   left: 0;
   width: 1760px;
-  height: 432px;
+  height: 120px;
   overflow: hidden;
   color: var(--color-darkblue);
   font-family: var(--font-lato);
