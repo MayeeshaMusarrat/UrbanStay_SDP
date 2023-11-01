@@ -1,0 +1,170 @@
+.userinfopopupChild {
+    position: absolute;
+    top: 52px;
+    left: 28px;
+    border-radius: var(--br-11xl);
+    width: 834px;
+    height: 494px;
+  }
+  .guestDetails,
+  .livesInDhaka {
+    position: absolute;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+  }
+  .guestDetails {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    top: calc(50% - 177px);
+    left: calc(50% - 401.5px);
+    font-size: var(--font-size-mini);
+    font-weight: 700;
+    font-family: var(--font-inter);
+    color: var(--color-black);
+    text-align: center;
+    justify-content: center;
+    width: 814px;
+  }
+  .livesInDhaka {
+    top: 215px;
+    left: 290px;
+    width: 522px;
+  }
+  .contactNumber {
+    font-weight: 500;
+  }
+  .contactNumber01711897088Container {
+    position: absolute;
+    top: 278px;
+    left: 290px;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    width: 271px;
+  }
+  .emailMusarratgmailcomTxtContainer {
+    line-break: anywhere;
+    width: 100%;
+  }
+  .emailMusarratgmailcom,
+  .joinedOn31 {
+    position: absolute;
+    top: 278px;
+    left: 529px;
+    text-transform: capitalize;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    width: 282px;
+  }
+  .joinedOn31 {
+    top: 216px;
+    left: 543px;
+    width: 269px;
+  }
+  .pic21Icon {
+    position: absolute;
+    top: 166px;
+    left: 73px;
+    width: 191px;
+    height: 154px;
+    object-fit: cover;
+  }
+  .mayeeshaMusarrat {
+    position: absolute;
+    top: 161px;
+    left: 290px;
+    font-size: var(--body-copy-16pt-semibold-size);
+    text-transform: capitalize;
+    font-weight: 600;
+  }
+  .lineDiv,
+  .userinfopopupInner,
+  .userinfopopupItem {
+    position: absolute;
+    top: 193.5px;
+    left: 290.5px;
+    border-top: 1px solid var(--color-silver-300);
+    box-sizing: border-box;
+    width: 521px;
+    height: 1px;
+  }
+  .lineDiv,
+  .userinfopopupInner {
+    top: 255.5px;
+  }
+  .lineDiv {
+    top: 317.5px;
+    left: 291.5px;
+    width: 520px;
+  }
+  .aboutMayeesha {
+    position: absolute;
+    top: 356px;
+    left: 74px;
+    font-size: var(--body-copy-16pt-semibold-size);
+    text-transform: capitalize;
+    font-weight: 600;
+  }
+  .ourBeautifullyDesigned {
+    position: absolute;
+    top: 388px;
+    left: 73px;
+    text-transform: lowercase;
+    text-align: justify;
+    display: inline-block;
+    width: 748px;
+    height: 80px;
+  }
+  .guestrating {
+    position: absolute;
+    top: 162px;
+    left: 643px;
+    border: 1px solid var(--color-black);
+    box-sizing: border-box;
+    width: 168px;
+    height: 32px;
+    overflow: hidden;
+  }
+  .frameIcon,
+  .rectangleDiv {
+    position: absolute;
+    top: 58px;
+  }
+  .rectangleDiv {
+    left: 38px;
+    border-radius: var(--br-15xl);
+    background-color: var(--shade-01);
+    width: 742px;
+    height: 84px;
+  }
+  .frameIcon {
+    left: 70px;
+    width: 22px;
+    height: 56px;
+    overflow: hidden;
+  }
+  .groupIcon {
+    position: absolute;
+    top: 141px;
+    left: 38px;
+    width: 814px;
+    height: 1px;
+  }
+  .userinfopopup {
+    border-radius: var(--br-3xs);
+    width: 877px;
+    height: 546px;
+    overflow-y: auto;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+    text-align: left;
+    font-size: var(--font-size-sm);
+    color: var(--color-black);
+    font-family: var(--font-poppins);
+  }
+  

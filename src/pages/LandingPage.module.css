@@ -231,7 +231,8 @@
   width: 56px;
 }
 .searchbuttonIcon:hover {
-  background-color: var(--color-slateblue-200);
+  background-color: slateblue;
+  transform: scale(1.05); 
   cursor: pointer;
 }
 .searchPropertyComponent,
@@ -2832,10 +2833,10 @@
 .signoutbtn {
   padding: var(--padding-3xs);
   position: absolute;
-  top: 213px;
+  top: 220px;
   left: 1px;
   width: 311px;
-  height: 50px;
+  height: 45px;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
@@ -2848,7 +2849,7 @@
   top: 0;
   left: 0;
   width: 312px;
-  height: 286px;
+  height: 300px;
 }
 .signinPopupWithSignout,
 .stickyNavBar {

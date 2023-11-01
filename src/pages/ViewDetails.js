@@ -76,30 +76,7 @@ const ViewDetails = ({ onClose }) => {
   /**************   barchart stuff */
 
   const dataset = [
-    { //ekahne stars gula likhbo
-      five: 100,
-      four: 20,
-      three: 5,
-      two: 0,
-      one: 10,
-      month: 'Wifi',
-    },
-    {
-      five: 250,
-      four: 20,
-      three: 50,
-      two: 30,
-      one: 2,
-      month: 'Parking',
-    },
-    {
-      five: 150,
-      four: 12,
-      three: 5,
-      two: 0,
-      one: 5,
-      month: 'Patio',
-    },
+    
     {
       five: 50,
       four: 20,
@@ -131,6 +108,22 @@ const ViewDetails = ({ onClose }) => {
       two: 0,
       one: 100,
       month: 'Cleanliness',
+    },
+    {
+      five: 100,
+      four: 20,
+      three: 5,
+      two: 0,
+      one: 100,
+      month: 'Location',
+    },
+    {
+      five: 100,
+      four: 20,
+      three: 5,
+      two: 0,
+      one: 100,
+      month: 'Services',
     },
   ];
   

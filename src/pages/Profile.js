@@ -1,13 +1,48 @@
 import { useEffect, useState, useCallback } from "react";
+import * as React from 'react';
 import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
 import styles from "./Profile.module.css";
 import { BarChart } from '@mui/x-charts/BarChart';
+import Avatar from '@mui/material/Avatar';
 
 const Profile = () => {
 
   const [popup, setPopup] = useState(false);
+
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+  
+    let color = '#';
+  
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+  
+    return color;
+  }
+  
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+        width: 30.55,
+        height: 30.55,
+        marginTop: 5.5,
+        marginLeft: 179.99,
+        position: 'relative', 
+        zIndex: 1, 
+      },
+      children: `${name.split(' ')[0][0]}`,
+    };
+  }
 
   /*
   const [userData, setUserData] = useState({ userResults: [], hostResults: [] });
@@ -401,13 +436,20 @@ const Profile = () => {
             <img className={styles.image31} alt="" src="/image-3-11@2x.png" />
           </div>
 
-
+         <div onClick = {toggle}>
+          
+          <Avatar
+         {...stringAvatar('Mr.')} 
+         
+        />
           <img
-            onClick = {toggle}
             className={styles.profileIcon}
             alt=""
             src="/profile-icon3@2x.png"
           />
+          </div>
+
+
 
           { popup && (
           <div className={styles.signinPopupWithSignout}>
@@ -472,6 +514,7 @@ const Profile = () => {
           <SignoutConfirmationPopup onClose={closeSignoutConfirmationPopup} />
         </PortalPopup>
       )}
+
     </>
   );
 };

@@ -461,6 +461,7 @@
   border: 0;
   padding: 0;
   background-color: transparent;
+  z-index: 300;
   position: absolute;
   top: 7px;
   right: 0;
@@ -687,6 +688,7 @@
   background-color: #31328f;
   width: 1777px;
   height: 105px;
+  z-index: 100;
 }
 .stay {
   font-weight: 500;
@@ -832,14 +834,17 @@
   border-radius: var(--br-8xs) 0 0 var(--br-8xs);
   background-color: var(--shade-01);
   width: 1294px;
+  z-index: 100;
 }
 .searchbuttonIcon {
   left: 1293px;
   border-radius: 0 var(--br-8xs) var(--br-8xs) 0;
   width: 56px;
+  z-index: 1000;
 }
 .searchbuttonIcon:hover {
-  background-color: var(--color-slateblue-200);
+  background-color: slateblue;
+  transform: scale(1.05); 
   cursor: pointer;
 }
 .searchPropertyComponent,
@@ -849,6 +854,10 @@
   left: 0;
   width: 1349px;
   height: 56px;
+}
+.searchbarParent {
+  top: 130px;
+  left: 78px;
 }
 .searchPropertyComponent {
   top: 128px;
@@ -1375,6 +1384,7 @@
   overflow: hidden;
   font-size: var(--font-size-base);
   color: var(--color-darkblue);
+  z-index: 200;
 }
 .browse {
   position: relative;

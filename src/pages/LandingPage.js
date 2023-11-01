@@ -108,6 +108,31 @@ const LandingPage = ({ onClose }) => {
     }
   }, [storedValue]);
 
+
+  const [isGuest, setIsGuest] = useState(1);
+  useEffect(() => {
+    fetch(`http://localhost:5001/isGuest?email=${storedValue}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data.message);
+        if(data.message==='yes')
+        {
+          setIsGuest(0);
+        }
+        
+      })
+      .catch((error) => {
+        console.error('Error fetching ID:', error);
+      });
+  }, []); 
+
+
+
   const [popupLogin, setPopupLogin] = useState(false);
   const toggleLogin = () => {
     setPopupLogin(!popupLogin);
@@ -166,6 +191,10 @@ const LandingPage = ({ onClose }) => {
     navigate("/sign-in-page");
   }, [navigate]); 
 
+  const goProfile = useCallback(() => {
+    navigate("/profile");
+  }, [navigate]); 
+
   const onSignUpBtnClick = useCallback(() => {
     navigate("/leading-page");
   }, [navigate]);
@@ -217,6 +246,10 @@ const LandingPage = ({ onClose }) => {
   }, []);
 
   const onBecomeHostBtnClick = useCallback(() => {
+    navigate("/become-host");
+  }, [navigate]);
+
+  const goHost = useCallback(() => {
     navigate("/hosting-intro");
   }, [navigate]);
 
@@ -1376,7 +1409,7 @@ const handleSubmit = (e) => {
           </div>
 
 
-           { loggedIn && popupLogin ? (
+           { loggedIn && popupLogin && isGuest? (
 
           <div className={styles.signinPopupWithSignout}>
             <div className={styles.loginPopupWithLogoutGrp}>
@@ -1392,9 +1425,9 @@ const handleSubmit = (e) => {
               </button>
               <div className={styles.loginPopupWithLogoutGrpItem} />
               <button className={styles.accsettingsbtn} id="accSettings">
-                <button className={styles.becomeAHost}>
+                <button className={styles.becomeAHost} onClick = {goProfile}>
                   {" "}
-                  Account Settings
+                 Profile
                 </button>
               </button>
               <button className={styles.wishlistbtn} id="wishlist">
@@ -1409,7 +1442,9 @@ const handleSubmit = (e) => {
               </button>
             </div>
           </div>
-           ) : popupLogin ?  (
+
+
+           ) : popupLogin && !loggedIn ?  (
             <div className={styles.signinPopupWithoutSignout}>
             <div className={styles.loginPopupWithoutLogoutGrp}>
               <div className={styles.loginPopupWithoutLogoutGrpChild} />
@@ -1425,9 +1460,40 @@ const handleSubmit = (e) => {
               </button>
             </div>
           </div>
-          ) : (
-            null
-          )}
+          ) : loggedIn && popupLogin ? (
+            <div className={styles.signinPopupWithSignout}>
+            <div className={styles.loginPopupWithLogoutGrp}>
+              <div className={styles.loginPopupWithLogoutGrpChild} />
+              <button
+                className={styles.becomehostbtn}
+                id="BecomeHost"
+                onClick={goHost}
+              >
+                <button
+                  className={styles.becomeAHost}
+                >{`    Host A Place `}</button>
+              </button>
+              <div className={styles.loginPopupWithLogoutGrpItem} />
+              <button className={styles.accsettingsbtn} id="accSettings">
+                <button className={styles.becomeAHost} onClick = {goProfile}>
+                  {" "}
+                 Profile
+                </button>
+              </button>
+              <button className={styles.wishlistbtn} id="wishlist">
+                <button className={styles.becomeAHost}> Wishlist</button>
+              </button>
+              <button
+                className={styles.signoutbtn}
+                id="signOut"
+                onClick = {openSignoutConfirmationPopup}
+              >
+                <button className={styles.signOut}> Sign out</button>
+              </button>
+            </div>
+          </div>
+
+          ) : null }
 
         </div>
       </div>

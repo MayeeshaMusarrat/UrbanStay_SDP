@@ -420,7 +420,7 @@ const toggle = () => {
     >
       <button
         className={styles.becomeAHost}
-      >{`    Become a host `}</button>
+      >{`    Host A Place `}</button>
     </button>
     <div className={styles.loginPopupWithLogoutGrpItem} />
     <button className={styles.accsettingsbtn} id="accSettings">

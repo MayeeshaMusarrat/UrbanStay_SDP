@@ -18,6 +18,7 @@ import ViewDetails from "./ViewDetails";
 import ReactDOM from 'react-dom';
 import { format } from "date-fns";
 import axios from 'axios';
+import FilterPopup from "../components/FilterPopup";
 
 
 const Browse = ({ onClose }) => {
@@ -33,6 +34,18 @@ const Browse = ({ onClose }) => {
     if (!date) return defaultText;
     return format(date, "d MMM, yyyy");
 }
+
+/******************************* FILTER POPUP ************************** */
+
+const [isPopupOpen, setPopupOpen] = useState(false);
+
+  const openPopup = () => {
+    setPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setPopupOpen(false);
+  };
 
 
 
@@ -205,9 +218,28 @@ const Browse = ({ onClose }) => {
     navigate("/sign-in-page");
   }, [navigate]);
 
+  
+
   return (
     <>
       <div className={styles.browse}>
+           <div className={styles.filterframeWrapper}>
+          <div className={styles.filterframe}>
+            <div className={styles.filterframeChild} />
+            <div className={styles.filtersParent}>
+              <button className={styles.filters} onClick = {openPopup} >Filters</button>
+              <img className={styles.mifilterIcon} alt="" src="/mifilter.svg" />
+            </div>
+          </div>
+        </div>
+
+        {isPopupOpen && (
+
+<FilterPopup />
+
+)}
+
+
         <div className={styles.footer} data-scroll-to="footerContainer">
           <div className={styles.divfooterTop}>
             <div className={styles.divcontainer}>
@@ -413,17 +445,9 @@ const Browse = ({ onClose }) => {
             </div>
           </div>
         </div>
-        <div className={styles.filterframeWrapper}>
-          <div className={styles.filterframe}>
-            <div className={styles.filterframeChild} />
-            <div className={styles.filtersParent}>
-              <button className={styles.filters}>Filters</button>
-              <img className={styles.mifilterIcon} alt="" src="/mifilter.svg" />
-            </div>
-          </div>
-        </div>
-
-
+        
+     
+     
        {
         <div className={styles.somanypropertycardsFrame}>
 
@@ -523,104 +547,74 @@ const Browse = ({ onClose }) => {
               <div className={styles.contactUs}>HOME</div>
             </div>
           </div>
-          <div
-            className={styles.searchPropertyComponent}
-            onClick={onSearchPropertyComponentContainerClick}
-          >
-            <div className={styles.searchbarParent}>
-              <div className={styles.searchbar}>
-                <TextField
-                  className={styles.roomsAndGuestsSearchBar}
-                  color="info"
-                  placeholder="2 Rooms, 1 Guest"
-                  fullWidth={true}
-                  sx={{ width: 282 }}
-                  variant="outlined"
-                  multiline
-                />
-                <div className={styles.reservationDates} />
-                <TextField
-                  className={styles.destination}
-                  color="info"
-                  size="medium"
-                  placeholder="Enter Country or City"
-                  fullWidth={true}
-                  variant="outlined"
-                  type="text"
-                />
+
+
+        
+          <form > 
+          <div className={styles.searchbarParent}>
+            <div className={styles.searchbar}>
+              
+              <div
+              //  onClick={toggle}
+                className={styles.roomsAndGuestsSearchBar}
+               
+                style={{
+                  width: 282,
+                //  color: contentColor,
+                  textAlign: 'left',
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: 15,
+                  fontFamily: 'Roboto',
+                  fontSize: 'medium', 
+                }}
+              >
+             hello
               </div>
-              <img
-                className={styles.searchbuttonIcon}
-                alt=""
-                
-                src="/searchbutton.svg"
+             
+             
+              <div className={styles.reservationDates} 
+             // onClick = {toggleCalender}
+              style={{
+              //  color: fontColor,
+                textAlign: 'left',
+                display: 'flex',
+                alignItems: 'center',
+                padding: 15,
+                fontFamily: 'Roboto',
+                fontSize: 'medium', 
+              }}
+              >
+             hello
+              </div>
+              
+              <TextField
+                className={styles.destination}
+                required={true}
+                size="medium"
+                sx={{ width: 425 }}
+                placeholder="Enter Country or City"
+                fullWidth={true}
+                variant="outlined"
+                type="text"
+                value = {destination}
+                onChange = {(e) => setDestination(e.target.value)}
+
               />
             </div>
+            <img
+            //  onClick={handleSubmit}
+              className={styles.searchbuttonIcon}
+              alt=""
+              src="/searchbutton1.svg"
+            />
           </div>
-          <div className={styles.roomsAndGuestsPopup}>
-            <div className={styles.roomandguestrectangle}>
-              <div className={styles.roomandguestrectangleChild} />
-              <button className={styles.roomframe}>
-                <button className={styles.rooms}>Rooms</button>
-              </button>
-              <div className={styles.roomplusminus}>
-                <button className={styles.roomcounterframe}>
-                  <button className={styles.button}>1</button>
-                </button>
-                <button className={styles.minussign}>
-                  <div className={styles.minussignChild} />
-                  <img
-                    className={styles.mdiLightminusIcon}
-                    alt=""
-                    src="/mdilightminus.svg"
-                  />
-                </button>
-                <button className={styles.plussign} id="plusRooms">
-                  <div className={styles.plusrectangle} />
-                  <img
-                    className={styles.phplusLightIcon}
-                    alt=""
-                    src="/phpluslight.svg"
-                  />
-                </button>
-              </div>
-              <div className={styles.guestplusminus}>
-                <button className={styles.roomcounterframe}>
-                  <button className={styles.button1}>1</button>
-                </button>
-                <button className={styles.minussign1} id="minusGuests">
-                  <div className={styles.plusrectangle} />
-                  <img
-                    className={styles.mdiLightminusIcon}
-                    alt=""
-                    src="/mdilightminus.svg"
-                  />
-                </button>
-                <button className={styles.plussign} id="plusGuests">
-                  <div className={styles.plusrectangle} />
-                  <img
-                    className={styles.phplusLightIcon}
-                    alt=""
-                    src="/phpluslight.svg"
-                  />
-                </button>
-              </div>
-              <button className={styles.guestframe}>
-                <button className={styles.rooms}>Guests</button>
-              </button>
-              <div className={styles.separator} />
-              <div className={styles.separator1} />
-              <div className={styles.lineParent}>
-                <div className={styles.groupChild} />
-                <button className={styles.cancelbtn} id="cancel">
-                  <button className={styles.cancel}>Cancel</button>
-                </button>
-                <button className={styles.confirmbtn} id="confirm">
-                  <button className={styles.cancel}>Confirm</button>
-                </button>
-              </div>
-            </div>
-          </div>
+          </form>
+        
+       
+
+
+
 
 
           { loggedIn && popupLogin ? (

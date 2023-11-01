@@ -23,6 +23,7 @@ import TempProfile from "./pages/TempProfile";
 import ViewDetails from "./pages/ViewDetails"
 import ConfirmListing from "./pages/ConfirmListing";
 import Browse from "./pages/Browse";
+import BecomeHost from './pages/BecomeHostSignupPage';
 
 
 function App() {
@@ -145,6 +146,7 @@ function App() {
       <Route path="/view-details/:prop" element={<ViewDetails />} />
       <Route path="/browse" element={<Browse />} />
       <Route path="/confirm-listing" element={<ConfirmListing />} />
+      <Route path="/become-host" element={<BecomeHost />} />
      
     </Routes>
   );

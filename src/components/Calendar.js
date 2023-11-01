@@ -10,8 +10,8 @@ export const Calendar = ({
 }) => {
  
   const rangeValues = {
-    from: "2024-01-16",
-    to: "2024-01-22"
+    from: "2023-11-22",
+    to: "2023-11-25"
   };
   
   const theme = {

@@ -132,19 +132,26 @@ async function connectAndStartServer()
     pool.getConnection((err, connection) => {
       if (err) throw err;
 
-        const searchSql = `
-        SELECT *
-        FROM PROPERTY
-        WHERE
-          (Country = ?
-            OR
-          City = ?
-          )
-          AND Num_of_rooms >= ?
-          AND Num_of_guests >= ?
-          AND Check_in_date <= ? AND Check_out_date >= ?;`;
+      const searchSql = `
+      SELECT p.*
+      FROM property p
+      WHERE
+      (p.Country = ? OR p.City = ?)
+      AND p.Num_of_rooms >= ?
+      AND p.Num_of_guests >= ?
+      AND p.Check_in_date <= ?
+      AND p.Check_out_date >= ?
+      AND NOT EXISTS (
+        SELECT 1
+        FROM property_reserved_on r
+        WHERE p.PID = r.PID
+          AND ? <= r.End_date
+          AND ? >= r.Start_date
+      );
+      `;
 
-      const searchValues = [destination, destination, rooms, guests, checkIn, checkOut];
+      
+      const searchValues = [destination, destination, rooms, guests, checkIn, checkOut, checkIn, checkOut ];
 
       connection.query(searchSql, searchValues, (searchErr, searchResults) => {
         if (searchErr) {
@@ -407,6 +414,63 @@ async function connectAndStartServer()
     });
   });
 
+  app.get('/isGuest', (req, res) => {
+    const { email } = req.query;
+  
+    console.log(req.query);
+  
+    pool.getConnection((err, connection) => {
+      if (err) {
+        console.error('Error getting a database connection:', err);
+        return res.status(500).json({ message: 'Database Connection Error' });
+      }
+  
+      const sql = `SELECT UID FROM user WHERE Email = ?`;
+      connection.query(sql, [email], (err, results) => {
+        if (err) {
+          connection.release();
+          console.error('Error querying UID:', err);
+          return res.status(500).json({ message: 'Fetching Error' });
+        }
+  
+        if (results.length > 0) {
+          const userSql = `SELECT * FROM USER WHERE UID = ?`;
+          const userValues = [results[0].UID];
+          connection.query(userSql, userValues, (userErr, userResults) => {
+            if (userErr) {
+              connection.release();
+              console.error('Error querying user data:', userErr);
+              return res.status(500).json({ message: 'Fetching Error' });
+            }
+  
+            const hostSql = `SELECT HID FROM HOST WHERE UID = ?`;
+            const hostValues = [userResults[0].UID];
+            connection.query(hostSql, hostValues, (hostErr, hostResults) => {
+              connection.release();
+  
+              if (hostErr) {
+                console.error('Error querying host data:', hostErr);
+                return res.status(500).json({ message: 'Fetching Error' });
+              }
+  
+              console.log('Data fetched from user successfully.');
+  
+              if (hostResults.length > 0) {
+                res.json({ message: 'yes'});
+              } else {
+               
+                res.json({ message: 'no' });
+              }
+            });
+          });
+        } else {
+          connection.release();
+          res.status(404).json({ message: 'User not found' });
+        }
+      });
+    });
+  });
+  
 
 
 
