@@ -15,9 +15,41 @@ import "react-date-range/dist/theme/default.css";
 import "../components/Datepicker.css";
 
 import PropTypes from "prop-types";
+import Avatar from '@mui/material/Avatar';
+import { useDeprecatedAnimatedState } from "framer-motion";
 
 
 const LandingPage = ({ onClose }) => {
+
+  /************* Profile avatar */
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    let color = '#';
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    return color;
+  }
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+        width: 30.55,
+        height: 30.55,
+        marginTop: 5.5,
+        marginLeft: 179.99,
+        position: 'relative', 
+        zIndex: 1, 
+      },
+      children: `${name.split(' ')[0][0]}`,
+    };
+  }
+
   
 
   const [selectedDateRange, setSelectedDateRange] = useState({
@@ -26,6 +58,7 @@ const LandingPage = ({ onClose }) => {
        key: "selection"
   });
   const [show, setShow] = useState(false);
+
 
   function formatDateDisplay(date, defaultText) {
        if (!date) return defaultText;
@@ -62,9 +95,6 @@ const LandingPage = ({ onClose }) => {
       setPopupCalender(!popupCalender);
    };
 
-  
-  
-   
 
   const onClickClear = () => {
        setSelectedDateRange({
@@ -99,17 +129,27 @@ const LandingPage = ({ onClose }) => {
   const [contentColor, setContentColor] = useState('#c2c2c2');
   
   
-  const storedValue = localStorage.getItem('email');
-  const [loggedIn, setLoggedIn] = useState(storedValue);
+  const [storedValue, setStoredValue] = useState(localStorage.getItem('email'));
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    if (storedValue) {
+   
+    if (localStorage.getItem('email')) {
+      setStoredValue(localStorage.getItem('email'));
       setLoggedIn(true);
+    } 
+    else 
+    {
+      setStoredValue("RandomRandomRandom");
+      console.log('Email does not exist in localStorage');
     }
   }, [storedValue]);
 
 
   const [isGuest, setIsGuest] = useState(1);
+  const [name, setName] = useState("");
+  const [visible, setVisible] = useState(true);
+
   useEffect(() => {
     fetch(`http://localhost:5001/isGuest?email=${storedValue}`)
       .then((response) => {
@@ -123,6 +163,21 @@ const LandingPage = ({ onClose }) => {
         if(data.message==='yes')
         {
           setIsGuest(0);
+          setName(data.name);
+          localStorage.setItem('name', data.name);
+          localStorage.setItem('GuestOrHost', 0);
+        }
+        else if(data.message === 'no')
+        {
+          setName(data.name);
+          localStorage.setItem('name', data.name);
+          localStorage.setItem('GuestOrHost', 1);
+        }
+        else if(data.message === 'X')
+        {
+          setVisible(false);
+          localStorage.setItem('name', '');
+          localStorage.setItem('GuestOrHost', -1);
         }
         
       })
@@ -1376,15 +1431,22 @@ const handleSubmit = (e) => {
           </div>
 
 
+        {
+          visible ? (
+            <div onClick={toggleLogin}>
+              <Avatar {...stringAvatar(name)} />
+            </div>
+          ) : null 
+        }
+
+
           <img
             className={styles.profileIcon}
             alt=""
-            src="/profile-icon4@2x.png"
+            src="/profile-icon3@2x.png"
             onClick = {toggleLogin}
           />
-
-
-
+          
 
 
           <div className={styles.itemLinkParent}>

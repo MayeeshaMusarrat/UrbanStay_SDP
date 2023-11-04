@@ -1,0 +1,14 @@
+/* DataGridStyles.css */
+
+.available-cell {
+    background-color: white;
+    color: green;
+    font-weight: bold;
+  }
+  
+  .booked-cell {
+    background-color: white;
+    color: red;
+    font-weight: bold;
+  }
+  

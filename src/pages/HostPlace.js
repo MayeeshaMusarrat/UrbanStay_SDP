@@ -257,7 +257,8 @@ const handleUpload = async () => {
             zipcode: zipcode,
             address_line: address,
             amenities: selectedCheckboxes,
-            pics: imageUrls[0]
+            pics: imageUrls[0],
+            pics_array: imageUrls
     };
     localStorage.setItem('Property', JSON.stringify(property));
     navigate("/confirm-listing");
@@ -527,7 +528,7 @@ const handleUpload = async () => {
 
               </div>
           <div className={styles.uploadbtn}>
-            <button onClick={handleUpload} type="button" disabled={count===5} className={styles.upload}  >
+            <button onClick={handleUpload} type="button" className={styles.upload}  >
               Upload</button>
 
               <input
@@ -542,10 +543,15 @@ const handleUpload = async () => {
 
         <div className={styles.pictureContainer}>
 
-        {selectedFiles.map((url, index) => (
-        <div key={index} className={styles.propertyGalleryFrameItem}>
-          <img src={url} alt={`Uploaded Image ${index + 1}`} />
-        </div>
+        {selectedFiles.map((file, index) => (
+         <div key={index} className={styles.propertyGalleryFrameItem}>
+         <img
+           src={URL.createObjectURL(file)}
+           alt="Uploaded"
+           style={{ width: '100%', height: '100%' }}
+         />
+
+       </div>
       ))}
 
       </div>
@@ -678,10 +684,6 @@ const handleUpload = async () => {
         */}
       
         </div>
-
-
-
-
 
 
           

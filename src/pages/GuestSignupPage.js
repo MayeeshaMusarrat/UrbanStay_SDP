@@ -17,6 +17,7 @@ const GuestSignupPage = () => {
   
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
+
   const navigate = useNavigate();
 
   const handleShowPasswordClick1 = () => {
@@ -50,10 +51,10 @@ const GuestSignupPage = () => {
     setEmail(event.target.value);
   };
 
+  
   const handleSubmit = (e)=>{
     e.preventDefault();
   
-    
     const user = {
       firstname: firstname, 
       lastname: lastname,
@@ -61,7 +62,6 @@ const GuestSignupPage = () => {
       email: email,
       password: password
     };
-    
     
     fetch("http://localhost:5001/guest-signup-page",{
       method: "POST",
@@ -79,6 +79,9 @@ const GuestSignupPage = () => {
       }
     })
   }
+
+
+
   const onAlreadyHaveAnClick = useCallback(() => {
     navigate("/sign-in-page");
   }, [navigate]);
@@ -96,6 +99,7 @@ const GuestSignupPage = () => {
         alt=""
         src="/group-1945@2x.png"
       />
+
       <form className={styles.rectangleParent} onSubmit = {handleSubmit}>
         <div className={styles.frameChild} />
         <b className={styles.h3}>Create a Guest Account on UrbanStay</b>
@@ -216,6 +220,8 @@ const GuestSignupPage = () => {
           <span className={styles.firstName}>{`Email `}</span>
           <span className={styles.span}>*</span>
         </div>
+
+
         <button
           className={styles.becomememberbtn}
           id="member"
@@ -228,6 +234,8 @@ const GuestSignupPage = () => {
           />
           <div className={styles.becomeAGuest1}>Become a Guest</div>
         </button>
+
+
         <TextField
           className={styles.phonenumberinput}
           color="info"

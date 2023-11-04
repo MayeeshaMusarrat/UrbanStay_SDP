@@ -5,6 +5,8 @@ import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
 import styles from "./ConfirmListing.module.css";
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 import axios from 'axios';
 import { setDayWithOptions } from "date-fns/fp";
@@ -55,7 +57,8 @@ const ConfirmListing = () => {
         zipcode,
         address_line,
         amenities,
-        pics } = Property;
+        pics,
+        pics_array } = Property;
 
 
         setPropertyName(property_name);
@@ -64,6 +67,7 @@ const ConfirmListing = () => {
         const startDate = new Date(availability[0]);
         const endDate = new Date(availability[1]);
 
+        console.log("end Date: ", endDate);
         const timeDiff = endDate - startDate;
         const daysDiff = Math.floor(timeDiff / (24*60*60*1000));
         setDays(daysDiff);
@@ -82,7 +86,7 @@ const ConfirmListing = () => {
     
           amenities.forEach(amenity => {
             if (amenityBasePrices[amenity]) {
-              scharge += (amenityBasePrices[amenity]);
+              scharge += (10*amenityBasePrices[amenity]);
             }
           });
 
@@ -102,9 +106,15 @@ const ConfirmListing = () => {
 
   // ====================================================================
 
+  
 
   const handleSubmit = (e)=>{
     e.preventDefault();
+    NotificationManager.success("Property is successfully hosted", "Success!", 3000);
+
+    console.log("Here");
+   
+    
     const property = {
             property_title: Property.property_name,
             property_category: Property.property_type,
@@ -127,6 +137,7 @@ const ConfirmListing = () => {
             base_price: basePrice,
             serviceCharge: serviceCharge,
             number_of_days: days,
+            pics_array: Property.pics_array
             
            
     };
@@ -141,9 +152,12 @@ const ConfirmListing = () => {
     }).then(result=>{
       
       if(result.status==200) {
+       
+       
         navigate("/mylistings");
       }
       else {
+       
         console.log("oops");
       }
     })
@@ -191,9 +205,12 @@ const ConfirmListing = () => {
     navigate("/temp-profile");
   }, [navigate]);
 
+  
+ 
+
   return (
     <>
-    <form onSubmit={handleSubmit} > 
+    <form onSubmit={handleSubmit}> 
       <div className={styles.confirmListing}>
         <div className={styles.divb9672i7}>
           <div className={styles.button}>
@@ -253,10 +270,10 @@ const ConfirmListing = () => {
 
         <div
           className={styles.confirmpaymentbtn}
-         
         >
           <button className={styles.confirmListing1} type = "submit" >Confirm Listing</button>
         </div>
+        <NotificationContainer/>
         <div className={styles.footer}>
           <div className={styles.divfooterTop}>
             <div className={styles.divcontainer}>

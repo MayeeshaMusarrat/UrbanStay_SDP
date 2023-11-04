@@ -6,6 +6,8 @@ import styles from "./MyListings.module.css";
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import Rating from '@mui/material/Rating';
+import Avatar from '@mui/material/Avatar';
+import AvatarGroup from '@mui/material/AvatarGroup';
 
 import MyDataGrid from "./MyDataGrid"
 
@@ -44,17 +46,22 @@ const rows = data.map((item) => ({
    
   id: item.PID, 
   Property: item.Property_title,
-  Status: 'Available', //check from backend STUPID, hudai available bollei hobe naki
   bedrooms: item.Num_of_bedrooms,
   beds: item.Num_of_beds,
   baths: item.Num_of_bathrooms,
   rooms: item.Num_of_rooms,
   guests: item.Num_of_guests,
-  location: item.City,
+  location: item.Address_line,
   Check_in: new Date(item.Check_in_date).toISOString().split('T')[0],
   Check_out: new Date(item.Check_out_date).toISOString().split('T')[0], 
   price: item.Price_per_night+' BDT',
-  ratings: item.Avg_ratings
+  ratings: item.Avg_ratings,
+  description: item.description,
+  created: item.Created, 
+  area: item.Area,
+  pic: item.pics,
+  avatarGroup: 24, 
+  
   
 }));
 

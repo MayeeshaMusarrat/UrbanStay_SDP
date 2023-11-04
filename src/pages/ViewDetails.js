@@ -13,11 +13,52 @@ import { axisClasses } from '@mui/x-charts';
 import { format } from "date-fns";
 import {Calendar} from "../components/Calendar";
 import dayjs from "dayjs";
+import PictureGallery from "./PictureGallery";
+import { PinDrop } from "@mui/icons-material";
 
 const ViewDetails = ({ onClose }) => {
   const { prop } = useParams();
   const decodedPropValueString = decodeURIComponent(prop);
   const propValue = JSON.parse(decodedPropValueString);
+
+  const PID = propValue.PID;
+  console.log("passed PID: ", PID);
+
+  const [pic_array, setPicArray] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:5001/view?PID=${PID}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("data: ", data);
+  
+        if (data.picResult && Array.isArray(data.picResult)) {
+          const formattedPropertyData = data.picResult.map(result => ({
+            URL: result.Picture_url,
+          }));
+  
+          setPicArray(formattedPropertyData);
+        } else {
+          console.error('Data is not in the expected format.');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+  
+
+  console.log("Pic array sent as prop to gallery func: ", pic_array);
+
+
+
+
+
 
   const [selectedRange, setSelectedRange] = useState(null);
   const [initialMonthAndYear, setInitialMonthAndYear] = useState(dayjs());
@@ -131,10 +172,6 @@ const ViewDetails = ({ onClose }) => {
 
 
 
-
-
-
-  
 
   const storedValue = localStorage.getItem('email');
   const [loggedIn, setLoggedIn] = useState(storedValue);
@@ -262,6 +299,7 @@ const ViewDetails = ({ onClose }) => {
 
   return (
     <>
+
 
       <div className={styles.viewDetails}>
         
@@ -472,14 +510,22 @@ const ViewDetails = ({ onClose }) => {
         </div>
 
 
-        <img
-          className={styles.viewDetailsChild}
-          alt=""
-          src={propValue.imageUrl}
-          data-scroll-to="rectangleImage"
-        />
 
-        <div  className={styles.Calendar} style={{ marginTop: '1600px',  marginRight: '65px',  marginLeft: '75px'}}>
+     
+
+      
+        
+
+         <div className = {styles.imgList} style={{ marginTop: '120px',  marginRight: '65px',  marginLeft: '80px'}} > 
+  
+ 
+           <PictureGallery pictures = {pic_array} />
+ 
+          </div>
+
+
+
+        <div  className={styles.Calendar} style={{ marginTop: '870px',  marginRight: '65px',  marginLeft: '75px'}}>
 
         <Calendar
         initialRangeValuesProps={selectedRange}
@@ -697,7 +743,7 @@ const ViewDetails = ({ onClose }) => {
                   <p className={styles.hostedByMayeeshaMusarrat}>
                     <span>
                       <span className={styles.hostedByMayeesha}>
-                        hosted by mayeesha Musarrat
+                        hosted by Nawshin Nawar
                       </span>
                     </span>
                   </p>

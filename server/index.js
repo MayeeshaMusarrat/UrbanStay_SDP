@@ -20,25 +20,37 @@ async function connectAndStartServer()
   
 
   app.post('/guest-signup-page', async (req, res) => {
+
     const {firstname, lastname, phone_number, email, password} = req.body;
+
     const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    pool.getConnection((err, connection) => {
+
+
+    pool.getConnection((err, connection) => 
+    {
       if (err) throw err;
       const userSql = `INSERT INTO USER (First_name, Last_name, Phone, Email, Password, Joining_date) VALUES (?, ?, ?, ?, ?, ?)`;
       const userValues = [firstname, lastname, phone_number, email, password, currentDate];
       connection.query(userSql, userValues, (userErr, userResults) => {
-        if (userErr) {
+        if (userErr) 
+        {
           console.error('Error inserting data into USER:', userErr);
           res.status(500).json({ message: 'Error inserting data into USER' });
-        } else {
+        } 
+        else 
+        {
           console.log('Data inserted into USER successfully');
           const guestSql = `INSERT INTO GUEST (UID, Guest_rating_num, Avg_rating) VALUES (?, ?, ?)`;
           const guestValues = [userResults.insertId, '0','0'];
-          connection.query(guestSql, guestValues, (guestErr, guestResults) => {
-            if (guestErr) {
+          connection.query(guestSql, guestValues, (guestErr, guestResults) => 
+          {
+            if (guestErr) 
+            {
               console.error('Error inserting data into GUEST:', guestErr);
               res.status(500).json({ message: 'Error inserting data into GUEST' });
-            } else {
+            } 
+            else 
+            {
               console.log('Data inserted into GUEST successfully');
               res.status(200).json({ message: 'Data inserted successfully' });
             }
@@ -70,12 +82,29 @@ async function connectAndStartServer()
           const hostSql = `INSERT INTO HOST (UID, Host_rating_num, Avg_rating) VALUES (?, ?, ?)`;
           const hostValues = [userResults.insertId, '0','0'];
           connection.query(hostSql, hostValues, (hostErr, hostResults) => {
-            if (hostErr) {
+            if (hostErr) 
+            {
               console.error('Error inserting data into HOST:', guestErr);
               res.status(500).json({ message: 'Error inserting data into HOST' });
-            } else {
+            } else 
+            
+            {
               console.log('Data inserted into HOST successfully');
-              res.status(200).json({ message: 'Data inserted successfully' });
+              const guestSql = `INSERT INTO GUEST (UID, Guest_rating_num, Avg_rating) VALUES (?, ?, ?)`;
+              const guestValues = [userResults.insertId, '0','0'];
+              connection.query(guestSql, guestValues, (guestErr, guestResults) => 
+              {
+                if (guestErr) 
+                {
+                  console.error('Error inserting data into GUEST:', guestErr);
+                  res.status(500).json({ message: 'Error inserting data into GUEST' });
+                } 
+                else 
+                {
+                  console.log('Data inserted into GUEST successfully');
+                  res.status(200).json({ message: 'Data inserted successfully' });
+                }
+              });
             }
           });
         }
@@ -122,10 +151,48 @@ async function connectAndStartServer()
   /********************************** Browse   */ 
 
 
+  app.get('/view', async (req, res) => {
+    const { PID } = req.query;
+    console.log("PID: ", PID);
+  
+  
+    pool.getConnection((err, connection) => {
+      if (err) {
+        console.error("Error getting database connection:", err);
+        return res.status(500).json({ message: 'Database Connection Error' });
+      }
+  
+      const picSql = `SELECT Picture_url FROM PROPERTY_PICTURES WHERE PID = ?`;
+      const picValues = [PID];
+  
+      connection.query(picSql, picValues, (picErr, picResult) => {
+        if (picErr) {
+         
+          console.log("Error while fetching pics:", picErr);
+          return res.status(500).json({ message: 'Error while fetching pictures' });
+        } else 
+        {
+          console.log(picResult);
+          res.json({ picResult });
+        }
+
+        connection.release();
+      });
+    });
+  });
+  
+
 
 
   app.get('/browse', async (req, res) => {
     const { destination, checkIn, checkOut, rooms, guests } = req.query;
+
+    const check_in = new Date(checkIn);
+    const check_out = new Date(checkOut);
+
+    check_in.setDate(check_in.getDate() + 1);
+    check_out.setDate(check_out.getDate() + 1);
+
    
     console.log(req.query);
 
@@ -151,7 +218,7 @@ async function connectAndStartServer()
       `;
 
       
-      const searchValues = [destination, destination, rooms, guests, checkIn, checkOut, checkIn, checkOut ];
+      const searchValues = [destination, destination, rooms, guests, check_in, check_out, check_in, check_out ];
 
       connection.query(searchSql, searchValues, (searchErr, searchResults) => {
         if (searchErr) {
@@ -160,6 +227,11 @@ async function connectAndStartServer()
         } else {
           console.log('Data fetched from PROPERTY successfully.');
           console.log(searchResults);
+
+          
+
+
+
           res.json({ searchResults });
         }
       });
@@ -244,7 +316,8 @@ async function connectAndStartServer()
       email,
       base_price,
       serviceCharge,
-      number_of_days
+      number_of_days,
+      pics_array
     } = req.body;
 
     console.log(req.body);
@@ -252,8 +325,17 @@ async function connectAndStartServer()
     const currentDate = new Date().toISOString().split('T')[0];
     const startDate = new Date(availability[0]);
     const endDate = new Date(availability[1]);
+
+    
+
+
+
+    console.log("endDate: ", endDate);
+
     const formattedStartDate = startDate.toISOString().split('T')[0];
     const formattedEndDate = endDate.toISOString().split('T')[0];
+
+    const five_pics = pics_array.slice(-5);
   
     pool.getConnection((err, connection) => {
       if (err) {
@@ -302,17 +384,17 @@ async function connectAndStartServer()
 
               });
 
-              const picSql = `INSERT INTO PROPERTY_PICTURES (PID, Picture_url) VALUES (?, ?)`;
-              connection.query(picSql, [PID, pics], (picErr, picResults) => {
-                if(picErr)
-                {
-                  console.log('Error inserting into Property picture:', picErr);
-                }
-                else
-                {
-                  console.log(picResults);
-                }
-              })
+              five_pics.forEach((pic) => {
+                const picSql = `INSERT INTO PROPERTY_PICTURES (PID, Picture_url) VALUES (?, ?)`;
+                connection.query(picSql, [PID, pic], (PicErr, Picresults) => {
+                  if (PicErr) {
+                    console.error('Error inserting pics:', PicErr);
+                  } else {
+                    console.log(`Amenity inserted: ${pic}`);
+                  }
+                });
+
+              });
 
               res.status(200).json({ message: 'Data inserted successfully' });
             }
@@ -324,7 +406,7 @@ async function connectAndStartServer()
   });
 
 
-  /*
+  
   app.get('/getReservations/:userEmail', (req, res) => {
     const userEmail = req.params.userEmail;
   
@@ -362,35 +444,77 @@ async function connectAndStartServer()
       connection.release();
     });
   });
-  */
-
   
 
- /* app.post('/confirm-reservation', async (req, res) => {
-    const { PID, checkIn, checkOut, em } = req.body;
+  
+  app.post('/confirm-reservation', async (req, res) => {
+    const { em, PID, check_in, check_out, price } = req.body;
+    const email = em; 
+    console.log(req.body);
+
+    const a = check_in.substring(0, 10);
+    const b = check_out.substring(0, 10);
+
+    const checkin = new Date(a);
+    const checkout = new Date(b);
+    
+    console.log("checkin: ", checkin);
+   
+   // console.log("the data we have is");
+    
   
     pool.getConnection((err, connection) => {
-      if (err) throw err;
-      var sql = `SELECT UID FROM user WHERE Email = '${email}'`;
-      connection.query(sql, function (err, results, fields) {
-        if (err) throw err;
-        const guestSql = `INSERT INTO GUEST (UID, Guest_rating_num, Avg_rating) VALUES (?,?,?)`;
-        const guestValues = [results[0].UID, '0','0.0'];
-        connection.query(guestSql, guestValues, (guestErr, guestResults) => {
-          console.log("GUEST inserted successfully for reservations!");
-
-          //check if the property with the given PID is already reserved or not. 
-          // no need! We can take care from browse page maybe.
-
-        const reserveSql = `INSERT  `;
-        const reserveValues = [results[0].UID, '0','0.0'];
-
-
-        });
+      if (err) {
+        console.error("Error getting database connection:", err);
+        return res.status(500).json({ message: 'Database Connection Error' });
+      }
+  
+      const p_r_oSql = `INSERT INTO property_reserved_on (PID, Start_date, End_date) VALUES (?,?,?)`;
+      const p_r_oValues = [PID, checkin, checkout];
+  
+      connection.query(p_r_oSql, p_r_oValues, (p_r_oErr, p_r_oResults) => {
+        if (p_r_oErr) {
+          console.error('Error updating data:', p_r_oErr);
+          connection.release();
+          return res.status(500).json({ message: 'Updating Error' });
+        } else {
+          console.log("property reserved on updated!");
+          console.log(p_r_oResults);
+  
+          const gidSql = `SELECT GID FROM GUEST natural join USER WHERE Email = ?`;
+          const gidValues = [email];
+  
+          connection.query(gidSql, gidValues, (gidErr, gidResults) => {
+            if (gidErr) {
+              console.error("Error executing GID query:", gidErr);
+              connection.release();
+              return res.status(500).json({ message: 'Database Query Error' });
+            } else {
+              const guestID = gidResults[0].GID;
+  
+              const againSql = `INSERT INTO reservations (PID, GID, Check_in_date, Check_out_date, total_price) VALUES (?, ?, ?, ?, ?)`;
+              const againValues = [PID, guestID, checkin, checkout, price];
+  
+              connection.query(againSql, againValues, (fetchErr, againResults) => {
+                if (fetchErr) {
+                  console.error("Error executing INSERT query:", fetchErr);
+                  connection.release();
+                  return res.status(500).json({ message: 'Database Query Error' });
+                }
+  
+                console.log("Reservation successfully inserted into the reservations table");
+                console.log(againResults);
+                res.json(againResults);
+  
+                connection.release();
+              });
+            }
+          });
+        }
       });
-      connection.release();
     });
-  });*/
+  });
+  
   
 
   app.get('/getListings/:userEmail', (req, res) => {
@@ -414,6 +538,9 @@ async function connectAndStartServer()
     });
   });
 
+
+
+
   app.get('/isGuest', (req, res) => {
     const { email } = req.query;
   
@@ -425,53 +552,65 @@ async function connectAndStartServer()
         return res.status(500).json({ message: 'Database Connection Error' });
       }
   
-      const sql = `SELECT UID FROM user WHERE Email = ?`;
-      connection.query(sql, [email], (err, results) => {
-        if (err) {
+      const sql = `SELECT * FROM user WHERE Email = ?`;
+      connection.query(sql, [email], (err, results) => 
+      {
+        if (err) 
+        {
           connection.release();
           console.error('Error querying UID:', err);
           return res.status(500).json({ message: 'Fetching Error' });
         }
   
-        if (results.length > 0) {
-          const userSql = `SELECT * FROM USER WHERE UID = ?`;
-          const userValues = [results[0].UID];
-          connection.query(userSql, userValues, (userErr, userResults) => {
-            if (userErr) {
+        if (results.length > 0) 
+        {
+          const userUID = results[0].UID;
+          const hostSql = `SELECT HID FROM HOST WHERE UID = ?`;
+          const hostValues = [userUID];
+  
+          connection.query(hostSql, hostValues, (hostErr, hostResults) => {
+            if (hostErr) {
               connection.release();
-              console.error('Error querying user data:', userErr);
+              console.error('Error querying host data:', hostErr);
               return res.status(500).json({ message: 'Fetching Error' });
             }
   
-            const hostSql = `SELECT HID FROM HOST WHERE UID = ?`;
-            const hostValues = [userResults[0].UID];
-            connection.query(hostSql, hostValues, (hostErr, hostResults) => {
-              connection.release();
+            if (hostResults.length > 0) {
+              res.json({ message: 'yes', name: results[0].First_name });
+            } else {
+              const guestSql = `SELECT GID FROM GUEST WHERE UID = ?`;
+              const guestValues = [userUID];
   
-              if (hostErr) {
-                console.error('Error querying host data:', hostErr);
-                return res.status(500).json({ message: 'Fetching Error' });
-              }
+              connection.query(guestSql, guestValues, (guestErr, guestResults) => {
+                connection.release();
   
-              console.log('Data fetched from user successfully.');
+                if (guestErr) {
+                  console.error('Error querying guest data:', guestErr);
+                  return res.status(500).json({ message: 'Fetching Error' });
+                }
   
-              if (hostResults.length > 0) {
-                res.json({ message: 'yes'});
-              } else {
-               
-                res.json({ message: 'no' });
-              }
-            });
+                if (guestResults.length > 0) 
+                {
+                  res.json({ message: 'no', name: results[0].First_name });
+                } else 
+                {
+                  console.log("no user");
+                  res.json({ message: 'X', name: '' });
+                }
+              });
+            }
           });
-        } else {
+        } 
+        
+        else 
+        {
           connection.release();
-          res.status(404).json({ message: 'User not found' });
+          res.json({ message: 'X', name: '' });
         }
       });
     });
   });
   
-
 
 
   

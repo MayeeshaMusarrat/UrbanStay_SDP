@@ -11,6 +11,9 @@ const ConfirmReservation = () => {
   const { propertyParam } = useParams();
   const decodedPropValueString = decodeURIComponent(propertyParam);
   const propValue = JSON.parse(decodedPropValueString);
+
+ console.log(propValue);
+
   
   const [popup, setPopup] = useState(false);
 
@@ -23,7 +26,7 @@ const ConfirmReservation = () => {
   const navigate = useNavigate();
 
   const onConfirmPaymentBtnContainerClick = useCallback(() => {
-    navigate("/myreservations");
+    
   }, [navigate]);
 
   const onGroupContainer5Click = useCallback(() => {
@@ -42,18 +45,38 @@ const ConfirmReservation = () => {
     setSignoutConfirmationPopupOpen(false);
   }, []);
 
+  
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const em = localStorage.getItem('email');
-    const reserveProperty = {
-      PID: propValue.PID,
-      checkin: propValue.checkin_date_result,
-      checkout:propValue.checkout_date_result,
-      email: em
+    const datesCalendar = JSON.parse(localStorage.getItem('dateRange'));
+    
+    // Extract start and end dates
+    const dates = {
+      startDate: datesCalendar.startDate,
+      endDate: datesCalendar.endDate,
+      key: datesCalendar.key
     };
-
-    fetch("http://localhost:5001/confirm-reservation", {
+    const checkIn = new Date(dates.startDate);
+    const checkOut = new Date(dates.endDate);
+  
+    
+    
+    const timeDiff = checkOut - checkIn;
+    const daysDiff = Math.floor(timeDiff / (24*60*60*1000));
+    const user_price_per_night = parseInt(propValue.price,10)*parseInt(daysDiff,10);
+    
+    const reserveProperty = {
+      em: em,
+      PID: propValue.PID,
+      check_in: checkIn,
+      check_out: checkOut ,
+      price: user_price_per_night,
+    };
+  
+    fetch(`http://localhost:5001/confirm-reservation`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,9 +91,9 @@ const ConfirmReservation = () => {
       })
       .catch((error) => {
         console.log("Error occurred:", error);
-      
       });
   };
+  
 
 
 
@@ -318,7 +341,7 @@ const ConfirmReservation = () => {
         <img className={styles.image5Icon} alt="" src="/image-5@2x.png" />
         <div
           className={styles.confirmpaymentbtn}
-          onClick={onConfirmPaymentBtnContainerClick}
+           onClick= {onConfirmPaymentBtnContainerClick }
         >
           <button className={styles.confirmAndPay} type = "submit" onClick = {handleSubmit} >Confirm and Pay </button>
         </div>

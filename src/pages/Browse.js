@@ -19,17 +19,66 @@ import ReactDOM from 'react-dom';
 import { format } from "date-fns";
 import axios from 'axios';
 import FilterPopup from "../components/FilterPopup";
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+
+//============== PLEASE FIX THE POPUP ZINDEX ISSUES ========
 
 
 const Browse = ({ onClose }) => {
 
-  const [dateShow, setDateShow]  = useState("19 Oct, 2023 - 25 Oct, 2023");
-  
-
-  const openFrame = () => {
-    navigate("/view-details");
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    let color = '#';
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    return color;
   }
+
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+        width: 30.55,
+        height: 30.55,
+        marginTop: 5.5,
+        marginLeft: 179.99,
+        position: 'relative', 
+        zIndex: 1, 
+      },
+      children: `${name.split(' ')[0][0]}`,
+    };
+  }
+  const [visible, setVisible] = useState(true);
+  const isGuest = localStorage.getItem('GuestOrHost');
+
+
+
+  const [dateShow, setDateShow]  = useState("19 Oct, 2023 - 25 Oct, 2023");
+ 
+  const name = localStorage.getItem('name');
   
+  
+  useEffect(() => {
+   
+    if (localStorage.getItem('name')) {
+     
+    } 
+    else 
+    {
+      setVisible(false);
+    }
+  }, [name]);
+
+
   function formatDateDisplay(date, defaultText) {
     if (!date) return defaultText;
     return format(date, "d MMM, yyyy");
@@ -46,6 +95,8 @@ const [isPopupOpen, setPopupOpen] = useState(false);
   const closePopup = () => {
     setPopupOpen(false);
   };
+
+ 
 
 
 
@@ -152,6 +203,10 @@ const [isPopupOpen, setPopupOpen] = useState(false);
     navigate("/");
   }, [navigate]);
 
+  const onSignUpBtnClick = useCallback(() => {
+    navigate("/leading-page");
+  }, [navigate]);
+
   const storedValue = localStorage.getItem('email');
   const [loggedIn, setLoggedIn] = useState(storedValue);
 
@@ -166,6 +221,8 @@ const [isPopupOpen, setPopupOpen] = useState(false);
     setPopupLogin(!popupLogin);
   };
 
+  console.log("popupLogin: ", popupLogin);
+
   /**************************** Open view-details page depending on the clicked component*******/
   const [selectedProperty, setSelectedProperty] = useState(null);
 
@@ -178,6 +235,10 @@ const [isPopupOpen, setPopupOpen] = useState(false);
   const closePropertyFrame = () => {
     setSelectedProperty(null);
   };
+
+  const goHost = useCallback(() => {
+    navigate("/hosting-intro");
+  }, [navigate]);
 
 
   const onItemLink5Click = useCallback(() => {
@@ -194,6 +255,10 @@ const [isPopupOpen, setPopupOpen] = useState(false);
     }
   }, []);
 
+  const goProfile = useCallback(() => {
+    navigate("/profile");
+  }, [navigate]); 
+
   const onItemLink8Click = useCallback(() => {
     navigate("/");
   }, [navigate]);
@@ -203,7 +268,7 @@ const [isPopupOpen, setPopupOpen] = useState(false);
   }, [navigate]);
 
   const onBecomeHostBtnClick = useCallback(() => {
-    navigate("/hosting-intro");
+    navigate("/become-host");
   }, [navigate]);
 
   const openSignoutConfirmationPopup = useCallback(() => {
@@ -238,6 +303,31 @@ const [isPopupOpen, setPopupOpen] = useState(false);
 <FilterPopup />
 
 )}
+
+        
+<div className={styles.sortByParent}>
+      <div className={styles.sortBy}>Sort By</div>
+      <FormControl className={styles.parent} sx={{ width: 298 }} variant="outlined">
+        <Select
+          onChange={(e) => setSelectedSortOption(e.target.value)}
+          id="sort-select"
+          color="info"
+          size="small"
+        >
+          <MenuItem value="High to low price">High to low price</MenuItem>
+          <MenuItem value="Low to high price">Low to high price</MenuItem>
+          <MenuItem value="Large to small area">
+            Large to small area
+          </MenuItem>
+          <MenuItem value="Small to large area">
+            Small to large area
+          </MenuItem>
+        </Select>
+        <FormHelperText />
+      </FormControl>
+    </div>
+
+    
 
 
         <div className={styles.footer} data-scroll-to="footerContainer">
@@ -445,15 +535,17 @@ const [isPopupOpen, setPopupOpen] = useState(false);
             </div>
           </div>
         </div>
+
+
+
         
-     
-     
-       {
         <div className={styles.somanypropertycardsFrame}>
-
-          {propertyData.map((property, index) => (
-
-                <div key={index} className={styles.card} onClick={() => openPropertyFrame(property)}>
+        <Box>
+      <Grid container spacing={0} columns={10}>
+        {propertyData.map((property, index) => (
+          <Grid key={index}>
+            
+            <div className={styles.card} onClick={() => openPropertyFrame(property)}>
                   <img className={styles.imageIcon} src={property.imageUrl} alt="" />
                   <img className={styles.heartIcon} src="/heart.svg" alt="" />
                   <div className={styles.locationDates}>
@@ -475,35 +567,99 @@ const [isPopupOpen, setPopupOpen] = useState(false);
                   </div>
                   <img className={styles.ellipsesIcon} src="/ellipses.svg" alt="" />
                 </div>
-              ))}
-       
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+    </div>
+     
+      
+
+              { loggedIn && popupLogin && isGuest ? (
+
+            <div className={styles.signinPopupWithSignout}>
+              <div className={styles.loginPopupWithLogoutGrp}>
+                <div className={styles.loginPopupWithLogoutGrpChild} />
+                <button
+                  className={styles.becomehostbtn}
+                  id="BecomeHost"
+                  onClick={onBecomeHostBtnClick}
+                >
+                  <button
+                    className={styles.becomeAHost}
+                  >{`    Become a host `}</button>
+                </button>
+                <div className={styles.loginPopupWithLogoutGrpItem} />
+                <button className={styles.accsettingsbtn} id="accSettings">
+                  <button className={styles.becomeAHost} onClick = {goProfile}>
+                    {" "}
+                  Profile
+                  </button>
+                </button>
+                <button className={styles.wishlistbtn} id="wishlist">
+                  <button className={styles.becomeAHost}> Wishlist</button>
+                </button>
+                <button
+                  className={styles.signoutbtn}
+                  id="signOut"
+                  onClick={openSignoutConfirmationPopup}
+                >
+                  <button className={styles.signOut}> Sign out</button>
+                </button>
+              </div>
+            </div>
+
+
+        ) : popupLogin && !loggedIn ?  (
+          <div className={styles.signinPopupWithoutSignout}>
+          <div className={styles.loginPopupWithoutLogoutGrp}>
+            <div className={styles.loginPopupWithoutLogoutGrpChild} />
+            <button
+              className={styles.signinbtn}
+              id="signin"
+              onClick={onSignInBtnClick}
+            >
+              <button className={styles.signIn}> Sign In</button>
+            </button>
+            <button className={styles.signupbtn} id="signUp" onClick={onSignUpBtnClick}>
+              <button className={styles.signUp}>{`    Sign up `}</button>
+            </button>
+          </div>
+        </div>
+        ) : popupLogin && loggedIn && !isGuest ? (
+          <div className={styles.signinPopupWithSignout}>
+          <div className={styles.loginPopupWithLogoutGrp}>
+            <div className={styles.loginPopupWithLogoutGrpChild} />
+            <button
+              className={styles.becomehostbtn}
+              id="BecomeHost"
+              onClick={goHost}
+            >
+              <button
+                className={styles.becomeAHost}
+              >{`    Host A Place `}</button>
+            </button>
+            <div className={styles.loginPopupWithLogoutGrpItem} />
+            <button className={styles.accsettingsbtn} id="accSettings">
+              <button className={styles.becomeAHost} onClick = {goProfile}>
+                {" "}
+              Profile
+              </button>
+            </button>
+            <button className={styles.wishlistbtn} id="wishlist">
+              <button className={styles.becomeAHost}> Wishlist</button>
+            </button>
+            <button
+              className={styles.signoutbtn}
+              id="signOut"
+              onClick = {openSignoutConfirmationPopup}
+            >
+              <button className={styles.signOut}> Sign out</button>
+            </button>
+          </div>
         </div>
 
-        }
-
-        
-<div className={styles.sortByParent}>
-      <div className={styles.sortBy}>Sort By</div>
-      <FormControl className={styles.parent} sx={{ width: 298 }} variant="outlined">
-        <Select
-          onChange={(e) => setSelectedSortOption(e.target.value)}
-          id="sort-select"
-          color="info"
-          size="small"
-        >
-          <MenuItem value="High to low price">High to low price</MenuItem>
-          <MenuItem value="Low to high price">Low to high price</MenuItem>
-          <MenuItem value="Large to small area">
-            Large to small area
-          </MenuItem>
-          <MenuItem value="Small to large area">
-            Small to large area
-          </MenuItem>
-        </Select>
-        <FormHelperText />
-      </FormControl>
-    </div>
-
+        ) : null }
 
 
 
@@ -527,12 +683,26 @@ const [isPopupOpen, setPopupOpen] = useState(false);
             </div>
             <img className={styles.image31} alt="" src="/image-3-11@2x.png" />
           </div>
+
+
+
+          {
+          visible ? (
+            <div onClick={toggleLogin}>
+              <Avatar {...stringAvatar(name)} />
+            </div>
+          ) : null 
+        }
           <img
             className={styles.profileIcon}
             alt=""
             src="/profile-icon@2x.png"
             onClick = {toggleLogin}
           />
+
+
+
+
           <div className={styles.itemLinkParent}>
             <div className={styles.itemLink5} onClick={onItemLink5Click}>
               <div className={styles.contactUs}>CONTACT US</div>
@@ -617,58 +787,7 @@ const [isPopupOpen, setPopupOpen] = useState(false);
 
 
 
-          { loggedIn && popupLogin ? (
-
-          <div className={styles.signinPopupWithSignout}>
-            <div className={styles.loginPopupWithLogoutGrp}>
-              <div className={styles.loginPopupWithLogoutGrpChild} />
-              <button
-                className={styles.becomehostbtn}
-                id="BecomeHost"
-                onClick={onBecomeHostBtnClick}
-              >
-                <button
-                  className={styles.becomeAHost}
-                >{`    Become a host `}</button>
-              </button>
-              <div className={styles.loginPopupWithLogoutGrpItem} />
-              <button className={styles.accsettingsbtn} id="accSettings">
-                <button className={styles.becomeAHost}>
-                  {" "}
-                  Account Settings
-                </button>
-              </button>
-              <button className={styles.wishlistbtn} id="wishlist">
-                <button className={styles.becomeAHost}> Wishlist</button>
-              </button>
-              <button
-                className={styles.signoutbtn}
-                id="signOut"
-                onClick={openSignoutConfirmationPopup}
-              >
-                <button className={styles.signOut}> Sign out</button>
-              </button>
-            </div>
-          </div>
-          ) : popupLogin ?  (
-            <div className={styles.signinPopupWithoutSignout}>
-            <div className={styles.loginPopupWithoutLogoutGrp}>
-              <div className={styles.loginPopupWithoutLogoutGrpChild} />
-              <button
-                className={styles.signinbtn}
-                id="signin"
-                onClick={onSignInBtnClick}
-              >
-                <button className={styles.signIn}> Sign In</button>
-              </button>
-              <button className={styles.signupbtn} id="signUp">
-                <button className={styles.signUp}>{`    Sign up `}</button>
-              </button>
-            </div>
-          </div>
-          ) : (
-            null
-          )}
+  
 
 
 
