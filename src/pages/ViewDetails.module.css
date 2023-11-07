@@ -1184,6 +1184,16 @@
   width: 200px;
   line-height: 20px;
   font-weight: 600;
+ 
+}
+.divTot {
+  position: absolute;
+  top: 0;
+  left: 80px;
+  width: 200px;
+  line-height: 20px;
+  font-weight: 600;
+  text-align: right;
 }
 .divr1lutz1s,
 .spanh2dDc59958f {
@@ -1732,8 +1742,10 @@
 }
 .div7 {
   top: 36px;
-  left: 240.83px;
+  left: 244.83px;
   font-size: 15.13px;
+
+  text-align: right;
  
 }
 .div8,
@@ -1742,7 +1754,8 @@
   left: 0;
 }
 .div8 {
-  left: 275.55px;
+  left: 265.55px;
+  text-align: right;
 }
 .divh2dDaca06d3 {
   position: absolute;

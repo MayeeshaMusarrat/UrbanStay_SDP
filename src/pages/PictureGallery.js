@@ -4,7 +4,6 @@ import ImageListItem from '@mui/material/ImageListItem';
 
 const PictureGallery = ({ pictures }) => {
   if (!pictures || pictures.length < 5) {
-    // Handle the case when the pictures array is missing or doesn't have enough items
     return <div>No pictures available</div>;
   }
   

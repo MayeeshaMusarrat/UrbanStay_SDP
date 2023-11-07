@@ -24,7 +24,10 @@ import ViewDetails from "./pages/ViewDetails"
 import ConfirmListing from "./pages/ConfirmListing";
 import Browse from "./pages/Browse";
 import BecomeHost from './pages/BecomeHostSignupPage';
-
+import Notifications from './pages/Notifications';
+import Wishlist from './pages/Wishlist';
+import ShowReviews from "./pages/ShowReviews";
+import ShowReservations from "./pages/ShowReservations";
 
 function App() {
   const action = useNavigationType();
@@ -110,7 +113,24 @@ function App() {
         title = "";
         metaDescription = "";
         break;
+      case "/notifications":
+        title = "";
+        metaDescription = "";
+        break;
+      case "/wishlist":
+        title = "";
+        metaDescription = "";
+        break;
+        case "/show-reviews":
+        title = "";
+        metaDescription = "";
+        break;
+      case "/show-reservations":
+        title = "";
+        metaDescription = "";
+        break;
     }
+
 
     if (title) {
       document.title = title;
@@ -147,7 +167,11 @@ function App() {
       <Route path="/browse" element={<Browse />} />
       <Route path="/confirm-listing" element={<ConfirmListing />} />
       <Route path="/become-host" element={<BecomeHost />} />
-     
+      <Route path="/notifications" element={<Notifications />} />
+      <Route path="/wishlist" element={<Wishlist />} />
+      <Route path="/show-reviews" element={<ShowReviews />} />
+      <Route path="/show-reservations" element={<ShowReservations />} />
+
     </Routes>
   );
 }

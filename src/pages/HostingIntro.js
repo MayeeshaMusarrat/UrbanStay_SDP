@@ -3,6 +3,7 @@ import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
 import styles from "./HostingIntro.module.css";
+import IconPopup from "../components/IconPopup";
 
 const HostingIntro = () => {
   const [isSignoutConfirmationPopupOpen, setSignoutConfirmationPopupOpen] =
@@ -79,38 +80,13 @@ const HostingIntro = () => {
             </div>
             <img className={styles.image31} alt="" src="/image-3-11@2x.png" />
           </div>
-          <img
-            className={styles.profileIcon}
-            alt=""
-            src="/profile-icon@2x.png"
-          />
-          <div className={styles.signinPopupWithSignout}>
-            <div className={styles.loginPopupWithLogoutGrp}>
-              <div className={styles.loginPopupWithLogoutGrpChild} />
-              <button className={styles.becomehostbtn} id="BecomeHost">
-                <button
-                  className={styles.becomeAHost}
-                >{`    Become a host `}</button>
-              </button>
-              <div className={styles.loginPopupWithLogoutGrpItem} />
-              <button className={styles.accsettingsbtn} id="accSettings">
-                <button className={styles.becomeAHost}>
-                  {" "}
-                  Account Settings
-                </button>
-              </button>
-              <button className={styles.wishlistbtn} id="wishlist">
-                <button className={styles.becomeAHost}> Wishlist</button>
-              </button>
-              <button
-                className={styles.signoutbtn}
-                id="signOut"
-                onClick={openSignoutConfirmationPopup}
-              >
-                <button className={styles.signOut}> Sign out</button>
-              </button>
-            </div>
-          </div>
+
+
+
+      
+         <IconPopup />
+        
+
         </div>
       </div>
       {isSignoutConfirmationPopupOpen && (

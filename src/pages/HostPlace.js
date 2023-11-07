@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./HostPlace.module.css";
 import axios from 'axios';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import IconPopup from "../components/IconPopup";
 
 const HostPlace = () => {
 
@@ -341,7 +342,7 @@ const handleUpload = async () => {
             className={styles.bedrooms}
             color="info"
             placeholder="1"
-            //required={true}
+            required={true}
             fullWidth={true}
             sx={{ width: 253 }}
             variant="outlined"
@@ -354,7 +355,7 @@ const handleUpload = async () => {
             className={styles.rooms}
             color="info"
             placeholder="1"
-          //  required={true}
+            required={true}
             fullWidth={true}
             sx={{ width: 253 }}
             variant="outlined"
@@ -367,7 +368,7 @@ const handleUpload = async () => {
             className={styles.guests}
             color="info"
             placeholder="1"
-          //  required={true}
+            required={true}
             fullWidth={true}
             sx={{ width: 253 }}
             variant="outlined"
@@ -392,7 +393,7 @@ const handleUpload = async () => {
             className={styles.beds}
             color="info"
             value="1"
-         //   required={true}
+            required={true}
             fullWidth={true}
             sx={{ width: 253 }}
             variant="outlined"
@@ -405,7 +406,7 @@ const handleUpload = async () => {
             className={styles.bathrooms}
             color="info"
             placeholder="1"
-         //   required={true}
+            required={true}
             fullWidth={true}
             sx={{ width: 253 }}
             variant="outlined"
@@ -580,7 +581,7 @@ const handleUpload = async () => {
             className={styles.description}
             placeholder="Enter Description (max. 500 words)"
             color="info"
-        //    required={true}
+            required={true}
             fullWidth={true}
             sx={{ width: 253, minHeight: '145px' }} 
             variant="outlined"
@@ -615,7 +616,7 @@ const handleUpload = async () => {
             className={styles.country}
             color="info"
             placeholder="Enter Country"
-         //   required={true}
+           required={true}
             fullWidth={true}
             sx={{ width: 253}} 
             variant="outlined"
@@ -628,7 +629,7 @@ const handleUpload = async () => {
             className={styles.addressline}
             color="info"
             placeholder="Enter Address Line"
-        //    required={true}
+            required={true}
             fullWidth={true}
             sx={{ width: 909}} 
             variant="outlined"
@@ -641,7 +642,7 @@ const handleUpload = async () => {
             className={styles.state}
             color="info"
             placeholder="Enter State"
-        //    required={true}
+            required={true}
             fullWidth={true}
             sx={{ width: 253}} 
             variant="outlined"
@@ -653,7 +654,7 @@ const handleUpload = async () => {
             className={styles.zipcode}
             color="info"
             placeholder="Enter Zipcode"
-        //    required={true}
+            required={true}
             fullWidth={true}
             sx={{ width: 253}} 
             variant="outlined"
@@ -997,48 +998,11 @@ const handleUpload = async () => {
             </div>
             <img className={styles.image31} alt="" src="/image-3-11@2x.png" />
           </div>
-          
-          <div  onClick={toggle} >
-          <img
-            
-            className={styles.profileIcon}
-            alt=""
-            src="/profile-icon2@2x.png"
-          />
-         </div>
-
-         {popup && (
-       
-       <div className={styles.signinPopupWithSignout}>
-       <div className={styles.loginPopupWithLogoutGrp}>
-         <div className={styles.loginPopupWithLogoutGrpChild} />
-         <button className={styles.becomehostbtn} id="BecomeHost">
-           <button
-             className={styles.becomeAHost}
-           >{`    Become a host `}</button>
-         </button>
-         <div className={styles.loginPopupWithLogoutGrpItem} />
-         <button className={styles.accsettingsbtn} id="accSettings">
-           <button className={styles.becomeAHost}>
-             {" "}
-             Account Settings
-           </button>
-         </button>
-         <button className={styles.wishlistbtn} id="wishlist">
-           <button className={styles.becomeAHost}> Wishlist</button>
-         </button>
-         <button
-           className={styles.signoutbtn}
-           id="signOut"
-           onClick={openSignoutConfirmationPopup}
-         >
-           <button className={styles.signOut}> Sign out</button>
-         </button>
-       </div>
-     </div>
 
 
-      )}
+
+        <IconPopup />
+
 
 
           <div className={styles.itemLink9} onClick={onItemLink9Click}>

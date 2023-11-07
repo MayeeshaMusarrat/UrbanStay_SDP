@@ -26,6 +26,7 @@ const ViewDetails = ({ onClose }) => {
 
   const [pic_array, setPicArray] = useState([]);
 
+  /// =========================== REMEMBER: USE USEEFFECT TO FETCH RESERVED DATES, AMENITIES AND HOSTED BY ==============================
   useEffect(() => {
     fetch(`http://localhost:5001/view?PID=${PID}`)
       .then(response => {
@@ -1003,11 +1004,11 @@ const ViewDetails = ({ onClose }) => {
                     <div className={styles.div3u0me7}>
                       <div className={styles.span18x3iiu}>
                         <div className={styles.divh2dDaca06d3}>
-                          <div className={styles.div}>{`Total:  `}</div>
+                          <div className={styles.div}>{`Total `}</div>
                         </div>
                       </div>
                       <div className={styles.span1qs94rc}>
-                        <div className={styles.div}>{"BDT " + user_price_per_night}</div>
+                        <div className={styles.divTot}>{"BDT " + user_price_per_night}</div>
                       </div>
                     </div>
                   </div>

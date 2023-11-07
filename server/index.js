@@ -326,8 +326,6 @@ async function connectAndStartServer()
     const startDate = new Date(availability[0]);
     const endDate = new Date(availability[1]);
 
-    
-
 
 
     console.log("endDate: ", endDate);
@@ -611,7 +609,49 @@ async function connectAndStartServer()
     });
   });
   
+  ///Delete from Listing (check for existing reservations!)
 
+  app.delete('/deleteProperty/:PID', (req, res) => {
+    const { PID } = req.params;
+  
+    pool.getConnection((err, connection) => {
+      if (err) {
+        console.error('Error acquiring a connection from the pool:', err);
+        return res.status(500).json({ message: 'Error acquiring a connection' });
+      }
+  
+      const checkPropertyQuery = 'SELECT * FROM property_reserved_on WHERE PID = ?';
+  
+      connection.query(checkPropertyQuery, [PID], (checkError, checkResults) => {
+        if (checkError) {
+          connection.release();
+          console.error('Error checking property:', checkError);
+          return res.status(500).json({ message: 'Error checking property' });
+        }
+  
+        if (checkResults.length > 0) {
+          connection.release();
+          return res.status(400).json({ message: 'Property is reserved and cannot be deleted' });
+        }
+  
+        const deletePropertyQuery = 'DELETE FROM Property WHERE PID = ?';
+  
+        connection.query(deletePropertyQuery, [PID], (deleteError, deleteResults) => {
+          connection.release();
+  
+          if (deleteError) {
+            console.error('Error deleting property:', deleteError);
+            return res.status(500).json({ message: 'Error deleting property' });
+          }
+  
+          res.json({ message: 'Property deleted successfully' });
+        });
+      });
+    });
+  });
+  
+  
+  
 
   
 

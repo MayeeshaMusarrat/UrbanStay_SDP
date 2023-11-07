@@ -128,7 +128,7 @@ const PropertyDetailsPopup = ({ rowData, onClose }) => {
         >
           {rowData.Property}
         </div>
-        <div
+        <div // Open: 31 Oct, 2023 - 7 Nov, 2023
           style={{
             position: "absolute",
             top: "0px",
@@ -138,20 +138,21 @@ const PropertyDetailsPopup = ({ rowData, onClose }) => {
             fontSize: "14px"
           }}
         >
-          Open: 31 Oct, 2023 - 7 Nov, 2023
+         
         </div>
         <div
           style={{
             position: "absolute",
             top: "0px",
-            left: "556px",
+            left: "329px",
             textTransform: "capitalize",
             fontWeight: "600",
             textAlign: "right",
-            fontSize: "14px"
+            fontSize: "14px",
+            width: "400px"
           }}
         >
-          created on 31 Oct, 2023
+         { "Open: "+ rowData.Check_in + "- " + rowData.Check_out}
         </div>
       </div>
       <div

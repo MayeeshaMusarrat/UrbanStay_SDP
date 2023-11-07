@@ -512,7 +512,15 @@
   width: 1450px;
   height: 1494px;
 }
-.listingsDatagridWrapper,
+
+.listingsDatagridWrapper {
+  position: absolute;
+  top: 200px;
+  left: -5px;
+  width: 1525px;
+  height: 1534px;
+}
+
 .whiterectangle {
   position: absolute;
   top: 200px;

@@ -32,7 +32,7 @@
   left: 1px;
   background-color: var(--shade-01);
   box-shadow: 0 -7px 20px rgba(0, 0, 0, 0.1);
-  width: 1518px;
+  width: 1535px;
   height: 105px;
 }
 .getStarted {
@@ -158,7 +158,7 @@
   left: 0;
   background-color: var(--shade-01);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 1518px;
+  width: 1535px;
   height: 105px;
 }
 .stay {
@@ -256,89 +256,12 @@
   background-color: var(--color-lightgray-100);
   gap: var(--gap-3xs);
 }
-.loginPopupWithLogoutGrpItem {
-  position: absolute;
-  top: 195.75px;
-  left: 0.75px;
-  border-top: 0.5px solid var(--color-gray-300);
-  box-sizing: border-box;
-  width: 310.5px;
-  height: 0.5px;
-}
-.accsettingsbtn,
-.wishlistbtn {
-  padding: var(--padding-3xs);
-  position: absolute;
-  left: 0;
-  width: 311px;
-  height: 50px;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  box-sizing: border-box;
-}
-.accsettingsbtn {
-  cursor: pointer;
-  border: 0;
-  background-color: transparent;
-  top: 23px;
-  display: flex;
-  align-items: center;
-}
-.wishlistbtn {
-  top: 73px;
-}
-.signOut,
-.signoutbtn,
-.wishlistbtn {
-  cursor: pointer;
-  border: 0;
-  background-color: transparent;
-  display: flex;
-  align-items: center;
-}
-.signOut {
-  padding: 0;
-  position: relative;
-  font-size: var(--font-size-xl);
-  text-transform: capitalize;
-  font-weight: 600;
-  font-family: var(--font-inter);
-  color: var(--color-black);
-  text-align: left;
-  width: 262px;
-  flex-shrink: 0;
-}
-.signoutbtn {
-  padding: var(--padding-3xs);
-  position: absolute;
-  top: 213px;
-  left: 1px;
-  width: 311px;
-  height: 50px;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  box-sizing: border-box;
-}
-.loginPopupWithLogoutGrp,
-.signinPopupWithSignout {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 312px;
-  height: 286px;
-}
-.signinPopupWithSignout {
-  top: 82px;
-  left: 1162px;
-  display: none;
-}
+
 .stickyNavBar {
   position: absolute;
-  top: -18px;
+  top: -19px;
   left: 0;
-  width: 1760px;
+  width: 1800px;
   height: 432px;
   overflow: hidden;
   font-size: var(--font-size-base);

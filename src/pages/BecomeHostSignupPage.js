@@ -145,6 +145,7 @@ const BecomeHostSignupPage = () => {
                 </div>
               </div>
             </div>
+
             <button className={styles.becomememberbtn} id="member">
               <button
                 className={styles.becomememberbtnChild}
@@ -152,6 +153,8 @@ const BecomeHostSignupPage = () => {
               />
               <div className={styles.becomeAHost}>Become a Host</div>
             </button>
+
+            
           </form>
         </div>
         <div className={styles.frame2}>
