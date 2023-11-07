@@ -28,6 +28,7 @@ import Notifications from './pages/Notifications';
 import Wishlist from './pages/Wishlist';
 import ShowReviews from "./pages/ShowReviews";
 import ShowReservations from "./pages/ShowReservations";
+import OTPPage from "./pages/OTPPage";
 
 function App() {
   const action = useNavigationType();
@@ -129,6 +130,10 @@ function App() {
         title = "";
         metaDescription = "";
         break;
+      case "/otp-page":
+        title = "";
+        metaDescription = "";
+        break;
     }
 
 
@@ -171,6 +176,7 @@ function App() {
       <Route path="/wishlist" element={<Wishlist />} />
       <Route path="/show-reviews" element={<ShowReviews />} />
       <Route path="/show-reservations" element={<ShowReservations />} />
+      <Route path="/otp-page" element={<OTPPage />} />
 
     </Routes>
   );
