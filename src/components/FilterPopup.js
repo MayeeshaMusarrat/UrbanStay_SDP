@@ -31,11 +31,11 @@ const FilterPopup = ({ onClose }) => {
         rows={1}
         maxRows={1}
         label="Minimum"
-        placeholder="BDT 5000"
+        placeholder="BDT 2500"
         fullWidth={true}
         sx={{ width: 301 }}
         variant="outlined"
-        multiline
+        
       />
       <TextField
         className={styles.minprice1}
@@ -43,11 +43,11 @@ const FilterPopup = ({ onClose }) => {
         rows={1}
         maxRows={1}
         label="Maximum"
-        placeholder="BDT 2500"
+        placeholder="BDT 5000"
         fullWidth={true}
         sx={{ width: 301 }}
         variant="outlined"
-        multiline
+        
       />
 
       <div className={styles.filterPopupChild1} />

@@ -7,13 +7,32 @@ import styles from "./MyReservations.module.css";
 import Button from "@mui/material/Button";
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridApi, GridCellValue } from '@mui/x-data-grid';
+import './DataGridStyles.css'; 
+
+import IconButton from "@mui/material/IconButton";
+import FindInPageIcon from '@mui/icons-material/FindInPage';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+
+import PropertyDetailsForReservation from '../components/PropertyDetailsForReservationP';
+
 
 
 const MyReservations = () => {
 
   const [data, setData] = useState([]);
   const userEmail = localStorage.getItem('email');
-  
+
+  const [openPopupProperty, setOpenPopupProperty] = useState(false);
+  const [selectedRowProperty, setSelectedRowProperty] = useState(null);
+
+  const closePopupProperty = () => {
+    setSelectedRowProperty(null);
+    setOpenPopupProperty(false);
+    console.log("Inside closePopupProperty function");
+  };
+
+ 
+
   useEffect(() => {
     fetch(`http://localhost:5001/getReservations/${userEmail}`)
       .then((response) => {
@@ -23,11 +42,16 @@ const MyReservations = () => {
         return response.json();
       })
       .then((fetchedData) => {
-        if (Array.isArray(fetchedData)) {
+        if (fetchedData.pendingReservations && fetchedData.approvedReservations) {
           console.log("Data fetched");
-          setData(fetchedData);
+          // Assuming you have a state variable called 'reservations' to store the data
+          setData({
+            pendingReservations: fetchedData.pendingReservations,
+            approvedReservations: fetchedData.approvedReservations,
+          });
+          console.log(data);
         } else {
-          console.error('Fetched data is not an array:', fetchedData);
+          console.error('Data structure is not as expected:', fetchedData);
         }
       })
       .catch((error) => {
@@ -36,25 +60,65 @@ const MyReservations = () => {
   }, []);
   
   
+  const oneDay = 24 * 60 * 60 * 1000;
   
-  
-  const rows = data.map((item) => ({
-     
-    id: item.PID, 
-    Property: item.Property_title,
-    bedrooms: item.Num_of_bedrooms,
-    beds: item.Num_of_beds,
-    baths: item.Num_of_bathrooms,
-    rooms: item.Num_of_rooms,
-    location: item.City,
-    Check_in: new Date(item.Check_in_date).toISOString().split('T')[0],
-    Check_out: new Date(item.Check_out_date).toISOString().split('T')[0], 
-    price: item.Price_per_night+'$',
-    
-  }));
+  const rows = data.pendingReservations
+  ? data.pendingReservations.map((item) => ({
+      id: item.GID,
+      pid: item.PropertyID,
+      Property: item.Property_title,
+      Status: "Pending",
+      bedrooms: item.Num_of_bedrooms,
+      beds: item.Num_of_beds,
+      baths: item.Num_of_bathrooms,
+      guests: item.pending_Guests,
+      rooms: item.pending_Rooms,
+      location: item.City,
+      Check_in: new Date(item.CheckInDate).toISOString().split('T')[0],
+      Check_out: new Date(item.CheckOutDate).toISOString().split('T')[0],
+      price: item.TotalPrice + ' BDT',
+      price_night: item.Price_per_night,
+      pics: item.pics,
+      address_line: item.Address_line,
+      category: item.category,
+      description: item.description,
+      rating: item.Avg_ratings,
+      area: item.Area,
+    }))
+  : [];
+
+const approvedRows = data.approvedReservations
+  ? data.approvedReservations.map((item) => ({
+      id: item.GID,
+      pid: item.PID,
+      Property: item.Property_title,
+      Status: "Reserved",
+      bedrooms: item.Num_of_bedrooms,
+      beds: item.Num_of_beds,
+      baths: item.Num_of_bathrooms,
+      guests: item.approved_Guests,
+      rooms: item.approved_Rooms,
+      location: item.City,
+      Check_in: new Date(new Date(item.CheckInDate).getTime() + oneDay).toISOString().split('T')[0],
+      Check_out: new Date(new Date(item.CheckOutDate).getTime() + oneDay).toISOString().split('T')[0],
+      price: item.TotalPrice + ' BDT',
+      price_night: item.Price_per_night,
+      pics: item.pics,
+      address_line: item.Address_line,
+      category: item.category,
+      description: item.description,
+      rating: item.Avg_ratings,
+      area: item.Area,
+    }))
+  : [];
+
+// Merge the rows from both views
+const allRows = rows.concat(approvedRows);
+
 
   
 const columns: GridColDef[] = [
+  /*
   {
     field: "action",
     headerName: "Action",
@@ -79,6 +143,39 @@ const columns: GridColDef[] = [
       return <Button onClick={onClick}>Click</Button>;
     }
   },
+  */
+
+
+   
+  {
+    field: "viewProperty",
+    headerName: "Action",
+    headerAlign: "center", 
+    align: "center", 
+    width: 100,
+    renderCell: (params) => (
+      <>
+      
+
+      <IconButton
+        onClick={() => {
+          setSelectedRowProperty(params.row);
+          setOpenPopupProperty(true);
+        }}
+      >
+        <FindInPageIcon style={{ color: '0F52BA', display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }} />
+      </IconButton>
+
+        <IconButton
+            
+        >
+          <DeleteRoundedIcon style={{ color: '0F52BA' , display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }} />
+        </IconButton>
+        </>
+
+    ),
+    disableSelectionOnClick: true,
+  },
 
   {
     field: 'Property',
@@ -88,39 +185,13 @@ const columns: GridColDef[] = [
   },
   
   {
-    field: 'bedrooms',
-    headerName: 'Bedrooms',
+    field: 'Status',
+    headerName: 'Status',
   
     width: 120,
     
   },
-  {
-    field: 'beds',
-    headerName: 'Beds',
-    
-    width: 80,
-    
-  },
-  {
-    field: 'baths',
-    headerName: 'Bathrooms',
-    width: 160,
-    
-  },
 
-  {
-    field: 'rooms',
-    headerName: 'Rooms',
-    width: 160,
-    
-  },
-
-  {
-    field: 'location',
-    headerName: 'Location',
-    width: 180,
-    
-  },
   {
     field: 'Check_in',
     headerName: 'Check-in',
@@ -147,6 +218,17 @@ const columns: GridColDef[] = [
    {id:1, Property: "Neel Oboni 5th floor",Status: "Reserved", bedrooms: "2", beds: "2", bathrooms: "2", location: "Shahinbagh, Dhaka", check_in: "17/10/23", check_out: "18/10/23", price: "1400$"}
 ]; */
 
+
+const getCellClassName = (params) => {
+  if (params.field === 'Status') {
+    if (params.value === 'Reserved') {
+      return 'reserved-cell';
+    } else if (params.value === 'Pending') {
+      return 'pending-cell';
+    }
+  }
+  return '';
+};
 
   const [popup, setPopup] = useState(false);
 
@@ -185,7 +267,7 @@ const columns: GridColDef[] = [
   }, [navigate]);
 
   const onItemLink8Click = useCallback(() => {
-    navigate("/profile");
+    navigate("/temp-profile");
   }, [navigate]);
 
   const onItemLink9Click = useCallback(() => {
@@ -406,7 +488,7 @@ const columns: GridColDef[] = [
           </div>
         </div>
         <div className={styles.testimonialSection}>
-          <div className={styles.h3}>View the properties reserved by you!</div>
+          <div className={styles.h3}>Filter Reservations </div>
         </div>
         <img className={styles.pseudoIcon} alt="" src="/pseudo@2x.png" />
 
@@ -416,8 +498,9 @@ const columns: GridColDef[] = [
 
             <Box sx={{ height: 600, width: '100%' }}>
             <DataGrid
-              rows={rows}
+              rows={allRows}
               columns={columns}
+              getCellClassName={getCellClassName}
               initialState={{
                 pagination: {
                   paginationModel: {
@@ -426,14 +509,23 @@ const columns: GridColDef[] = [
                 },
               }}
               pageSizeOptions={[5]}
-              checkboxSelection
-              disableRowSelectionOnClick
+             
+             
             />
           </Box>
-
-
           </div>
         </div>
+
+
+        {openPopupProperty && (
+        <PortalPopup
+          overlayColor="rgba(113, 113, 113, 0.3)"
+          placement="Centered"
+          onOutsideClick={closePopupProperty}
+        >
+          <PropertyDetailsForReservation rowData={selectedRowProperty} onClose={closePopupProperty} />
+        </PortalPopup>
+      )}
 
 
 

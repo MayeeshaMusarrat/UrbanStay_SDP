@@ -2,7 +2,9 @@ import { TextField, Box, Rating } from "@mui/material";
 import * as React from 'react'; 
 
 
-const UserInfoPopup = ({ onClose }) => {
+const UserInfoPopup = ({ rowData, onClose }) => {
+
+  console.log("rowdata: ", rowData);
   return (
     <div
       style={{
@@ -43,7 +45,7 @@ const UserInfoPopup = ({ onClose }) => {
           width: "522px",
         }}
       >
-        Lives in Dhaka, Bangladesh
+       {rowData.pending_rooms + " Rooms, " + rowData.pending_Guests + " guests"}
       </div>
       <div
         style={{
@@ -58,7 +60,7 @@ const UserInfoPopup = ({ onClose }) => {
       >
         <span style={{ lineBreak: "anywhere", width: "100%" }}>
           <span style={{ fontWeight: "500" }}>{`Contact Number: `}</span>
-          <span>01711897088</span>
+          <span>{rowData.phone}</span>
         </span>
       </div>
       <div
@@ -75,7 +77,7 @@ const UserInfoPopup = ({ onClose }) => {
       >
         <span style={{ lineBreak: "anywhere", width: "100%" }}>
           <span style={{ fontWeight: "500" }}>Email:</span>
-          <span> musarrat@gmail.com</span>
+          <span> {rowData.Email}</span>
         </span>
       </div>
       <div
@@ -90,7 +92,7 @@ const UserInfoPopup = ({ onClose }) => {
           width: "269px",
         }}
       >
-        Joined on 31 Oct, 2023
+        {"Joined on "+ rowData.Joining_date}
       </div>
       <img
         style={{
@@ -102,7 +104,7 @@ const UserInfoPopup = ({ onClose }) => {
           objectFit: "cover",
         }}
         alt=""
-        src="/pic2-1@2x.png"
+        src={rowData.profilePic}
       />
       <div
         style={{
@@ -114,7 +116,7 @@ const UserInfoPopup = ({ onClose }) => {
           fontWeight: "600",
         }}
       >
-        Mayeesha Musarrat
+        {rowData.GuestName}
       </div>
       <div
         style={{
@@ -159,7 +161,7 @@ const UserInfoPopup = ({ onClose }) => {
           fontWeight: "600",
         }}
       >
-        About Mayeesha
+       { "About " + rowData.GuestName}
       </div>
       <div
         style={{
@@ -172,7 +174,7 @@ const UserInfoPopup = ({ onClose }) => {
           width: "748px",
           height: "80px",
         }}
-      >{`Our beautifully designed, brand new villa, offering a large space with fantastic amenities to ensure a comfortable and enjoyable stay. Our villa features a spacious working space area/conference room and a rooftop with a full mountain view, perfect for catching up on work or relaxing with friends and family. Our property is maintained and `}</div>
+      >  {rowData.GuestDescription}</div>
       <div
         style={{
           position: "absolute",
@@ -191,7 +193,7 @@ const UserInfoPopup = ({ onClose }) => {
           >
             <Rating
               name="simple-controlled"
-              value={3}
+              defaultValue={rowData.GuestRating} precision={0.5} readOnly 
               
             />
           </Box>

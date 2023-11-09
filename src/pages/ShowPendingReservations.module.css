@@ -1,4 +1,262 @@
-.heading4 {
+.reservationheading {
+    position: absolute;
+    top: 135px;
+    left: 63px;
+    letter-spacing: 0.1px;
+    line-height: 32px;
+    display: inline-block;
+    font-family: var(--font-poppins);
+    width: 818px;
+    height: 52px;
+    font-size: 20px;
+  }
+  .whiterectangle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--color-white);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 1518px;
+    height: 105px;
+  }
+  .stay {
+    font-weight: 500;
+    color: #6c60fe;
+  }
+  .urbanstayTxt {
+    line-break: anywhere;
+    width: 100%;
+  }
+  .urbanstay {
+    position: absolute;
+    top: 49px;
+    left: 25px;
+    letter-spacing: -1px;
+    line-height: 70px;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    width: 85px;
+    height: 20px;
+  }
+  .image31,
+  .urbanstayParent {
+    position: absolute;
+    width: 133px;
+  }
+  .image31 {
+    top: 0;
+    left: 0;
+    height: 46px;
+    object-fit: cover;
+  }
+  .urbanstayParent {
+    top: 22px;
+    left: 5px;
+    height: 69px;
+    cursor: pointer;
+  }
+  .stickyNavBar {
+    position: absolute;
+    top: -6px;
+    left: 0;
+    width: 1542px;
+    height: 119px;
+    overflow: hidden;
+    font-size: var(--font-size-base);
+  }
+  .bigcalendar {
+    position: absolute;
+    top: 196px;
+    left: 62px;
+   
+    width: 1400px;
+    height: 685px;
+  }
+  .guestdatagrid {
+    position: absolute;
+    top: 909px;
+    left: 64px;
+    
+    box-sizing: border-box;
+    width: 928px;
+    height: 660px;
+    overflow: hidden;
+  }
+  .filterChild {
+    position: absolute;
+    top: 17px;
+    left: 20px;
+    border-radius: 15px;
+    background-color: var(--color-white);
+    box-shadow: 0 0 13px rgba(0, 0, 0, 0.25);
+    width: 416px;
+    height: 630px;
+  }
+  .guestRating {
+    position: absolute;
+    top: 0;
+    left: 1px;
+    letter-spacing: -1px;
+    line-height: 20px;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    width: 342px;
+  }
+  .maxguestrating,
+  .minguestrating {
+    border: 0;
+    background-color: transparent;
+    position: absolute;
+    height: calc(100% - 31px);
+    width: calc(100% - 202px);
+    top: 31px;
+    right: 202px;
+    bottom: 0;
+    left: 0;
+  }
+  .maxguestrating {
+    right: 0;
+    left: 202px;
+  }
+  .guestrating,
+  .guestratingChild {
+    position: absolute;
+    top: 53.5px;
+    left: 151px;
+    width: 36px;
+    height: 2px;
+  }
+  .guestrating {
+    top: 0;
+    left: 0;
+    width: 343px;
+    height: 81px;
+  }
+  .maxPrice,
+  .minPrice {
+    position: absolute;
+    top: 0;
+    left: 1px;
+    letter-spacing: -1px;
+    line-height: 20px;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    width: 102px;
+  }
+  .maxPrice {
+    left: 202px;
+  }
+  .minguestrating1 {
+    border: 0;
+    background-color: transparent;
+    position: absolute;
+    height: calc(100% - 31px);
+    width: calc(100% - 200px);
+    top: 31px;
+    right: 200px;
+    bottom: 0;
+    left: 0;
+  }
+  .pricingChild {
+    position: absolute;
+    top: 54px;
+    left: 151px;
+    width: 36px;
+    height: 2px;
+  }
+  .pricing {
+    top: 236px;
+    width: 341px;
+    height: 81px;
+  }
+  .pricing,
+  .roomsGuests,
+  .sortBy {
+    position: absolute;
+    left: 0;
+  }
+  .roomsGuests {
+    top: 118px;
+    width: 341px;
+    height: 81px;
+  }
+  .sortBy {
+    top: 0;
+    line-height: 20px;
+    font-weight: 600;
+  }
+  .parent,
+  .sortby {
+    position: absolute;
+    top: 31px;
+    left: 0;
+  }
+  .sortby {
+    top: 354px;
+    left: 1px;
+    width: 340px;
+    height: 68px;
+  }
+  .filter1,
+  .filterbtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .filter1 {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: relative;
+    font-size: var(--font-size-sm);
+    text-transform: capitalize;
+    font-weight: 700;
+    font-family: var(--font-inter);
+    color: white;
+    text-align: center;
+    width: 166px;
+    flex-shrink: 0;
+  }
+  .filterbtn {
+    position: absolute;
+    top: 480px;
+    left: 0;
+    border-radius: 9.08px;
+    background-color: var(--color-darkblue);
+    width: 343px;
+    height: 49px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: var(--padding-3xs);
+    box-sizing: border-box;
+  }
+  .filterbtn:hover {
+    background-color: rgba(88, 57, 227, 0.93);
+    gap: 10px;
+  }
+  .filter,
+  .filterframe {
+    position: absolute;
+    top: 64px;
+    left: 59px;
+    width: 343px;
+    height: 529px;
+    color: gray;
+  }
+  .filter {
+    top: 910px;
+    left: 1008px;
+    width: 452px;
+    height: 659px;
+    overflow: hidden;
+    font-size: var(--font-size-mini);
+    color: var(--color-slategray);
+  }
+  .heading4 {
     position: relative;
     line-height: 28.8px;
     font-weight: 600;
@@ -7,7 +265,7 @@
     position: relative;
     font-size: var(--font-size-base);
     line-height: 24px;
-    color: white;
+    color: var(--color-whitesmoke);
     display: flex;
     align-items: center;
     width: 378px;
@@ -437,169 +695,15 @@
     color: white;
     font-family: var(--font-plus-jakarta-sans);
   }
-  .reservationheading {
-    position: absolute;
-    top: 149px;
-    left: 393px;
-    letter-spacing: 0.1px;
-    line-height: 32px;
-    display: inline-block;
-    width: 818px;
-    height: 52px;
-  }
-  .whiterectangle {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: var(--color-white);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 1518px;
-    height: 105px;
-  }
-  .stay {
-    font-weight: 500;
-    color: #6c60fe;
-  }
-  .urbanstayTxt {
-    line-break: anywhere;
-    width: 100%;
-  }
-  .urbanstay {
-    position: absolute;
-    top: 49px;
-    left: 25px;
-    letter-spacing: -1px;
-    line-height: 70px;
-    text-transform: capitalize;
-    display: flex;
-    align-items: center;
-    width: 85px;
-    height: 20px;
-  }
-  .image31,
-  .urbanstayParent {
-    position: absolute;
-    width: 133px;
-  }
-  .image31 {
-    top: 0;
-    left: 0;
-    height: 46px;
-    object-fit: cover;
-  }
-  .urbanstayParent {
-    top: 22px;
-    left: 5px;
-    height: 69px;
-    cursor: pointer;
-  }
-  .stickyNavBar,
-  .usericon {
-    position: absolute;
-    left: 0;
-    overflow: hidden;
-  }
-  .stickyNavBar {
-    top: -6px;
-    width: 1542px;
-    height: 119px;
-    font-size: var(--font-size-base);
-    font-family: var(--font-lato);
-  }
-  .usericon {
-    height: 100%;
-    width: 14.64%;
-    top: 0;
-    right: 85.36%;
-    bottom: 0;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-  }
-  .oct2023,
-  .viewDetails {
-    position: absolute;
-    height: 23.86%;
-    left: 17.47%;
-    text-transform: capitalize;
-    display: flex;
-    align-items: center;
-  }
-  .viewDetails {
-    width: 18.97%;
-    top: 68.18%;
-    text-decoration: underline;
-    font-weight: 500;
-    cursor: pointer;
-  }
-  .oct2023 {
-    width: 38.27%;
-    top: 44.32%;
-  }
-  .mayeeshaMusarrat1 {
-    margin-block-start: 0;
-    margin-block-end: 10px;
-    font-weight: 500;
-  }
-  .mayeeshaMusarrat {
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-transform: capitalize;
-  }
-  .mayeeshaMusarratWrapper,
-  .ratingstar {
-    position: relative;
-    width: 161px;
-    height: 46px;
-  }
-  .ratingstar {
-    background-color: var(--color-gainsboro);
-    width: 337px;
-    height: 30px;
-  }
-  .nameAndRating {
-    position: absolute;
-    height: 34.09%;
-    width: 82.53%;
-    top: 15.91%;
-    right: 0;
-    bottom: 50%;
-    left: 17.47%;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 8px;
-    font-size: var(--font-size-mini);
-  }
-  .guestcomponent,
-  .reviewframe {
-    position: absolute;
-    top: 23px;
-    left: 28px;
-    width: 601px;
-    height: 88px;
-  }
-  .reviewframe {
-    top: 201px;
-    left: 365px;
-    width: 785px;
-    height: 1204px;
-    overflow: hidden;
-    font-size: var(--font-size-xs);
-    color: var(--color-black);
-  }
-  .showReservations {
+  .showPendingReservations {
     position: relative;
     background-color: var(--color-white);
     width: 100%;
-    height: 1913px;
+    height: 2149px;
     overflow: hidden;
     text-align: left;
     font-size: var(--font-size-5xl);
     color: var(--color-darkblue);
-    font-family: var(--font-poppins);
-    
+    font-family: var(--font-lato);
   }
   

@@ -20,6 +20,9 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 
+import { Link } from 'react-router-dom';
+
+
 const MyDataGrid = ({ data }) => {
 
   const [errorPopupOpen, setErrorPopupOpen] = useState(false);
@@ -36,6 +39,9 @@ const MyDataGrid = ({ data }) => {
   }, [errorPopupOpen]);
 
 
+
+// ERROR HERE
+
   const handleDeleteProperty = (PID) => {
     fetch(`http://localhost:5001/deleteProperty/${PID}`, {
       method: 'DELETE',
@@ -45,7 +51,6 @@ const MyDataGrid = ({ data }) => {
         
         console.log(data.message);
       })
-      .then 
       .catch((error) => {
        //insert popup here
        setErrorMessage('Error deleting property. Please try again.'); // Set your error message here
@@ -53,13 +58,6 @@ const MyDataGrid = ({ data }) => {
          
         console.log('Error deleting property:', error);
       });
-  };
-
-
-  const openReviewFrame = (PID) => {
-    console.log("passed param: ", PID);
-    const prop = encodeURIComponent(JSON.stringify(PID));
-    navigate(`/view-details/${PID}`);
   };
 
 
@@ -133,11 +131,14 @@ const MyDataGrid = ({ data }) => {
       width: 270,
       headerAlign: "center", 
       align: "center", 
+      
       renderCell: (params) => (
         <div>
+           <Link to={`/show-pending-reservations/${params.row.id}`}> 
           <AvatarGroup
             renderSurplus={(surplus) => <span>+{surplus.toString()[0]}k</span>}
             total={5}
+            style={{ cursor: "pointer" }}
             
           >
             <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
@@ -145,6 +146,7 @@ const MyDataGrid = ({ data }) => {
             <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
             <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
           </AvatarGroup>
+          </Link>
         </div>
       ),
       disableSelectionOnClick: true,
@@ -158,6 +160,7 @@ const MyDataGrid = ({ data }) => {
       width: 300,
       renderCell: (params) => (
         <div>
+          <Link to={`/show-reservations`}> 
           <AvatarGroup
             renderSurplus={(surplus) => <span>+{surplus.toString()[0]}k</span>}
             total={5}
@@ -168,6 +171,7 @@ const MyDataGrid = ({ data }) => {
             <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
             <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
           </AvatarGroup>
+       </Link>
         </div>
       ),
       disableSelectionOnClick: true,
@@ -179,10 +183,13 @@ const MyDataGrid = ({ data }) => {
       align: "center", 
       width: 250,
       renderCell: (params) => (
+        <> 
+          <Link to={`/show-reservations`}> 
+        
+       
         <AvatarGroup
           renderSurplus={(surplus) => <span>+{surplus.toString()[0]}k</span>}
           total={24}
-          onClick={() => openGuests(params.row)}
           style={{ cursor: "pointer" }}
         >
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
@@ -190,6 +197,8 @@ const MyDataGrid = ({ data }) => {
           <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
           <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
         </AvatarGroup>
+          </Link>
+        </>
       ),
       disableSelectionOnClick: true,
     },
@@ -197,15 +206,17 @@ const MyDataGrid = ({ data }) => {
     {
       field: "reviews",
       headerName: "Reviews",
-      headerAlign: "center", 
-      align: "center", 
+      headerAlign: "center",
+      align: "center",
       width: 99,
       sortable: false,
       renderCell: (params) => (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
-          <IconButton>
-            <SpeakerNotesRoundedIcon style={{ color: '#0F52BA' }} />
-          </IconButton>
+          <Link to={`/show-reviews/${params.row.id}`}>
+            <IconButton>
+              <SpeakerNotesRoundedIcon style={{ color: '#0F52BA' }} />
+            </IconButton>
+          </Link>
         </div>
       ),
     },
@@ -214,14 +225,6 @@ const MyDataGrid = ({ data }) => {
 
   ];
 
-  const openProperty = (row) => {
-    setSelectedRowProperty(row);
-    setOpenPopupProperty(true);
-  };
-
-  const openGuests = (row) => {
-    setSelectedRowGuests(row);
-  };
 
  
 

@@ -247,7 +247,7 @@ const LandingPage = ({ onClose }) => {
   }, [navigate]); 
 
   const goProfile = useCallback(() => {
-    navigate("/profile");
+    navigate("/temp-profile");
   }, [navigate]); 
 
   const onSignUpBtnClick = useCallback(() => {
@@ -1507,6 +1507,7 @@ const handleSubmit = (e) => {
 
 
            ) : popupLogin && !loggedIn ?  (
+            
             <div className={styles.signinPopupWithoutSignout}>
             <div className={styles.loginPopupWithoutLogoutGrp}>
               <div className={styles.loginPopupWithoutLogoutGrpChild} />
@@ -1522,6 +1523,9 @@ const handleSubmit = (e) => {
               </button>
             </div>
           </div>
+
+
+
           ) : loggedIn && popupLogin ? (
             <div className={styles.signinPopupWithSignout}>
             <div className={styles.loginPopupWithLogoutGrp}>

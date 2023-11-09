@@ -1,5 +1,8 @@
-import React, { useState,  useCallback, useEffect, useNavigate } from 'react';
+import React, { useState,  useCallback, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './IconPopup.module.css';
+import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
+import PortalPopup from './PortalPopup';
 
 const IconPopup = () => {
 
@@ -9,6 +12,25 @@ const IconPopup = () => {
   const togglePopup = () => {
     setIsPopupVisible(!isPopupVisible);
   };
+
+  const navigate = useNavigate(); 
+  const handleProfileClick = () => {
+    navigate('/profile'); 
+  };
+
+  const handleHostPlaceClick = () => {
+    navigate('/hosting-intro'); 
+  };
+
+  const [isSignoutConfirmationPopupOpen, setSignoutConfirmationPopupOpen] = useState(false);
+  const openSignoutConfirmationPopup = useCallback(() => {
+    setSignoutConfirmationPopupOpen(true);
+  }, []);
+
+  const closeSignoutConfirmationPopup = useCallback(() => {
+    setSignoutConfirmationPopupOpen(false);
+  }, []);
+
 
 
 
@@ -31,21 +53,31 @@ const IconPopup = () => {
           <div className={styles.loginPopupWithLogoutGrpChild} />
           <div className={styles.lineParent}>
             <div className={styles.groupChild} />
-            <button className={styles.profilebtn} id="accSettings">
+            <button className={styles.profilebtn} id="accSettings" onClick = {handleProfileClick}>
               <button className={styles.profile} > Profile</button>
             </button>
             <button className={styles.wishlistbtn} id="accSettings">
               <button className={styles.profile}> Wishlist</button>
             </button>
-            <button className={styles.hostbtn} id="accSettings">
+            <button className={styles.hostbtn} id="accSettings" onClick = {handleHostPlaceClick}>
               <button className={styles.profile}> Host a place</button>
             </button>
             <button className={styles.notifbtn} id="accSettings">
               <button className={styles.profile}> Notifications</button>
             </button>
             <button className={styles.signoutbtn} id="accSettings">
-              <button className={styles.signOut}> Sign out</button>
+              <button className={styles.signOut}  onClick={openSignoutConfirmationPopup}> Sign out</button>
             </button>
+            {isSignoutConfirmationPopupOpen && (
+            <PortalPopup
+              overlayColor="rgba(113, 113, 113, 0.3)"
+              placement="Centered"
+              onOutsideClick={closeSignoutConfirmationPopup}
+            >
+              <SignoutConfirmationPopup onClose={closeSignoutConfirmationPopup} />
+            </PortalPopup>
+          )}
+
           </div>
         </div>
       </div>

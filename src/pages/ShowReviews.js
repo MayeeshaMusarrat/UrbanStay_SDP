@@ -1,8 +1,12 @@
 import { useState, useCallback } from "react";
 import ReviewDetails from "../components/ReviewDetails";
 import PortalPopup from "../components/PortalPopup";
+import { useParams } from 'react-router-dom';
 
 const ShowReviews = () => {
+  const { pid } = useParams();
+
+  console.log("param: ", pid);
   const [isReviewDetailsPopupOpen, setReviewDetailsPopupOpen] = useState(false);
 
   const onGroupContainerClick = useCallback(() => {
@@ -32,6 +36,7 @@ const ShowReviews = () => {
           fontFamily: "Poppins",
         }}
       >
+         
         <div
           style={{
             position: "absolute",

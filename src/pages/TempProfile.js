@@ -1,10 +1,12 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import ProfileDetailsPopup from "../components/ProfileDetailsPopup";
 import PortalPopup from "../components/PortalPopup";
 import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
 import { useNavigate } from "react-router-dom";
 import styles from "./TempProfile.module.css";
 import { BarChart } from '@mui/x-charts/BarChart';
+
+
 
 const TempProfile = () => {
 
@@ -13,8 +15,59 @@ const TempProfile = () => {
   const toggle = () => {
     setPopup(!popup);
   };
+ 
+  const email = localStorage.getItem('email');
+
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:5001/temp-profile?email=${email}`)
+      .then(response => response.json())
+      .then(data => {
+        
+        console.log("data from js page");
+        console.log("data: ",data);
+          
+        const formattedUserData = data.searchResults.map(result => ({
+          
+
+          userName :  `${result.First_name} ${result.Last_name}`, /**/
+          joinDate: new Date(result.Joining_date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            
+            
+          }),
+          description : result.description,
+          city : result.City,
+          country : result.Country,
+          livesIn: `${result.City}, ${result.Country}`
+          
+        }));
+        
+        setUserData(formattedUserData);
+
+        const desc= result.description;
+        const city=result.City;
+        const country = result.Country;
 
 
+        
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+  const userName = userData.length > 0 ? userData[0].userName : '';
+  const joinDate = userData.length > 0 ? userData[0].joinDate : '';
+  const livesIn = userData.length > 0 ? userData[0].livesIn : '';
+  const description = userData.length > 0 ? userData[0].description : '';
+  const city = userData.length > 0 ? userData[0].city : '';
+  const country = userData.length > 0 ? userData[0].country : '';
+
+  localStorage.setItem('Description', description);
+  localStorage.setItem('City', city);
+  localStorage.setItem('Country', country); 
 
   const [isProfileDetailsPopupOpen, setProfileDetailsPopupOpen] =
     useState(false);
@@ -285,13 +338,13 @@ const TempProfile = () => {
           </div>
         </div>
         <div className={styles.testimonialSection}>
-          <div className={styles.h3}>Welcome to Your Profile, Mayeesha!</div>
+          <div className={styles.h3}>Welcome to Your Profile, {userName}!</div>
         </div>
         <img className={styles.pseudoIcon} alt="" src="/pseudo2@2x.png" />
         <div className={styles.h31}>
           <p className={styles.thankYouForCreatingAnAcco}>
             <b>
-              <span>{`Thank you for creating an account! `}</span>
+              <span>{`About me `}</span>
             </b>
           </p>
           <p className={styles.blankLine}>
@@ -300,9 +353,7 @@ const TempProfile = () => {
             </b>
           </p>
           <p className={styles.weHaveSent}>
-            We have sent an authentication code to your provided email. Kindly
-            verify your account and set up a profile to start your journey with
-            UrbanStay.
+          <div className={styles.weHaveSent}>{description}</div>
           </p>
         </div>
         <div
@@ -336,30 +387,46 @@ const TempProfile = () => {
           </div>
         </div>
         <div className={styles.profileCardParent}>
-          <div className={styles.profileCard}>
-            <img className={styles.usericon} alt="" src="/usericon2@2x.png" />
-            <div className={styles.mayeeshaMusarrat}>Mayeesha Musarrat</div>
+         <div className={styles.profileCard}>
+            <img className={styles.usericon} alt="" src="/usericon1@2x.png" />
+            <div className={styles.userName}>{userName}</div>
             <div className={styles.profileCardChild} />
             <div className={styles.userjoin}>
               <img
                 className={styles.solarcalendarOutlineIcon}
                 alt=""
-                src="/solarcalendaroutline1.svg"
+                src="/solarcalendaroutline.svg"
               />
               <div className={styles.joinedOn18}>
-                Joined on 18 September 2023
+              <div className={styles.joinedOn18}>Joined on {joinDate}</div>
               </div>
             </div>
             <div className={styles.rating}>
               <img
                 className={styles.ratingstarIcon}
                 alt=""
-                src="/ratingstar1.svg"
+                src="/ratingstar.svg"
               />
               <div className={styles.stars}>{` 0 stars `}</div>
             </div>
+            <div className={styles.userlocation}>
+              <img
+                className={styles.carbonlocationIcon}
+                alt=""
+                src="/carbonlocation.svg"
+              />
+              <div className={styles.livesInDhaka}>
+              <div className={styles.livesInDhaka}>Lives in {livesIn}</div>
+              </div>
+            </div>
+            
+          </div>
+          <div className={styles.verifiedemail}>
+            <div className={styles.verifiedEmail}>Verified Email</div>
+            <img className={styles.charmtickIcon} alt="" src="/charmtick.svg" />
           </div>
         </div>
+        
         <div className={styles.stickyNavBar}>
           <div className={styles.whiterectangle} />
           <div

@@ -1,1 +1,12 @@
-
+.reserved-cell {
+    color: green;
+    background-color: white;
+    font-weight: bold;
+  }
+  
+  .pending-cell {
+    color: red;
+    background-color: white;
+    font-weight: bold;
+  }
+  

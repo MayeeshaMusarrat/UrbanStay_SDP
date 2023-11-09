@@ -1,10 +1,170 @@
-import { useState, useCallback } from "react";
+
+import { useState, useCallback, useEffect } from "react";
 import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
-import styles from "./MyPastReservations.module.css";
+import styles from "./MyReservations.module.css";
+import Button from "@mui/material/Button";
+import Box from '@mui/material/Box';
+import { DataGrid, GridColDef, GridApi, GridCellValue } from '@mui/x-data-grid';
+import './DataGridStyles.css'; 
+
+import SpeakerNotesRoundedIcon from '@mui/icons-material/SpeakerNotesRounded';
+import IconButton from "@mui/material/IconButton";
+
 
 const MyPastReservations = () => {
+
+  const [data, setData] = useState([]);
+  const userEmail = localStorage.getItem('email');
+  
+  useEffect(() => {
+    fetch(`http://localhost:5001/getReservations/${userEmail}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((fetchedData) => {
+        if (Array.isArray(fetchedData)) {
+          console.log("Data fetched");
+          setData(fetchedData);
+        } else {
+          console.error('Fetched data is not an array:', fetchedData);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+  
+  
+  
+  
+  const rows = data.map((item) => ({
+     
+    id: item.PID, 
+    Property: item.Property_title,
+    Status: "Pending", 
+    bedrooms: item.Num_of_bedrooms,
+    beds: item.Num_of_beds,
+    baths: item.Num_of_bathrooms,
+    rooms: item.Num_of_rooms,
+    location: item.City,
+    Check_in: new Date(item.Check_in_date).toISOString().split('T')[0],
+    Check_out: new Date(item.Check_out_date).toISOString().split('T')[0], 
+    price: item.Price_per_night+'$',
+    
+  }));
+
+  
+const columns: GridColDef[] = [
+  /*
+  {
+    field: "action",
+    headerName: "Action",
+    sortable: false,
+    renderCell: (params) => {
+      const onClick = (e) => {
+        e.stopPropagation(); // don't select this row after clicking
+
+        const api: GridApi = params.api;
+        const thisRow: Record<string, GridCellValue> = {};
+
+        api
+          .getAllColumns()
+          .filter((c) => c.field !== "__check__" && !!c)
+          .forEach(
+            (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
+          );
+
+        return alert(JSON.stringify(thisRow, null, 4));
+      };
+
+      return <Button onClick={onClick}>Click</Button>;
+    }
+  },
+  */
+
+  {
+    field: 'Property',
+    headerName: 'Property',
+    width: 280,
+    
+  },
+  
+  {
+    field: 'Status',
+    headerName: 'Status',
+  
+    width: 120,
+    
+  },
+
+  {
+    field: 'Check_in',
+    headerName: 'Check-in',
+    width: 100,
+    
+  },
+  {
+    field: 'Check_out',
+    headerName: 'Check-out',
+    width: 120,
+    
+  },
+  {
+    field: 'price',
+    headerName: 'Total Price',
+    width: 100,
+    
+  },,
+  {
+    field: "giveReviews",
+    headerName: "Give Reviews",
+    headerAlign: "center",
+    align: "center",
+    width: 99,
+    sortable: false,
+    renderCell: (params) => (
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
+      
+          <IconButton>
+            <SpeakerNotesRoundedIcon style={{ color: '#0F52BA' }} />
+          </IconButton>
+       
+      </div>
+    ),
+  }
+
+
+];
+
+/* const rows = [
+   {id:1, Property: "Neel Oboni 5th floor",Status: "Reserved", bedrooms: "2", beds: "2", bathrooms: "2", location: "Shahinbagh, Dhaka", check_in: "17/10/23", check_out: "18/10/23", price: "1400$"}
+]; */
+
+
+const getCellClassName = (params) => {
+  if (params.field === 'Status') {
+    if (params.value === 'Reserved') {
+      return 'reserved-cell';
+    } else if (params.value === 'Pending') {
+      return 'pending-cell';
+    }
+  }
+  return '';
+};
+
+  const [popup, setPopup] = useState(false);
+
+  const toggle = () => {
+    setPopup(!popup);
+  };
+
+
+
   const [isSignoutConfirmationPopupOpen, setSignoutConfirmationPopupOpen] =
     useState(false);
   const navigate = useNavigate();
@@ -29,12 +189,12 @@ const MyPastReservations = () => {
     navigate("/mylistings");
   }, [navigate]);
 
-  const onItemLink6Click = useCallback(() => {
-    navigate("/myreservations");
+  const onItemLink7Click = useCallback(() => {
+    navigate("/mypastreservations");
   }, [navigate]);
 
   const onItemLink8Click = useCallback(() => {
-    navigate("/profile");
+    navigate("/temp-profile");
   }, [navigate]);
 
   const onItemLink9Click = useCallback(() => {
@@ -43,7 +203,7 @@ const MyPastReservations = () => {
 
   return (
     <>
-      <div className={styles.mypastreservations}>
+      <div className={styles.myreservations}>
         <div className={styles.footer}>
           <div className={styles.divfooterTop}>
             <div className={styles.divcontainer}>
@@ -255,14 +415,38 @@ const MyPastReservations = () => {
           </div>
         </div>
         <div className={styles.testimonialSection}>
-          <div className={styles.h3}>
-            View all the previous properties reserved by you!
-          </div>
+          <div className={styles.h3}>Filter Reservations </div>
         </div>
         <img className={styles.pseudoIcon} alt="" src="/pseudo@2x.png" />
+
+
         <div className={styles.myreservationsDatagridWrapper}>
-          <div className={styles.myreservationsDatagrid} />
+          <div className={styles.myreservationsDatagrid}>
+
+            <Box sx={{ height: 600, width: '100%' }}>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              getCellClassName={getCellClassName}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 5,
+                  },
+                },
+              }}
+              pageSizeOptions={[5]}
+             
+              disableRowSelectionOnClick
+            />
+          </Box>
+
+
+          </div>
         </div>
+
+
+
         <div className={styles.stickyNavBar}>
           <div className={styles.whiterectangle} />
           <div
@@ -277,11 +461,16 @@ const MyPastReservations = () => {
             </div>
             <img className={styles.image31} alt="" src="/image-3-11@2x.png" />
           </div>
+
+
           <img
+            onClick = {toggle}
             className={styles.profileIcon}
             alt=""
-            src="/profile-icon1@2x.png"
+            src="/profile-icon3@2x.png"
           />
+
+          { popup && (
           <div className={styles.signinPopupWithSignout}>
             <div className={styles.loginPopupWithLogoutGrp}>
               <div className={styles.loginPopupWithLogoutGrpChild} />
@@ -313,21 +502,24 @@ const MyPastReservations = () => {
               </button>
             </div>
           </div>
+
+          )}
+
           <div className={styles.itemLinkParent}>
             <div className={styles.itemLink5} onClick={onItemLink5Click}>
-              <div className={styles.reservations}>listings</div>
+              <div className={styles.pastReservations}>listings</div>
             </div>
-            <div className={styles.itemLink6} onClick={onItemLink6Click}>
-              <div className={styles.reservations}>Reservations</div>
+            <div className={styles.itemLink6}>
+              <b className={styles.reservations}>Reservations</b>
             </div>
-            <div className={styles.itemLink7}>
-              <b className={styles.pastReservations}>Past reservations</b>
+            <div className={styles.itemLink7} onClick={onItemLink7Click}>
+              <div className={styles.pastReservations}>Past reservations</div>
             </div>
             <div className={styles.itemLink8} onClick={onItemLink8Click}>
-              <div className={styles.reservations}>Profile</div>
+              <div className={styles.pastReservations}>Profile</div>
             </div>
             <div className={styles.itemLink9} onClick={onItemLink9Click}>
-              <div className={styles.reservations}>HOME</div>
+              <div className={styles.pastReservations}>HOME</div>
             </div>
           </div>
         </div>

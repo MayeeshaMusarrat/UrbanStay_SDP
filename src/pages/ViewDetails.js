@@ -16,6 +16,7 @@ import dayjs from "dayjs";
 import PictureGallery from "./PictureGallery";
 import { PinDrop } from "@mui/icons-material";
 
+
 const ViewDetails = ({ onClose }) => {
   const { prop } = useParams();
   const decodedPropValueString = decodeURIComponent(prop);
@@ -23,6 +24,8 @@ const ViewDetails = ({ onClose }) => {
 
   const PID = propValue.PID;
   console.log("passed PID: ", PID);
+
+  localStorage.setItem('PID', PID);
 
   const [pic_array, setPicArray] = useState([]);
 
@@ -52,13 +55,55 @@ const ViewDetails = ({ onClose }) => {
         console.error('Error fetching data:', error);
       });
   }, []);
+
+  
+
+  /*
+
+  //const [host, setHost] = useState(null); // Initialize host as null
+
+  const host = useSelector((state) => state.host);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetch(`http://localhost:5001/getHostResult/${PID}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const hostInfo = data.hostResults.map((result) => ({
+          hostName: result.firstname + ' ' + result.lastname,
+          joinedIn: result.joinedIn,
+          contact: result.contact,
+          userPic: result.userPic,
+          host_rating: result.rating,
+          host_description: result.description,
+        }));
+        dispatch({ type: 'SET_HOST', payload: hostInfo });
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, [PID]);
+
+  if (!host) {
+    return <div>Loading...</div>;
+  }
+
+  const HostName = host[0] ? host[0].hostName : '';
+  const joinedIn = host[0] ? host[0].joinedIn : '';
+  const userPic = host[0] ? host[0].userPic : '';
+  const contact = host[0] ? host[0].contact : '';
+  const host_rating = host[0] ? host[0].host_rating : '';
+  const host_description = host[0] ? host[0].host_description : '';
+
+
+  */
+
+
+
+  
   
 
   console.log("Pic array sent as prop to gallery func: ", pic_array);
-
-
-
-
 
 
   const [selectedRange, setSelectedRange] = useState(null);
@@ -82,7 +127,7 @@ const ViewDetails = ({ onClose }) => {
 
  
   const timeDiff = checkOut - checkIn;
-  const daysDiff = Math.floor(timeDiff / (24*60*60*1000));
+  const daysDiff = Math.floor(timeDiff / (24*60*60*1000)) + 1;
   
 
 
@@ -91,8 +136,17 @@ const ViewDetails = ({ onClose }) => {
     return format(date, "dd/MM/yyyy");
 }
 
+
+  function formatDateDisplayForEase(date, defaultText) {
+    if (!date) return defaultText;
+    return format(date, "dd MMM, yyyy");
+  }
+
   const user_check_in = formatDateDisplay(checkIn);
   const user_check_out = formatDateDisplay(checkOut);
+
+  const user_check_in_for_ease = formatDateDisplayForEase(checkIn);
+  const user_check_out_for_ease = formatDateDisplayForEase(checkOut);
 
   const user_price_per_night = parseInt(propValue.price,10)*parseInt(daysDiff,10);
 
@@ -744,13 +798,13 @@ const ViewDetails = ({ onClose }) => {
                   <p className={styles.hostedByMayeeshaMusarrat}>
                     <span>
                       <span className={styles.hostedByMayeesha}>
-                        hosted by Nawshin Nawar
+                        {"hosted by host"}
                       </span>
                     </span>
                   </p>
                   <p className={styles.joinedOn23September2023}>
                     <span>
-                      <span>Joined on 23 September 2023</span>
+                      <span>{"Joined on "}</span>
                     </span>
                   </p>
                 </span>
@@ -781,12 +835,12 @@ const ViewDetails = ({ onClose }) => {
               <div className={styles.divsewcpu6}>
                 <div className={styles.sectionHeading2}>
                   <div className={styles.nightsInAmherst}>
-                    18 nights in Amherst
+                   { daysDiff + " nights in "+propValue.destination }
                   </div>
                 </div>
                 <div className={styles.divYogt7o}>
                   <div className={styles.oct202023}>
-                    Oct 20, 2023 - Nov 7, 2023
+                   {user_check_in_for_ease + " - " + user_check_out_for_ease}
                   </div>
                 </div>
               </div>

@@ -29,6 +29,14 @@ import Grid from '@mui/material/Grid';
 
 const Browse = ({ onClose }) => {
 
+  useEffect(() => {
+    const localStorageValue = localStorage.getItem('PID');
+    if (localStorageValue) 
+    {
+      localStorage.removeItem('PID');
+    }
+  }, []);
+
   function stringToColor(string) {
     let hash = 0;
     let i;
@@ -126,6 +134,7 @@ const [isPopupOpen, setPopupOpen] = useState(false);
 //  dates: `${checkin_date_result} - ${checkout_date_result}`,
 
   const [propertyData, setPropertyData] = useState([]);
+  
 
   useEffect(() => {
     fetch(`http://localhost:5001/browse?destination=${destination}&checkIn=${checkIn}&checkOut=${checkOut}&rooms=${rooms}&guests=${guests}`)
@@ -190,8 +199,6 @@ const [isPopupOpen, setPopupOpen] = useState(false);
 
     sortAndRenderCards();
   }, [selectedSortOption]);
-
-
 
 
 
@@ -739,7 +746,7 @@ const [isPopupOpen, setPopupOpen] = useState(false);
                   fontSize: 'medium', 
                 }}
               >
-             hello
+             
               </div>
              
              
@@ -755,7 +762,7 @@ const [isPopupOpen, setPopupOpen] = useState(false);
                 fontSize: 'medium', 
               }}
               >
-             hello
+             
               </div>
               
               <TextField

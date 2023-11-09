@@ -112,7 +112,7 @@ const toggle = () => {
   }, [navigate]);
 
   const onItemLink8Click = useCallback(() => {
-    navigate("/profile");
+    navigate("/temp-profile");
   }, [navigate]);
 
   const onItemLink9Click = useCallback(() => {

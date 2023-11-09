@@ -466,10 +466,10 @@
   font-family: var(--font-roboto);
 }
 .h3 {
-  top: 161px;
-  left: 0;
+  top: 210px;
+  left: -660px;
   letter-spacing: 0.1px;
-  font-size: 20px;
+  font-size: 14px;
   line-height: 32px;
   font-weight: 600;
   display: inline-block;
@@ -478,7 +478,7 @@
 .testimonialSection {
   position: absolute;
   width: 100%;
-  top: 0px;
+  top: -99.5px;
   right: 0;
   left: 0;
   background-color: var(--color-midnightblue-200);
@@ -489,7 +489,7 @@
 }
 .pseudoIcon {
   position: absolute;
-  top: -20px;
+  top: -120px;
   left: 0;
   width: 1520px;
   height: 277px;
@@ -502,7 +502,13 @@
   width: 1441px;
   height: 14390px;
 }
-.myreservationsDatagridWrapper,
+.myreservationsDatagridWrapper {
+  position: absolute;
+  top: 180px;
+  left: 10px;
+  width: 1540px;
+  height: 1534px;
+}
 .whiterectangle {
   position: absolute;
   top: 320px;
@@ -718,6 +724,8 @@
   height: 29px;
   color: var(--color-darkblue);
 }
+
+
 .pastReservations {
   position: absolute;
   font-size: 11px;
@@ -772,7 +780,7 @@
   top: -17px;
   left: 0;
   width: 1760px;
-  height: 432px;
+  height: 200px;
   overflow: hidden;
   color: var(--color-darkblue);
   font-family: var(--font-lato);

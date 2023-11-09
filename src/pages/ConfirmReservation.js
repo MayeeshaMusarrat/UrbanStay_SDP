@@ -61,8 +61,9 @@ const ConfirmReservation = () => {
     };
     const checkIn = new Date(dates.startDate);
     const checkOut = new Date(dates.endDate);
-  
-    
+
+    const rooms = localStorage.getItem('Rooms');
+    const guests = localStorage.getItem('Guests');
     
     const timeDiff = checkOut - checkIn;
     const daysDiff = Math.floor(timeDiff / (24*60*60*1000));
@@ -74,9 +75,11 @@ const ConfirmReservation = () => {
       check_in: checkIn,
       check_out: checkOut ,
       price: user_price_per_night,
+      rooms: rooms, 
+      guests: guests
     };
   
-    fetch(`http://localhost:5001/confirm-reservation`, {
+    fetch(`http://localhost:5001/pending-reservation`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
