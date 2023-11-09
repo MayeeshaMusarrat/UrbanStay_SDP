@@ -28,10 +28,7 @@ import Notifications from './pages/Notifications';
 import Wishlist from './pages/Wishlist';
 import ShowReviews from "./pages/ShowReviews";
 import ShowReservations from "./pages/ShowReservations";
-<<<<<<< HEAD
 import ShowPendingReservations from './pages/ShowPendingReservations';
-=======
->>>>>>> 6cd3442955ba32f26710692e6c0daef26c49702b
 import OTPPage from "./pages/OTPPage";
 
 function App() {
@@ -134,7 +131,6 @@ function App() {
         title = "";
         metaDescription = "";
         break;
-<<<<<<< HEAD
       case "/show-pending-reservations":
         title = "";
         metaDescription = "";
@@ -144,13 +140,6 @@ function App() {
          metaDescription = "";
          break;
   }
-=======
-      case "/otp-page":
-        title = "";
-        metaDescription = "";
-        break;
-    }
->>>>>>> 6cd3442955ba32f26710692e6c0daef26c49702b
 
 
     if (title) {
@@ -192,10 +181,7 @@ function App() {
       <Route path="/wishlist" element={<Wishlist />} />
       <Route path="/show-reviews/:pid" element={<ShowReviews />} />
       <Route path="/show-reservations" element={<ShowReservations />} />
-<<<<<<< HEAD
       <Route path="/show-pending-reservations/:PID" element={<ShowPendingReservations />} />
-=======
->>>>>>> 6cd3442955ba32f26710692e6c0daef26c49702b
       <Route path="/otp-page" element={<OTPPage />} />
 
     </Routes>
