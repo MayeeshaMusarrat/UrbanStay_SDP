@@ -137,4 +137,8 @@ const OTPPage = () => {
   );
 };
 
+<<<<<<< HEAD
 export default OTPPage;
+=======
+export default OTPPage;
+>>>>>>> 6cd3442955ba32f26710692e6c0daef26c49702b
