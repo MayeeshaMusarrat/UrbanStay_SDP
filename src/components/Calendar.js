@@ -3,31 +3,48 @@ import { RangePicker as ReactRangePicker } from "react-trip-date";
 import dayjs from "dayjs";
 import axios from 'axios';
 
-
 export const Calendar = ({
   initialRangeValuesProps,
   onRangeChange,
   initialMonthAndYear,
   setOnRangeDateInScreen,
+  initialDisabledBeforeDate, // Add this prop
+  initialDisabledAfterDate, // Add this prop
 }) => {
-
   const PID = localStorage.getItem('PID');
-
+  
   const datesCalendar = JSON.parse(localStorage.getItem('dateRange'));
-  const dates = {
-    startDate: datesCalendar.startDate,
-    endDate: datesCalendar.endDate,
-    key: datesCalendar.key
-  };
-  let checkIn = new Date(dates.startDate);
-  let checkOut = new Date(dates.endDate);
-  checkIn = checkIn.toISOString().split('T')[0];
-  checkOut = checkOut.toISOString().split('T')[0];
+  const checkIn = dayjs(datesCalendar.startDate).format("YYYY-MM-DD");
+  const checkOut = dayjs(datesCalendar.endDate).format("YYYY-MM-DD");
+  
+  const [disabledBeforeDate, setDisabledBeforeDate] = useState(initialDisabledBeforeDate); // Initialize with the prop
+  const [disabledAfterDate, setDisabledAfterDate] = useState(initialDisabledAfterDate); // Initialize with the prop
+  
+  const [disabledDates, setDisabledDates] = useState([]);
+  
+  useEffect(() => {
+    axios.get(`http://localhost:5001/disabled-dates/${PID}`)
+      .then((response) => {
+        // Assuming your server returns data in the format { Start_date: "date", End_date: "date" }
+        const data = response.data;
+        const disabledDatesArray = data.flatMap((range) => {
+          const startDate = dayjs(range.Start_date);
+          const endDate = dayjs(range.End_date);
+          const daysDifference = endDate.diff(startDate, 'day');
+          
+          return Array.from({ length: daysDifference + 1 }, (_, index) => {
+            const formattedDate = startDate.add(index, 'day').format('YYYY-MM-DD');
+            return formattedDate;
+          });
+        });
 
-  const format = "YYYY-MM-DD";
-
- 
-    
+        setDisabledDates(disabledDatesArray);
+      })
+      .catch((error) => {
+        console.error('Error fetching disabled dates:', error);
+      });
+  }, [PID]);
+  
   const rangeValues = {
     from: checkIn,
     to: checkOut
@@ -36,52 +53,20 @@ export const Calendar = ({
   const theme = {
     primary: {
       light: "#757ce8",
-     main: "#2c2e97",
-       dark: "#002884",
-     },
-     grey: {
-       700: "#707070",
-       900: "#1b1b1d",
-     },
-     background: {
-       default: "#f5f5f5",
-     },
-     text: {
-       disabled: "#BABABA",
-     },
-   };
-
-   const [disabledDates, setDisabledDates] = useState([]);
-
-  useEffect(() => {
-
-    console.log("in calendar");
-    
-    axios.get(`http://localhost:5001/disabled-dates/${PID}`) 
-      .then((response) => {
-        
-      })
-      .then ((data)=>{
-        console.log("data are:", data);
-
-        const dataa = data.fetchResults.map(result => ({
-          
-          start: result.Start_date,
-          end: result.End_date,
-          
-        }));
-
-        console.log("dataa: ",dataa);
-        
-        setDisabledDates(dataa);
-      })
-      .catch((error) => {
-        console.error('Error fetching disabled dates:', error);
-      });
-  }, []);
-
-
-  console.log("range value: ", rangeValues);
+      main: "#2c2e97",
+      dark: "#002884",
+    },
+    grey: {
+      700: "#707070",
+      900: "#1b1b1d",
+    },
+    background: {
+      default: "#f5f5f5",
+    },
+    text: {
+      disabled: "#BABABA",
+    },
+  };
 
   const rangePickerProps = {
     theme: theme,
@@ -90,13 +75,11 @@ export const Calendar = ({
     autoResponsive: true,
     numberOfMonths: 4,
     disabledBeforeToday: true,
-   // disabledBeforeDate: dayjs().add(1, "day"),
-    disabledDays: disabledDates,
-    onRangeDateInScreen: (e) => setOnRangeDateInScreen(e)
+    disabledDays: disabledDates, 
+   // disabledBeforeToday: disabledBeforeDate, // Use the state variable
+   // disabledAfterDate: disabledAfterDate, // Use the state variable
+    onRangeDateInScreen: (e) => setOnRangeDateInScreen(e),
   };
 
- 
-
-  return <ReactRangePicker 
-   {...rangePickerProps} />;
+  return <ReactRangePicker {...rangePickerProps} />;
 };

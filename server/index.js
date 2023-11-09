@@ -700,7 +700,7 @@ async function connectAndStartServer()
           return res.status(500).json({ error: 'Fetch query error' });
         }
   
-        console.log(fetchResults);
+        console.log("disabled: ", fetchResults);
        
         res.json(fetchResults);
       });
