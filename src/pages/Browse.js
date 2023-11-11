@@ -24,6 +24,11 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
+import IconPopupForGuest from '../components/IconPopupForGuest';
+import IconPopup from '../components/IconPopup';
+import IconPopupSign from '../components/IconPopupSign';
+
+
 //============== PLEASE FIX THE POPUP ZINDEX ISSUES ========
 
 
@@ -582,95 +587,20 @@ const [isPopupOpen, setPopupOpen] = useState(false);
      
       
 
-              { loggedIn && popupLogin && isGuest ? (
+        { loggedIn && isGuest ? (
 
-            <div className={styles.signinPopupWithSignout}>
-              <div className={styles.loginPopupWithLogoutGrp}>
-                <div className={styles.loginPopupWithLogoutGrpChild} />
-                <button
-                  className={styles.becomehostbtn}
-                  id="BecomeHost"
-                  onClick={onBecomeHostBtnClick}
-                >
-                  <button
-                    className={styles.becomeAHost}
-                  >{`    Become a host `}</button>
-                </button>
-                <div className={styles.loginPopupWithLogoutGrpItem} />
-                <button className={styles.accsettingsbtn} id="accSettings">
-                  <button className={styles.becomeAHost} onClick = {goProfile}>
-                    {" "}
-                  Profile
-                  </button>
-                </button>
-                <button className={styles.wishlistbtn} id="wishlist">
-                  <button className={styles.becomeAHost}> Wishlist</button>
-                </button>
-                <button
-                  className={styles.signoutbtn}
-                  id="signOut"
-                  onClick={openSignoutConfirmationPopup}
-                >
-                  <button className={styles.signOut}> Sign out</button>
-                </button>
-              </div>
-            </div>
+                <IconPopupForGuest />
+
+        ) :  !loggedIn ?  (
+                 
+                <IconPopupSign topMargin = {7} />
 
 
-        ) : popupLogin && !loggedIn ?  (
-          <div className={styles.signinPopupWithoutSignout}>
-          <div className={styles.loginPopupWithoutLogoutGrp}>
-            <div className={styles.loginPopupWithoutLogoutGrpChild} />
-            <button
-              className={styles.signinbtn}
-              id="signin"
-              onClick={onSignInBtnClick}
-            >
-              <button className={styles.signIn}> Sign In</button>
-            </button>
-            <button className={styles.signupbtn} id="signUp" onClick={onSignUpBtnClick}>
-              <button className={styles.signUp}>{`    Sign up `}</button>
-            </button>
-          </div>
-        </div>
-        ) : popupLogin && loggedIn && !isGuest ? (
-          <div className={styles.signinPopupWithSignout}>
-          <div className={styles.loginPopupWithLogoutGrp}>
-            <div className={styles.loginPopupWithLogoutGrpChild} />
-            <button
-              className={styles.becomehostbtn}
-              id="BecomeHost"
-              onClick={goHost}
-            >
-              <button
-                className={styles.becomeAHost}
-              >{`    Host A Place `}</button>
-            </button>
-            <div className={styles.loginPopupWithLogoutGrpItem} />
-            <button className={styles.accsettingsbtn} id="accSettings">
-              <button className={styles.becomeAHost} onClick = {goProfile}>
-                {" "}
-              Profile
-              </button>
-            </button>
-            <button className={styles.wishlistbtn} id="wishlist">
-              <button className={styles.becomeAHost}> Wishlist</button>
-            </button>
-            <button
-              className={styles.signoutbtn}
-              id="signOut"
-              onClick = {openSignoutConfirmationPopup}
-            >
-              <button className={styles.signOut}> Sign out</button>
-            </button>
-          </div>
-        </div>
+        ) :  loggedIn && !isGuest ? (
+            
+                <IconPopup />
 
         ) : null }
-
-
-
-
 
 
         <div className={styles.showing647Places}>{"Showing "+propertyData.length+" Places"}</div>
@@ -693,20 +623,15 @@ const [isPopupOpen, setPopupOpen] = useState(false);
 
 
 
-          {
+       {/*   {
           visible ? (
             <div onClick={toggleLogin}>
               <Avatar {...stringAvatar(name)} />
             </div>
           ) : null 
         }
-          <img
-            className={styles.profileIcon}
-            alt=""
-            src="/profile-icon@2x.png"
-            onClick = {toggleLogin}
-          />
-
+        */} 
+         
 
 
 

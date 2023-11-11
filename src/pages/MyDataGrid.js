@@ -9,6 +9,7 @@ import PropertyDetailsPopup from "../components/PropertyDetailsPopup";
 import GuestsLists from "../components/GuestsLists";
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import './CustomDataGrid.css'; 
+import './CustomHeaderClass.css';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import SpeakerNotesRoundedIcon from '@mui/icons-material/SpeakerNotesRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
@@ -21,22 +22,14 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 
 import { Link } from 'react-router-dom';
+import AvatarsFromBackend from './AvatarsFromBackend'; 
 
 
 const MyDataGrid = ({ data }) => {
 
   const [errorPopupOpen, setErrorPopupOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-
-  useEffect(() => {
-    if (errorPopupOpen) {
-      const timeoutId = setTimeout(() => {
-        setErrorPopupOpen(false);
-      }, 5000);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [errorPopupOpen]);
+  const [selectedRow, setSelectedRow] = useState(null);
 
 
 
@@ -61,8 +54,6 @@ const MyDataGrid = ({ data }) => {
   };
 
 
-  
-
 
   console.log("Data: ", data);
   const [openPopupProperty, setOpenPopupProperty] = useState(false);
@@ -84,9 +75,10 @@ const MyDataGrid = ({ data }) => {
     
     {
       field: "viewProperty",
-      headerName: "Action",
+      headerName: "Actions",
       headerAlign: "center", 
       align: "center", 
+      headerClassName: 'custom-header-class',
       width: 100,
       renderCell: (params) => (
         <>
@@ -112,9 +104,26 @@ const MyDataGrid = ({ data }) => {
       disableSelectionOnClick: true,
     },
     {
-      field: "Property",
+      field: "propertyDetails",
       headerName: "Property",
-      width: 330,
+      width: 280,
+      headerClassName: 'custom-header-class',
+      renderCell: (params) => (
+        <div style={{ display: "flex", alignItems: "center" }}>
+        
+          <AvatarGroup max={3} sx={{ borderRadius: "8px", overflow: "hidden" }}>
+         
+            <Avatar
+              alt="Property Image 1"
+              src={params.row.pic}
+              sx={{ borderRadius: "8px", width: "50px", height: "50px" }}
+            />
+        
+           
+          </AvatarGroup>
+          <div style={{ marginLeft: 10 }}>{params.row.Property}</div>
+        </div>
+      ),
       disableSelectionOnClick: true,
     },
     {
@@ -122,40 +131,33 @@ const MyDataGrid = ({ data }) => {
       headerName: "Created",
       headerAlign: "center", 
       align: "center", 
-      width: 100,
+      headerClassName: 'custom-header-class',
+      width: 120,
       disableSelectionOnClick: true,
     },
     {
       field: "pendingReservations",
       headerName: "Pending Reservation Requests",
       width: 270,
-      headerAlign: "center", 
-      align: "center", 
-      
+      headerAlign: "center",
+      headerClassName: 'custom-header-class',
+      align: "center",
       renderCell: (params) => (
         <div>
-           <Link to={`/show-pending-reservations/${params.row.id}`}> 
-          <AvatarGroup
-            renderSurplus={(surplus) => <span>+{surplus.toString()[0]}k</span>}
-            total={5}
-            style={{ cursor: "pointer" }}
-            
-          >
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-            <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-            <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
-          </AvatarGroup>
+          <Link to={`/show-pending-reservations/${params.row.id}`}>
+            <AvatarsFromBackend userId={params.row.id} firstname={params.row.GuestName} />
           </Link>
         </div>
       ),
       disableSelectionOnClick: true,
     },
+    
 
     {
       field: "reservedBypresent",
       headerName: "Presently Reserved By",
       headerAlign: "center", 
+      headerClassName: 'custom-header-class',
       align: "center", 
       width: 300,
       renderCell: (params) => (
@@ -180,8 +182,9 @@ const MyDataGrid = ({ data }) => {
       field: "pastReserved",
       headerName: "Past Reservations",
       headerAlign: "center", 
+      headerClassName: 'custom-header-class',
       align: "center", 
-      width: 250,
+      width: 280,
       renderCell: (params) => (
         <> 
           <Link to={`/show-reservations`}> 
@@ -200,7 +203,7 @@ const MyDataGrid = ({ data }) => {
           </Link>
         </>
       ),
-      disableSelectionOnClick: true,
+      
     },
 
     {
@@ -208,8 +211,9 @@ const MyDataGrid = ({ data }) => {
       headerName: "Reviews",
       headerAlign: "center",
       align: "center",
+      headerClassName: 'custom-header-class',
       width: 99,
-      sortable: false,
+     
       renderCell: (params) => (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
           <Link to={`/show-reviews/${params.row.id}`}>
@@ -220,14 +224,18 @@ const MyDataGrid = ({ data }) => {
         </div>
       ),
     },
-    
-
-
   ];
 
-
+  const gridStyle = {
+    border: '1px solid',
+    borderTopColor: '#fff', 
+    borderRightColor: '#fff', 
+    borderBottomColor: '#fff', 
+    borderLeftColor: '#fff', 
+  
+  };
+  
  
-
   return (
     <div>
       <Box sx={{ height: 630, width: "100%"}}>
@@ -235,9 +243,9 @@ const MyDataGrid = ({ data }) => {
           rows={data}
           getRowId={(rows) => rows.id}
           columns={columns}
-          disableSelectionOnClick
-          disableColumnMenu
+          rowHeight={70} 
           className="custom-data-grid"
+          style = {gridStyle}
           initialState={{
             pagination: {
               paginationModel: {

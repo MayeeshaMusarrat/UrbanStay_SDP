@@ -42,7 +42,7 @@ const HostingIntro = () => {
           <button className={styles.getStarted}>Get Started</button>
         </div>
         <b className={styles.itsEasyTo}>
-          It’s easy to host your place in urbanStay
+          It’s easy to host your place in urbanStay!
         </b>
         <img className={styles.search1Icon} alt="" src="/search-1@2x.png" />
         <img className={styles.prop1Icon} alt="" src="/prop-1@2x.png" />
@@ -84,7 +84,7 @@ const HostingIntro = () => {
 
 
       
-         <IconPopup />
+         <IconPopup topMargin={23}/>
         
 
         </div>

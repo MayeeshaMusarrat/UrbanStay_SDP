@@ -86,7 +86,7 @@ const ConfirmListing = () => {
     
           amenities.forEach(amenity => {
             if (amenityBasePrices[amenity]) {
-              scharge += (10*amenityBasePrices[amenity]);
+              scharge += (5*amenityBasePrices[amenity]);
             }
           });
 

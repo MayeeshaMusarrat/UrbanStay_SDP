@@ -1,7 +1,7 @@
 .reservationheading {
     position: absolute;
-    top: 135px;
-    left: 63px;
+    top: 125px;
+    left: 146px;
     letter-spacing: 0.1px;
     line-height: 32px;
     display: inline-block;
@@ -10,6 +10,25 @@
     height: 52px;
     font-size: 20px;
   }
+  .reservationheadingListing {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 125px;
+    left: 60px;
+    letter-spacing: 0.1px;
+    line-height: 32px;
+    display: inline-block;
+    font-family: var(--font-poppins);
+    width: 818px;
+    height: 52px;
+    font-size: 20px;
+  }
+  .reservationheadingListing:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
   .whiterectangle {
     position: absolute;
     top: 0;
@@ -58,12 +77,13 @@
   }
   .stickyNavBar {
     position: absolute;
-    top: -6px;
+    top: -17px;
     left: 0;
     width: 1542px;
     height: 119px;
     overflow: hidden;
     font-size: var(--font-size-base);
+    z-index: 1;
   }
   .bigcalendar {
     position: absolute;
@@ -75,13 +95,13 @@
   }
   .guestdatagrid {
     position: absolute;
-    top: 909px;
+    top: 730px;
     left: 64px;
-    
     box-sizing: border-box;
     width: 928px;
     height: 660px;
     overflow: hidden;
+    z-index: 1;
   }
   .filterChild {
     position: absolute;
@@ -248,7 +268,7 @@
     color: gray;
   }
   .filter {
-    top: 910px;
+    top: 720px;
     left: 1008px;
     width: 452px;
     height: 659px;
@@ -699,7 +719,7 @@
     position: relative;
     background-color: var(--color-white);
     width: 100%;
-    height: 2149px;
+    height: 1950px;
     overflow: hidden;
     text-align: left;
     font-size: var(--font-size-5xl);

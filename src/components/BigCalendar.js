@@ -7,18 +7,23 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 const localizer = momentLocalizer(moment);
 
 const BigCalendar = ({ events }) => {
-  // Define events for booked and reserved slots
+
   const bookedEvents = events.filter(event => event.status === 'booked');
   const reservedEvents = events.filter(event => event.status === 'reserved');
 
-  // Define the colors for booked and reserved slots
-  const bookedSlotColor = 'green'; // Customize the color as needed
-  const reservedSlotColor = 'yellow'; // Customize the color as needed
+  const bookedSlotColor = 'green'; 
+  const reservedSlotColor = 'orange'; 
 
   console.log(bookedSlotColor);
 
+  const eventStyleGetter = (event, start, end, isSelected) => {
+    return {
+      style: {
+        fontSize: '12px', 
+      },
+    };
+  };
 
- 
 
   return (
     <div>
@@ -29,9 +34,8 @@ const BigCalendar = ({ events }) => {
         defaultView="month"
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 685, fontSize: 15, color: "gray" }} // Set the desired calendar height
-        // Define background events with distinct colors
-        backgroundEvents={{color: "green"}}
+        style={{ height: 500, fontSize: 12, color: "gray" }} 
+        eventPropGetter={eventStyleGetter}
       />
      
     </div>

@@ -1504,8 +1504,8 @@ const ShowReviews = () => {
         >
           <div
             style={{
-              position: "absolute",
-              top: "0px",
+              position: "fixed",
+              top: "10px",
               left: "0px",
               backgroundColor: "#d9d9d9",
               width: "387px",
@@ -1514,7 +1514,7 @@ const ShowReviews = () => {
           />
           <div
             style={{
-              position: "absolute",
+              position: "fixed",
               top: "219px",
               left: "0px",
               backgroundColor: "#d9d9d9",

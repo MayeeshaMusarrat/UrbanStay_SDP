@@ -10,6 +10,10 @@ const SignInPage = () => {
     setShowPassword(!showPassword);
   };
 
+  const onGroupContainerClick = useCallback(() => {
+    navigate("/");
+  }, [navigate]);
+
 ///===================================================================
 
   const [email, setEmail] = useState("");
@@ -137,12 +141,15 @@ const SignInPage = () => {
           <b className={styles.signUp}>Sign Up</b>
         </span>
       </div>
-      <div className={styles.urbanstayLogo}>
+      
+      <div className={styles.urbanstayLogo} onClick = {onGroupContainerClick} >
+        
         <b className={styles.urbanstaylogotext}>URBANSTAY</b>
         <img
           className={styles.urbanstaylogopicIcon}
           alt=""
           src="/urbanstaylogopic@2x.png"
+          
         />
       </div>
     </div>

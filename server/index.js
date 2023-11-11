@@ -14,10 +14,10 @@ const pool = mysql.createPool({
 
 const port = 5001;
 
-
 async function connectAndStartServer() 
 {
   
+ 
 
   app.post('/guest-signup-page', async (req, res) => {
 
@@ -29,6 +29,7 @@ async function connectAndStartServer()
     pool.getConnection((err, connection) => 
     {
       if (err) throw err;
+      res.send("Hello from backend");
       const userSql = `INSERT INTO USER (First_name, Last_name, Phone, Email, Password, Joining_date) VALUES (?, ?, ?, ?, ?, ?)`;
       const userValues = [firstname, lastname, phone_number, email, password, currentDate];
       connection.query(userSql, userValues, (userErr, userResults) => {
@@ -706,6 +707,37 @@ async function connectAndStartServer()
       });
     });
   });
+
+  app.get('/getAvatars/:PID', (req, res) => {
+    const PID = req.params.PID;
+  
+    console.log("for avatar");
+  
+    pool.getConnection((err, connection) => {
+      if (err) {
+        return res.status(500).json({ error: 'Database connection error' });
+      }
+  
+      const query = 'SELECT Profile_pic FROM PENDINGRESERVATIONS WHERE PID = ?';
+  
+      // Execute the query with PID as a parameter
+      connection.query(query, [PID], (fetchErr, fetchResults) => {
+        connection.release();
+  
+        if (fetchErr) {
+          return res.status(500).json({ error: 'Fetch query error' });
+        }
+  
+        console.log("profile_pics: ", fetchResults);
+  
+        // Extract Profile_pic from each row and create an array
+        const avatarUrls = fetchResults.map((row) => row.Profile_pic);
+  
+        res.json({ avatars: avatarUrls });
+      });
+    });
+  });
+  
   
 
 

@@ -11,6 +11,9 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import { format } from "date-fns";
 import MyDataGrid from "./MyDataGrid"
 
+import IconPopupForGuest from '../components/IconPopupForGuest';
+import IconPopup from '../components/IconPopup';
+
 
 
 const MyListings = () => {
@@ -45,6 +48,7 @@ useEffect(() => {
 const rows = data.map((item) => ({
    
   id: item.PID, 
+ 
   Created: formatDateDisplay(new Date(item.Created)), 
   Property: item.Property_title,
   bedrooms: item.Num_of_bedrooms,
@@ -61,8 +65,7 @@ const rows = data.map((item) => ({
   created: item.Created, 
   area: item.Area,
   pic: item.pics,
-  avatarGroup: 24, 
-  
+ 
   
 }));
 
@@ -118,6 +121,21 @@ const toggle = () => {
   const onItemLink9Click = useCallback(() => {
     navigate("/");
   }, [navigate]);
+
+  const [isGuest, setIsGuest] = useState(false);
+  const hostOrGuest = localStorage.getItem('GuestOrHost');
+
+  useEffect(() => {
+      if (hostOrGuest) {
+        setIsGuest(true);
+      }
+      else
+      {
+        setIsGuest(false);
+      }
+    }, [hostOrGuest]);
+
+    console.log("isGUEST", isGuest);
 
   return (
     <>
@@ -332,36 +350,15 @@ const toggle = () => {
             <div className={styles.showAllReviews}>Show all reviews</div>
           </div>
         </div>
-        <div className={styles.testimonialSectionParent}>
-          <div className={styles.testimonialSection}>
-            <div className={styles.h3}>
-              Filter Properties
-            </div>
-          </div>
-          <img className={styles.pseudoIcon} alt="" src="/pseudo@2x.png" />
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+       
 
         <div className={styles.listingsDatagridWrapper}>
+
           <div className={styles.listingsDatagrid}>
 
            <MyDataGrid data = {rows} />
 
-          </div>
+         </div>
         </div>
 
 
@@ -389,20 +386,7 @@ const toggle = () => {
             <img className={styles.image31} alt="" src="/image-3-11@2x.png" />
           </div>
 
-          <div  onClick={toggle}> 
-          <img
-            className={styles.profileIcon}
-            alt=""
-            src="/profile-icon@2x.png"
-          />
-          </div>
-
        
-
-
-
-
-
 
           <div className={styles.itemLinkParent}>
             <div className={styles.itemLink5}>
@@ -424,50 +408,17 @@ const toggle = () => {
         </div>
       </div>
 
-      { popup && (
+          { isGuest ? (
 
-<div className={styles.signinPopupWithSignout}>
-  <div className={styles.loginPopupWithLogoutGrp}>
-    <div className={styles.loginPopupWithLogoutGrpChild} />
-    <button
-      className={styles.becomehostbtn}
-      id="BecomeHost"
-      onClick={onBecomeHostBtnClick}
-    >
-      <button
-        className={styles.becomeAHost}
-      >{`    Host A Place `}</button>
-    </button>
-    <div className={styles.loginPopupWithLogoutGrpItem} />
-    <button className={styles.accsettingsbtn} id="accSettings">
-      <button className={styles.becomeAHost}>
-        {" "}
-        Account Settings
-      </button>
-    </button>
-    <button className={styles.wishlistbtn} id="wishlist">
-      <button className={styles.becomeAHost}> Wishlist</button>
-    </button>
-    <button
-      className={styles.signoutbtn}
-      id="signOut"
-      onClick={openSignoutConfirmationPopup}
-    >
-      <button className={styles.signOut}> Sign out</button>
-    </button>
-  </div>
-</div>
-)}
+            <IconPopupForGuest topMargin = {6} />
 
-      {isSignoutConfirmationPopupOpen && (
-        <PortalPopup
-          overlayColor="rgba(113, 113, 113, 0.3)"
-         
-          onOutsideClick={closeSignoutConfirmationPopup}
-        >
-          <SignoutConfirmationPopup onClose={closeSignoutConfirmationPopup} />
-        </PortalPopup>
-      )}
+            ) : !isGuest ? (
+
+            <IconPopup topMargin = {6} />
+
+            ) : null }
+
+        
     </>
     
   );

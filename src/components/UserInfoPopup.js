@@ -19,9 +19,10 @@ const UserInfoPopup = ({ rowData, onClose }) => {
         fontSize: "14px",
         color: "#000",
         fontFamily: "Poppins",
+        ZIndex: "1000",
       }}
     >
-      <img
+      <img //white rectangle
         style={{
           position: "absolute",
           top: "52px",
@@ -52,7 +53,6 @@ const UserInfoPopup = ({ rowData, onClose }) => {
           position: "absolute",
           top: "278px",
           left: "290px",
-          textTransform: "capitalize",
           display: "flex",
           alignItems: "center",
           width: "271px",
@@ -60,7 +60,7 @@ const UserInfoPopup = ({ rowData, onClose }) => {
       >
         <span style={{ lineBreak: "anywhere", width: "100%" }}>
           <span style={{ fontWeight: "500" }}>{`Contact Number: `}</span>
-          <span>{rowData.phone}</span>
+          <span>{rowData.Phone}</span>
         </span>
       </div>
       <div
@@ -68,7 +68,6 @@ const UserInfoPopup = ({ rowData, onClose }) => {
           position: "absolute",
           top: "278px",
           left: "529px",
-          textTransform: "capitalize",
           textAlign: "right",
           display: "flex",
           alignItems: "center",
@@ -85,7 +84,6 @@ const UserInfoPopup = ({ rowData, onClose }) => {
           position: "absolute",
           top: "216px",
           left: "650px",
-          textTransform: "capitalize",
           textAlign: "right",
           display: "flex",
           alignItems: "center",
@@ -104,7 +102,7 @@ const UserInfoPopup = ({ rowData, onClose }) => {
           objectFit: "cover",
         }}
         alt=""
-        src={rowData.profilePic}
+        src={rowData.pic}
       />
       <div
         style={{
@@ -168,7 +166,6 @@ const UserInfoPopup = ({ rowData, onClose }) => {
           position: "absolute",
           top: "388px",
           left: "73px",
-          textTransform: "lowercase",
           textAlign: "justify",
           display: "inline-block",
           width: "748px",

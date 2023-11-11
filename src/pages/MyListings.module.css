@@ -483,7 +483,7 @@
   top: -50px;
   right: 0;
   left: 0;
-  background-color: var(--color-midnightblue-200);
+ 
   height: 263px;
 }
 .pseudoIcon {
@@ -511,14 +511,16 @@
   left: 40px;
   width: 1450px;
   height: 1494px;
+  z-index: 1001;
 }
 
 .listingsDatagridWrapper {
   position: absolute;
-  top: 200px;
-  left: -5px;
+  top: 100px;
+  left: -7px;
   width: 1525px;
   height: 1534px;
+ 
 }
 
 .whiterectangle {
@@ -788,7 +790,7 @@
   color: var(--color-gray-100);
 }
 .stickyNavBar {
-  position: fixed;
+  position: absolute;
   top: -17px;
   left: 0;
   width: 1760px;

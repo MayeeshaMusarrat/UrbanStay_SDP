@@ -13,6 +13,9 @@ import {
 import styles from "./ShowPendingReservations.module.css";
 import BigCalendar from "../components/BigCalendar";
 import IconPopup from "../components/IconPopup";
+import Avatar from '@mui/material/Avatar';
+
+import { useNavigate } from "react-router-dom";
 
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridApi, GridCellValue } from '@mui/x-data-grid';
@@ -30,22 +33,25 @@ import GuestDetailsPopup from '../components/UserInfoPopup';
 
 
 
-
-
 const ShowPendingReservations = () => {
 
   const { PID } = useParams();
 
-  
+  const navigate = useNavigate();
+
   function formatDateDisplay(date, defaultText) {
     if (!date) return defaultText;
     return format(date, "d MMM, yyyy");
   }
 
-
   const onGroupContainerClick = useCallback(() => {
-    // Please sync "LandingPage" to the project
+    navigate("/");
   }, []);
+
+  const goToListing = useCallback(() => {
+    navigate("/mylistings");
+  }, []);
+
 
 
   const [data, setData] = useState([]);
@@ -142,28 +148,38 @@ const ShowPendingReservations = () => {
   id: item.User_ID, 
   GID: item.GID,
   PID: item.PID, 
-  checkin: item.CheckInDate,
-  checkout: item.CheckOutDate,
+  checkin: formatDateDisplay(new Date(item.CheckInDate)),
+  checkout: formatDateDisplay(new Date(item.CheckOutDate)),
   GuestName: item.FirstName + " " + item.LastName,
   Pricing: item.TotalPrice, 
   RequestedOn: formatDateDisplay(new Date(item.Requested_on)),
-  profilePic: item.Profile_pic, 
   GuestRating: item.Guest_rating,
   GuestDescription: item.User_description,
   pending_Guests: item.pending_Guests, 
   pending_rooms: item.pending_Rooms,
-  Joining_date: item.Joining_date, 
+  Joining_date: formatDateDisplay(new Date(item.Joining_date)),
   Phone: item.Phone, 
-  Email: item.Email
+  Email: item.Email,
+  pic: item.Profile_pic,
+  requestFor: formatDateDisplay(new Date(item.CheckInDate)) + " - " + formatDateDisplay(new Date(item.CheckOutDate)),
 
   }));
+
+  const gridStyle = {
+    border: '1px solid',
+    borderTopColor: '#fff', 
+    borderRightColor: '#fff', 
+    borderBottomColor: '#fff', 
+    borderLeftColor: '#fff', 
+  
+  };
 
   const events = data.map((item) => ({
    
     id: item.User_ID, 
     start: item.CheckInDate, 
     end: item.CheckOutDate,
-    title: item.FirstName + " " + item.LastName
+    title: item.FirstName + " " + item.LastName + " (" + item.pending_Rooms + " rooms, " + item.pending_Guests + " guests)"
     
     }));
 
@@ -174,6 +190,7 @@ const ShowPendingReservations = () => {
 
     const closePopupGuest = () => {
       //setSelectedGuest(null);
+      setOpenPopupPGuest(false);
       console.log("Inside closePopupGuests function");
     };
   
@@ -206,15 +223,37 @@ const ShowPendingReservations = () => {
       },
   
     {
+      field: 'avatar',
+      headerName: '',
+      width: 50,
+      renderCell: (params) => (
+        <div>
+           <Avatar alt="Guest" src={params.row.pic} /> 
+           
+        </div>
+      ),
+      
+    },
+    {
       field: 'GuestName',
       headerName: 'Guest Name',
-      width: 280,
+      width: 150,
       
     },
     
     {
       field: 'RequestedOn',
       headerName: 'Requested On',
+      headerAlign: "center", 
+      align: "center",
+      width: 170,
+      
+    },
+    {
+      field: 'requestFor',
+      headerName: 'Requested For',
+      headerAlign: "center", 
+      align: "center",
       width: 200,
       
     },
@@ -222,6 +261,8 @@ const ShowPendingReservations = () => {
     {
         field: 'Pricing',
         headerName: 'Pricing (BDT)',
+        headerAlign: "center", 
+        align: "center",
         width: 200,
         
     },
@@ -285,14 +326,15 @@ const ShowPendingReservations = () => {
 
     <> 
 
+    <IconPopup topMargin={6} />
 
-
-    <IconPopup />
-
-
+  
     <div className={styles.showPendingReservations}>
+      <b className={styles.reservationheadingListing} onClick = {goToListing}>
+        {"Listings "}
+      </b>
       <b className={styles.reservationheading}>
-        {"Pending Reservation Requests for "+ propName}
+        {"> Pending Reservation Requests for "+ propName}
       </b>
       <div className={styles.stickyNavBar}>
         <div className={styles.whiterectangle} />
@@ -318,17 +360,7 @@ const ShowPendingReservations = () => {
        </div>
 
 
-   
-
-
-
-
-
-
-
-
-
-
+  
 
 
       <div className={styles.guestdatagrid} >
@@ -339,12 +371,13 @@ const ShowPendingReservations = () => {
               rows={rows}
               //getRowId={(rows) => rows.id}
               columns={columns}
-              
+              style = {gridStyle}
+              rowHeight={70}
               disableColumnMenu
               initialState={{
                 pagination: {
                   paginationModel: {
-                    pageSize: 5,
+                    pageSize: 15,
                   },
                 },
               }}
@@ -360,7 +393,7 @@ const ShowPendingReservations = () => {
           placement="Centered"
           onOutsideClick={closePopupGuest}
         >
-          <GuestDetailsPopup rowData={selectedGuest} onClose={closePopupGuest} />
+          <GuestDetailsPopup rowData={selectedGuest} onClose={closePopupGuest}/>
         </PortalPopup>
       )}
 

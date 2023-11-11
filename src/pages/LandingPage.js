@@ -18,6 +18,10 @@ import PropTypes from "prop-types";
 import Avatar from '@mui/material/Avatar';
 import { useDeprecatedAnimatedState } from "framer-motion";
 
+import IconPopupForGuest from '../components/IconPopupForGuest';
+import IconPopup from '../components/IconPopup';
+import IconPopupSign from '../components/IconPopupSign';
+
 
 const LandingPage = ({ onClose }) => {
 
@@ -1430,7 +1434,7 @@ const handleSubmit = (e) => {
             <img className={styles.image31} alt="" src="/image-3-11@2x.png" />
           </div>
 
-
+       {/*  
         {
           visible ? (
             <div onClick={toggleLogin}>
@@ -1438,15 +1442,7 @@ const handleSubmit = (e) => {
             </div>
           ) : null 
         }
-
-
-          <img
-            className={styles.profileIcon}
-            alt=""
-            src="/profile-icon3@2x.png"
-            onClick = {toggleLogin}
-          />
-          
+        */}
 
 
           <div className={styles.itemLinkParent}>
@@ -1471,95 +1467,21 @@ const handleSubmit = (e) => {
           </div>
 
 
-           { loggedIn && popupLogin && isGuest? (
+          { loggedIn && isGuest ? (
 
-          <div className={styles.signinPopupWithSignout}>
-            <div className={styles.loginPopupWithLogoutGrp}>
-              <div className={styles.loginPopupWithLogoutGrpChild} />
-              <button
-                className={styles.becomehostbtn}
-                id="BecomeHost"
-                onClick={onBecomeHostBtnClick}
-              >
-                <button
-                  className={styles.becomeAHost}
-                >{`    Become a host `}</button>
-              </button>
-              <div className={styles.loginPopupWithLogoutGrpItem} />
-              <button className={styles.accsettingsbtn} id="accSettings">
-                <button className={styles.becomeAHost} onClick = {goProfile}>
-                  {" "}
-                 Profile
-                </button>
-              </button>
-              <button className={styles.wishlistbtn} id="wishlist">
-                <button className={styles.becomeAHost}> Wishlist</button>
-              </button>
-              <button
-                className={styles.signoutbtn}
-                id="signOut"
-                onClick={openSignoutConfirmationPopup}
-              >
-                <button className={styles.signOut}> Sign out</button>
-              </button>
-            </div>
-          </div>
+            <IconPopupForGuest topMargin = {23} />
 
-
-           ) : popupLogin && !loggedIn ?  (
+            ) :  !loggedIn ?  (
             
-            <div className={styles.signinPopupWithoutSignout}>
-            <div className={styles.loginPopupWithoutLogoutGrp}>
-              <div className={styles.loginPopupWithoutLogoutGrpChild} />
-              <button
-                className={styles.signinbtn}
-                id="signin"
-                onClick={onSignInBtnClick}
-              >
-                <button className={styles.signIn}> Sign In</button>
-              </button>
-              <button className={styles.signupbtn} id="signUp" onClick={onSignUpBtnClick}>
-                <button className={styles.signUp}>{`    Sign up `}</button>
-              </button>
-            </div>
-          </div>
+            <IconPopupSign topMargin = {23} />
 
 
+            ) :  loggedIn && !isGuest ? (
 
-          ) : loggedIn && popupLogin ? (
-            <div className={styles.signinPopupWithSignout}>
-            <div className={styles.loginPopupWithLogoutGrp}>
-              <div className={styles.loginPopupWithLogoutGrpChild} />
-              <button
-                className={styles.becomehostbtn}
-                id="BecomeHost"
-                onClick={goHost}
-              >
-                <button
-                  className={styles.becomeAHost}
-                >{`    Host A Place `}</button>
-              </button>
-              <div className={styles.loginPopupWithLogoutGrpItem} />
-              <button className={styles.accsettingsbtn} id="accSettings">
-                <button className={styles.becomeAHost} onClick = {goProfile}>
-                  {" "}
-                 Profile
-                </button>
-              </button>
-              <button className={styles.wishlistbtn} id="wishlist">
-                <button className={styles.becomeAHost}> Wishlist</button>
-              </button>
-              <button
-                className={styles.signoutbtn}
-                id="signOut"
-                onClick = {openSignoutConfirmationPopup}
-              >
-                <button className={styles.signOut}> Sign out</button>
-              </button>
-            </div>
-          </div>
+            <IconPopup topMargin = {23} />
 
-          ) : null }
+            ) : null }
+
 
         </div>
       </div>

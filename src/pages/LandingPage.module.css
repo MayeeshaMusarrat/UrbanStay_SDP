@@ -2843,8 +2843,7 @@
   box-sizing: border-box;
 }
 .loginPopupWithLogoutGrp,
-.signinPopupWithSignout,
-.stickyNavBar {
+.signinPopupWithSignout {
   position: absolute;
   top: 0;
   left: 0;
@@ -2865,6 +2864,7 @@
   font-size: var(--font-size-base);
   color: var(--color-darkblue);
   font-family: var(--font-lato);
+  position: absolute;
 }
 .landingpage {
   position: relative;

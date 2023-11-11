@@ -116,16 +116,25 @@
 }
 .tellUsAboutContainer {
   position: absolute;
-  top: 168px;
+  top: 145px;
   left: 947px;
   text-transform: capitalize;
   
 }
 .add5Or,
-.publishYourListing,
-.shareSomeBasic {
+.publishYourListing {
   position: absolute;
   top: 215px;
+  left: 958px;
+  font-size: var(--font-size-xl);
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  width: 462px;
+}
+.shareSomeBasic {
+  position: absolute;
+  top: 190px;
   left: 958px;
   font-size: var(--font-size-xl);
   text-transform: capitalize;

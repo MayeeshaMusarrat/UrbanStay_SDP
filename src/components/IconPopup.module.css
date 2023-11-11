@@ -37,8 +37,10 @@
   opacity: 1; 
   visibility: visible; 
   transform: translateY(0); 
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0s; 
+  z-index: 2001;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
+
 
 /*  ====================== ANIMATION =================  */
 
@@ -161,11 +163,16 @@
     width: 281px;
     height: 221.2px;
   }
+
+
   .loginPopupWithLogoutGrp {
     top: 38px;
     right: 1px;
     height: 252px;
   }
+
+ 
+
   .profileIcon {
     position: absolute;
     top: -1px;
@@ -181,12 +188,12 @@
     right: 12px;
     width: 282px;
     height: 290px;
-
+   
   }
   .iconpopup {
     width: 302px;
     height: 322px;
-    z-index: 1000;
+    
     left: 1200px;
     top: 10px;
     position: absolute;

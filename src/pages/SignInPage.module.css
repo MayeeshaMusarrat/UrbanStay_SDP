@@ -195,6 +195,7 @@
   width: 155px;
   height: 90px;
   font-family: var(--font-inter);
+  cursor: pointer;
 }
 .signInPage {
   position: relative;

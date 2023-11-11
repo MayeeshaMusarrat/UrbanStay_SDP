@@ -15,6 +15,8 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 
 import PropertyDetailsForReservation from '../components/PropertyDetailsForReservationP';
 
+import IconPopupForGuest from '../components/IconPopupForGuest';
+import IconPopup from '../components/IconPopup';
 
 
 const MyReservations = () => {
@@ -274,6 +276,22 @@ const getCellClassName = (params) => {
     navigate("/");
   }, [navigate]);
 
+
+  const [isGuest, setIsGuest] = useState(false);
+  const hostOrGuest = localStorage.getItem('GuestOrHost');
+
+  useEffect(() => {
+      if (hostOrGuest) {
+        setIsGuest(true);
+      }
+      else
+      {
+        setIsGuest(false);
+      }
+    }, [hostOrGuest]);
+
+
+
   return (
     <>
       <div className={styles.myreservations}>
@@ -527,6 +545,15 @@ const getCellClassName = (params) => {
         </PortalPopup>
       )}
 
+        { isGuest ? (
+
+        <IconPopupForGuest topMargin = {6} />
+
+        ) : !isGuest ? (
+
+        <IconPopup topMargin = {6} />
+
+        ) : null }           
 
 
         <div className={styles.stickyNavBar}>
@@ -545,47 +572,9 @@ const getCellClassName = (params) => {
           </div>
 
 
-          <img
-            onClick = {toggle}
-            className={styles.profileIcon}
-            alt=""
-            src="/profile-icon3@2x.png"
-          />
+      
 
-          { popup && (
-          <div className={styles.signinPopupWithSignout}>
-            <div className={styles.loginPopupWithLogoutGrp}>
-              <div className={styles.loginPopupWithLogoutGrpChild} />
-              <button
-                className={styles.becomehostbtn}
-                id="BecomeHost"
-                onClick={onBecomeHostBtnClick}
-              >
-                <button
-                  className={styles.becomeAHost}
-                >{`    Become a host `}</button>
-              </button>
-              <div className={styles.loginPopupWithLogoutGrpItem} />
-              <button className={styles.accsettingsbtn} id="accSettings">
-                <button className={styles.becomeAHost}>
-                  {" "}
-                  Account Settings
-                </button>
-              </button>
-              <button className={styles.wishlistbtn} id="wishlist">
-                <button className={styles.becomeAHost}> Wishlist</button>
-              </button>
-              <button
-                className={styles.signoutbtn}
-                id="signOut"
-                onClick={openSignoutConfirmationPopup}
-              >
-                <button className={styles.signOut}> Sign out</button>
-              </button>
-            </div>
-          </div>
 
-          )}
 
           <div className={styles.itemLinkParent}>
             <div className={styles.itemLink5} onClick={onItemLink5Click}>

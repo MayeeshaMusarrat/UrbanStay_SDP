@@ -16,6 +16,10 @@ import dayjs from "dayjs";
 import PictureGallery from "./PictureGallery";
 import { PinDrop } from "@mui/icons-material";
 
+import IconPopupForGuest from '../components/IconPopupForGuest';
+import IconPopup from '../components/IconPopup';
+import IconPopupSign from '../components/IconPopupSign';
+
 
 const ViewDetails = ({ onClose }) => {
   const { prop } = useParams();
@@ -230,6 +234,17 @@ const ViewDetails = ({ onClose }) => {
 
   const storedValue = localStorage.getItem('email');
   const [loggedIn, setLoggedIn] = useState(storedValue);
+
+  const [isGuest, setIsGuest] = useState(false);
+  const hostOrGuest = localStorage.getItem('GuestOrHost');
+
+
+  useEffect(() => {
+      if (hostOrGuest) {
+        setIsGuest(true);
+      }
+    }, [hostOrGuest]);
+
 
   useEffect(() => {
     if (storedValue) {
@@ -948,16 +963,24 @@ const ViewDetails = ({ onClose }) => {
             <div className={styles.showAllReviews}>Show all reviews</div>
           </div>
         </div>
+
+
+
+
+
+
+
+
+
+
         <div className={styles.divh2dCa0a0170}>
           <div className={styles.priceCard}>
             <div className={styles.div1fl88fo}>
             
                 <div className={styles.slicedPriceParent}>
-           
-                
+
                     <div className={styles.div3}>{'BDT '+propValue.price+ ' Night'}</div>
                   
-                 
                 </div>
                 <div className={styles.divP03egfmargin}>
                   <div className={styles.divP03egf}>
@@ -1030,14 +1053,10 @@ const ViewDetails = ({ onClose }) => {
                   className={styles.button4}
                   onClick={onButtonContainer4Click} 
                 >
-                  
 
                   <div className={styles.spanc9x5udt} >
                     <div className={styles.reserve} onClick={() => handleSubmit(propValue)} >Reserve</div>
                   </div>
-
-
-
 
                 </div>
              
@@ -1070,6 +1089,7 @@ const ViewDetails = ({ onClose }) => {
               </div>
             </div>
           </div>
+  
           <div className={styles.divcbiapkd}>
             <div className={styles.button5}>
               <div className={styles.spanb3g8a7f}>
@@ -1085,6 +1105,19 @@ const ViewDetails = ({ onClose }) => {
             </div>
           </div>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
         <div
           className={styles.reviewframe}
           data-scroll-to="reviewFrameContainer"
@@ -1210,68 +1243,22 @@ const ViewDetails = ({ onClose }) => {
             </div>
             <img className={styles.image31} alt="" src="/image-3-11@2x.png" />
           </div>
-          <img
-            className={styles.profileIcon}
-            alt=""
-            src="/profile-icon@2x.png"
-            onClick = {toggleLogin}
-          />
-        { loggedIn && popupLogin ? (
-
-          <div className={styles.signinPopupWithSignout}>
-            <div className={styles.loginPopupWithLogoutGrp}>
-              <div className={styles.loginPopupWithLogoutGrpChild} />
-              <button
-                className={styles.becomehostbtn}
-                id="BecomeHost"
-                onClick={onBecomeHostBtnClick}
-              >
-                <button
-                  className={styles.becomeAHost}
-                >{`    Become a host `}</button>
-              </button>
-              <div className={styles.loginPopupWithLogoutGrpItem} />
-              <button className={styles.accsettingsbtn} id="accSettings">
-                <button className={styles.becomeAHost}>
-                  {" "}
-                  Account Settings
-                </button>
-              </button>
-              <button className={styles.wishlistbtn} id="wishlist">
-                <button className={styles.becomeAHost}> Wishlist</button>
-              </button>
-              <button
-                className={styles.signoutbtn}
-                id="signOut"
-                onClick={openSignoutConfirmationPopup}
-              >
-                <button className={styles.signOut}> Sign out</button>
-              </button>
-            </div>
-          </div>
-          ) : popupLogin ?  (
-            <div className={styles.signinPopupWithoutSignout}>
-            <div className={styles.loginPopupWithoutLogoutGrp}>
-              <div className={styles.loginPopupWithoutLogoutGrpChild} />
-              <button
-                className={styles.signinbtn}
-                id="signin"
-                onClick={onSignInBtnClick}
-              >
-                <button className={styles.signIn}> Sign In</button>
-              </button>
-              <button className={styles.signupbtn} id="signUp">
-                <button className={styles.signUp}>{`    Sign up `}</button>
-              </button>
-            </div>
-          </div>
-          ) : (
-            null
-          )}
 
 
+          { loggedIn && isGuest ? (
+
+          <IconPopupForGuest topMargin = {23} />
+
+          ) :  !loggedIn ?  (
+
+          <IconPopupSign topMargin = {23} />
 
 
+          ) :  loggedIn && !isGuest ? (
+
+          <IconPopup topMargin = {23} />
+
+          ) : null }
 
 
           <div className={styles.itemLinkParent}>
