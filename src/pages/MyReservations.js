@@ -6,8 +6,10 @@ import { useNavigate } from "react-router-dom";
 import styles from "./MyReservations.module.css";
 import Button from "@mui/material/Button";
 import Box from '@mui/material/Box';
-import { DataGrid, GridColDef, GridApi, GridCellValue } from '@mui/x-data-grid';
-import './DataGridStyles.css'; 
+import { DataGrid, GridColDef, GridApi, GridCellValue  } from '@mui/x-data-grid';
+
+import './CustomDataGrid.css'; 
+import './CustomHeaderClass.css';
 
 import IconButton from "@mui/material/IconButton";
 import FindInPageIcon from '@mui/icons-material/FindInPage';
@@ -17,6 +19,14 @@ import PropertyDetailsForReservation from '../components/PropertyDetailsForReser
 
 import IconPopupForGuest from '../components/IconPopupForGuest';
 import IconPopup from '../components/IconPopup';
+import Chip from '@mui/material/Chip';
+
+import ReservedChip from './Scenes/reservationChip';
+import PendingChip from './Scenes/pendingChip';
+import RejectedChip from './Scenes/rejectedChip';
+import Avatar from '@mui/material/Avatar';
+import AvatarGroup from '@mui/material/AvatarGroup';
+import { format } from "date-fns";
 
 
 const MyReservations = () => {
@@ -32,6 +42,21 @@ const MyReservations = () => {
     setOpenPopupProperty(false);
     console.log("Inside closePopupProperty function");
   };
+
+
+  const gridStyle = {
+    border: '1px solid',
+    borderTopColor: '#fff', 
+    borderRightColor: '#fff', 
+    borderBottomColor: '#fff', 
+    borderLeftColor: '#fff', 
+  
+  };
+
+  function formatDateDisplay(date, defaultText) {
+    if (!date) return defaultText;
+    return format(date, "d MMM, yyyy");
+  }
 
  
 
@@ -76,13 +101,15 @@ const MyReservations = () => {
       guests: item.pending_Guests,
       rooms: item.pending_Rooms,
       location: item.City,
-      Check_in: new Date(item.CheckInDate).toISOString().split('T')[0],
-      Check_out: new Date(item.CheckOutDate).toISOString().split('T')[0],
+      Check_in: formatDateDisplay(new Date(item.CheckInDate).getTime() + oneDay),
+      Check_out: formatDateDisplay(new Date(item.CheckOutDate).getTime() + oneDay),
       price: item.TotalPrice + ' BDT',
       price_night: item.Price_per_night,
       pics: item.pics,
       address_line: item.Address_line,
       category: item.category,
+      days: Math.floor(((new Date(item.CheckOutDate)) - (new Date(item.CheckInDate)))/(24*60*60*1000) + 1),
+      Requested_on: formatDateDisplay(new Date(item.Requested_on)),
       description: item.description,
       rating: item.Avg_ratings,
       area: item.Area,
@@ -101,14 +128,16 @@ const approvedRows = data.approvedReservations
       guests: item.approved_Guests,
       rooms: item.approved_Rooms,
       location: item.City,
-      Check_in: new Date(new Date(item.CheckInDate).getTime() + oneDay).toISOString().split('T')[0],
-      Check_out: new Date(new Date(item.CheckOutDate).getTime() + oneDay).toISOString().split('T')[0],
+      Check_in: formatDateDisplay(new Date(item.CheckInDate).getTime() + oneDay),
+      Check_out: formatDateDisplay(new Date(item.CheckOutDate).getTime() + oneDay),
       price: item.TotalPrice + ' BDT',
       price_night: item.Price_per_night,
       pics: item.pics,
       address_line: item.Address_line,
       category: item.category,
+      Requested_on: item.Requested_on,
       description: item.description,
+      days: Math.floor(((new Date(item.CheckOutDate)) - (new Date(item.CheckInDate)))/(24*60*60*1000) + 1),
       rating: item.Avg_ratings,
       area: item.Area,
     }))
@@ -117,44 +146,15 @@ const approvedRows = data.approvedReservations
 // Merge the rows from both views
 const allRows = rows.concat(approvedRows);
 
-
   
 const columns: GridColDef[] = [
-  /*
-  {
-    field: "action",
-    headerName: "Action",
-    sortable: false,
-    renderCell: (params) => {
-      const onClick = (e) => {
-        e.stopPropagation(); // don't select this row after clicking
-
-        const api: GridApi = params.api;
-        const thisRow: Record<string, GridCellValue> = {};
-
-        api
-          .getAllColumns()
-          .filter((c) => c.field !== "__check__" && !!c)
-          .forEach(
-            (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
-          );
-
-        return alert(JSON.stringify(thisRow, null, 4));
-      };
-
-      return <Button onClick={onClick}>Click</Button>;
-    }
-  },
-  */
-
-
    
   {
     field: "viewProperty",
     headerName: "Action",
-    headerAlign: "center", 
-    align: "center", 
-    width: 100,
+    
+    headerClassName: 'custom-header-class',
+    width: 90,
     renderCell: (params) => (
       <>
       
@@ -182,37 +182,107 @@ const columns: GridColDef[] = [
   {
     field: 'Property',
     headerName: 'Property',
-    width: 280,
+    headerClassName: 'custom-header-class',
+    width: 240,
+    renderCell: (params) => (
+      <div style={{ display: "flex", alignItems: "center" }}>
+      
+        <AvatarGroup max={3} sx={{ borderRadius: "8px", overflow: "hidden" }}>
+       
+          <Avatar
+            alt="Property Image 1"
+            src={params.row.pics}
+            sx={{ borderRadius: "8px", width: "50px", height: "50px" }}
+          />
+      
+         
+        </AvatarGroup>
+        <div style={{ marginLeft: 10 }}>{params.row.Property}</div>
+      </div>
+    ),
+    
+  },
+  {
+    field: 'Requested_on',
+    headerName: 'Requested On',
+    headerAlign: "center", 
+    align: "center", 
+    headerClassName: 'custom-header-class',
+    width: 138,
+   
     
   },
   
   {
     field: 'Status',
     headerName: 'Status',
-  
-    width: 120,
+    headerAlign: "center", 
+    align: "center", 
+    headerClassName: 'custom-header-class',
+    width: 140,
+    renderCell: (params) => (
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
+            {params.row.Status === "Reserved" ? <ReservedChip /> : <PendingChip />}
+        </div>
+    ),
+ 
+  },
+  {
+    field: 'reservationID',
+    headerName: 'Reservation ID',
+    headerAlign: "center", 
+    align: "center", 
+    headerClassName: 'custom-header-class',
+    width: 140,
+    
     
   },
 
   {
     field: 'Check_in',
     headerName: 'Check-in',
-    width: 100,
+    width: 140,
+    headerAlign: "center", 
+    align: "center", 
+    headerClassName: 'custom-header-class',
     
   },
   {
     field: 'Check_out',
     headerName: 'Check-out',
+    width: 140,
+    headerAlign: "center", 
+    align: "center", 
+    headerClassName: 'custom-header-class',
+    
+  },
+  {
+    field: 'days',
+    headerName: 'No. of Days',
     width: 120,
+    headerAlign: "center", 
+    align: "center", 
+    headerClassName: 'custom-header-class',
     
   },
   {
     field: 'price',
-    headerName: 'Total Price',
-    width: 100,
+    headerName: 'Pricing (BDT)',
+    width: 150,
+    headerAlign: "center", 
+    align: "center", 
+    headerClassName: 'custom-header-class',
+    
+  },
+  {
+    field: 'payment',
+    headerName: 'Payment',
+    width: 110,
+    headerAlign: "center", 
+    align: "center", 
+    headerClassName: 'custom-header-class',
     
   }
-
 
 ];
 
@@ -505,11 +575,9 @@ const getCellClassName = (params) => {
             <div className={styles.showAllReviews}>Show all reviews</div>
           </div>
         </div>
-        <div className={styles.testimonialSection}>
-          <div className={styles.h3}>Filter Reservations </div>
-        </div>
-        <img className={styles.pseudoIcon} alt="" src="/pseudo@2x.png" />
 
+
+      
 
         <div className={styles.myreservationsDatagridWrapper}>
           <div className={styles.myreservationsDatagrid}>
@@ -517,12 +585,16 @@ const getCellClassName = (params) => {
             <Box sx={{ height: 600, width: '100%' }}>
             <DataGrid
               rows={allRows}
+              getRowId={(allRows) => allRows.pid}
               columns={columns}
               getCellClassName={getCellClassName}
+              rowHeight={70} 
+              className="custom-data-grid"
+              style = {gridStyle}
               initialState={{
                 pagination: {
                   paginationModel: {
-                    pageSize: 5,
+                    pageSize: 15,
                   },
                 },
               }}

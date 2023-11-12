@@ -504,10 +504,11 @@
 }
 .myreservationsDatagridWrapper {
   position: absolute;
-  top: 180px;
+  top: 100px;
   left: 10px;
   width: 1540px;
   height: 1534px;
+  z-index: 1000;
 }
 .whiterectangle {
   position: absolute;
@@ -776,7 +777,7 @@
   color: var(--color-gray-100);
 }
 .stickyNavBar {
-  position: fixed;
+  position: absolute;
   top: -17px;
   left: 0;
   width: 1760px;

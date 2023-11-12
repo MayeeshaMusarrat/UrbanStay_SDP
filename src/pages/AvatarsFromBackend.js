@@ -53,24 +53,23 @@ const AvatarsFromBackend = ({ userId, firstname }) => {
     fetchAvatars();
   }, [userId]);
 
-  console.log("len: ", avatars.length); //what happens if there are no profile pics?? think!!
+ // console.log("len: ", avatars.length); //what happens if there are no profile pics?? think!!
   
 
-  return (
-    <AvatarGroup
+ return (
+  <AvatarGroup
     renderSurplus={(surplus) => <span>+</span>}
-      total={avatars.length}
-      max = {6}
-    >
-      {avatars.map((avatar, index) => (
-        avatar !== "" ? (
-          <Avatar key={index} alt={`Avatar ${index + 1}`} src={avatar} />
-        ) : (
-          <Avatar key={index} {...stringAvatar(firstname)} />
-        )
-      ))}
-    </AvatarGroup>
-  );
+   
+    max={6}
+  >
+    {avatars.map((avatar, index) => (
+     
+        <Avatar key={index} alt={`Avatar ${index + 1}`} src={avatar} />
+      
+    ))}
+  </AvatarGroup>
+);
+
 };
 
 export default AvatarsFromBackend;

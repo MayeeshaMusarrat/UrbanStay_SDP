@@ -91,13 +91,13 @@ const ShowPendingReservations = () => {
 
 
 
-  const handleApproval = (GID, PID, checkin, checkout, total_price, rooms, guests) => {
+  const handleApproval = (GID, PID, check_in, check_out, total_price, rooms, guests) => {
 
     const approval = {
       GID: GID,
       PID: PID,
-      checkin: checkin ,
-      checkout: checkout ,
+      checkin: check_in ,
+      checkout: check_out ,
       total_price: total_price,
       rooms: rooms,
       guests: guests,
@@ -148,6 +148,8 @@ const ShowPendingReservations = () => {
   id: item.User_ID, 
   GID: item.GID,
   PID: item.PID, 
+  check_in:new Date(item.CheckInDate),
+  check_out: new Date(item.CheckOutDate),
   checkin: formatDateDisplay(new Date(item.CheckInDate)),
   checkout: formatDateDisplay(new Date(item.CheckOutDate)),
   GuestName: item.FirstName + " " + item.LastName,
@@ -276,7 +278,7 @@ const ShowPendingReservations = () => {
     renderCell: (params) => (
       <>
         <IconButton
-              onClick={() => handleApproval(params.row.GID, params.row.PID, params.row.checkin, params.row.checkout, params.row.Pricing, params.row.pending_Guests, params.row.pending_rooms)} 
+              onClick={() => handleApproval(params.row.GID, params.row.PID, params.row.check_in, params.row.check_out, params.row.Pricing, params.row.pending_Guests, params.row.pending_rooms)} 
         >
           <DoneRoundedIcon style={{ color: 'green', display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }} />
         </IconButton>

@@ -1,0 +1,341 @@
+.reviewformChild {
+    position: absolute;
+    top: 52px;
+    left: 28px;
+    border-radius: var(--br-11xl);
+    width: 1089px;
+    height: 672px;
+  }
+  .leaveAReview {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: var(--font-size-mini);
+    text-transform: capitalize;
+    font-weight: 700;
+    font-family: var(--font-poppins);
+    color: var(--color-black);
+    text-align: center;
+    display: inline-block;
+  }
+  .frame {
+    position: absolute;
+    top: 185px;
+    left: 38px;
+    width: 175px;
+    height: 23px;
+    overflow: hidden;
+  }
+  .theOverallProperty {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: var(--font-size-xs);
+    text-transform: capitalize;
+    display: inline-block;
+    font-style: italic;
+    font-weight: 300;
+    font-family: var(--font-poppins);
+    color: var(--color-black);
+    text-align: center;
+  }
+  .frame1 {
+    position: absolute;
+    top: 574px;
+    left: 38px;
+    width: 493px;
+    height: 18px;
+    overflow: hidden;
+  }
+  .frame2,
+  .reviewbox {
+    position: absolute;
+    top: 0;
+    left: 33px;
+  }
+  .reviewbox {
+    width: 970px;
+    left: 50px;
+  }
+  .frame2 {
+    top: 215px;
+    left: 38px;
+    width: 1018px;
+    height: 87px;
+    overflow: visible;
+  }
+  .rateTheProperty,
+  .scenery {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    right: 833px;
+    font-size: var(--font-size-mini);
+    text-transform: capitalize;
+    font-weight: 700;
+    font-family: var(--font-poppins);
+    color: var(--color-black);
+    text-align: center;
+    display: inline-block;
+  }
+  .scenery {
+    top: 7px;
+    right: 356px;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+  }
+  .sceneryParent,
+  .sceneryrating {
+    position: absolute;
+    top: 0;
+    height: 34px;
+  }
+  .sceneryrating {
+    left: 194px;
+    width: 350px;
+    height: 500px;
+    
+  }
+  .sceneryParent {
+    left: 0;
+    width: 413px;
+  }
+  .location {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 7px;
+    right: 355px;
+    font-size: var(--font-size-sm);
+    text-transform: capitalize;
+    font-weight: 500;
+    font-family: var(--font-poppins);
+    color: var(--color-black);
+    text-align: center;
+    display: inline-block;
+  }
+  .locationrating {
+    position: absolute;
+    top: 0;
+    left: 196px;
+   
+    width: 219px;
+    height: 34px;
+  }
+  .frame4,
+  .locationParent {
+    position: absolute;
+    top: 0;
+    left: 555px;
+    width: 415px;
+    height: 34px;
+  }
+  .frame4 {
+    top: 48px;
+    left: 0;
+    width: 970px;
+    overflow: hidden;
+  }
+  .accuracy,
+  .reception {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 7px;
+    right: 345px;
+    font-size: var(--font-size-sm);
+    text-transform: capitalize;
+    font-weight: 500;
+    font-family: var(--font-poppins);
+    color: var(--color-black);
+    text-align: center;
+    display: inline-block;
+  }
+  .reception {
+    right: 343px;
+  }
+  .receptionrating {
+    position: absolute;
+    top: 0;
+    left: 195px;
+    width: 219px;
+    height: 34px;
+  }
+  .frame5,
+  .receptionParent {
+    position: absolute;
+    top: 0;
+    left: 556px;
+    width: 414px;
+    height: 34px;
+  }
+  .frame5 {
+    top: 113px;
+    left: 0;
+    width: 970px;
+    overflow: hidden;
+  }
+  .cleanliness {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 7px;
+    right: 331px;
+    font-size: var(--font-size-sm);
+    text-transform: capitalize;
+    font-weight: 500;
+    font-family: var(--font-poppins);
+    color: var(--color-black);
+    text-align: center;
+    display: inline-block;
+  }
+  .frame6 {
+    position: absolute;
+    top: 178px;
+    left: 0;
+    width: 970px;
+    height: 34px;
+    overflow: hidden;
+  }
+  .frame3,
+  .rateThePropertyParent {
+    position: absolute;
+    top: 0;
+    left: 48px;
+    width: 970px;
+    height: 212px;
+  }
+  .frame3 {
+    top: 334px;
+    left: 38px;
+    width: 1018px;
+    overflow: hidden;
+  }
+  .submitReview {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: relative;
+    font-size: var(--body-copy-16pt-semibold-size);
+    text-transform: capitalize;
+    font-weight: 700;
+    font-family: var(--font-inter);
+    color: var(--shade-01);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 166px;
+    flex-shrink: 0;
+  }
+  .confirmpaymentbtn,
+  .frame7 {
+    position: absolute;
+    height: 49px;
+  }
+  .confirmpaymentbtn {
+    top: 0;
+    left: 461px;
+    border-radius: 9.08px;
+    background-color: var(--color-darkblue);
+    width: 135px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: var(--padding-3xs);
+    box-sizing: border-box;
+  }
+  .confirmpaymentbtn:hover {
+    background-color: var(--color-blueviolet);
+    gap: var(--gap-3xs);
+  }
+  .frame7 {
+    top: 626px;
+    left: 38px;
+    width: 596px;
+    overflow: hidden;
+  }
+  .frameChild {
+    position: absolute;
+    top: 102.5px;
+    left: -0.5px;
+    border-top: 1px solid var(--color-silver-200);
+    box-sizing: border-box;
+    width: 1070px;
+    height: 1px;
+  }
+  .frameIcon {
+    position: absolute;
+    top: 38px;
+    left: 44px;
+    width: 1020px;
+    height: 21px;
+    overflow: hidden;
+  }
+  .reviewForm {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 39px;
+    right: -0.5px;
+    font-size: var(--font-size-mid);
+    text-transform: capitalize;
+    font-weight: 700;
+    font-family: var(--font-poppins);
+    color: var(--color-black);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1064px;
+  }
+  .frame8,
+  .lineParent {
+    position: absolute;
+    height: 103px;
+  }
+  .frame8 {
+    top: 0;
+    left: 5px;
+    border-radius: var(--br-15xl);
+    background-color: var(--shade-01);
+    width: 1063.5px;
+    overflow: hidden;
+  }
+  .lineParent {
+    top: 58px;
+    left: 38px;
+    width: 1069px;
+  }
+  .reviewform {
+    border-radius: var(--br-3xs);
+    width: 1123px;
+    height: 728px;
+    overflow-y: auto;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+  }
+  

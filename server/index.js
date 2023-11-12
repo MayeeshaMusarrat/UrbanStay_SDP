@@ -558,6 +558,7 @@ async function connectAndStartServer()
 
     /// 8-15  --->> 7 -14 (checkin ke ek barao, checkout ke ek barao)
     
+    console.log("Approved reservation: ");
     console.log(req.body);
 
     const a = checkin.substring(0, 10);
@@ -571,6 +572,7 @@ async function connectAndStartServer()
 
     const aa = check_in.toISOString().split('T')[0];
     const bb = check_out.toISOString().split('T')[0];
+
 
 
     

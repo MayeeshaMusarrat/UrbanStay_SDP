@@ -37,7 +37,6 @@
   opacity: 1; 
   visibility: visible; 
   transform: translateY(0); 
-  z-index: 2001;
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
@@ -193,7 +192,6 @@
   .iconpopup {
     width: 302px;
     height: 322px;
-    
     left: 1200px;
     top: 10px;
     position: absolute;
