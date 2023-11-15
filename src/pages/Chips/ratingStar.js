@@ -11,11 +11,10 @@ export default function ratingStar(value) {
         '& > legend': { mt: 2 },
       }}
     >
-      <Typography component="legend">Controlled</Typography>
       <Rating
         name="simple-controlled"
         value={value}
-        readOnly
+        size="large"
       />
     
     </Box>

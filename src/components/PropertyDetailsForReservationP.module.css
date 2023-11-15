@@ -218,5 +218,6 @@
   text-align: left;
   font-size: 14px;
   color: #000;
+  z-index: 10000;
   font-family: Poppins;
 }

@@ -15,7 +15,6 @@ import IconPopupForGuest from '../components/IconPopupForGuest';
 import IconPopup from '../components/IconPopup';
 
 
-
 const MyListings = () => {
 
 const [data, setData] = useState([]);

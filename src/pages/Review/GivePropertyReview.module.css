@@ -1,341 +1,828 @@
-.reviewformChild {
-    position: absolute;
-    top: 52px;
-    left: 28px;
-    border-radius: var(--br-11xl);
-    width: 1089px;
-    height: 672px;
-  }
-  .leaveAReview {
-    cursor: pointer;
-    border: 0;
-    padding: 0;
-    background-color: transparent;
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: var(--font-size-mini);
-    text-transform: capitalize;
-    font-weight: 700;
-    font-family: var(--font-poppins);
-    color: var(--color-black);
-    text-align: center;
-    display: inline-block;
-  }
-  .frame {
-    position: absolute;
-    top: 185px;
-    left: 38px;
-    width: 175px;
-    height: 23px;
-    overflow: hidden;
-  }
-  .theOverallProperty {
-    cursor: pointer;
-    border: 0;
-    padding: 0;
-    background-color: transparent;
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: var(--font-size-xs);
-    text-transform: capitalize;
-    display: inline-block;
-    font-style: italic;
-    font-weight: 300;
-    font-family: var(--font-poppins);
-    color: var(--color-black);
-    text-align: center;
-  }
-  .frame1 {
-    position: absolute;
-    top: 574px;
-    left: 38px;
-    width: 493px;
-    height: 18px;
-    overflow: hidden;
-  }
-  .frame2,
-  .reviewbox {
-    position: absolute;
-    top: 0;
-    left: 33px;
-  }
-  .reviewbox {
-    width: 970px;
-    left: 50px;
-  }
-  .frame2 {
-    top: 215px;
-    left: 38px;
-    width: 1018px;
-    height: 87px;
-    overflow: visible;
-  }
-  .rateTheProperty,
-  .scenery {
-    cursor: pointer;
-    border: 0;
-    padding: 0;
-    background-color: transparent;
-    position: absolute;
-    top: 0;
-    right: 833px;
-    font-size: var(--font-size-mini);
-    text-transform: capitalize;
-    font-weight: 700;
-    font-family: var(--font-poppins);
-    color: var(--color-black);
-    text-align: center;
-    display: inline-block;
-  }
-  .scenery {
-    top: 7px;
-    right: 356px;
-    font-size: var(--font-size-sm);
-    font-weight: 500;
-  }
-  .sceneryParent,
-  .sceneryrating {
-    position: absolute;
-    top: 0;
-    height: 34px;
-  }
-  .sceneryrating {
-    left: 194px;
-    width: 350px;
-    height: 500px;
-    
-  }
-  .sceneryParent {
-    left: 0;
-    width: 413px;
-  }
-  .location {
-    cursor: pointer;
-    border: 0;
-    padding: 0;
-    background-color: transparent;
-    position: absolute;
-    top: 7px;
-    right: 355px;
-    font-size: var(--font-size-sm);
-    text-transform: capitalize;
-    font-weight: 500;
-    font-family: var(--font-poppins);
-    color: var(--color-black);
-    text-align: center;
-    display: inline-block;
-  }
-  .locationrating {
-    position: absolute;
-    top: 0;
-    left: 196px;
-   
-    width: 219px;
-    height: 34px;
-  }
-  .frame4,
-  .locationParent {
-    position: absolute;
-    top: 0;
-    left: 555px;
-    width: 415px;
-    height: 34px;
-  }
-  .frame4 {
-    top: 48px;
-    left: 0;
-    width: 970px;
-    overflow: hidden;
-  }
-  .accuracy,
-  .reception {
-    cursor: pointer;
-    border: 0;
-    padding: 0;
-    background-color: transparent;
-    position: absolute;
-    top: 7px;
-    right: 345px;
-    font-size: var(--font-size-sm);
-    text-transform: capitalize;
-    font-weight: 500;
-    font-family: var(--font-poppins);
-    color: var(--color-black);
-    text-align: center;
-    display: inline-block;
-  }
-  .reception {
-    right: 343px;
-  }
-  .receptionrating {
-    position: absolute;
-    top: 0;
-    left: 195px;
-    width: 219px;
-    height: 34px;
-  }
-  .frame5,
-  .receptionParent {
-    position: absolute;
-    top: 0;
-    left: 556px;
-    width: 414px;
-    height: 34px;
-  }
-  .frame5 {
-    top: 113px;
-    left: 0;
-    width: 970px;
-    overflow: hidden;
-  }
-  .cleanliness {
-    cursor: pointer;
-    border: 0;
-    padding: 0;
-    background-color: transparent;
-    position: absolute;
-    top: 7px;
-    right: 331px;
-    font-size: var(--font-size-sm);
-    text-transform: capitalize;
-    font-weight: 500;
-    font-family: var(--font-poppins);
-    color: var(--color-black);
-    text-align: center;
-    display: inline-block;
-  }
-  .frame6 {
-    position: absolute;
-    top: 178px;
-    left: 0;
-    width: 970px;
-    height: 34px;
-    overflow: hidden;
-  }
-  .frame3,
-  .rateThePropertyParent {
-    position: absolute;
-    top: 0;
-    left: 48px;
-    width: 970px;
-    height: 212px;
-  }
-  .frame3 {
-    top: 334px;
-    left: 38px;
-    width: 1018px;
-    overflow: hidden;
-  }
-  .submitReview {
-    cursor: pointer;
-    border: 0;
-    padding: 0;
-    background-color: transparent;
-    position: relative;
-    font-size: var(--body-copy-16pt-semibold-size);
-    text-transform: capitalize;
-    font-weight: 700;
-    font-family: var(--font-inter);
-    color: var(--shade-01);
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 166px;
-    flex-shrink: 0;
-  }
-  .confirmpaymentbtn,
-  .frame7 {
-    position: absolute;
-    height: 49px;
-  }
-  .confirmpaymentbtn {
-    top: 0;
-    left: 461px;
-    border-radius: 9.08px;
-    background-color: var(--color-darkblue);
-    width: 135px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    padding: var(--padding-3xs);
-    box-sizing: border-box;
-  }
-  .confirmpaymentbtn:hover {
-    background-color: var(--color-blueviolet);
-    gap: var(--gap-3xs);
-  }
-  .frame7 {
-    top: 626px;
-    left: 38px;
-    width: 596px;
-    overflow: hidden;
-  }
-  .frameChild {
-    position: absolute;
-    top: 102.5px;
-    left: -0.5px;
-    border-top: 1px solid var(--color-silver-200);
-    box-sizing: border-box;
-    width: 1070px;
-    height: 1px;
-  }
-  .frameIcon {
-    position: absolute;
-    top: 38px;
-    left: 44px;
-    width: 1020px;
-    height: 21px;
-    overflow: hidden;
-  }
-  .reviewForm {
-    cursor: pointer;
-    border: 0;
-    padding: 0;
-    background-color: transparent;
-    position: absolute;
-    top: 39px;
-    right: -0.5px;
-    font-size: var(--font-size-mid);
-    text-transform: capitalize;
-    font-weight: 700;
-    font-family: var(--font-poppins);
-    color: var(--color-black);
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 1064px;
-  }
-  .frame8,
-  .lineParent {
-    position: absolute;
-    height: 103px;
-  }
-  .frame8 {
-    top: 0;
-    left: 5px;
-    border-radius: var(--br-15xl);
-    background-color: var(--shade-01);
-    width: 1063.5px;
-    overflow: hidden;
-  }
-  .lineParent {
-    top: 58px;
-    left: 38px;
-    width: 1069px;
-  }
-  .reviewform {
-    border-radius: var(--br-3xs);
-    width: 1123px;
-    height: 728px;
-    overflow-y: auto;
-    max-width: 100%;
-    max-height: 100%;
-    overflow: auto;
-  }
+.whiterectangle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--color-white);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 1518px;
+  height: 105px;
+}
+.stay {
+  font-weight: 500;
+  color: #6c60fe;
+}
+.urbanstayTxt {
+  line-break: anywhere;
+  width: 100%;
+}
+.urbanstay {
+  position: absolute;
+  top: 49px;
+  left: 25px;
+  letter-spacing: -1px;
+  line-height: 70px;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  width: 85px;
+  height: 20px;
+}
+.image31,
+.urbanstayParent {
+  position: absolute;
+  width: 133px;
+}
+.image31 {
+  top: 0;
+  left: 0;
+  height: 46px;
+  object-fit: cover;
+}
+.urbanstayParent {
+  top: 22px;
+  left: 5px;
+  height: 69px;
+  cursor: pointer;
+}
+.stickyNavBar {
+  position: absolute;
+  top: -6px;
+  left: 0;
+  width: 1542px;
+  height: 119px;
+  overflow: hidden;
+}
+.heading4 {
+  position: relative;
+  line-height: 28.8px;
+  font-weight: 600;
+}
+.downloadTheApp {
+  position: relative;
+  font-size: var(--font-size-base);
+  line-height: 24px;
+  color: var(--color-whitesmoke);
+  display: flex;
+  align-items: center;
+  width: 378px;
+}
+.divfooterContentHeading {
+  position: absolute;
+  width: calc(100% + 57px);
+  top: 0;
+  right: -28.5px;
+  left: -28.5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 95px 0 0;
+  box-sizing: border-box;
+  gap: 29.8px;
+}
+.googlePaypngIcon {
+  position: relative;
+  width: 168px;
+  height: 60px;
+  object-fit: cover;
+  max-width: 173px;
+}
+.link {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0 var(--padding-8xs) 0 0;
+}
+.appStorepngIcon {
+  position: relative;
+  width: 162px;
+  height: 60px;
+  object-fit: cover;
+  max-width: 167px;
+}
+.divdownloadApp {
+  position: absolute;
+  top: 97.8px;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 76px 0 0;
+}
+.heading41 {
+  position: relative;
+  line-height: 28.8px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.symbol {
+  position: relative;
+  line-height: 18px;
+}
+.ifaBrands,
+.itemLink {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.itemLink {
+  border-radius: var(--br-xl);
+  background-color: var(--color-white);
+  width: 40px;
+  height: 40px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-2xs) 13.619999885559082px var(--padding-2xs)
+    14.380000114440918px;
+  box-sizing: border-box;
+}
+.itemmargin {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 var(--padding-3xs) 0 0;
+}
+.itemLink1,
+.itemLink2,
+.itemLink3,
+.itemLink4 {
+  border-radius: var(--br-xl);
+  background-color: var(--color-white);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-2xs) 11.869999885559082px var(--padding-2xs)
+    12.130000114440918px;
+  box-sizing: border-box;
+}
+.itemLink2,
+.itemLink3,
+.itemLink4 {
+  padding: var(--padding-2xs) 9.119999885559082px var(--padding-2xs)
+    9.880000114440918px;
+}
+.itemLink3,
+.itemLink4 {
+  padding: var(--padding-2xs);
+}
+.itemLink4 {
+  padding: var(--padding-2xs) 12.75px var(--padding-2xs) 13.25px;
+}
+.item {
+  align-self: stretch;
+  flex-direction: column;
+}
+.divsocialLinks,
+.item,
+.list {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.list {
+  align-self: stretch;
+  flex-direction: row;
+  padding: 0 126px 0 0;
+  font-size: var(--font-size-lg);
+  color: var(--color-midnightblue);
+  font-family: var(--font-font-awesome-5-brands);
+}
+.divsocialLinks {
+  position: absolute;
+  width: 100%;
+  top: 207.8px;
+  right: 0;
+  left: 0;
+  flex-direction: column;
+  gap: 14.79px;
+}
+.divcolLg4,
+.divfooterAppContent {
+  position: absolute;
+  top: 0;
+  height: 291.6px;
+}
+.divfooterAppContent {
+  width: calc(100% - 24px);
+  right: 12px;
+  left: 12px;
+}
+.divcolLg4 {
+  left: 0;
+  width: 440px;
+}
+.explore {
+  position: relative;
+  line-height: 28.8px;
+  font-weight: 600;
+  display: inline-block;
+  max-height: 28.799999237060547px;
+}
+.heading42 {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 98px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 107px 0 0;
+}
+.listings {
+  position: relative;
+  line-height: 24px;
+}
+.link3 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  z-index: 0;
+}
+.symbol6 {
+  position: absolute;
+  margin: 0 !important;
+  top: 1.5px;
+  left: 0;
+  font-size: var(--font-size-sm);
+  line-height: 21px;
+  font-family: var(--font-font-awesome-5-free);
+  color: var(--color-goldenrod);
+  display: flex;
+  align-items: center;
+  width: 10.5px;
+  height: 21px;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.item1,
+.item2 {
+  display: flex;
+  justify-content: flex-start;
+}
+.item1 {
+  flex-direction: row;
+  align-items: center;
+  padding: 0 119px 0 var(--padding-lg);
+  position: relative;
+}
+.item2 {
+  padding: 0 114px 0 var(--padding-lg);
+}
+.item2,
+.item3,
+.item4 {
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+.item3 {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 135px 0 var(--padding-lg);
+}
+.item4 {
+  padding: 0 134px 0 var(--padding-lg);
+}
+.item4,
+.item5,
+.list1 {
+  display: flex;
+  justify-content: flex-start;
+}
+.item5 {
+  flex-direction: row;
+  align-items: center;
+  padding: 0 120px 0 var(--padding-lg);
+  position: relative;
+}
+.list1 {
+  position: absolute;
+  top: 58.8px;
+  left: calc(50% - 98px);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-xl);
+  font-size: var(--font-size-base);
+  color: var(--color-whitesmoke);
+}
+.divfooterWidgetList {
+  width: calc(100% - 24px);
+  right: 12px;
+  left: 12px;
+  height: 258.8px;
+}
+.divcolLg2,
+.divfooterWidgetList,
+.heading43 {
+  position: absolute;
+  top: 0;
+}
+.divcolLg2 {
+  height: 100%;
+  width: calc(100% - 880px);
+  right: 440px;
+  bottom: 0;
+  left: 440px;
+}
+.heading43 {
+  left: calc(50% - 98px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 66px 0 0;
+}
+.item10,
+.item6,
+.item7,
+.item8,
+.item9 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 88px 0 var(--padding-lg);
+  position: relative;
+}
+.item10,
+.item7,
+.item8,
+.item9 {
+  padding: 0 131px 0 var(--padding-lg);
+}
+.item10,
+.item8,
+.item9 {
+  padding: 0 129px 0 var(--padding-lg);
+}
+.item10,
+.item9 {
+  padding: 0 139px 0 var(--padding-lg);
+}
+.item10 {
+  padding: 0 149px 0 var(--padding-lg);
+}
+.divcolLg21 {
+  position: absolute;
+  height: 100%;
+  width: calc(100% - 880px);
+  top: 0;
+  right: 220px;
+  bottom: 0;
+  left: 660px;
+}
+.heading44 {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 98px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 81px 0 0;
+}
+.item11 {
+  padding: 0 75px 0 var(--padding-lg);
+}
+.item11,
+.item12,
+.item13,
+.item14,
+.item15 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+}
+.item12 {
+  padding: 0 1var (--padding-lg) 0 18px;
+}
+.item13,
+.item14,
+.item15 {
+  padding: 0 141px 0 var(--padding-lg);
+}
+.item14,
+.item15 {
+  padding: 0 156px 0 var(--padding-lg);
+}
+.item15 {
+  padding: 0 113px 0 var(--padding-lg);
+}
+.divcolLg22 {
+  position: absolute;
+  height: 100%;
+  width: calc(100% - 880px);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 880px;
+}
+.divcontainer,
+.divfooterTop,
+.divrow {
+  position: absolute;
+  top: 0;
+  left: 12px;
+  width: 1100px;
+  height: 291.6px;
+}
+.divcontainer,
+.divfooterTop {
+  top: 60px;
+  left: 168px;
+  width: 1124px;
+}
+.divfooterTop {
+  top: 0;
+  left: 0;
+  width: 1788px;
+  height: 411.6px;
+}
+.copyright2023 {
+  position: absolute;
+  top: 0;
+  left: -12px;
+  line-height: 21px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1518px;
+}
+.divfooterBottom,
+.p {
+  position: absolute;
+  width: calc(100% - 1221px);
+  top: 15px;
+  right: 1209px;
+  left: 12px;
+  height: 21px;
+}
+.divfooterBottom {
+  width: calc(100% - 380px);
+  top: 412px;
+  right: 380px;
+  left: 0;
+  background-color: #0d1329;
+  height: 51px;
+  text-align: center;
+  font-size: var(--font-size-sm);
+}
+.footer {
+  position: absolute;
+  width: calc(100% + 384px);
+  right: -384px;
+  bottom: 0.4px;
+  left: 0;
+  background-color: #10162e;
+  height: 462.6px;
+  font-size: var(--font-size-5xl);
+  color: var(--color-white);
+  font-family: var(--font-plus-jakarta-sans);
+}
+.reservationheading,
+.reservationheading1 {
+  position: absolute;
+  top: 0;
+  left: 152px;
+  letter-spacing: 0.1px;
+  line-height: 32px;
+  display: inline-block;
+  width: 765.2px;
+  height: 49px;
+}
+.reservationheading1 {
+  left: 0;
+  width: 263.8px;
+}
+.reservationheading1:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.reservationheadingParent {
+  position: absolute;
+  top: 132px;
+  left: 305px;
+  width: 911.2px;
+  height: 49px;
+  font-size: 16px;
+  font-family: var(--font-poppins);
+}
+.reviewbox {
+  position: absolute;
+  top: 219px;
+  left: 305px;
+}
+.leaveAReview {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  right: 1px;
+  font-size: var(--font-size-mini);
+  text-transform: capitalize;
+  font-weight: 500;
+  font-family: var(--font-poppins);
+  color: var(--color-black);
+  text-align: center;
+  display: inline-block;
+}
+.frame {
+  position: absolute;
+  top: 188px;
+  left: 253px;
+  width: 175px;
+  height: 23px;
+  overflow: hidden;
+}
+.rateTheProperty,
+.scenery {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  right: 773px;
+  font-size: var(--font-size-mini);
+  text-transform: capitalize;
+  font-weight: 500;
+  font-family: var(--font-poppins);
+  color: var(--color-black);
+  text-align: center;
+  display: inline-block;
+}
+.rateTheProperty {
+  left: -180px;
+  width: 500px;
+}
+.scenery {
+  top: 7px;
+  right: 356px;
+  font-size: var(--font-size-sm);
+}
+.sceneryrating {
+  position: absolute;
+  top: 0;
+  left: 194px;
   
+  width: 219px;
+  height: 34px;
+}
+.sceneryParent {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  width: 413px;
+  height: 34px;
+}
+.location {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 7px;
+  right: 355px;
+  font-size: var(--font-size-sm);
+  text-transform: capitalize;
+  font-weight: 500;
+  font-family: var(--font-poppins);
+  color: var(--color-black);
+  text-align: center;
+  display: inline-block;
+}
+.locationrating {
+  position: absolute;
+  top: 0;
+  left: 196px;
+ 
+  width: 219px;
+  height: 34px;
+}
+.locationParent {
+  position: absolute;
+  top: 48px;
+  left: 493px;
+  width: 415px;
+  height: 34px;
+}
+.accuracy {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 7px;
+  right: 345px;
+  font-size: var(--font-size-sm);
+  text-transform: capitalize;
+  font-weight: 500;
+  font-family: var(--font-poppins);
+  color: var(--color-black);
+  text-align: center;
+  display: inline-block;
+}
+.accuracyParent {
+  position: absolute;
+  top: 113px;
+  left: 0;
+  width: 413px;
+  height: 34px;
+}
+.reception {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 7px;
+  right: 343px;
+  font-size: var(--font-size-sm);
+  text-transform: capitalize;
+  font-weight: 500;
+  font-family: var(--font-poppins);
+  color: var(--color-black);
+  text-align: center;
+  display: inline-block;
+}
+.receptionrating {
+  position: absolute;
+  top: 0;
+  left: 195px;
+  
+  width: 219px;
+  height: 34px;
+}
+.receptionParent {
+  position: absolute;
+  top: 113px;
+  left: 494px;
+  width: 414px;
+  height: 34px;
+}
+.cleanliness {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 7px;
+  right: 331px;
+  font-size: var(--font-size-sm);
+  text-transform: capitalize;
+  font-weight: 500;
+  font-family: var(--font-poppins);
+  color: var(--color-black);
+  text-align: center;
+  display: inline-block;
+}
+.cleanlinessParent,
+.servicesParent {
+  position: absolute;
+  top: 178px;
+  left: 0;
+  width: 413px;
+  height: 34px;
+}
+.servicesParent {
+  left: 494px;
+  width: 414px;
+}
+.rateThePropertyParent {
+  position: absolute;
+  top: 370px;
+  right: 308px;
+  width: 920px;
+  height: 212px;
+  left: 310px;
+}
+.overallRating {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  position: absolute;
+  left: -20px;
+  top: 7px;
+  right: 312px;
+  font-size: var(--font-size-sm);
+  text-transform: capitalize;
+  font-weight: 500;
+  font-family: var(--font-poppins);
+  color: var(--color-black);
+  text-align: center;
+  display: inline-block;
+}
+.overallRatingParent {
+  position: absolute;
+  top: 0;
+  left: 61px;
+  width: 450px;
+  height: 34px;
+}
+.theOverallProperty {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 12px;
+  text-transform: capitalize;
+  display: inline-block;
+  font-style: italic;
+  font-weight: 300;
+  font-family: var(--font-poppins);
+  color: var(--color-black);
+  text-align: center;
+  left: 50px;
+}
+.overallRating1 {
+  position: absolute;
+  top: 0;
+  left: 200px;
+ 
+  width: 219px;
+  height: 34px;
+}
+.frame1,
+.frameParent {
+  position: absolute;
+  width: 509px;
+}
+.frame1 {
+  top: 47px;
+  left: 0;
+  height: 18px;
+  overflow: hidden;
+}
+.frameParent {
+  top: 650px;
+  left: 242px;
+  height: 65px;
+}
+.confirmpaymentbtn,
+.submitReview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.submitReview {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  position: relative;
+  font-size: var(--font-size-base);
+  text-transform: capitalize;
+  font-weight: 700;
+  font-family: var(--font-inter);
+  color: var(--color-white);
+  text-align: center;
+  width: 166px;
+  flex-shrink: 0;
+}
+.confirmpaymentbtn {
+  position: absolute;
+  top: 771px;
+  left: 304px;
+  border-radius: 9.08px;
+  background-color: var(--color-darkblue);
+  width: 135px;
+  height: 49px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: var(--padding-3xs);
+  box-sizing: border-box;
+}
+.confirmpaymentbtn:hover {
+  background-color: rgba(88, 57, 227, 0.93);
+  gap: 10px;
+}
+.givepropertyreview {
+  position: relative;
+  background-color: var(--color-white);
+  width: 100%;
+  height: 1333px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-base);
+  color: var(--color-darkblue);
+  font-family: var(--font-lato);
+}

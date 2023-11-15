@@ -132,7 +132,7 @@ const MyDataGrid = ({ data }) => {
       headerAlign: "center", 
       align: "center", 
       headerClassName: 'custom-header-class',
-      width: 120,
+      width: 110,
       disableSelectionOnClick: true,
     },
     {

@@ -1,8 +1,11 @@
-import { useCallback } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./MyPastReservations.module.css";
 import './CustomDataGrid.css'; 
 import './CustomHeaderClass.css';
+import IconPopup from '../components/IconPopup';
+import IconPopupForGuest from '../components/IconPopupForGuest';
+import PastReservationDatagrid from './PastReservationDatagrid';
 
 const MyPastReservations = () => {
 
@@ -32,8 +35,59 @@ const MyPastReservations = () => {
     navigate("/");
   }, []);
 
+  const isGuest = localStorage.getItem('GuestOrHost');
+
+  function formatDateDisplay(date, defaultText) {
+    if (!date) return defaultText;
+    return format(date, "d MMM, yyyy");
+  }
+
+  const [loading, setLoading] = useState(1);
+
+  const [data, setData] = useState([]);
+  const userEmail = localStorage.getItem('email');
+
+  useEffect(() => {
+    fetch(`http://localhost:5001/getPastReservations/${userEmail}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((fetchedData) => {
+        if (fetchedData) {
+          console.log('Data fetched');
+          setData(fetchedData);
+        } else {
+          console.error('Data structure is not as expected:', fetchedData);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setLoading(0);
+        }, 800);
+      });
+  }, []);
+
+  const rows = [
+    { id: 1, Property: "john.doe@example.com" },
+  ];
+
   return (
     <div className={styles.mypastreservations}>
+      { isGuest ? (
+
+      <IconPopupForGuest topMargin = {6} />
+
+      ) : !isGuest ? (
+
+      <IconPopup topMargin = {6} />
+
+      ) : null }
       <div className={styles.footer}>
         <div className={styles.divfooterTop}>
           <div className={styles.divcontainer}>
@@ -244,7 +298,19 @@ const MyPastReservations = () => {
           <div className={styles.showAllReviews}>Show all reviews</div>
         </div>
       </div>
-      <div className={styles.pastreservations} />
+
+      <div className={styles.pastreservations}>
+
+         <PastReservationDatagrid data = {rows} />
+         
+
+      </div>
+
+
+
+
+
+
       <div className={styles.stickyNavBar}>
         <div className={styles.whiterectangle} />
         <div className={styles.urbanstayParent} onClick={onGroupContainerClick}>

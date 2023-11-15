@@ -21,12 +21,16 @@ import IconPopupForGuest from '../components/IconPopupForGuest';
 import IconPopup from '../components/IconPopup';
 import Chip from '@mui/material/Chip';
 
-import ReservedChip from './Scenes/reservationChip';
-import PendingChip from './Scenes/pendingChip';
-import RejectedChip from './Scenes/rejectedChip';
+import ReservedChip from './Chips/reservationChip';
+import PendingChip from './Chips/pendingChip';
+import RejectedChip from './Chips/rejectedChip';
+import DueChip from './Chips/dueChip';
+import PaidChip from './Chips/paidChip';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import { format } from "date-fns";
+
+import Spinner from './Chips/Spinner';
 
 
 const MyReservations = () => {
@@ -58,7 +62,7 @@ const MyReservations = () => {
     return format(date, "d MMM, yyyy");
   }
 
- 
+  const [loading, setLoading] = useState(1);
 
   useEffect(() => {
     fetch(`http://localhost:5001/getReservations/${userEmail}`)
@@ -70,19 +74,22 @@ const MyReservations = () => {
       })
       .then((fetchedData) => {
         if (fetchedData.pendingReservations && fetchedData.approvedReservations) {
-          console.log("Data fetched");
-          // Assuming you have a state variable called 'reservations' to store the data
+          console.log('Data fetched');
           setData({
             pendingReservations: fetchedData.pendingReservations,
             approvedReservations: fetchedData.approvedReservations,
           });
-          console.log(data);
         } else {
           console.error('Data structure is not as expected:', fetchedData);
         }
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setLoading(0);
+        }, 2000);
       });
   }, []);
   
@@ -113,6 +120,7 @@ const MyReservations = () => {
       description: item.description,
       rating: item.Avg_ratings,
       area: item.Area,
+      payment: "DUE",
     }))
   : [];
 
@@ -137,9 +145,10 @@ const approvedRows = data.approvedReservations
       category: item.category,
       Requested_on: item.Requested_on,
       description: item.description,
-      days: Math.floor(((new Date(item.CheckOutDate)) - (new Date(item.CheckInDate)))/(24*60*60*1000) + 1),
+      days: item.days,
       rating: item.Avg_ratings,
       area: item.Area,
+      payment: "PAID", 
     }))
   : [];
 
@@ -267,7 +276,7 @@ const columns: GridColDef[] = [
   },
   {
     field: 'price',
-    headerName: 'Pricing (BDT)',
+    headerName: 'Pricing',
     width: 150,
     headerAlign: "center", 
     align: "center", 
@@ -281,6 +290,11 @@ const columns: GridColDef[] = [
     headerAlign: "center", 
     align: "center", 
     headerClassName: 'custom-header-class',
+    renderCell: (params) => (
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
+          {params.row.payment === "PAID" ? <PaidChip /> : <DueChip />}
+      </div>
+  ),
     
   }
 
@@ -580,30 +594,42 @@ const getCellClassName = (params) => {
       
 
         <div className={styles.myreservationsDatagridWrapper}>
-          <div className={styles.myreservationsDatagrid}>
+        {loading && (
+        <div className={styles.spinnerWrapper}>
+          <Spinner />
+        </div>
+        )}
+        {!loading && (
 
-            <Box sx={{ height: 600, width: '100%' }}>
-            <DataGrid
-              rows={allRows}
-              getRowId={(allRows) => allRows.pid}
-              columns={columns}
-              getCellClassName={getCellClassName}
-              rowHeight={70} 
-              className="custom-data-grid"
-              style = {gridStyle}
-              initialState={{
-                pagination: {
-                  paginationModel: {
-                    pageSize: 15,
-                  },
-                },
-              }}
-              pageSizeOptions={[5]}
-             
-             
-            />
-          </Box>
-          </div>
+                <div className={styles.myreservationsDatagrid}>
+
+                {loading ? <Spinner /> : ""}
+
+                <Box sx={{ height: 600, width: '100%' }}>
+                <DataGrid
+                  rows={allRows}
+                  getRowId={(allRows) => allRows.pid}
+                  columns={columns}
+                  getCellClassName={getCellClassName}
+                  rowHeight={70} 
+                  className="custom-data-grid"
+                  style = {gridStyle}
+                  initialState={{
+                    pagination: {
+                      paginationModel: {
+                        pageSize: 15,
+                      },
+                    },
+                  }}
+                  pageSizeOptions={[5]}
+                
+                
+                />
+                </Box>
+                </div>
+
+        )}
+         
         </div>
 
 

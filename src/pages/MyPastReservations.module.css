@@ -463,10 +463,10 @@
 }
 .pastreservations {
   position: absolute;
-  top: 140px;
-  left: 33px;
- 
-  width: 1451px;
+  top: 100px;
+  left: 70px;
+  z-index: 10000;
+  width: 1380px;
   height: 671px;
 }
 .whiterectangle {
@@ -585,7 +585,7 @@
 }
 .itemLinkParent {
   width: calc(100% - 1109px);
-  top: 46px;
+  top: 44px;
   right: 679px;
   left: 430px;
   font-size: 11px;
@@ -593,7 +593,7 @@
 }
 .stickyNavBar {
   position: absolute;
-  top: -19px;
+  top: -17px;
   left: 0;
   width: 1760px;
   height: 120px;
@@ -611,4 +611,5 @@
   font-size: var(--font-size-base);
   color: var(--color-white);
   font-family: var(--font-plus-jakarta-sans);
+  z-index: 1000;
 }

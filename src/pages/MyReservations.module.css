@@ -487,6 +487,14 @@
   font-size: var(--font-size-13xl);
   font-family: var(--font-poppins);
 }
+
+.spinnerWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 170vh; 
+}
+
 .pseudoIcon {
   position: absolute;
   top: -120px;
@@ -508,7 +516,7 @@
   left: 10px;
   width: 1540px;
   height: 1534px;
-  z-index: 1000;
+ 
 }
 .whiterectangle {
   position: absolute;

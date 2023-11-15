@@ -5,7 +5,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 const RejectedChip = () => {
   return (
     <Chip
-      label="Rejected"
+      label="Unavailable"
       color="default"
       variant="outlined"
       style={{ borderColor: 'red', color: 'red' }}

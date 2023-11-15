@@ -272,11 +272,6 @@ async function connectAndStartServer()
         } else {
           console.log('Data fetched from PROPERTY successfully.');
           console.log(searchResults);
-
-          
-
-
-
           res.json({ searchResults });
         }
       });
@@ -452,6 +447,7 @@ async function connectAndStartServer()
   
   app.get('/getReservations/:userEmail', (req, res) => {
     const userEmail = req.params.userEmail;
+    const currentDate = new Date();
   
     pool.getConnection((err, connection) => {
       if (err) {
@@ -459,9 +455,8 @@ async function connectAndStartServer()
       }
   
       const pendingSql = `SELECT * FROM PendingReservations WHERE Email = '${userEmail}'`;
-      const approvedSql = `SELECT * FROM ApprovedReservations WHERE Email = '${userEmail}'`;
+      const approvedSql = `SELECT * FROM ApprovedReservations WHERE Email = '${userEmail}' `;
   
-      // Use Promise.all to execute both queries concurrently
       Promise.all([
         new Promise((resolve, reject) => {
           connection.query(pendingSql, (err, pendingResults) => {
@@ -485,7 +480,7 @@ async function connectAndStartServer()
         }),
       ])
         .then(([s1, s2]) => {
-          // Combine results into a single object
+          
           const responseObj = {
             pendingReservations: s1.pendingReservations,
             approvedReservations: s2.approvedReservations,
@@ -494,12 +489,12 @@ async function connectAndStartServer()
           console.log("Response object: ", responseObj);
   
           res.status(200).json(responseObj);
-          connection.release(); // Release the database connection
+          connection.release(); 
         })
         .catch((error) => {
           console.error('Error executing SQL queries:', error);
           res.status(500).json({ message: 'Error executing SQL queries' });
-          connection.release(); // Ensure connection is released in case of an error
+          connection.release(); 
         });
     });
   });
@@ -973,6 +968,37 @@ app.get('/temp-profile', async (req, res) => {
         res.status(500).json({ message: 'Fetching Error' });
       } else {
         console.log('Data fetched from USER successfully.');
+        console.log(searchResults);
+        res.json({ searchResults });
+      }
+    });
+    connection.release(); 
+  });
+});
+
+
+app.get('/getPastReservations/:email', async (req, res) => {
+  const email = req.params.email;
+ 
+  console.log("email receive for pastReservations :");
+  console.log(email);
+ 
+  const currentDate = new Date();
+  console.log("Current Date be like : ", currentDate);
+
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+
+    const searchSql = `SELECT * FROM APPROVEDRESERVATIONS WHERE Email = ? AND CheckOutDate < ?`;
+
+    const searchValues = [email, currentDate];
+
+    connection.query(searchSql, searchValues, (searchErr, searchResults) => {
+      if (searchErr) {
+        console.error('Error fetching data:', searchErr);
+        res.status(500).json({ message: 'Fetching Error' });
+      } else {
+        console.log('Data fetched from APPROVEDRESERVATIONS successfully.');
         console.log(searchResults);
         res.json({ searchResults });
       }
