@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Avatar from '@mui/material/Avatar';
 
-const AvatarsFromBackend = ({ userId, firstname }) => {
+const AvatarsFromBackend = ({  userId, firstname }) => {
   const [avatars, setAvatars] = useState([]);
 
-  console.log(firstname);
+  console.log("PID: ", userId);
+  console.log("firstname: ", firstname);
+  console.log();
 
   function stringToColor(string) {
     let hash = 0;

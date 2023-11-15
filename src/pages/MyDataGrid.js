@@ -13,7 +13,6 @@ import './CustomHeaderClass.css';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import SpeakerNotesRoundedIcon from '@mui/icons-material/SpeakerNotesRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -150,8 +149,7 @@ const MyDataGrid = ({ data }) => {
         </div>
       ),
       disableSelectionOnClick: true,
-    },
-    
+    }, 
 
     {
       field: "reservedBypresent",

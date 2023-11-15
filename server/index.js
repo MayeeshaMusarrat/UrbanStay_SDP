@@ -705,8 +705,10 @@ async function connectAndStartServer()
     });
   });
 
-  app.get('/getAvatars/:PID', (req, res) => {
-    const PID = req.params.PID;
+  app.get('/getAvatars/:userId', (req, res) => {
+    const PID = req.params.userId;
+
+    console.log("Pid from backedn: ", PID);
   
     console.log("for avatar");
   
@@ -717,7 +719,6 @@ async function connectAndStartServer()
   
       const query = 'SELECT Profile_pic FROM PENDINGRESERVATIONS WHERE PID = ?';
   
-      // Execute the query with PID as a parameter
       connection.query(query, [PID], (fetchErr, fetchResults) => {
         connection.release();
   
@@ -726,8 +727,7 @@ async function connectAndStartServer()
         }
   
         console.log("profile_pics: ", fetchResults);
-  
-        // Extract Profile_pic from each row and create an array
+
         const avatarUrls = fetchResults.map((row) => row.Profile_pic);
   
         res.json({ avatars: avatarUrls });
@@ -735,9 +735,6 @@ async function connectAndStartServer()
     });
   });
   
-  
-
-
   app.post('/reject-reservation', (req, res) => {
     const { Email, PID } = req.body;
 

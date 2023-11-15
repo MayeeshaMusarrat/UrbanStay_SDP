@@ -15,6 +15,7 @@ import IconPopupForGuest from '../components/IconPopupForGuest';
 import IconPopup from '../components/IconPopup';
 
 
+
 const MyListings = () => {
 
 const [data, setData] = useState([]);
@@ -47,7 +48,6 @@ useEffect(() => {
 const rows = data.map((item) => ({
    
   id: item.PID, 
- 
   Created: formatDateDisplay(new Date(item.Created)), 
   Property: item.Property_title,
   bedrooms: item.Num_of_bedrooms,

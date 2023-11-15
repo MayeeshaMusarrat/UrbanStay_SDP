@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import styles from "./GivePropertyReview.module.css";
 import { useNavigate } from "react-router-dom";
@@ -38,8 +38,54 @@ const GivePropertyReview = () => {
   const [receptionValue, setReceptionValue] = useState(0);
   const [serviceValue, setServiceValue] = useState(0);
   const [cleanValue, setCleanValue] = useState(0);
+  const [overallValue, setOverallValue] = useState(0);
+  
+  const handleSceneryChange = (event, newValue) => {
+    setSceneryValue(newValue);
+    console.log("Scenery: ",newValue);
+  };
+  
+  const handleLocationChange = (event, newValue) => {
+    setLocationValue(newValue);
+    console.log("Location: ",newValue);
+  };
+
+  
+  const handleAccuracyChange = (event, newValue) => {
+    setAccuracyValue(newValue);
+    console.log("Accuracy: ",newValue);
+  };
+
+  
+  const handleReceptionChange = (event, newValue) => {
+    setReceptionValue(newValue);
+    console.log("Reception: ",newValue);
+  };
+
+  
+  const handleServiceChange = (event, newValue) => {
+    setServiceValue(newValue);
+    console.log("Service: ",newValue);
+  };
+
+  
+  const handleCleanChange = (event, newValue) => {
+    setCleanValue(newValue);
+    console.log("Cleanliness: ",newValue);
+  };
+
+  useEffect(() => {
+    const calculatedOverallValue =
+    (sceneryValue + locationValue + accuracyValue + receptionValue + serviceValue + cleanValue) / 6;
+    const roundedOverallValue = Math.ceil(calculatedOverallValue * 2) / 2;
+    setOverallValue(roundedOverallValue);
+    console.log("calculated: ", calculatedOverallValue);
+    console.log("roundedOverallValue: ", roundedOverallValue);
+    console.log("Overall: ", overallValue);
+  }, [sceneryValue, locationValue, accuracyValue, receptionValue, serviceValue, cleanValue]);
 
 
+  
 
   return (
     <div className={styles.givepropertyreview}>
@@ -289,7 +335,8 @@ const GivePropertyReview = () => {
           >
             <Rating
               name="simple-controlled"
-             // value={value}
+              onChange = {handleSceneryChange}
+              //value={value}
               size="large"
             />
     
@@ -306,7 +353,7 @@ const GivePropertyReview = () => {
         >
           <Rating
             name="simple-controlled"
-          //  value={value}
+            onChange = {handleLocationChange}
             size="large"
           />
         
@@ -324,7 +371,7 @@ const GivePropertyReview = () => {
           >
             <Rating
               name="simple-controlled"
-             // value={value}
+              onChange = {handleAccuracyChange}
               size="large"
             />
     
@@ -342,7 +389,7 @@ const GivePropertyReview = () => {
           >
             <Rating
               name="simple-controlled"
-             // value={value}
+              onChange = {handleReceptionChange}
               size="large"
             />
     
@@ -360,7 +407,7 @@ const GivePropertyReview = () => {
           >
             <Rating
               name="simple-controlled"
-             // value={value}
+              onChange = {handleCleanChange}
               size="large"
             />
     
@@ -377,7 +424,7 @@ const GivePropertyReview = () => {
           >
             <Rating
               name="simple-controlled"
-             // value={value}
+              onChange = {handleServiceChange}
               size="large"
             />
     
@@ -394,26 +441,23 @@ const GivePropertyReview = () => {
 
           <Box
           sx={{
-            width: 200,
+            width: 500,
             display: 'flex',
             alignItems: 'center',
           }}
         >
           <Rating
             name="text-feedback"
-           // value={value}
+            value={overallValue}
             readOnly
             precision={0.5}
             size = "large" 
             emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
           />
-          <Box sx={{ ml: 2, color: "black" }}>{labels[5]}</Box>
+          <Box sx={{ ml: 2, color: "gray" }}>{labels[overallValue]}</Box>
         </Box>
 
-
-
-
-            
+    
             </div>
         </div>
         <div className={styles.frame1}>
