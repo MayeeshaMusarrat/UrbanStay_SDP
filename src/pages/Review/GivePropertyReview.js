@@ -40,6 +40,13 @@ const GivePropertyReview = () => {
   const [cleanValue, setCleanValue] = useState(0);
   const [overallValue, setOverallValue] = useState(0);
   
+  const [review, setReview] = useState("");
+
+  const handleReviewChange = (event, newValue) => {
+    setReview(newValue);
+    console.log("review: ",newValue);
+  };
+  
   const handleSceneryChange = (event, newValue) => {
     setSceneryValue(newValue);
     console.log("Scenery: ",newValue);
@@ -85,7 +92,7 @@ const GivePropertyReview = () => {
   }, [sceneryValue, locationValue, accuracyValue, receptionValue, serviceValue, cleanValue]);
 
 
-  
+
 
   return (
     <div className={styles.givepropertyreview}>
@@ -314,6 +321,7 @@ const GivePropertyReview = () => {
         className={styles.reviewbox}
         color="info"
         rows={3}
+        onChange = {handleReviewChange}
         required={true}
         fullWidth={true}
         sx={{ width: 907 }}
@@ -454,7 +462,7 @@ const GivePropertyReview = () => {
             size = "large" 
             emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
           />
-          <Box sx={{ ml: 2, color: "gray" }}>{labels[overallValue]}</Box>
+          <Box sx={{ ml: 2, color: "darkgray", fontSize: 13, font: "poppins", fontWeight: 300}}> {labels[overallValue]} </Box>
         </Box>
 
     

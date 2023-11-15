@@ -45,7 +45,7 @@ const MyDataGrid = ({ data }) => {
       })
       .catch((error) => {
        //insert popup here
-       setErrorMessage('Error deleting property. Please try again.'); // Set your error message here
+       setErrorMessage('Error deleting property. Please try again.'); 
        setErrorPopupOpen(true);
          
         console.log('Error deleting property:', error);
