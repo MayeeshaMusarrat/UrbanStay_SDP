@@ -188,7 +188,7 @@ function App() {
       <Route path="/show-reservations" element={<ShowReservations />} />
       <Route path="/show-pending-reservations/:PID" element={<ShowPendingReservations />} />
       <Route path="/otp-page" element={<OTPPage />} />
-      <Route path="/give-property-review" element={<GiveReviewForProperty />} />
+      <Route path="/give-property-review/:PID" element={<GiveReviewForProperty />} />
       
 
     </Routes>

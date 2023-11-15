@@ -464,9 +464,9 @@
 .pastreservations {
   position: absolute;
   top: 100px;
-  left: 70px;
+  left: 100px;
   z-index: 10000;
-  width: 1380px;
+  width: 1315px;
   height: 671px;
 }
 .whiterectangle {

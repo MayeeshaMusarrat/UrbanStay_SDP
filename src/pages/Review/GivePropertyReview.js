@@ -1,13 +1,17 @@
 import { useCallback, useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import styles from "./GivePropertyReview.module.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import RatingStar from '../Chips/ratingStar';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import StarIcon from '@mui/icons-material/Star';
 
 const GivePropertyReview = () => {
+
+  const { PID } = useParams();
+
+
   const navigate = useNavigate();
   const onGroupContainerClick = useCallback(() => {
     navigate("/");
@@ -92,7 +96,35 @@ const GivePropertyReview = () => {
   }, [sceneryValue, locationValue, accuracyValue, receptionValue, serviceValue, cleanValue]);
 
 
+  const handleSubmit = (e)=>{
+    e.preventDefault();
+   // NotificationManager.success("Property is successfully hosted", "Success!", 3000);
 
+    const review = {
+        
+           
+    };
+    
+    
+    fetch("http://localhost:5001/confirm-listing",{
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(property),
+    }).then(result=>{
+      
+      if(result.status==200) {
+       
+       
+        navigate("/mylistings");
+      }
+      else {
+       
+        console.log("oops");
+      }
+    })
+  }
 
   return (
     <div className={styles.givepropertyreview}>

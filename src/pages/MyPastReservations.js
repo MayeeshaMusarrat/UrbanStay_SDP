@@ -6,6 +6,7 @@ import './CustomHeaderClass.css';
 import IconPopup from '../components/IconPopup';
 import IconPopupForGuest from '../components/IconPopupForGuest';
 import PastReservationDatagrid from './PastReservationDatagrid';
+import {format} from "date-fns";
 
 const MyPastReservations = () => {
 
@@ -44,38 +45,71 @@ const MyPastReservations = () => {
 
   const [loading, setLoading] = useState(1);
 
-  const [data, setData] = useState([]);
+  const [Pastdata, setPastData] = useState([]);
   const userEmail = localStorage.getItem('email');
 
   useEffect(() => {
     fetch(`http://localhost:5001/getPastReservations/${userEmail}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
+      .then(response => response.json())
+      .then(data => {
+        const formattedData = data.searchResults.map(result => ({
+          PID: result.PID, 
+          Property_title: result.Property_title,
+          Email: result.Email,
+          FullName: result.FirstName + " " + result.LastName,
+          Joining_date: result.Joining_date, 
+          User_description: result.User_description,
+          User_ID: result.User_ID,
+          Num_of_guests: result.pending_Guests,
+          Price_per_night: result.Price_per_night,
+          Check_in_date: result.Check_in_date,
+          Check_out_date: result.Check_out_date,
+          Num_of_ratings: result.Num_of_ratings,
+          Avg_ratings: result.Avg_ratings,
+          UID: result.UID,
+          City: result.City,
+          Country: result.Country,
+          Property_description: result.description,
+          Num_of_rooms: result.pending_Rooms,
+          Address_line: result.Address_line,
+          Num_of_bedrooms: result.Num_of_bedrooms,
+          Num_of_bathrooms: result.Num_of_bathrooms,
+          Num_of_beds: result.Num_of_beds,
+          num_of_days: result.days,
+          Status: result.Status,
+          Area: result.Area,
+          RID: result.Reservation_ID,
+          Guest_checkin: result.CheckInDate,
+          Guest_checkout: result.CheckOutDate,
+          TotalPrice: result.TotalPrice,
+          GuestRating: result.GuestRating,
+          GID: result.GID,
+          pics: result.pics,
+        }));
+  
+        console.log("past data: ", Pastdata); 
+        setPastData(formattedData);
+        
       })
-      .then((fetchedData) => {
-        if (fetchedData) {
-          console.log('Data fetched');
-          setData(fetchedData);
-        } else {
-          console.error('Data structure is not as expected:', fetchedData);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setLoading(0);
-        }, 800);
-      });
+      .catch(error => console.error('Error fetching data:', error));
   }, []);
+  
+ 
+  const rows = Pastdata.map((item) => ({
+    id: item.PID,
+    Property: item.Property_title,
+    Status: item.Status,
+    ReservationID: "RES_US"+item.RID,
+    checkin: formatDateDisplay(new Date(item.Guest_checkin)),
+    checkout: formatDateDisplay(new Date(item.Guest_checkout)),
+    days: Math.ceil((new Date(item.Guest_checkout) - new Date(item.Guest_checkin))/(1000 * 60 * 60 * 24)) + 1,
+    Pricing: item.TotalPrice + " BDT",
+    pics: item.pics,
 
-  const rows = [
-    { id: 1, Property: "john.doe@example.com" },
-  ];
+
+  }));
+
+ // console.log("data: ", data);
 
   return (
     <div className={styles.mypastreservations}>

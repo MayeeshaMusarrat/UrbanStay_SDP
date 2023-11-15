@@ -447,15 +447,15 @@ async function connectAndStartServer()
   
   app.get('/getReservations/:userEmail', (req, res) => {
     const userEmail = req.params.userEmail;
-    const currentDate = new Date();
+    const currentDate = new Date().toISOString().split('T')[0];
   
     pool.getConnection((err, connection) => {
       if (err) {
         return res.status(500).json({ message: 'Database Connection Error' });
       }
   
-      const pendingSql = `SELECT * FROM PendingReservations WHERE Email = '${userEmail}'`;
-      const approvedSql = `SELECT * FROM ApprovedReservations WHERE Email = '${userEmail}' `;
+      const pendingSql = `SELECT * FROM PendingReservations WHERE Email = '${userEmail}' && CheckOutDate >= '${currentDate}'`;
+      const approvedSql = `SELECT * FROM ApprovedReservations WHERE Email = '${userEmail}' && CheckOutDate >= '${currentDate}' `;
   
       Promise.all([
         new Promise((resolve, reject) => {
@@ -974,8 +974,8 @@ app.get('/temp-profile', async (req, res) => {
 });
 
 
-app.get('/getPastReservations/:email', async (req, res) => {
-  const email = req.params.email;
+app.get('/getPastReservations/:userEmail', async (req, res) => {
+  const email = req.params.userEmail;
  
   console.log("email receive for pastReservations :");
   console.log(email);

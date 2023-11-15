@@ -89,7 +89,7 @@ const MyReservations = () => {
       .finally(() => {
         setTimeout(() => {
           setLoading(0);
-        }, 2000);
+        }, 800);
       });
   }, []);
   
@@ -108,6 +108,7 @@ const MyReservations = () => {
       guests: item.pending_Guests,
       rooms: item.pending_Rooms,
       location: item.City,
+      reservationID: "-",
       Check_in: formatDateDisplay(new Date(item.CheckInDate).getTime() + oneDay),
       Check_out: formatDateDisplay(new Date(item.CheckOutDate).getTime() + oneDay),
       price: item.TotalPrice + ' BDT',
@@ -140,12 +141,14 @@ const approvedRows = data.approvedReservations
       Check_out: formatDateDisplay(new Date(item.CheckOutDate).getTime() + oneDay),
       price: item.TotalPrice + ' BDT',
       price_night: item.Price_per_night,
+      reservationID: "RES_US" + item.Reservation_ID,
       pics: item.pics,
       address_line: item.Address_line,
       category: item.category,
       Requested_on: item.Requested_on,
       description: item.description,
       days: item.days,
+      days: Math.ceil((new Date(item.CheckOutDate) - new Date(item.CheckInDate))/(1000 * 60 * 60 * 24)) + 1,
       rating: item.Avg_ratings,
       area: item.Area,
       payment: "PAID", 

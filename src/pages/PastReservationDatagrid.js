@@ -14,7 +14,6 @@ import RateReviewIcon from '@mui/icons-material/RateReview';
 import SpeakerNotesRoundedIcon from '@mui/icons-material/SpeakerNotesRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 
-
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -23,12 +22,19 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
 
+import CompletedChip from './Chips/completedChip';
+import CancelledChip from './Chips/cancelledChip';
+
 import GiveReview from './Review/GivePropertyReview';
 import { Link } from 'react-router-dom';
 
 
 
-const MyDataGrid = ({ data }) => {
+const PastReservationDatagrid = ({ data }) => {
+
+
+  console.log("PastReservationDatagrid: ", data);
+  
 
 // ERROR HERE
 
@@ -48,7 +54,7 @@ const MyDataGrid = ({ data }) => {
       field: "actions",
       headerName: "Actions",
       headerClassName: 'custom-header-class',
-      width: 150,
+      width: 100,
       renderCell: (params) => (
         <>
       
@@ -69,11 +75,22 @@ const MyDataGrid = ({ data }) => {
     {
       field: "propertyDetails",
       headerName: "Property",
-      width: 280,
+      width: 260,
       headerClassName: 'custom-header-class',
       renderCell: (params) => (
-        <div>
-          <div >{params.row.Property}</div>
+        <div style={{ display: "flex", alignItems: "center" }}>
+        
+          <AvatarGroup max={3} sx={{ borderRadius: "8px", overflow: "hidden" }}>
+         
+            <Avatar
+              alt="Property Image "
+              src={params.row.pics}
+              sx={{ borderRadius: "8px", width: "50px", height: "50px" }}
+            />
+        
+           
+          </AvatarGroup>
+          <div style={{ marginLeft: 10 }}>{params.row.Property}</div>
         </div>
       ),
       disableSelectionOnClick: true,
@@ -84,7 +101,12 @@ const MyDataGrid = ({ data }) => {
       headerAlign: "center", 
       headerClassName: 'custom-header-class',
       align: "center", 
-      width: 120,
+      width: 140,
+      renderCell: (params) => (
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
+            {params.row.Status === "Completed" ? <CompletedChip /> : <CancelledChip />}
+        </div>
+    ),
     },
     {
       field: "ReservationID",
@@ -125,7 +147,7 @@ const MyDataGrid = ({ data }) => {
       headerAlign: "center", 
       headerClassName: 'custom-header-class',
       align: "center", 
-      width: 100,
+      width: 120,
     },
     {
       field: "review",
@@ -133,10 +155,10 @@ const MyDataGrid = ({ data }) => {
       headerAlign: "center", 
       headerClassName: 'custom-header-class',
       align: "center", 
-      width: 100,
+      width: 80,
       renderCell: (params) => (
         
-       <Link to={`/give-property-review`}>
+       <Link to={`/give-property-review/${params.row.id}`}>
       <IconButton>
           <RateReviewIcon style={{ color: '0F52BA' , display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }} />
         </IconButton>
@@ -152,7 +174,7 @@ const MyDataGrid = ({ data }) => {
       headerAlign: "center", 
       headerClassName: 'custom-header-class',
       align: "center", 
-      width: 100,
+      width: 80,
       renderCell: (params) => (
         <>
       
@@ -219,4 +241,4 @@ const MyDataGrid = ({ data }) => {
   );
 };
 
-export default MyDataGrid;
+export default PastReservationDatagrid;
