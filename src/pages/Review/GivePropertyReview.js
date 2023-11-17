@@ -104,7 +104,7 @@ const handleClick = () => {
   setOpenSnackbar(true);
   setTimeout(() => {
     setOpenSnackbar(false);
-  }, 3000);
+  }, 1050);
 };
 
 const handleCloseSnackbar = (event, reason) => {
@@ -113,6 +113,12 @@ const handleCloseSnackbar = (event, reason) => {
   }
   setOpenSnackbar(false);
 };
+
+const goToPastReservation = () => {
+    setTimeout(() => {
+      navigate("/mypastreservations");
+    }, 1050);
+}
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -144,22 +150,23 @@ const handleSubmit = (e) => {
     .then((result) => {
       if (result.status === 200) {
         console.log(result.status);
-        // Trigger Snackbar
+        
         handleClick();
-        // You can navigate back to "Past Reservations" here if needed
+        goToPastReservation();
+       
       } else {
         console.log("oops");
       }
     })
     .catch((error) => {
       console.error('Error:', error);
-      // Handle error if needed
-    });
+      
+    })
 };
 
   return (
     <form onSubmit={handleSubmit} > 
-    <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+    <Snackbar open={openSnackbar} autoHideDuration={1050} onClose={handleCloseSnackbar}>
       <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
         Thank you! Your review has been submitted.
       </Alert>

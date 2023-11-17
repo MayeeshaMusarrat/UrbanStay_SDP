@@ -85,6 +85,7 @@ const MyPastReservations = () => {
           GuestRating: result.GuestRating,
           GID: result.GID,
           pics: result.pics,
+          reviewDone: result.reviewDone,
         }));
   
         console.log("past data: ", Pastdata); 
@@ -105,7 +106,7 @@ const MyPastReservations = () => {
     days: Math.ceil((new Date(item.Guest_checkout) - new Date(item.Guest_checkin))/(1000 * 60 * 60 * 24)) + 1,
     Pricing: item.TotalPrice + " BDT",
     pics: item.pics,
-
+    reviewDone: item.reviewDone,
 
   }));
 

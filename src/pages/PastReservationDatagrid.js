@@ -26,7 +26,7 @@ import CompletedChip from './Chips/completedChip';
 import CancelledChip from './Chips/cancelledChip';
 
 import GiveReview from './Review/GivePropertyReview';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -46,6 +46,12 @@ const PastReservationDatagrid = ({ data }) => {
     setOpenPopupProperty(false);
     console.log("Inside closePopupProperty function");
   };
+
+  const navigate = useNavigate();
+
+  const goToReview = (row) => {
+    navigate(`/give-property-review/${row}`);
+  }
   
 
   const columns: GridColDef[] = [
@@ -156,16 +162,20 @@ const PastReservationDatagrid = ({ data }) => {
       headerClassName: 'custom-header-class',
       align: "center", 
       width: 80,
-      renderCell: (params) => (
-        
-       <Link to={`/give-property-review/${params.row.id}`}>
-      <IconButton>
-          <RateReviewIcon style={{ color: '0F52BA' , display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }} />
+      renderCell: (params) => {
+        const reviewDone = params.row.reviewDone;
+        console.log("review: ", reviewDone);
+       return (
+      <IconButton disabled = {reviewDone}>
+          <RateReviewIcon 
+          style={{ color: reviewDone ? '#A9A9A9' : '0F52BA' , display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }} 
+          onClick={() => goToReview(params.row.id)}
+          />
         </IconButton>
 
-      </Link>
-
-      ),
+      
+       );
+      },
 
     },
     {

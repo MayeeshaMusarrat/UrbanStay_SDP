@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useState, useCallback, useEffect } from "react";
 import { TextField, InputAdornment, Icon, IconButton } from "@mui/material";
 import { Checkbox, FormControlLabel, Input, FormControl} from "@mui/material";
@@ -10,6 +11,9 @@ import 'react-notifications/lib/notifications.css';
 
 import axios from 'axios';
 import { setDayWithOptions } from "date-fns/fp";
+
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const ConfirmListing = () => {
 
@@ -107,14 +111,34 @@ const ConfirmListing = () => {
   // ====================================================================
 
   
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+
+  const handleClick = () => {
+    setOpenSnackbar(true);
+    setTimeout(() => {
+      setOpenSnackbar(false);
+    }, 1050);
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
+  const goToListings = () => {
+      setTimeout(() => {
+        navigate("/mylistings");
+      }, 1050);
+  }
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
   const handleSubmit = (e)=>{
     e.preventDefault();
-    NotificationManager.success("Property is successfully hosted", "Success!", 3000);
 
-    console.log("Here");
-   
-    
     const property = {
             property_title: Property.property_name,
             property_category: Property.property_type,
@@ -138,8 +162,7 @@ const ConfirmListing = () => {
             serviceCharge: serviceCharge,
             number_of_days: days,
             pics_array: Property.pics_array
-            
-           
+               
     };
     
     
@@ -153,8 +176,9 @@ const ConfirmListing = () => {
       
       if(result.status==200) {
        
+       handleClick();
+       goToListings();
        
-        navigate("/mylistings");
       }
       else {
        
@@ -211,6 +235,17 @@ const ConfirmListing = () => {
   return (
     <>
     <form onSubmit={handleSubmit}> 
+
+    <Snackbar open={openSnackbar} autoHideDuration={1050} onClose={handleCloseSnackbar}>
+      <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+        Congratulations! Your property has been successfully hosted.
+      </Alert>
+    </Snackbar>
+
+
+
+
+
       <div className={styles.confirmListing}>
         <div className={styles.divb9672i7}>
           <div className={styles.button}>
