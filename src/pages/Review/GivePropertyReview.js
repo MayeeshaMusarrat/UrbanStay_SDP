@@ -397,7 +397,10 @@ const handleSubmit = (e) => {
         variant="outlined"
         multiline
 
-        
+        value = {review}
+        onChange = {(e) => setReview(e.target.value)}
+
+
       />
       <div className={styles.frame}>
         <div className={styles.leaveAReview}>Leave a review!</div>
