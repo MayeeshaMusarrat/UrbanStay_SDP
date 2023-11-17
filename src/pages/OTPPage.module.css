@@ -1,0 +1,34 @@
+/* OTPPage.module.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .formContainer {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .formTitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .otpInput {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  .submitButton {
+    width: 100%;
+  }
+  
+  /* Add more styles as needed */

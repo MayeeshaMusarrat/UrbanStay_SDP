@@ -1,0 +1,340 @@
+.choose {
+    position: relative;
+    display: none;
+  }
+  .chooseWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .frame,
+  .gradient {
+    position: absolute;
+    height: 274px;
+  }
+  .gradient {
+    top: 0;
+    left: 11px;
+    border-radius: var(--br-5xs);
+    background: linear-gradient(-90deg, #5f589e, #584b8e);
+    width: 1539px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: var(--padding-base) var(--padding-5xl);
+    box-sizing: border-box;
+  }
+  .frame {
+    top: -25px;
+    left: -30px;
+    width: 1550px;
+    overflow: hidden;
+  }
+  .becomeHostSignupPageChild {
+    position: absolute;
+    top: 233px;
+    left: 0;
+    width: 2024px;
+    height: 1123px;
+    object-fit: cover;
+  }
+  .frameChild {
+    position: absolute;
+    top: 69px;
+    left: 0;
+    border-radius: var(--br-3xs);
+    background-color: var(--shade-01);
+    box-shadow: 0 4px 63px rgba(0, 0, 0, 0.15);
+    width: 1130px;
+    height: 789px;
+  }
+  .bySigningUp,
+  .h3 {
+    position: absolute;
+    line-height: 32px;
+    text-align: center;
+  }
+  .h3 {
+    top: 114px;
+    left: 469px;
+    font-size: 25px;
+    letter-spacing: 0.1px;
+    font-family: var(--font-poppins);
+    color: var(--color-darkblue);
+  }
+  .bySigningUp {
+    top: 12px;
+    left: -3px;
+    font-size: var(--font-size-xl);
+    text-transform: capitalize;
+    font-weight: 500;
+    font-family: var(--font-inter);
+    color: var(--shade-01);
+    display: inline-block;
+    width: 1133px;
+  }
+  .countryinput {
+    position: absolute;
+    height: calc(100% - 989px);
+    width: calc(100% - 666px);
+    top: 245px;
+    right: 603px;
+    bottom: 744px;
+    left: 63px;
+  }
+  .email,
+  .selectcountrytext {
+    position: absolute;
+    top: calc(50% - 264.5px);
+    left: 75px;
+    font-size: var(--font-size-sm);
+    letter-spacing: 0.2px;
+    line-height: 28px;
+    font-family: var(--font-poppins);
+    color: var(--color-dimgray-100);
+    text-align: left;
+  }
+  .email {
+    top: calc(50% - 203.5px);
+    left: 63px;
+    font-family: var(--font-inter);
+    display: inline-block;
+    width: 1004px;
+  }
+  .countryregion {
+    color: var(--text-color);
+  }
+  .span {
+    color: var(--color-orangered-100);
+  }
+  .formControl,
+  .formControl1 {
+    position: absolute;
+    top: 212px;
+    left: 63px;
+    font-size: var(--font-size-mid);
+    letter-spacing: 0.2px;
+    line-height: 24px;
+    font-weight: 600;
+    font-family: var(--font-poppins);
+    text-align: left;
+  }
+  .formControl1 {
+    top: 210px;
+    left: 585px;
+  }
+  .cityinput {
+    position: absolute;
+    width: calc(100% - 643px);
+    top: 243px;
+    right: 63px;
+    left: 580px;
+  }
+  .birthdateinput,
+  .pwdinput {
+    position: absolute;
+    height: calc(100% - 989px);
+    width: calc(100% - 666px);
+    top: 413px;
+    right: 603px;
+    bottom: 576px;
+    left: 63px;
+  }
+  .pwdinput {
+    border: 0;
+    background-color: transparent;
+    width: calc(100% - 655px);
+    right: 63px;
+    left: 592px;
+  }
+  .formControl2 {
+    top: 377px;
+    left: 63px;
+    font-size: var(--font-size-mid);
+    letter-spacing: 0.2px;
+    line-height: 24px;
+    font-family: var(--font-poppins);
+  }
+  .formControl2,
+  .formControl3,
+  .uploadYourPhoto {
+    position: absolute;
+    font-weight: 600;
+    text-align: left;
+  }
+  .formControl3 {
+    top: 377px;
+    left: 596px;
+    font-size: var(--font-size-mid);
+    letter-spacing: 0.2px;
+    line-height: 24px;
+    font-family: var(--font-poppins);
+    color: var(--text-color);
+  }
+  .uploadYourPhoto {
+    top: 0;
+    left: 0;
+    font-size: 18px;
+    text-transform: capitalize;
+    color: var(--color-black);
+  }
+  .browse,
+  .dragYourImages,
+  .uploadYourPhoto {
+    font-family: var(--font-poppins);
+  }
+  .dragYourImages {
+    font-weight: 500;
+    color: var(--color-black);
+  }
+  .browse {
+    color: #2754ca;
+  }
+  .dragYourImagesContainer,
+  .supportedJpgJpeg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: var(--body-copy-16pt-semibold-size);
+    text-align: center;
+    display: inline-block;
+    width: 408px;
+  }
+  .supportedJpgJpeg {
+    top: 26px;
+    left: 83.4px;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    font-family: var(--font-poppins);
+    color: rgba(0, 0, 0, 0.5);
+    width: 242.7px;
+  }
+  .dragYourImagesHereOrBrowParent,
+  .putimage {
+    position: absolute;
+    top: 33px;
+    left: 296px;
+    width: 408px;
+    height: 44px;
+  }
+  .putimage {
+    top: 49px;
+    left: 0;
+    border-radius: var(--br-3xs);
+    background-color: rgba(244, 81, 30, 0.01);
+    border: 1px dashed var(--color-darkblue);
+    box-sizing: border-box;
+    width: 1004px;
+    height: 102px;
+  }
+  .uploadYourPhotoParent {
+    position: absolute;
+    top: 506px;
+    left: 67px;
+    width: 1004px;
+    height: 151px;
+  }
+  .becomememberbtnChild {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: var(--color-darkblue);
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 9.08px;
+    width: 513px;
+    height: 69px;
+  }
+  .becomeAHost {
+    position: absolute;
+    top: 23px;
+    left: 166px;
+    font-size: 21.79px;
+    letter-spacing: 0.18px;
+    line-height: 25.42px;
+    font-weight: 500;
+    font-family: var(--font-inter);
+    color: var(--shade-01);
+    text-align: left;
+    display: inline-block;
+    width: 228px;
+    height: 25px;
+  }
+  .becomememberbtn {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 711px;
+    left: 309px;
+    width: 513px;
+    height: 69px;
+  }
+  .becomememberbtn:hover {
+    cursor: pointer;
+  }
+  .frame1,
+  .rectangleParent {
+    position: absolute;
+    top: 0;
+    left: 246px;
+    width: 1148px;
+    height: 1039px;
+  }
+  .frame1 {
+    top: 106px;
+    left: -30px;
+    width: 1394px;
+    overflow: hidden;
+  }
+  .urbanstaylogotext {
+    position: absolute;
+    top: 33px;
+    left: 22px;
+    letter-spacing: -1px;
+    line-height: 70px;
+    text-transform: capitalize;
+    display: inline-block;
+    width: 125px;
+    height: 57px;
+  }
+  .urbanstaylogopicIcon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 147px;
+    height: 50px;
+    object-fit: cover;
+  }
+  .frame2,
+  .urbanstayLogo {
+    position: absolute;
+    top: 0;
+    left: 71px;
+    width: 147px;
+    height: 90px;
+  }
+  .frame2 {
+    top: 48px;
+    left: -30px;
+    width: 218px;
+    overflow: hidden;
+    font-size: var(--font-size-xl);
+    font-family: var(--font-inter);
+  }
+  .becomeHostSignupPage {
+    position: relative;
+    background-color: var(--shade-01);
+    width: 100%;
+    height: 1093px;
+    overflow: hidden;
+    text-align: left;
+    font-size: var(--body-copy-16pt-semibold-size);
+    color: var(--shade-01);
+    font-family: var(--font-poppins);
+  }
+  

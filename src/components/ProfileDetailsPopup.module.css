@@ -1,0 +1,125 @@
+.profileDetailsPopupChild {
+  position: absolute;
+  top: 49px;
+  left: 52px;
+  border-radius: var(--br-15xl);
+  background-color: var(--shade-01);
+  box-shadow: 0 4px 10px 6px rgba(0, 0, 0, 0.25);
+  width: 847px;
+  height: 683px;
+}
+.city,
+.state {
+  position: absolute;
+  top: 541px;
+  left: 502px;
+}
+.city {
+  left: 102px;
+}
+.save,
+.saveWrapper {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  position: absolute;
+}
+.save {
+  background-color: transparent;
+  top: 15.34px;
+  left: 23.01px;
+  font-size: var(--font-size-xl);
+  text-transform: capitalize;
+  font-weight: 700;
+  font-family: var(--font-inter);
+  color: var(--shade-01);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+}
+.saveWrapper {
+  background-color: var(--color-darkblue);
+  top: 643px;
+  left: 418px;
+  border-radius: 9.08px;
+  width: 126.02px;
+  height: 54.69px;
+}
+.saveWrapper:hover {
+  background-color: var(--color-blueviolet);
+  gap: var(--gap-3xs);
+  cursor: pointer;
+}
+.crossIcon {
+  position: absolute;
+  top: 82px;
+  left: 94px;
+  width: 29px;
+  height: 30px;
+}
+.giveAShort,
+.selectLanguagesYou,
+.whereDoYou {
+  position: absolute;
+  top: 127px;
+  left: 100px;
+  line-height: 70.19%;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  width: 799px;
+  height: 66px;
+}
+.selectLanguagesYou,
+.whereDoYou {
+  top: 329px;
+  width: 750px;
+}
+.whereDoYou {
+  top: 461px;
+  left: 103px;
+  width: 624.57px;
+  height: 65.79px;
+}
+.descriptionbox {
+  position: absolute;
+  top: 213px;
+  left: 99px;
+}
+.profileDetailsPopupInner,
+.profileDetailsPopupItem {
+  position: absolute;
+  top: 414px;
+  left: 251px;
+}
+.profileDetailsPopupInner {
+  left: 106px;
+}
+.groupFormcontrollabel,
+.profileDetailsPopupChild1 {
+  position: absolute;
+  top: 414px;
+  left: 409px;
+}
+.profileDetailsPopupChild1 {
+  left: 570px;
+}
+.profileDetailsPopupChild2 {
+  position: absolute;
+  top: 416px;
+  left: 726px;
+}
+.profileDetailsPopup {
+  width: 936px;
+  height: 776px;
+  overflow-y: auto;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  text-align: left;
+  font-size: var(--font-size-base);
+  color: var(--color-black);
+  font-family: var(--font-poppins);
+}

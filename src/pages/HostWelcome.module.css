@@ -1,0 +1,117 @@
+.urbanstay {
+  position: absolute;
+  top: 64px;
+  left: 36px;
+  letter-spacing: -1px;
+  line-height: 70px;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  width: 133px;
+  height: 27px;
+}
+.image31,
+.urbanstayParent {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.image31 {
+  width: 168.57px;
+  height: 63.83px;
+  object-fit: cover;
+}
+.urbanstayParent {
+  width: 169px;
+  height: 91px;
+  cursor: pointer;
+  text-align: left;
+}
+.createAHost {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  position: relative;
+  font-size: var(--font-size-xl);
+  text-transform: capitalize;
+  font-weight: 700;
+  font-family: var(--font-inter);
+  color: var(--shade-01);
+  text-align: center;
+  display: inline-block;
+}
+.createAHostAccountWrapper {
+  cursor: pointer;
+  border: 0;
+  padding: var(--padding-3xs);
+  background-color: var(--color-darkblue);
+  position: absolute;
+  top: 486px;
+  left: 930px;
+  border-radius: 9.08px;
+  width: 260px;
+  height: 55px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.createAHostAccountWrapper:hover {
+  background-color: var(--color-blueviolet);
+  gap: var(--gap-3xs);
+  cursor: pointer;
+}
+.h3,
+.toActAs {
+  position: absolute;
+  display: inline-block;
+}
+.h3 {
+  top: 188px;
+  left: 727px;
+  font-size: var(--font-size-21xl);
+  letter-spacing: 0.1px;
+  line-height: 40px;
+  font-family: var(--font-poppins);
+  width: 666px;
+  height: 79px;
+}
+.toActAs {
+  top: 287px;
+  left: 755px;
+  font-size: var(--font-size-5xl);
+  line-height: 34px;
+  text-transform: capitalize;
+  font-weight: 500;
+  color: var(--color-black);
+  width: 611px;
+}
+.hostpicIcon {
+  position: absolute;
+  top: 91px;
+  left: 21px;
+  width: 656px;
+  height: 627px;
+  object-fit: cover;
+}
+.groupParent {
+  position: absolute;
+  top: 33px;
+  left: 69px;
+  width: 1393px;
+  height: 718px;
+}
+.hostWelcome {
+  position: relative;
+  background-color: var(--shade-01);
+  width: 100%;
+  height: 750px;
+  overflow: hidden;
+  text-align: center;
+  font-size: var(--font-size-xl);
+  color: var(--color-darkblue);
+  font-family: var(--font-inter);
+}

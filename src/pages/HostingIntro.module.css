@@ -1,0 +1,290 @@
+.showAllReviews {
+  position: absolute;
+  top: 14.8px;
+  left: 33.38px;
+  line-height: 20px;
+  font-weight: 600;
+}
+.button {
+  position: absolute;
+  top: 0;
+  left: -6px;
+  border-radius: var(--br-5xs);
+  background-color: var(--shade-01);
+  border: 1px solid var(--shade-02);
+  box-sizing: border-box;
+  width: 188px;
+  height: 48px;
+}
+.divb9672i7 {
+  position: absolute;
+  top: 3771px;
+  left: 106px;
+  width: 653.32px;
+  height: 47.6px;
+  text-align: center;
+  font-size: var(--font-size-base);
+  color: var(--shade-02);
+}
+.whiterectangle {
+  position: absolute;
+  top: 645px;
+  left: 1px;
+  background-color: var(--shade-01);
+  box-shadow: 0 -7px 20px rgba(0, 0, 0, 0.1);
+  width: 1535px;
+  height: 105px;
+}
+.getStarted {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  position: relative;
+  font-size: var(--font-size-base);
+  text-transform: capitalize;
+  font-weight: 700;
+  font-family: var(--font-inter);
+  color: var(--shade-01);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 166px;
+  flex-shrink: 0;
+}
+.confirmpaymentbtn,
+.itsEasyTo {
+  position: absolute;
+  display: flex;
+  align-items: center;
+}
+.confirmpaymentbtn {
+  top: 672px;
+  left: 1335px;
+  border-radius: 9.08px;
+  background-color: var(--color-darkblue);
+  width: 128px;
+  height: 49px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: var(--padding-3xs);
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.confirmpaymentbtn:hover {
+  background-color: var(--color-blueviolet);
+  gap: var(--gap-3xs);
+}
+.itsEasyTo {
+  top: 198px;
+  left: 115px;
+  font-size: 48px;
+  text-transform: capitalize;
+  width: 504px;
+  height: 354px;
+}
+.confirm1Icon,
+.prop1Icon,
+.search1Icon {
+  position: absolute;
+  top: 126px;
+  left: 757px;
+  width: 208px;
+  height: 143px;
+  object-fit: cover;
+}
+.confirm1Icon,
+.prop1Icon {
+  top: 300px;
+  left: 761px;
+  width: 197px;
+  height: 140px;
+}
+.confirm1Icon {
+  top: 465px;
+  left: 764px;
+  width: 195px;
+  height: 149px;
+}
+.tellUsAbout {
+  margin: 0;
+  padding-left: var(--padding-13xl);
+  font-size: 20px;
+  font-family: var(--font-poppins);
+}
+.tellUsAboutContainer {
+  position: absolute;
+  top: 145px;
+  left: 947px;
+  text-transform: capitalize;
+  
+}
+.add5Or,
+.publishYourListing {
+  position: absolute;
+  top: 215px;
+  left: 958px;
+  font-size: var(--font-size-xl);
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  width: 462px;
+}
+.shareSomeBasic {
+  position: absolute;
+  top: 190px;
+  left: 958px;
+  font-size: var(--font-size-xl);
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  width: 462px;
+}
+.add5Or,
+.publishYourListing {
+  top: 377px;
+}
+.publishYourListing {
+  top: 541px;
+  width: 505px;
+}
+.addNecessaryDescriptionsContainer,
+.verifyAndPublishContainer {
+  position: absolute;
+  top: 334px;
+  left: 949px;
+  text-transform: capitalize;
+  font-family: var(--font-inherit);
+}
+.verifyAndPublishContainer {
+  top: 494px;
+}
+.whiterectangle1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--shade-01);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 1535px;
+  height: 105px;
+}
+.stay {
+  font-weight: 500;
+  color: var(--color-mediumslateblue-100);
+}
+.urbanstayTxt {
+  line-break: anywhere;
+  width: 100%;
+}
+.urbanstay {
+  position: absolute;
+  top: 49px;
+  left: 25px;
+  letter-spacing: -1px;
+  line-height: 70px;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  width: 85px;
+  height: 20px;
+}
+.image31,
+.urbanstayParent {
+  position: absolute;
+  width: 133px;
+}
+.image31 {
+  top: 0;
+  left: 0;
+  height: 46px;
+  object-fit: cover;
+}
+.urbanstayParent {
+  top: 26px;
+  left: 5px;
+  height: 69px;
+  cursor: pointer;
+}
+.profileIcon {
+  position: absolute;
+  top: 46px;
+  left: 1398px;
+  width: 77px;
+  height: 36.91px;
+  object-fit: cover;
+}
+.loginPopupWithLogoutGrpChild {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: var(--br-3xs);
+  background-color: var(--shade-01);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--color-gray-1000);
+  box-sizing: border-box;
+  width: 311px;
+  height: 286px;
+}
+.becomeAHost,
+.becomehostbtn {
+  cursor: pointer;
+  border: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+}
+.becomeAHost {
+  padding: 0;
+  position: relative;
+  font-size: var(--font-size-xl);
+  text-transform: capitalize;
+  font-family: var(--font-inter);
+  color: var(--color-black);
+  text-align: left;
+  width: 262px;
+  flex-shrink: 0;
+}
+.becomehostbtn {
+  padding: var(--padding-3xs);
+  position: absolute;
+  top: 123px;
+  left: 1px;
+  width: 311px;
+  height: 50px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.accsettingsbtn:hover,
+.becomehostbtn:hover,
+.signoutbtn:hover,
+.wishlistbtn:hover {
+  background-color: var(--color-lightgray-100);
+  gap: var(--gap-3xs);
+}
+
+.stickyNavBar {
+  position: absolute;
+  top: -19px;
+  left: 0;
+  width: 1800px;
+  height: 432px;
+  overflow: hidden;
+  font-size: var(--font-size-base);
+  color: var(--color-darkblue);
+  font-family: var(--font-lato);
+}
+.hostingIntro {
+  position: relative;
+  background-color: var(--shade-01);
+  width: 100%;
+  height: 750px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-inherit);
+  color: var(--color-darkslategray-500);
+  font-family: var(--font-roboto);
+}

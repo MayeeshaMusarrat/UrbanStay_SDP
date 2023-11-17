@@ -1,0 +1,195 @@
+.loginPopupWithLogoutGrpChild {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: var(--br-3xs);
+    background-color: white;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    width: 281px;
+    height: 252px;
+  }
+
+
+.profilebtn:hover,
+.wishlistbtn:hover,
+.becomehostbtn:hover,
+.notifbtn:hover,
+.signoutbtn:hover {
+  background-color: var(--color-lightgray-100);
+  gap: var(--gap-3xs);
+}
+  
+
+
+
+/*  ====================== ANIMATION =================  */
+
+.loginPopupWithLogoutGrp {
+  opacity: 0; 
+  visibility: hidden; 
+  transform: translateY(-10px); 
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0s linear 0.3s; 
+}
+
+.loginPopupWithLogoutGrp.active {
+  opacity: 1; 
+  visibility: visible; 
+  transform: translateY(0); 
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0s; 
+}
+
+/*  ====================== ANIMATION =================  */
+
+  .groupChild {
+    position: absolute;
+    top: 170.9px;
+    left: -7px;
+    border-top: 0.5px solid #a3a3a3;
+    box-sizing: border-box;
+    width: 280.6px;
+    height: 0.5px;
+
+  }
+  .profile {
+    padding: 0;
+    position: relative;
+    font-size:  14px;
+    text-transform: capitalize;
+    font-family: var(--font-inter);
+    color: var(--color-black);
+    text-align: left;
+    width: 262px;
+    flex-shrink: 0;
+  }
+  .profile,
+  .profilebtn,
+  .wishlistbtn {
+    cursor: pointer;
+    border: 0;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+  }
+  .profilebtn {
+    padding: var(--padding-3xs);
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 281px;
+    height: 39.3px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .hostbtn:hover,
+  .notifbtn:hover,
+  .profilebtn:hover,
+  .signoutbtn:hover,
+  .wishlistbtn:hover {
+    background-color: var(--color-lightgray);
+    gap: var(--gap-3xs);
+  }
+  .wishlistbtn {
+    top: 39.3px;
+  }
+  .hostbtn,
+  .notifbtn,
+  .wishlistbtn {
+    padding: var(--padding-3xs);
+    position: absolute;
+    right: 0;
+    width: 281px;
+    height: 39.3px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .hostbtn {
+    cursor: pointer;
+    border: 0;
+    background-color: transparent;
+    top: 78.7px;
+    display: flex;
+    align-items: center;
+  }
+  .notifbtn {
+    top: 118px;
+  }
+  .notifbtn,
+  .signOut,
+  .signoutbtn {
+    cursor: pointer;
+    border: 0;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+  }
+  .signOut {
+    padding: 0;
+    position: relative;
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: 600;
+    font-family: var(--font-inter);
+    color: var(--color-black);
+    text-align: left;
+    width: 262px;
+    flex-shrink: 0;
+  }
+  .signoutbtn {
+    padding: var(--padding-3xs);
+    position: absolute;
+    top: 181.8px;
+    right: 0;
+    width: 281px;
+    height: 39.3px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .lineParent,
+  .loginPopupWithLogoutGrp {
+    position: absolute;
+    top: 15.9px;
+    right: -7px;
+    width: 281px;
+    height: 221.2px;
+  }
+  .loginPopupWithLogoutGrp {
+    top: 38px;
+    right: 1px;
+    height: 252px;
+  }
+  .profileIcon {
+    position: absolute;
+    top: -1px;
+    left: 210px;
+    width: 77px;
+    height: 36.9px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  .overall {
+    position: absolute;
+    top: 22px;
+    right: 12px;
+    width: 282px;
+    height: 290px;
+
+  }
+  .iconpopup {
+    width: 302px;
+    height: 322px;
+    z-index: 1000;
+    left: 1200px;
+    top: 10px;
+    position: absolute;
+    background-color: transparent;
+  }
+  
