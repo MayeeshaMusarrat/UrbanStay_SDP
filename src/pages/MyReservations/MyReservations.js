@@ -1,36 +1,34 @@
 
 import { useState, useCallback, useEffect } from "react";
-import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
-import PortalPopup from "../components/PortalPopup";
+import SignoutConfirmationPopup from "../../components/SignoutConfirmationPopup";
+import PortalPopup from "../../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
 import styles from "./MyReservations.module.css";
 import Button from "@mui/material/Button";
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridApi, GridCellValue  } from '@mui/x-data-grid';
-
-import './CustomDataGrid.css'; 
 import './CustomHeaderClass.css';
 
 import IconButton from "@mui/material/IconButton";
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 
-import PropertyDetailsForReservation from '../components/PropertyDetailsForReservationP';
+import PropertyDetailsForReservation from '../../components/PropertyDetailsForReservationP';
 
-import IconPopupForGuest from '../components/IconPopupForGuest';
-import IconPopup from '../components/IconPopup';
+import IconPopupForGuest from '../../components/IconPopupForGuest';
+import IconPopup from '../../components/IconPopup';
 import Chip from '@mui/material/Chip';
 
-import ReservedChip from './Chips/reservationChip';
-import PendingChip from './Chips/pendingChip';
-import RejectedChip from './Chips/rejectedChip';
-import DueChip from './Chips/dueChip';
-import PaidChip from './Chips/paidChip';
+import ReservedChip from '../Chips/reservationChip';
+import PendingChip from '../Chips/pendingChip';
+import RejectedChip from '../Chips/rejectedChip';
+import DueChip from '../Chips/dueChip';
+import PaidChip from '../Chips/paidChip';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import { format } from "date-fns";
 
-import Spinner from './Chips/Spinner';
+import Spinner from '../Chips/Spinner';
 
 
 const MyReservations = () => {

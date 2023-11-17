@@ -7,17 +7,17 @@ import {
 } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import GuestWelcome from "./pages/GuestWelcome";
-import HostWelcome from "./pages/HostWelcome";
+import HostWelcome from "./pages/HostEntry/HostWelcome";
 import LeadingPage from "./pages/LeadingPage";
 import ConfirmReservation from "./pages/ConfirmReservation";
 import MyListings from "./pages/MyListings";
 import GuestSignupPage from "./pages/GuestSignupPage";
 import SignInPage from "./pages/SignInPage";
-import HostSignupPage from "./pages/HostSignupPage";
+import HostSignupPage from "./pages/HostEntry/HostSignupPage";
 import MyPastReservations from "./pages/MyPastReservations";
 import HostPlace from "./pages/HostPlace";
 import HostingIntro from "./pages/HostingIntro";
-import MyReservations from "./pages/MyReservations";
+import MyReservations from "./pages/MyReservations/MyReservations";
 import Profile from "./pages/Profile";
 import TempProfile from "./pages/TempProfile";
 import ViewDetails from "./pages/ViewDetails"

@@ -1,0 +1,10 @@
+.reserved-cell {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .pending-cell {
+    color: red;
+    font-weight: bold;
+  }
+  

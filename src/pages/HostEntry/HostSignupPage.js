@@ -20,7 +20,7 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useNavigate } from "react-router-dom";
 import styles from "./HostSignupPage.module.css";
-import countryData from "./countryData";
+import countryData from "../countryData";
 import MuiAlert from "@mui/material/Alert";
 import emailjs from "@emailjs/browser";
 
