@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useCallback, useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import styles from "./GivePropertyReview.module.css";
@@ -6,6 +7,9 @@ import RatingStar from '../Chips/ratingStar';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import StarIcon from '@mui/icons-material/Star';
+
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const GivePropertyReview = () => {
 
@@ -46,10 +50,7 @@ const GivePropertyReview = () => {
   
   const [review, setReview] = useState("");
 
-  const handleReviewChange = (event, newValue) => {
-    setReview(newValue);
-    console.log("review: ",newValue);
-  };
+  
   
   const handleSceneryChange = (event, newValue) => {
     setSceneryValue(newValue);
@@ -96,37 +97,73 @@ const GivePropertyReview = () => {
   }, [sceneryValue, locationValue, accuracyValue, receptionValue, serviceValue, cleanValue]);
 
 
-  const handleSubmit = (e)=>{
-    e.preventDefault();
-   // NotificationManager.success("Property is successfully hosted", "Success!", 3000);
+  const email = localStorage.getItem('email');
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
-    const review = {
-        
-           
-    };
-    
-    
-    fetch("http://localhost:5001/confirm-listing",{
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(property),
-    }).then(result=>{
-      
-      if(result.status==200) {
-       
-       
-        navigate("/mylistings");
-      }
-      else {
-       
+const handleClick = () => {
+  setOpenSnackbar(true);
+  setTimeout(() => {
+    setOpenSnackbar(false);
+  }, 3000);
+};
+
+const handleCloseSnackbar = (event, reason) => {
+  if (reason === 'clickaway') {
+    return;
+  }
+  setOpenSnackbar(false);
+};
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  const review_info = {
+    PID: PID,
+    email: email,
+    scenery: sceneryValue,
+    accuracy: accuracyValue,
+    location: locationValue,
+    reception: receptionValue,
+    cleanliness: cleanValue,
+    service: serviceValue,
+    overall: overallValue,
+    review: review,
+  };
+
+  fetch("http://localhost:5001/guest-give-review", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(review_info),
+  })
+    .then((result) => {
+      if (result.status === 200) {
+        console.log(result.status);
+        // Trigger Snackbar
+        handleClick();
+        // You can navigate back to "Past Reservations" here if needed
+      } else {
         console.log("oops");
       }
     })
-  }
+    .catch((error) => {
+      console.error('Error:', error);
+      // Handle error if needed
+    });
+};
 
   return (
+    <form onSubmit={handleSubmit} > 
+    <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+      <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+        Thank you! Your review has been submitted.
+      </Alert>
+    </Snackbar>
     <div className={styles.givepropertyreview}>
       <div className={styles.stickyNavBar}>
         <div className={styles.whiterectangle} />
@@ -353,12 +390,14 @@ const GivePropertyReview = () => {
         className={styles.reviewbox}
         color="info"
         rows={3}
-        onChange = {handleReviewChange}
+        
         required={true}
         fullWidth={true}
         sx={{ width: 907 }}
         variant="outlined"
         multiline
+
+        
       />
       <div className={styles.frame}>
         <div className={styles.leaveAReview}>Leave a review!</div>
@@ -511,6 +550,7 @@ const GivePropertyReview = () => {
         <button className={styles.submitReview}>Submit Review</button>
       </div>
     </div>
+    </form>
   );
 };
 

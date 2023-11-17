@@ -1003,6 +1003,63 @@ app.get('/getPastReservations/:userEmail', async (req, res) => {
     connection.release(); 
   });
 });
+
+
+app.post('/guest-give-review', async (req, res) => {
+  const {
+    PID,
+    email,
+    scenery,
+    accuracy,
+    location,
+    reception,
+    cleanliness,
+    service,
+    overall,
+    review
+  } = req.body;
+
+  console.log("guest give review : ", req.body);
+
+  const created = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+  pool.getConnection((err, connection) => {
+    if (err) {
+      return res.status(500).json({ error: 'Database connection error' });
+    }
+
+    const userSql = `select GID from guest where guest.UID = (select UID from user where email = ?);`;
+
+    connection.query(userSql, [email], (userErr, userResults) => {
+      if (userErr) {
+        console.log("no");
+        connection.release();
+        return res.status(500).json({ error: 'User query error' });
+      }
+
+      console.log("user result: ", userResults);
+
+      // now I have the gid, insert in the review table
+      const reviewSql = `insert into Property_review
+        (PID, GID, Comment, Location_rating, Reception_rating, Cleanliness_rating, Accuracy_rating, Overall_rating, Created, Email)
+        values (?, ?, ?, ?, ? , ? , ? , ? , ? , ?);`;
+
+      const reviewValues = [PID, userResults[0].GID, review, location, reception, cleanliness, accuracy, overall, created, email];
+
+      connection.query(reviewSql, reviewValues, (reviewErr, reviewResults) => {
+        if (reviewErr) {
+          connection.release();
+          return res.status(500).json({ error: 'Review query error' });
+        } else {
+          connection.release();
+          return res.status(200).json({ message: 'Review worked!' });
+        }
+      });
+    });
+  });
+});
+
+
   
   
 
