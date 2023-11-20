@@ -79,8 +79,6 @@ const ShowReviews = () => {
 
   console.log("PID from review page : ", PID);
 
-  
-
   const [reviewData, setReviewData] = useState([]);
   
   function formatDateDisplay(date, defaultText) {
@@ -101,7 +99,6 @@ const ShowReviews = () => {
           comment: result.Comment,
           location: result.Location_rating,
           overall: result.Overall_rating,
-          propName: result.Property_title,
           reception: result.Reception_rating,
           scenery: result.Scenery_rating,
           service: result.Service_rating,
@@ -128,7 +125,46 @@ const ShowReviews = () => {
   }, []);
 
 
-  console.log(reviewData);
+  const [propName, setPropName] = useState("");
+  const [pieData, setPieData] = useState([]);
+  const [barData, setBarData] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:5001/getRatings/${PID}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((fetchedData) => {
+        if (fetchedData) {
+
+          const combinedResults = {
+            pieResults: fetchedData.pieResults,
+            barResults: fetchedData.barResults,
+            propertyNameResults:  fetchedData.propertyNameResults,
+          };
+
+          console.log("combined: ", combinedResults);
+          
+          setPropName(combinedResults.propertyNameResults);
+          setPieData(combinedResults.pieResults);
+          setBarData(combinedResults.barResults);
+         
+        } else {
+          console.error('Fetched data is not an array:', fetchedData);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
+
+
+  console.log("pie: ", pieData);
+
 
 
   ///========================== USE ANOTHER USE-EFFECT TO FETCH PROPERTYNAME AND RATING VALUES FOR PIE AND BAR
@@ -159,51 +195,51 @@ const ShowReviews = () => {
   const dataset = [
     
     {
-      five: 50,
-      four: 20,
-      three: 14,
-      two: 0,
-      one: 100,
+      five: barData[0].scenery_5_star,
+      four: barData[0].scenery_4_star,
+      three: barData[0].scenery_3_star,
+      two: barData[0].scenery_2_star,
+      one: barData[0].scenery_1_star,
       month: 'Scenery',
     },
     {
-      five: 100,
-      four: 20,
-      three: 5,
-      two: 0,
-      one: 100,
+      five: barData[0].accuracy_5_star,
+      four: barData[0].accuracy_4_star,
+      three: barData[0].accuracy_3_star,
+      two: barData[0].accuracy_2_star,
+      one: barData[0].accuracy_1_star,
       month: 'Accuracy',
     },
     {
-      five: 100,
-      four: 20,
-      three: 5,
-      two: 0,
-      one: 100,
+      five: barData[0].reception_5_star,
+      four: barData[0].reception_4_star,
+      three: barData[0].reception_3_star,
+      two: barData[0].reception_2_star,
+      one: barData[0].reception_1_star,
       month: 'Reception',
     },
     {
-      five: 100,
-      four: 20,
-      three: 5,
-      two: 0,
-      one: 100,
+      five: barData[0].cleanliness_5_star,
+      four: barData[0].cleanliness_4_star,
+      three: barData[0].cleanliness_3_star,
+      two: barData[0].cleanliness_2_star,
+      one: barData[0].cleanliness_1_star,
       month: 'Cleanliness',
     },
     {
-      five: 100,
-      four: 20,
-      three: 5,
-      two: 0,
-      one: 100,
+      five: barData[0].location_5_star,
+      four: barData[0].location_4_star,
+      three: barData[0].location_3_star,
+      two: barData[0].location_2_star,
+      one: barData[0].location_1_star,
       month: 'Location',
     },
     {
-      five: 100,
-      four: 20,
-      three: 5,
-      two: 0,
-      one: 100,
+      five: barData[0].service_5_star,
+      four: barData[0].service_4_star,
+      three: barData[0].service_3_star,
+      two: barData[0].service_2_star,
+      one: barData[0].service_1_star,
       month: 'Services',
     },
   ];
@@ -422,7 +458,7 @@ const ShowReviews = () => {
         </div>
         <div className={styles.reviewheading}>
           <b className={styles.reviewheading1} onClick = {goListings} > Listings</b>
-          <b className={styles.reviewheading2}>{`> Reviews for PropName`}</b>
+          <b className={styles.reviewheading2}>{`> Reviews for ` + propName}</b>
         </div>
         <div className={styles.stickyNavBar}>
           <div className={styles.whiterectangle} />
@@ -447,17 +483,18 @@ const ShowReviews = () => {
             series={[
               {
                 data: [
-                  { id: 0, value: 100, label: '5 stars' },
-                  { id: 1, value: 30, label: '4.5 Stars' },
-                  { id: 2, value: 15, label: '4 stars' },
-                  { id: 3, value: 10, label: '3.5 stars' },
-                  { id: 4, value: 5, label: '3 stars' },
-                  { id: 5, value: 5, label: '2.5 stars' },
-                  { id: 6, value: 5, label: '2 stars' },
-                  { id: 7, value: 5, label: '1.5 stars' },
-                  { id: 8, value: 5, label: '1 star' },
-                  { id: 9, value: 5, label: '0.5 stars' },
-                  { id: 10, value: 5, label: '0 stars' },
+                  { id: 0, value: pieData[0].overall_5_start, label: '5 stars',  },
+                  { id: 1, value: pieData[0].overall_4_point_5_start, label: '4.5 Stars' },
+                  { id: 2, value: pieData[0].overall_4_start, label: '4 stars' },
+                  { id: 3, value: pieData[0].overall_3_point_5_start, label: '3.5 stars' },
+                  { id: 4, value: pieData[0].overall_3_start, label: '3 stars' },
+                  { id: 5, value: pieData[0].overall_2_point_5_start, label: '2.5 stars' },
+
+                  { id: 6, value: pieData[0].overall_2_start, label: '2 stars' },
+                  { id: 7, value: pieData[0].overall_1_point_5_start, label: '1.5 stars' },
+                  { id: 8, value: pieData[0].overall_1_start, label: '1 star' },
+                  { id: 9, value: pieData[0].overall_point_5_start, label: '0.5 stars' },
+          
                 ],
                 innerRadius: 30,
                 outerRadius: 100,

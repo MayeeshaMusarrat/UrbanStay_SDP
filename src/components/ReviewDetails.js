@@ -1,5 +1,6 @@
 import styles from "./ReviewDetails.module.css";
 import Avatar from '@mui/material/Avatar';
+import { BarChart } from '@mui/x-charts/BarChart';
 
 const ReviewDetails = ({ onClose, review }) => {
 
@@ -50,7 +51,30 @@ const ReviewDetails = ({ onClose, review }) => {
         <div className={styles.groupItem} />
         <button className={styles.reviewDetails}>Review Details</button>
       </div>
-      <div className={styles.barchart} id="pi" />
+      <div className={styles.barchart} id="pi" >
+
+      <BarChart
+            xAxis={[
+              {
+                id: 'barCategories',
+                data: ['Scenery', 'Accuracy', 'Reception', 'Cleanliness', 'Location', 'Services'],
+                scaleType: 'band',
+                
+              },
+            ]}
+          
+            series={[
+              {
+                data: [4,3,2,4,5,4],
+              },
+            ]}
+            width={520}
+            height={300}
+       />
+
+
+
+      </div>
 
 
       {review.guestPic ? (

@@ -42,7 +42,7 @@
   position: absolute;
   top: 40px;
   right: 483px;
-  font-size: var(--font-size-xl);
+  font-size: 16px;
   text-transform: capitalize;
   font-weight: 700;
   font-family: var(--font-inter);
@@ -63,8 +63,8 @@
   top: 221px;
 }
 .barchart {
-  left: 87px;
-  background-color: var(--color-gainsboro-200);
+  left: 60px;
+  
   width: 465px;
   height: 357px;
 }
@@ -104,8 +104,9 @@
   position: absolute;
   top: 306px;
   left: 584px;
-  text-transform: capitalize;
   display: inline-block;
+  font-size: 16px;
+  text-align: justify;
   width: 466px;
   height: 272px;
 }

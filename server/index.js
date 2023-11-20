@@ -1100,6 +1100,132 @@ app.get('/getReviews/:PID', async (req, res) => {
 });
 
 
+
+app.get('/getRatings/:PID', async (req, res) => {
+  const PID = req.params.PID;
+ 
+  console.log("PID received for ratings :");
+  console.log(PID);
+
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+
+    const pieSql = `
+    SELECT
+    COUNT(CASE WHEN Overall_rating = 0.5 THEN 1 END) AS overall_point_5_start,
+    COUNT(CASE WHEN Overall_rating = 1 THEN 1 END) AS overall_1_start,
+    COUNT(CASE WHEN Overall_rating = 1.5 THEN 1 END) AS overall_1_point_5_start,
+    COUNT(CASE WHEN Overall_rating = 2 THEN 1 END) AS overall_2_start,
+    COUNT(CASE WHEN Overall_rating = 2.5 THEN 1 END) AS overall_2_point_5_start,
+    
+    COUNT(CASE WHEN Overall_rating = 3 THEN 1 END) AS overall_3_start,
+    COUNT(CASE WHEN Overall_rating = 3.5 THEN 1 END) AS overall_3_point_5_start,
+    COUNT(CASE WHEN Overall_rating = 4 THEN 1 END) AS overall_4_start,
+    COUNT(CASE WHEN Overall_rating = 4.5 THEN 1 END) AS overall_4_point_5_start,
+    COUNT(CASE WHEN Overall_rating = 5 THEN 1 END) AS overall_5_start
+    from property_review
+    where PID = '${PID}';
+    `;
+
+    const barSql = `
+    SELECT
+
+    COUNT(CASE WHEN Scenery_rating = 1 THEN 1 END) AS scenery_1_star,
+    COUNT(CASE WHEN Scenery_rating = 2 THEN 1 END) AS scenery_2_star,
+    COUNT(CASE WHEN Scenery_rating = 3 THEN 1 END) AS scenery_3_star,
+    COUNT(CASE WHEN Scenery_rating = 4 THEN 1 END) AS scenery_4_star,
+    COUNT(CASE WHEN Scenery_rating = 5 THEN 1 END) AS scenery_5_star,
+
+    COUNT(CASE WHEN Accuracy_rating = 1 THEN 1 END) AS accuracy_1_star,
+    COUNT(CASE WHEN Accuracy_rating = 2 THEN 1 END) AS accuracy_2_star,
+    COUNT(CASE WHEN Accuracy_rating = 3 THEN 1 END) AS accuracy_3_star,
+    COUNT(CASE WHEN Accuracy_rating = 4 THEN 1 END) AS accuracy_4_star,
+    COUNT(CASE WHEN Accuracy_rating = 5 THEN 1 END) AS accuracy_5_star,
+   
+    COUNT(CASE WHEN Reception_rating = 1 THEN 1 END) AS reception_1_star,
+    COUNT(CASE WHEN Reception_rating = 2 THEN 1 END) AS reception_2_star,
+    COUNT(CASE WHEN Reception_rating = 3 THEN 1 END) AS reception_3_star,
+    COUNT(CASE WHEN Reception_rating = 4 THEN 1 END) AS reception_4_star,
+    COUNT(CASE WHEN Reception_rating = 5 THEN 1 END) AS reception_5_star,
+    
+	  COUNT(CASE WHEN Location_rating = 1 THEN 1 END) AS location_1_star,
+    COUNT(CASE WHEN Location_rating = 2 THEN 1 END) AS location_2_star,
+    COUNT(CASE WHEN Location_rating = 3 THEN 1 END) AS location_3_star,
+    COUNT(CASE WHEN Location_rating = 4 THEN 1 END) AS location_4_star,
+    COUNT(CASE WHEN Location_rating = 5 THEN 1 END) AS location_5_star,
+    
+    COUNT(CASE WHEN Cleanliness_rating = 1 THEN 1 END) AS cleanliness_1_star,
+    COUNT(CASE WHEN Cleanliness_rating = 2 THEN 1 END) AS cleanliness_2_star,
+    COUNT(CASE WHEN Cleanliness_rating = 3 THEN 1 END) AS cleanliness_3_star,
+    COUNT(CASE WHEN Cleanliness_rating = 4 THEN 1 END) AS cleanliness_4_star,
+    COUNT(CASE WHEN Cleanliness_rating = 5 THEN 1 END) AS cleanliness_5_star,
+    
+	  COUNT(CASE WHEN Service_rating = 1 THEN 1 END) AS service_1_star,
+    COUNT(CASE WHEN Service_rating = 2 THEN 1 END) AS service_2_star,
+    COUNT(CASE WHEN Service_rating = 3 THEN 1 END) AS service_3_star,
+    COUNT(CASE WHEN Service_rating = 4 THEN 1 END) AS service_4_star,
+    COUNT(CASE WHEN Service_rating = 5 THEN 1 END) AS service_5_star
+    
+    FROM property_review
+    WHERE property_review.PID =  '${PID}';
+    `;
+
+
+    const propertyNameSql = `SELECT Property_title FROM PROPERTY WHERE PID = '${PID}'`;
+
+    Promise.all([
+      new Promise((resolve, reject) => {
+        connection.query(pieSql, (err, pieResults) => {
+          if (err) {
+            reject(err);
+          } else {
+            console.log("pie: ", pieResults);
+            resolve({ pieResults: pieResults });
+          }
+        });
+      }),
+      new Promise((resolve, reject) => {
+        connection.query(barSql, (err, barResults) => {
+          if (err) {
+            reject(err);
+          } else {
+            console.log("bar: ", barResults);
+            resolve({ barResults: barResults });
+          }
+        });
+      }),
+      new Promise((resolve, reject) => {
+        connection.query(propertyNameSql, (err, propertyNameResults) => {
+          if (err) {
+            reject(err);
+          } else {
+            console.log("propertyNameResults: ", propertyNameResults);
+            resolve({ propertyNameResults: propertyNameResults[0].Property_title });
+          }
+        });
+      }),
+    ]) .then(([s1, s2, s3]) => {
+          
+      const responseObj = {
+        pieResults: s1.pieResults,
+        barResults: s2.barResults,
+        propertyNameResults:  s3.propertyNameResults
+      };
+
+      console.log("Response object: ", responseObj);
+
+      res.status(200).json(responseObj);
+      connection.release(); 
+    })
+    .catch((error) => {
+      console.error('Error executing SQL queries:', error);
+      res.status(500).json({ message: 'Error executing SQL queries' });
+      connection.release(); 
+    });
+  });
+});
+
+
   
   
 
