@@ -12,12 +12,49 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import { format } from "date-fns";
+
 
 import ReviewComponent from '../../components/ReviewComponent';
 
 const ShowReviews = () => {
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+  
+    let color = '#';
+  
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+   
+    return color;
+  }
+  
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    };
+  }
+
+
+
+
+
+
+
   const [isReviewDetailsPopupOpen, setReviewDetailsPopupOpen] = useState(false);
   const { PID } = useParams();
+
+  const [review, setReviewDetails] = useState([]);
 
   const navigate = useNavigate();
 
@@ -29,9 +66,11 @@ const ShowReviews = () => {
     navigate('/mylistings');
   }, []);
 
-  const openReviewDetailsPopup = useCallback(() => {
+  const openReviewDetailsPopup = (review) => {
+    console.log("openReviewDetailPopup: ", review);
+    setReviewDetails(review);
     setReviewDetailsPopupOpen(true);
-  }, []);
+  };
 
   const closeReviewDetailsPopup = useCallback(() => {
     setReviewDetailsPopupOpen(false);
@@ -44,6 +83,10 @@ const ShowReviews = () => {
 
   const [reviewData, setReviewData] = useState([]);
   
+  function formatDateDisplay(date, defaultText) {
+    if (!date) return defaultText;
+    return format(date, "d MMM, yyyy");
+}
 
   useEffect(() => {
     fetch(`http://localhost:5001/getReviews/${PID}`)
@@ -62,8 +105,11 @@ const ShowReviews = () => {
           reception: result.Reception_rating,
           scenery: result.Scenery_rating,
           service: result.Service_rating,
-          created: result.Review_Created,
-
+          created: new Date(result.Review_Created).toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+          }),
           guestFirstname: result.Guest_First_name,
           guestFullName: result.Guest_First_name + " " + result.Guest_Last_name,
           guestRating: result.Guest_avg_rating,
@@ -71,6 +117,7 @@ const ShowReviews = () => {
           guestDescription: result.Guest_description,
           guestPhone: result.Guest_contact,
           guestEmail: result.Guest_Email,
+          guestPic: result.Guest_profile_pic,
         }));
         
         setReviewData(formattedReviewData);
@@ -82,6 +129,11 @@ const ShowReviews = () => {
 
 
   console.log(reviewData);
+
+
+  ///========================== USE ANOTHER USE-EFFECT TO FETCH PROPERTYNAME AND RATING VALUES FOR PIE AND BAR
+
+
 
 
 
@@ -396,10 +448,16 @@ const ShowReviews = () => {
               {
                 data: [
                   { id: 0, value: 100, label: '5 stars' },
-                  { id: 1, value: 30, label: '4 Stars' },
-                  { id: 2, value: 15, label: '3 stars' },
-                  { id: 3, value: 10, label: '2 stars' },
-                  { id: 4, value: 5, label: '1 stars' },
+                  { id: 1, value: 30, label: '4.5 Stars' },
+                  { id: 2, value: 15, label: '4 stars' },
+                  { id: 3, value: 10, label: '3.5 stars' },
+                  { id: 4, value: 5, label: '3 stars' },
+                  { id: 5, value: 5, label: '2.5 stars' },
+                  { id: 6, value: 5, label: '2 stars' },
+                  { id: 7, value: 5, label: '1.5 stars' },
+                  { id: 8, value: 5, label: '1 star' },
+                  { id: 9, value: 5, label: '0.5 stars' },
+                  { id: 10, value: 5, label: '0 stars' },
                 ],
                 innerRadius: 30,
                 outerRadius: 100,
@@ -411,7 +469,7 @@ const ShowReviews = () => {
                 cy: 95,
               },
             ]}
-            width={400}
+            width={500}
             height={200}
             />
 
@@ -454,11 +512,46 @@ const ShowReviews = () => {
         <div className={styles.somanyreviewframe}>
       {reviewData.length > 0 ? (
         reviewData.map((review, index) => (
-          <ReviewComponent
-            key={index}
-            review={review}
-            openReviewDetailsPopup={openReviewDetailsPopup}
+          <div className={styles.reviewcomponent} >
+          {review.guestPic ? (
+          <Avatar
+            alt={review.guestFullName}
+            className={styles.usericon}
+            src={review.guestPic}
+            sx={{ width: 56, height: 56 }}
           />
+        ) : (
+          <Avatar
+            alt="Default User"
+            className={styles.usericon}
+            {...stringAvatar(review.guestFullName)}
+            
+          />
+        )}
+          <div className={styles.mayeeshaMusarrat}>
+            <span className={styles.urbanstayTxt}>
+              <p className={styles.mayeeshaMusarrat1}>{review.guestFullName}</p>
+            </span>
+          </div>
+          <div className={styles.nov2023}>{review.created}</div>
+          <div className={styles.asSoonAsContainer}>
+            <span className={styles.urbanstayTxt}>
+              <span>{review.comment}  </span>
+              <span className={styles.seeMore} onClick={() => openReviewDetailsPopup(review)} >
+                See More
+              </span>
+            </span>
+          </div>
+          <div className={styles.ratingstar}>
+            <Box
+              sx={{
+                '& > legend': { mt: 2 },
+              }}
+            >
+              <Rating name="simple-controlled" readOnly value={review.overall} />
+            </Box>
+          </div>
+        </div>
         ))
       ) : (
         <p>No reviews available.</p>
@@ -479,7 +572,9 @@ const ShowReviews = () => {
           placement="Centered"
           onOutsideClick={closeReviewDetailsPopup}
         >
-          <ReviewDetails onClose={closeReviewDetailsPopup} />
+          <ReviewDetails onClose={closeReviewDetailsPopup} review = {review}
+          
+          />
         </PortalPopup>
       )}
     </>

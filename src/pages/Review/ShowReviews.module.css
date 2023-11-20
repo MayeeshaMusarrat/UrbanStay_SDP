@@ -469,6 +469,7 @@
   width: 490px;
   height: 52px;
   font-size: var(--font-size-xl);
+  z-index:11;
 }
 .whiterectangle {
   position: absolute;
@@ -529,7 +530,7 @@
 .piechart {
   position: absolute;
   top: 45px;
-  left: 0;
+  left: -10;
  
   width: 387px;
   height: 186px;
@@ -541,14 +542,20 @@
   height: 231px;
 }
 
+.usericonCol {
+  position: absolute;
+
+}
+
 .charts {
   top: 190px;
-  left: 200px;
+  left: 150px;
   width: 871px;
+  z-index: 10;
 }
 .barchart {
   top: 0;
-  left: 484px;
+  left: 530px;
   width: 387px;
 }
 
@@ -591,13 +598,17 @@
   font-weight: 300;
 }
 .seeMore {
+  font-weight: 600;
+}
+.seeMore:hover {
   text-decoration: underline;
   font-weight: 600;
+  cursor: pointer;
 }
 .somanyreviewframe {
   position: relative;
-  top: 50px;
-  left: 70px;
+  top: 40px;
+  left: 10px;
   width: 1380px;
   height: 1380px;
   overflow: visible;
@@ -617,7 +628,6 @@
   text-transform: capitalize;
   display: flex;
   align-items: center;
-  cursor: pointer;
 }
 .ratingstar {
   position: absolute;
@@ -650,4 +660,5 @@
   font-size: var(--font-size-5xl);
   color: var(--color-darkblue);
   font-family: var(--font-poppins);
+
 }

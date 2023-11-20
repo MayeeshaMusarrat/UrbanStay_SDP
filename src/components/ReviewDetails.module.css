@@ -121,4 +121,5 @@
   font-size: var(--font-size-base);
   color: var(--color-black);
   font-family: var(--font-poppins);
+  z-index: 1010;
 }

@@ -1,6 +1,37 @@
 import styles from "./ReviewDetails.module.css";
+import Avatar from '@mui/material/Avatar';
 
-const ReviewDetails = ({ onClose }) => {
+const ReviewDetails = ({ onClose, review }) => {
+
+  console.log("review data of popup: ", review);
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+  
+    let color = '#';
+  
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+   
+    return color;
+  }
+  
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    };
+  }
+
+
   return (
     <div className={styles.reviewdetails}>
       <img
@@ -20,22 +51,40 @@ const ReviewDetails = ({ onClose }) => {
         <button className={styles.reviewDetails}>Review Details</button>
       </div>
       <div className={styles.barchart} id="pi" />
-      <img className={styles.usericon} alt="" src="/usericon@2x.png" />
+
+
+      {review.guestPic ? (
+      <Avatar
+        alt={review.guestFullName}
+        className={styles.usericon}
+        src={review.guestPic}
+        sx={{ width: 56, height: 56 }}
+      />
+    ) : (
+      <Avatar
+        alt="Default User"
+        className={styles.usericon}
+        {...stringAvatar(review.guestFullName)}
+        
+      />
+    )}
+
+
       <div className={styles.mayeeshaMusarrat23SeptemberContainer}>
         <span className={styles.mayeeshaMusarrat23SeptemberContainer1}>
           <p className={styles.mayeeshaMusarrat}>
             <span>
               <span className={styles.mayeeshaMusarrat1}>
-                mayeesha Musarrat
+                {review.guestFullName}
               </span>
             </span>
           </p>
-          <p className={styles.september2023}>23 September 2023</p>
+          <p className={styles.september2023}>{review.created}</p>
         </span>
       </div>
       <div
         className={styles.asSoonAs}
-      >{`As soon as we arrived we were greeted by the villa staff so beautifully, as they put some flowers on our necks and welcoming drinks. Our stay was amazing we felt at peace. Also Agus and his wife made us wonderful welcoming dinner every bite was delicious. Thank you for the wonderful stay. `}</div>
+      >{review.comment}</div>
     </div>
   );
 };
