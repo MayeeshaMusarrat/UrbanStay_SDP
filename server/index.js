@@ -10,7 +10,17 @@ const pool = mysql.createPool({
   password: 'mayeesha8430',
   database: 'urbanstay',
   connectionLimit: 10, 
-}); 
+});
+
+pool.getConnection((err, connection) => {
+  if (err) {
+    console.error('Error connecting to MySQL:', err);
+  } else {
+    console.log('Connected to MySQL!');
+    connection.release();
+  }
+});
+
 
 const port = 5001;
 
@@ -1041,10 +1051,10 @@ app.post('/guest-give-review', async (req, res) => {
 
       // now I have the gid, insert in the review table
       const reviewSql = `insert into Property_review
-        (PID, GID, Comment, Location_rating, Reception_rating, Cleanliness_rating, Accuracy_rating, Overall_rating, Created, Email)
-        values (?, ?, ?, ?, ? , ? , ? , ? , ? , ?);`;
+        (PID, GID, Comment, Location_rating, Reception_rating, Cleanliness_rating, Accuracy_rating, Overall_rating, Created, Email, Scenery_rating, Service_rating)
+        values (?, ?, ?, ?, ? , ? , ? , ? , ? , ?, ?, ?);`;
 
-      const reviewValues = [PID, userResults[0].GID, review, location, reception, cleanliness, accuracy, overall, created, email];
+      const reviewValues = [PID, userResults[0].GID, review, location, reception, cleanliness, accuracy, overall, created, email, scenery, service];
 
       connection.query(reviewSql, reviewValues, (reviewErr, reviewResults) => {
         if (reviewErr) {
@@ -1056,6 +1066,36 @@ app.post('/guest-give-review', async (req, res) => {
         }
       });
     });
+  });
+});
+
+
+
+app.get('/getReviews/:PID', async (req, res) => {
+  const PID = req.params.PID;
+ 
+  console.log("PID received for reviews :");
+  console.log(PID);
+
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+
+    const searchSql = `SELECT * FROM GUESTREVIEWSPROPERTY WHERE PID = ?`;
+
+    const searchValues = [PID];
+
+    connection.query(searchSql, searchValues, (searchErr, searchResults) => {
+      if (searchErr) {
+        console.error('Error fetching data:', searchErr);
+        res.status(500).json({ message: 'Fetching Error' });
+      } else {
+        console.log('Data fetched from GUESTREVIEWSPROPERTY successfully.');
+        console.log(searchResults);
+        res.json({ searchResults });
+      }
+    });
+    
+    connection.release(); 
   });
 });
 

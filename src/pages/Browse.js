@@ -552,6 +552,8 @@ const [isPopupOpen, setPopupOpen] = useState(false);
 
         
         <div className={styles.somanypropertycardsFrame}>
+
+          
         <Box>
       <Grid container spacing={0} columns={10}>
         {propertyData.map((property, index) => (
@@ -583,6 +585,10 @@ const [isPopupOpen, setPopupOpen] = useState(false);
         ))}
       </Grid>
     </Box>
+
+
+
+
     </div>
      
       

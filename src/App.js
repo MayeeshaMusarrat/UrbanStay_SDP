@@ -26,7 +26,7 @@ import Browse from "./pages/Browse";
 import BecomeHost from './pages/BecomeHostSignupPage';
 import Notifications from './pages/Notifications';
 import Wishlist from './pages/Wishlist';
-import ShowReviews from "./pages/ShowReviews";
+import ShowReviews from "./pages/Review/ShowReviews";
 import ShowReservations from "./pages/ShowReservations";
 import ShowPendingReservations from './pages/ShowPendingReservations';
 import OTPPage from "./pages/OTPPage";
@@ -184,7 +184,7 @@ function App() {
       <Route path="/become-host" element={<BecomeHost />} />
       <Route path="/notifications" element={<Notifications />} />
       <Route path="/wishlist" element={<Wishlist />} />
-      <Route path="/show-reviews/:pid" element={<ShowReviews />} />
+      <Route path="/show-reviews/:PID" element={<ShowReviews />} />
       <Route path="/show-reservations" element={<ShowReservations />} />
       <Route path="/show-pending-reservations/:PID" element={<ShowPendingReservations />} />
       <Route path="/otp-page" element={<OTPPage />} />
