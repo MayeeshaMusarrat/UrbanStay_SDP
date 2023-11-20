@@ -56,8 +56,6 @@ const ShowPendingReservations = () => {
 
   const [data, setData] = useState([]);
   const [propName, setPropName] = useState("");
-  console.log("PID : ", PID);
-  //const userEmail = localStorage.getItem('email');
 
   useEffect(() => {
     fetch(`http://localhost:5001/getPendingReservations/${PID}`)
@@ -69,8 +67,6 @@ const ShowPendingReservations = () => {
       })
       .then((fetchedData) => {
         if (fetchedData) {
-         // console.log("Data fetched: ", fetchedData);
-
           const combinedResults = {
             pendingReservations: fetchedData.pendingReservations,
             propertyDetails: fetchedData.propertyDetails,

@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { format } from "date-fns";
+import Spinner from '../Chips/Spinner';
 
 
 import ReviewComponent from '../../components/ReviewComponent';
@@ -80,6 +81,10 @@ const ShowReviews = () => {
   console.log("PID from review page : ", PID);
 
   const [reviewData, setReviewData] = useState([]);
+  const [propName, setPropName] = useState("");
+  const [pieData, setPieData] = useState([]);
+  const [barData, setBarData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   
   function formatDateDisplay(date, defaultText) {
     if (!date) return defaultText;
@@ -115,6 +120,7 @@ const ShowReviews = () => {
           guestPhone: result.Guest_contact,
           guestEmail: result.Guest_Email,
           guestPic: result.Guest_profile_pic,
+          
         }));
         
         setReviewData(formattedReviewData);
@@ -122,12 +128,10 @@ const ShowReviews = () => {
        
       })
       .catch(error => console.error('Error fetching data:', error));
-  }, []);
+  }, [PID]);
 
 
-  const [propName, setPropName] = useState("");
-  const [pieData, setPieData] = useState([]);
-  const [barData, setBarData] = useState([]);
+  
 
   useEffect(() => {
     fetch(`http://localhost:5001/getRatings/${PID}`)
@@ -151,6 +155,7 @@ const ShowReviews = () => {
           setPropName(combinedResults.propertyNameResults);
           setPieData(combinedResults.pieResults);
           setBarData(combinedResults.barResults);
+          setIsLoading(false);
          
         } else {
           console.error('Fetched data is not an array:', fetchedData);
@@ -159,19 +164,14 @@ const ShowReviews = () => {
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }, []);
+  }, [PID]);
 
-
-
-  console.log("pie: ", pieData);
-
-
+  if (isLoading) {
+    
+    return <p>Loading...</p>; 
+  }
 
   ///========================== USE ANOTHER USE-EFFECT TO FETCH PROPERTYNAME AND RATING VALUES FOR PIE AND BAR
-
-
-
-
 
 
   const chartSetting = {
@@ -184,10 +184,6 @@ const ShowReviews = () => {
       },
     },
   };
-
-
-  /// use useEffect and PID from propValue to fetch the amenities and show them in a list here!
-  /// also do this for the reviews! 
 
 
   /**************   barchart stuff */
@@ -591,7 +587,9 @@ const ShowReviews = () => {
         </div>
         ))
       ) : (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '1200px' }}>
         <p>No reviews available.</p>
+      </div>
       )}
     </div>
 

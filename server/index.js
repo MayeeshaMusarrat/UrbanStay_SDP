@@ -1104,8 +1104,6 @@ app.get('/getReviews/:PID', async (req, res) => {
 app.get('/getRatings/:PID', async (req, res) => {
   const PID = req.params.PID;
  
-  console.log("PID received for ratings :");
-  console.log(PID);
 
   pool.getConnection((err, connection) => {
     if (err) throw err;
@@ -1179,7 +1177,7 @@ app.get('/getRatings/:PID', async (req, res) => {
           if (err) {
             reject(err);
           } else {
-            console.log("pie: ", pieResults);
+           
             resolve({ pieResults: pieResults });
           }
         });
@@ -1189,7 +1187,7 @@ app.get('/getRatings/:PID', async (req, res) => {
           if (err) {
             reject(err);
           } else {
-            console.log("bar: ", barResults);
+           
             resolve({ barResults: barResults });
           }
         });
@@ -1199,7 +1197,7 @@ app.get('/getRatings/:PID', async (req, res) => {
           if (err) {
             reject(err);
           } else {
-            console.log("propertyNameResults: ", propertyNameResults);
+            
             resolve({ propertyNameResults: propertyNameResults[0].Property_title });
           }
         });
@@ -1212,7 +1210,7 @@ app.get('/getRatings/:PID', async (req, res) => {
         propertyNameResults:  s3.propertyNameResults
       };
 
-      console.log("Response object: ", responseObj);
+     
 
       res.status(200).json(responseObj);
       connection.release(); 

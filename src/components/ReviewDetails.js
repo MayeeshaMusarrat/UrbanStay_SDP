@@ -65,7 +65,7 @@ const ReviewDetails = ({ onClose, review }) => {
           
             series={[
               {
-                data: [4,3,2,4,5,4],
+                data: [review.scenery, review.accuracy, review.reception, review.cleanliness, review.location, review.service],
               },
             ]}
             width={520}

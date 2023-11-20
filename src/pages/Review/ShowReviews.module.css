@@ -456,15 +456,16 @@
 }
 
 
+
 .reviewheading2 {
   left: 85px;
   display: inline-block;
-  width: 405px;
+  width: 800px;
   height: 52px;
 }
 .reviewheading {
   position: absolute;
-  top: 146px;
+  top: 136px;
   left: 56px;
   width: 490px;
   height: 52px;
@@ -519,7 +520,7 @@
 }
 .stickyNavBar {
   position: absolute;
-  top: -6px;
+  top: -17px;
   left: 0;
   width: 1542px;
   height: 119px;
@@ -654,7 +655,7 @@
   position: relative;
   background-color: var(--color-white);
   width: 100%;
-  height: 1913px;
+  height: 3000px;
   overflow: hidden;
   text-align: left;
   font-size: var(--font-size-5xl);

@@ -33,6 +33,8 @@ const ReviewComponent = ({ review, openReviewDetailsPopup }) => {
         };
       }
       
+
+      console.log("Guest pic: ", guestPic);
   return (
     <div className={styles.reviewcomponent} >
       {review.guestPic ? (
