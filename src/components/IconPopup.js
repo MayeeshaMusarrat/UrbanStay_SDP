@@ -1,25 +1,70 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './IconPopup.module.css';
 import SignoutConfirmationPopup from '../components/SignoutConfirmationPopup';
 import PortalPopup from './PortalPopup';
+import Badge from '@mui/material/Badge';
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
+import Avatar from '@mui/material/Avatar';
 
-const IconPopup = ({ topMargin }) => {
+const IconPopup = ({ topMargin, name }) => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
-  const [popupZIndex, setPopupZIndex] = useState(1); // Initial z-index value
 
   const togglePopup = () => {
     setIsPopupVisible(!isPopupVisible);
-    setPopupZIndex(isPopupVisible ? 100000001 : 1); // Update z-index based on visibility
-    console.log("visiility: ", popupZIndex);
-    console.log("popup: ", isPopupVisible);
+    
   };
 
+  const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+      backgroundColor: '#44b700',
+      color: '#44b700',
+      boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+      '&::after': {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        borderRadius: '50%',
+        animation: 'ripple 1.2s infinite ease-in-out',
+        border: '1px solid currentColor',
+        content: '""',
+        
+      },
+    },
+    '@keyframes ripple': {
+      '0%': {
+        transform: 'scale(.8)',
+        opacity: 1,
+      },
+      '100%': {
+        transform: 'scale(2.4)',
+        opacity: 0,
+      },
+    },
+  }));
   
+  const SmallAvatar = styled(Avatar)(({ theme }) => ({
+    width: 22,
+    height: 22,
+    border: `2px solid ${theme.palette.background.paper}`,
+  }));
+
+  const [invisible, setInvisible] = useState(false);
+
+  const handleBadgeVisibility = () => {
+    setInvisible(!invisible);
+  };
 
   const navigate = useNavigate();
   const handleProfileClick = () => {
     navigate('/temp-profile');
+  };
+
+  const handleNotificationClick = () => {
+    navigate('/notifications');
   };
 
   const handleHostPlaceClick = () => {
@@ -36,18 +81,11 @@ const IconPopup = ({ topMargin }) => {
     setSignoutConfirmationPopupOpen(false);
   }, []);
 
-  useEffect(() => {
-    // Apply dynamic z-index after the state change
-    document.getElementById('popupContainer').style.zIndex = popupZIndex;
-   
-  }, [popupZIndex]);
-
 
   function stringToColor(string) {
     let hash = 0;
     let i;
   
-    /* eslint-disable no-bitwise */
     for (i = 0; i < string.length; i += 1) {
       hash = string.charCodeAt(i) + ((hash << 5) - hash);
     }
@@ -66,15 +104,37 @@ const IconPopup = ({ topMargin }) => {
       sx: {
         bgcolor: stringToColor(name),
       },
-      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+      children: `${name.split(' ')[0][0]}`,
     };
   }
   
 
   return (
     <div className={styles.iconpopup} style={{ top: topMargin }}>
+
+    <div onClick={togglePopup}> 
+          <Avatar
+            alt="Default User"
+          
+            style = {{left: 259, top: 23.5, zIndex: 1000, height: 31, width: 31, cursor: "pointer"}}
+            {...stringAvatar(name)}
+            
+          />
       <div className={styles.overall}>
+        
+      <StyledBadge
+        overlap="circular"
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        variant="dot"
+        style = {{right: -277, top: -10, zIndex: 1010}} 
+      > 
+      
+      </StyledBadge>
+    
         <img className={styles.profileIcon} alt="" src="/profile-icon@2x.png" onClick={togglePopup} />
+     
+
+
         <div
           className={`${styles.loginPopupWithLogoutGrp} ${isPopupVisible ? styles.active : ''}`}
           id="popupContainer"
@@ -91,7 +151,7 @@ const IconPopup = ({ topMargin }) => {
             <button className={styles.hostbtn} id="accSettings" onClick={handleHostPlaceClick}>
               <button className={styles.profile}> Host a place</button>
             </button>
-            <button className={styles.notifbtn} id="accSettings">
+            <button className={styles.notifbtn} id="accSettings" onClick = {handleNotificationClick} >
               <button className={styles.profile}> Notifications</button>
             </button>
             <button className={styles.signoutbtn} id="accSettings">
@@ -110,6 +170,7 @@ const IconPopup = ({ topMargin }) => {
             )}
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

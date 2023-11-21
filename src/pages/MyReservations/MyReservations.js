@@ -29,12 +29,16 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import { format } from "date-fns";
 
 import Spinner from '../Chips/Spinner';
+import Footer from  '../../components/Footer';
 
 
 const MyReservations = () => {
 
   const [data, setData] = useState([]);
   const userEmail = localStorage.getItem('email');
+
+
+  const userName = localStorage.getItem('name');
 
   const [openPopupProperty, setOpenPopupProperty] = useState(false);
   const [selectedRowProperty, setSelectedRowProperty] = useState(null);
@@ -153,7 +157,6 @@ const approvedRows = data.approvedReservations
     }))
   : [];
 
-// Merge the rows from both views
 const allRows = rows.concat(approvedRows);
 
   
@@ -301,9 +304,6 @@ const columns: GridColDef[] = [
 
 ];
 
-/* const rows = [
-   {id:1, Property: "Neel Oboni 5th floor",Status: "Reserved", bedrooms: "2", beds: "2", bathrooms: "2", location: "Shahinbagh, Dhaka", check_in: "17/10/23", check_out: "18/10/23", price: "1400$"}
-]; */
 
 
 const getCellClassName = (params) => {
@@ -362,234 +362,16 @@ const getCellClassName = (params) => {
   }, [navigate]);
 
 
-  const [isGuest, setIsGuest] = useState(false);
-  const hostOrGuest = localStorage.getItem('GuestOrHost');
-
-  useEffect(() => {
-      if (hostOrGuest) {
-        setIsGuest(true);
-      }
-      else
-      {
-        setIsGuest(false);
-      }
-    }, [hostOrGuest]);
-
+  
+  const isGuest = localStorage.getItem('GuestOrHost');
+  console.log("isGuest: ", isGuest);
+  
 
 
   return (
     <>
       <div className={styles.myreservations}>
-        <div className={styles.footer}>
-          <div className={styles.divfooterTop}>
-            <div className={styles.divcontainer}>
-              <div className={styles.divrow}>
-                <div className={styles.divcolLg4}>
-                  <div className={styles.divfooterAppContent}>
-                    <div className={styles.divfooterContentHeading}>
-                      <div className={styles.heading4}>Get Our App</div>
-                      <div className={styles.downloadTheApp}>
-                        Download the app and book your property
-                      </div>
-                    </div>
-                    <div className={styles.divdownloadApp}>
-                      <div className={styles.link}>
-                        <img
-                          className={styles.googlePaypngIcon}
-                          alt=""
-                          src="/googlepaypng@2x.png"
-                        />
-                      </div>
-                      <div className={styles.link}>
-                        <img
-                          className={styles.appStorepngIcon}
-                          alt=""
-                          src="/appstorepng@2x.png"
-                        />
-                      </div>
-                    </div>
-                    <div className={styles.divsocialLinks}>
-                      <div className={styles.heading41}>Connect with us</div>
-                      <div className={styles.list}>
-                        <div className={styles.itemmargin}>
-                          <div className={styles.itemLink}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className={styles.itemmargin}>
-                          <div className={styles.itemLink1}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className={styles.itemmargin}>
-                          <div className={styles.itemLink2}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className={styles.itemmargin}>
-                          <div className={styles.itemLink3}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className={styles.itemmargin}>
-                          <div className={styles.itemLink4}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className={styles.item}>
-                          <div className={styles.itemLink1}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.divcolLg2}>
-                  <div className={styles.divfooterWidgetList}>
-                    <div className={styles.heading42}>
-                      <div className={styles.explore}>Explore</div>
-                    </div>
-                    <div className={styles.list1}>
-                      <div className={styles.item1}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Listings</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item2}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Register</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item3}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Login</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item4}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Blogs</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item5}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Hosts</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.divcolLg21}>
-                  <div className={styles.divfooterWidgetList}>
-                    <div className={styles.heading43}>
-                      <div className={styles.explore}>Categories</div>
-                    </div>
-                    <div className={styles.list1}>
-                      <div className={styles.item6}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Apartments</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item7}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Home</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item8}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Office</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item9}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Villas</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item10}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Flat</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.divcolLg22}>
-                  <div className={styles.divfooterWidgetList}>
-                    <div className={styles.heading44}>
-                      <div className={styles.explore}>Locations</div>
-                    </div>
-                    <div className={styles.list1}>
-                      <div className={styles.item11}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>United States</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item12}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Canada</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item13}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>India</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item14}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>UK</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item15}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Australia</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.divfooterBottom}>
-            <div className={styles.p}>
-              <div className={styles.copyright2023}>
-                Copyright 2023 - All right reserved UrbanStay
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={styles.divb9672i7}>
-          <div className={styles.button}>
-            <div className={styles.showAllReviews}>Show all reviews</div>
-          </div>
-        </div>
+        <Footer />
 
 
       
@@ -644,13 +426,13 @@ const getCellClassName = (params) => {
         </PortalPopup>
       )}
 
-        { isGuest ? (
+        { isGuest === '1' ? (
 
-        <IconPopupForGuest topMargin = {6} />
+        <IconPopupForGuest topMargin = {6} name = {userName} />
 
-        ) : !isGuest ? (
+        ) : isGuest === '0' ? (
 
-        <IconPopup topMargin = {6} />
+        <IconPopup topMargin = {6} name = {userName} />
 
         ) : null }           
 

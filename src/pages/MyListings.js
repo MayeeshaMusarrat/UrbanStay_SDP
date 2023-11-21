@@ -21,6 +21,9 @@ const MyListings = () => {
 const [data, setData] = useState([]);
 const userEmail = localStorage.getItem('email');
 
+const isGuest = localStorage.getItem('GuestOrHost');
+const user_name = localStorage.getItem('name');
+
 useEffect(() => {
   fetch(`http://localhost:5001/getListings/${userEmail}`)
     .then((response) => {
@@ -121,20 +124,6 @@ const toggle = () => {
     navigate("/");
   }, [navigate]);
 
-  const [isGuest, setIsGuest] = useState(false);
-  const hostOrGuest = localStorage.getItem('GuestOrHost');
-
-  useEffect(() => {
-      if (hostOrGuest) {
-        setIsGuest(true);
-      }
-      else
-      {
-        setIsGuest(false);
-      }
-    }, [hostOrGuest]);
-
-    console.log("isGUEST", isGuest);
 
   return (
     <>
@@ -407,13 +396,13 @@ const toggle = () => {
         </div>
       </div>
 
-          { isGuest ? (
+          { isGuest ==='1' ? (
 
-            <IconPopupForGuest topMargin = {6} />
+            <IconPopupForGuest topMargin = {6} name = {user_name} />
 
-            ) : !isGuest ? (
+            ) : isGuest==='0'? (
 
-            <IconPopup topMargin = {6} />
+            <IconPopup topMargin = {6} name = {user_name} />
 
             ) : null }
 

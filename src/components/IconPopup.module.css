@@ -196,6 +196,6 @@
     top: 10px;
     position: absolute;
     background-color: transparent;
-    
+    z-index: 1000;
   }
   

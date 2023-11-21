@@ -11,18 +11,10 @@ import IconPopup from '../components/IconPopup';
 
 const TempProfile = () => {
 
-  const [isGuest, setIsGuest] = useState(false);
-  const hostOrGuest = localStorage.getItem('GuestOrHost');
+  const isGuest = localStorage.getItem('GuestOrHost');
+  const user_name = localStorage.getItem('name');
 
-  useEffect(() => {
-      if (hostOrGuest) {
-        setIsGuest(true);
-      }
-      else
-      {
-        setIsGuest(false);
-      }
-    }, [hostOrGuest]);
+ 
 
   const [popup, setPopup] = useState(false);
   const toggle = () => {
@@ -456,13 +448,13 @@ const TempProfile = () => {
           </div>
 
 
-          { isGuest ? (
+          { isGuest === '1' ? (
 
-          <IconPopupForGuest topMargin = {20} />
+          <IconPopupForGuest topMargin = {20} name = {user_name} />
 
-          ) : !isGuest ? (
+          ) : isGuest === '0' ? (
 
-          <IconPopup topMargin = {6} />
+          <IconPopup topMargin = {23} name = {user_name} />
 
           ) : null } 
 

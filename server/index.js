@@ -12,15 +12,6 @@ const pool = mysql.createPool({
   connectionLimit: 10, 
 });
 
-pool.getConnection((err, connection) => {
-  if (err) {
-    console.error('Error connecting to MySQL:', err);
-  } else {
-    console.log('Connected to MySQL!');
-    connection.release();
-  }
-});
-
 
 const port = 5001;
 
@@ -133,9 +124,10 @@ async function connectAndStartServer()
     pool.getConnection((err, connection) => {
       if (err) throw err;
       var sql = `SELECT password FROM user WHERE Email = '${email}'`;
+  
       connection.query(sql, function (err, results, fields) {
         if (err) throw err;
-  
+         console.log(results[0].password);
         if (results.length > 0) 
         {
           result = results[0].password;
@@ -1210,7 +1202,7 @@ app.get('/getRatings/:PID', async (req, res) => {
         propertyNameResults:  s3.propertyNameResults
       };
 
-     
+      console.log("Response object: ", responseObj);
 
       res.status(200).json(responseObj);
       connection.release(); 

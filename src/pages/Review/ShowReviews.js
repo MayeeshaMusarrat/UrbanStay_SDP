@@ -46,12 +46,6 @@ const ShowReviews = () => {
     };
   }
 
-
-
-
-
-
-
   const [isReviewDetailsPopupOpen, setReviewDetailsPopupOpen] = useState(false);
   const { PID } = useParams();
 
