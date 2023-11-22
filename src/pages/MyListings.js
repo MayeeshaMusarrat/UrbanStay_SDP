@@ -46,8 +46,6 @@ useEffect(() => {
 }, []);
 
 
-
-
 const rows = data.map((item) => ({
    
   id: item.PID, 
@@ -393,19 +391,23 @@ const toggle = () => {
               <div className={styles.reservations}>HOME</div>
             </div>
           </div>
+
+
         </div>
+
+        { isGuest ==='1' ? (
+
+<IconPopupForGuest topMargin = {6} name = {user_name} />
+
+) : isGuest==='0'? (
+
+<IconPopup topMargin = {6} name = {user_name} />
+
+) : null }
+
       </div>
 
-          { isGuest ==='1' ? (
-
-            <IconPopupForGuest topMargin = {6} name = {user_name} />
-
-            ) : isGuest==='0'? (
-
-            <IconPopup topMargin = {6} name = {user_name} />
-
-            ) : null }
-
+      
         
     </>
     

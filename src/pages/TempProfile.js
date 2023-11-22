@@ -14,8 +14,6 @@ const TempProfile = () => {
   const isGuest = localStorage.getItem('GuestOrHost');
   const user_name = localStorage.getItem('name');
 
- 
-
   const [popup, setPopup] = useState(false);
   const toggle = () => {
     setPopup(!popup);

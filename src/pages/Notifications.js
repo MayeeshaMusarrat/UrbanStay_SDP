@@ -13,11 +13,15 @@ const Notifications = () => {
     navigate("/");
   }, []);
 
+
+
+  
+
   return (
     <div className={styles.notifications}>
 
       <Footer />
-      <IconPopup />
+      
 
       <b className={styles.h3}>Notifications</b>
 
@@ -33,6 +37,8 @@ const Notifications = () => {
           <img className={styles.image31} alt="" src="/image-3-1@2x.png" />
         </div>
       </div>
+
+
 
 
     <RejectionNotification />

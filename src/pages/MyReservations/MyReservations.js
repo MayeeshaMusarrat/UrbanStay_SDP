@@ -36,8 +36,6 @@ const MyReservations = () => {
 
   const [data, setData] = useState([]);
   const userEmail = localStorage.getItem('email');
-
-
   const userName = localStorage.getItem('name');
 
   const [openPopupProperty, setOpenPopupProperty] = useState(false);

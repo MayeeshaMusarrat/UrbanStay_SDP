@@ -83,7 +83,7 @@
     height: 119px;
     overflow: hidden;
     font-size: var(--font-size-base);
-    z-index: 1;
+   
   }
   .bigcalendar {
     position: absolute;

@@ -5,11 +5,12 @@ const cors = require('cors');
 app.use(cors(), express.json());
 
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'mayeesha8430',
-  database: 'urbanstay',
-  connectionLimit: 10, 
+  host: 'mysql-264db198-musarratmayeesha-0001.a.aivencloud.com',
+  user: 'avnadmin',
+  password: 'AVNS_TvZaCuiGGGrRVds4PvY',
+  database: 'defaultdb',
+  port: "16798", 
+  ssl: true,
 });
 
 
@@ -31,18 +32,18 @@ async function connectAndStartServer()
     {
       if (err) throw err;
       res.send("Hello from backend");
-      const userSql = `INSERT INTO USER (First_name, Last_name, Phone, Email, Password, Joining_date) VALUES (?, ?, ?, ?, ?, ?)`;
+      const userSql = `INSERT INTO user (First_name, Last_name, Phone, Email, Password, Joining_date) VALUES (?, ?, ?, ?, ?, ?)`;
       const userValues = [firstname, lastname, phone_number, email, password, currentDate];
       connection.query(userSql, userValues, (userErr, userResults) => {
         if (userErr) 
         {
-          console.error('Error inserting data into USER:', userErr);
-          res.status(500).json({ message: 'Error inserting data into USER' });
+          console.error('Error inserting data into user:', userErr);
+          res.status(500).json({ message: 'Error inserting data into user' });
         } 
         else 
         {
-          console.log('Data inserted into USER successfully');
-          const guestSql = `INSERT INTO GUEST (UID, Guest_rating_num, Avg_rating) VALUES (?, ?, ?)`;
+          console.log('Data inserted into user successfully');
+          const guestSql = `INSERT INTO guest (UID, Guest_rating_num, Avg_rating) VALUES (?, ?, ?)`;
           const guestValues = [userResults.insertId, '0','0'];
           connection.query(guestSql, guestValues, (guestErr, guestResults) => 
           {
@@ -73,15 +74,15 @@ async function connectAndStartServer()
 
     pool.getConnection((err, connection) => {
       if (err) throw err;
-      const userSql = `INSERT INTO USER (First_name, Last_name, Phone, Birthdate, Email, Password, Joining_date, Profile_picture) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+      const userSql = `INSERT INTO user (First_name, Last_name, Phone, Birthdate, Email, Password, Joining_date, Profile_picture) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
       const userValues = [firstname, lastname, phone_number, birthdatePart, email, password, currentDate, profile_pic];
       connection.query(userSql, userValues, (userErr, userResults) => {
         if (userErr) {
-          console.error('Error inserting data into USER:', userErr);
-          res.status(500).json({ message: 'Error inserting data into USER' });
+          console.error('Error inserting data into user:', userErr);
+          res.status(500).json({ message: 'Error inserting data into user' });
         } else {
-          console.log('Data inserted into USER successfully');
-          const hostSql = `INSERT INTO HOST (UID, Host_rating_num, Avg_rating) VALUES (?, ?, ?)`;
+          console.log('Data inserted into user successfully');
+          const hostSql = `INSERT INTO host (UID, Host_rating_num, Avg_rating) VALUES (?, ?, ?)`;
           const hostValues = [userResults.insertId, '0','0'];
           connection.query(hostSql, hostValues, (hostErr, hostResults) => {
             if (hostErr) 
@@ -92,7 +93,7 @@ async function connectAndStartServer()
             
             {
               console.log('Data inserted into HOST successfully');
-              const guestSql = `INSERT INTO GUEST (UID, Guest_rating_num, Avg_rating) VALUES (?, ?, ?)`;
+              const guestSql = `INSERT INTO guest (UID, Guest_rating_num, Avg_rating) VALUES (?, ?, ?)`;
               const guestValues = [userResults.insertId, '0','0'];
               connection.query(guestSql, guestValues, (guestErr, guestResults) => 
               {
@@ -165,7 +166,7 @@ async function connectAndStartServer()
         return res.status(500).json({ message: 'Database Connection Error' });
       }
   
-      const picSql = `SELECT Picture_url FROM PROPERTY_PICTURES WHERE PID = ?`;
+      const picSql = `SELECT Picture_url FROM property_pictures WHERE PID = ?`;
       const picValues = [PID];
   
       connection.query(picSql, picValues, (picErr, picResult) => {
@@ -303,7 +304,7 @@ async function connectAndStartServer()
         }
   
         if (results.length > 0) {
-          const userSql = `SELECT * FROM USER WHERE UID = ?`;
+          const userSql = `SELECT * FROM user WHERE UID = ?`;
           const userValues = [results[0].UID];
           connection.query(userSql, userValues, (userErr, userResults) => {
             if (userErr) {
@@ -312,7 +313,7 @@ async function connectAndStartServer()
               return res.status(500).json({ message: 'Fetching Error' });
             }
   
-            const hostSql = `SELECT * FROM HOST WHERE UID = ?`;
+            const hostSql = `SELECT * FROM host WHERE UID = ?`;
             const hostValues = [userResults[0].UID];
             connection.query(hostSql, hostValues, (hostErr, hostResults) => {
               connection.release();
@@ -328,7 +329,7 @@ async function connectAndStartServer()
           });
         } else {
           connection.release();
-          res.status(404).json({ message: 'User not found' });
+          res.status(404).json({ message: 'user not found' });
         }
       });
     });
@@ -387,15 +388,15 @@ async function connectAndStartServer()
       connection.query(userSql, (userErr, userResults) => {
         if (userErr) 
         {
-          console.error('Error extracting data from USER:', userErr);
-          res.status(500).json({ message: 'Error inserting data into USER' });
+          console.error('Error extracting data from user:', userErr);
+          res.status(500).json({ message: 'Error inserting data into user' });
         } 
         else 
         {
-          console.log('USER UID extracted successfully');
+          console.log('user UID extracted successfully');
           const userUID = userResults[0].UID;
   
-          const listingSql = `INSERT INTO PROPERTY (Property_title, Zipcode, Num_of_guests, Price_per_night, Created, Check_in_date, Check_out_date, Num_of_ratings, Avg_ratings, UID, City, Country, Description, Num_of_rooms, Address_line, Category, Num_of_bedrooms, Num_of_bathrooms, Num_of_beds, pics, service_fee, base_fee, num_of_days, Area ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+          const listingSql = `INSERT INTO property (Property_title, Zipcode, Num_of_guests, Price_per_night, Created, Check_in_date, Check_out_date, Num_of_ratings, Avg_ratings, UID, City, Country, Description, Num_of_rooms, Address_line, Category, Num_of_bedrooms, Num_of_bathrooms, Num_of_beds, pics, service_fee, base_fee, num_of_days, Area ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
           
           const price = parseFloat(pricePerNight);
   
@@ -412,7 +413,7 @@ async function connectAndStartServer()
               const PID = listingResults.insertId;
   
               amenities.forEach((amenity) => {
-                const sql = `INSERT INTO Amenities (Name, property_PID) VALUES (?, ?)`;
+                const sql = `INSERT INTO amenities (Name, property_PID) VALUES (?, ?)`;
                 
                 connection.query(sql, [amenity, PID], (error, results) => {
                   if (error) {
@@ -425,7 +426,7 @@ async function connectAndStartServer()
               });
 
               five_pics.forEach((pic) => {
-                const picSql = `INSERT INTO PROPERTY_PICTURES (PID, Picture_url) VALUES (?, ?)`;
+                const picSql = `INSERT INTO property_pictures (PID, Picture_url) VALUES (?, ?)`;
                 connection.query(picSql, [PID, pic], (PicErr, Picresults) => {
                   if (PicErr) {
                     console.error('Error inserting pics:', PicErr);
@@ -548,35 +549,20 @@ async function connectAndStartServer()
 
   
   app.post('/approve-reservation', async (req, res) => {
-    const { GID, PID, checkin, checkout, total_price, rooms, guests } = req.body;
-
-
+    const { GID, PID, checkin, checkout, total_price, rooms, guests, Email, 
+      AppliedIn,
+      location, 
+      reservedForStart,
+      property_title
+    } = req.body;
+  
     console.log(req.body);
-
-    /// 8-15  --->> 7 -14 (checkin ke ek barao, checkout ke ek barao)
-    
+  
+    // 8-15  --->> 7 -14 (checkin ke ek barao, checkout ke ek barao)
     console.log("Approved reservation: ");
     console.log(req.body);
-
-    const a = checkin.substring(0, 10);
-    const b = checkout.substring(0, 10);
-
-    const check_in = new Date(a);
-    const check_out = new Date(b);
-
-    check_in.setDate(check_in.getDate() + 1);
-    check_out.setDate(check_out.getDate() + 1);
-
-    const aa = check_in.toISOString().split('T')[0];
-    const bb = check_out.toISOString().split('T')[0];
-
-
-
-    
-    console.log("checkin: ", check_in);
-    console.log("checkin: ", check_out);
   
-    
+    const currentDate = new Date();
   
     pool.getConnection((err, connection) => {
       if (err) {
@@ -584,62 +570,34 @@ async function connectAndStartServer()
         return res.status(500).json({ message: 'Database Connection Error' });
       }
   
-      const p_r_oSql = `INSERT INTO property_reserved_on (PID, Start_date, End_date) VALUES (?,?,?)`;
-      const p_r_oValues = [PID, check_in, check_out];
+      const notificationSql = `INSERT INTO notifications (email, notification_text, Created, Heading, type, seen)
+        VALUES (?, ?, ?, ?, ?, ?);
+      `;
+      const notificationValues = [Email, 
+        "Your Reservation applied in " + AppliedIn + " has been approved by the host. The property titled " + property_title + " located in " + location + " has been reserved for " + reservedForStart + ", Enjoy!",
+        currentDate, 
+        " Congratulations! Your pending reservation has been approved.",
+        "success",
+        "0"
+      ];
   
-      connection.query(p_r_oSql, p_r_oValues, (p_r_oErr, p_r_oResults) => {
-        if (p_r_oErr) {
-          console.error('Error updating data:', p_r_oErr);
+      connection.query(notificationSql, notificationValues, (notifErr, notifResults) => {
+        if(notifErr) {
+          // Handle notification query error if needed
+          console.error("Error executing notification query:", notifErr);
           connection.release();
-          return res.status(500).json({ message: 'Updating Error' });
-        } 
-        else 
-        {
-          console.log("property reserved on updated!");
-          console.log(p_r_oResults);
-  
-          const gidSql = `INSERT INTO reservations (PID, GID, Check_in_date, Check_out_date, total_price, pending_Guests, pending_Rooms) VALUES (?, ?, ?, ?, ?,  ? , ?)`;
-          const gidValues = [PID, GID, check_in, check_out, total_price, guests, rooms];
-  
-          connection.query(gidSql, gidValues, (gidErr, gidResults) => 
-          {
-            if (gidErr) {
-              console.error("Error executing GID query:", gidErr);
-              connection.release();
-              return res.status(500).json({ message: 'Database Query Error' });
-            } 
-            else 
-            {
-             
-              console.log("Into the reservtions");
-              const againSql = `DELETE FROM reservation_requests
-              WHERE (Check_in BETWEEN ? AND ?)
-              AND (Check_out BETWEEN ? AND ?)
-              AND PID = ?`;
-              const againValues = [aa, bb,  aa, bb, PID];
-  
-              connection.query(againSql, againValues, (fetchErr, againResults) => {
-                if (fetchErr) {
-                  console.error("Error executing INSERT query:", fetchErr);
-                  connection.release();
-                  return res.status(500).json({ message: 'Database Query Error' });
-                }
-  
-                console.log("Overlapping pending reservations are gone! yay!");
-                console.log(againResults);
-                res.json(againResults);
-  
-                connection.release();
-              });
-            }
-          });
+          return res.status(500).json({ message: 'Notification Query Error' });
         }
+        
+        // Continue with the rest of your logic
+        connection.release();
+        res.json(notifResults);
       });
     });
   });
   
 
-
+    
 
 
   app.post('/pending-reservation', async (req, res) => {
@@ -719,7 +677,7 @@ async function connectAndStartServer()
         return res.status(500).json({ error: 'Database connection error' });
       }
   
-      const query = 'SELECT Profile_pic FROM PENDINGRESERVATIONS WHERE PID = ?';
+      const query = 'SELECT Profile_pic FROM PendingReservations WHERE PID = ?';
   
       connection.query(query, [PID], (fetchErr, fetchResults) => {
         connection.release();
@@ -749,7 +707,7 @@ async function connectAndStartServer()
         return res.status(500).json({ message: 'Database Connection Error' });
       }
   
-      var sql = `DELETE FROM RESERVATION_REQUESTS WHERE Email = '${Email}' AND PID = '${PID}' `;
+      var sql = `DELETE FROM reservation_requests WHERE Email = '${Email}' AND PID = '${PID}' `;
       connection.query(sql, function (err, results, fields) {
         connection.release();
   
@@ -777,12 +735,12 @@ async function connectAndStartServer()
   
     pool.getConnection((err, connection) => {
       if (err) throw err;
-      var sql = `SELECT UID FROM USER WHERE Email = '${userEmail}'`;
+      var sql = `SELECT UID FROM user WHERE Email = '${userEmail}'`;
       connection.query(sql, function (err, results, fields) {
         if (err) throw err;
         const userUID = results[0].UID;
   
-        const fetchSql = `SELECT * FROM PROPERTY WHERE UID = ?`;
+        const fetchSql = `SELECT * FROM property WHERE UID = ?`;
         const fetchValues = [userUID];
         connection.query(fetchSql, fetchValues, (fetchErr, fetchResults) => {
           console.log(fetchResults);
@@ -793,10 +751,22 @@ async function connectAndStartServer()
     });
   });
 
+
+  app.get('/getNotifs/:email', (req, res) => {
+    const email = req.params.email;
   
+    pool.getConnection((err, connection) => {
+      if (err) throw err;
+      var sql = `SELECT * FROM notifications WHERE Email = '${Email}'`;
+      connection.query(sql, function (err, results, fields) {
+        if (err) throw err;
+        res.json({results});
+      });
+      connection.release();
+    });
+  });
 
-
-
+  
 
   app.get('/isGuest', (req, res) => {
     const { email } = req.query;
@@ -822,7 +792,7 @@ async function connectAndStartServer()
         if (results.length > 0) 
         {
           const userUID = results[0].UID;
-          const hostSql = `SELECT HID FROM HOST WHERE UID = ?`;
+          const hostSql = `SELECT HID FROM host WHERE UID = ?`;
           const hostValues = [userUID];
   
           connection.query(hostSql, hostValues, (hostErr, hostResults) => {
@@ -833,9 +803,14 @@ async function connectAndStartServer()
             }
   
             if (hostResults.length > 0) {
+              console.log("host name: ", results[0].First_name);
+              connection.release();
               res.json({ message: 'yes', name: results[0].First_name });
-            } else {
-              const guestSql = `SELECT GID FROM GUEST WHERE UID = ?`;
+              
+            } 
+            else 
+            {
+              const guestSql = `SELECT GID FROM guest WHERE UID = ?`;
               const guestValues = [userUID];
   
               connection.query(guestSql, guestValues, (guestErr, guestResults) => {
@@ -957,7 +932,7 @@ app.get('/temp-profile', async (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
 
-    const searchSql = `SELECT * FROM USER WHERE Email = ?`;
+    const searchSql = `SELECT * FROM user WHERE Email = ?`;
 
     const searchValues = [email];
 
@@ -966,7 +941,7 @@ app.get('/temp-profile', async (req, res) => {
         console.error('Error fetching data:', searchErr);
         res.status(500).json({ message: 'Fetching Error' });
       } else {
-        console.log('Data fetched from USER successfully.');
+        console.log('Data fetched from user successfully.');
         console.log(searchResults);
         res.json({ searchResults });
       }
@@ -988,7 +963,7 @@ app.get('/getPastReservations/:userEmail', async (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
 
-    const searchSql = `SELECT * FROM APPROVEDRESERVATIONS WHERE Email = ? AND CheckOutDate < ?`;
+    const searchSql = `SELECT * FROM ApprovedReservations WHERE Email = ? AND CheckOutDate < ?`;
 
     const searchValues = [email, currentDate];
 
@@ -1036,7 +1011,7 @@ app.post('/guest-give-review', async (req, res) => {
       if (userErr) {
         console.log("no");
         connection.release();
-        return res.status(500).json({ error: 'User query error' });
+        return res.status(500).json({ error: 'user query error' });
       }
 
       console.log("user result: ", userResults);
@@ -1072,7 +1047,7 @@ app.get('/getReviews/:PID', async (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
 
-    const searchSql = `SELECT * FROM GUESTREVIEWSPROPERTY WHERE PID = ?`;
+    const searchSql = `SELECT * FROM guestreviewsproperty WHERE PID = ?`;
 
     const searchValues = [PID];
 
@@ -1217,8 +1192,6 @@ app.get('/getRatings/:PID', async (req, res) => {
 
 
   
-  
-
   
 
   app.listen(5001, () => {

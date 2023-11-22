@@ -35,6 +35,9 @@ import GuestDetailsPopup from '../components/UserInfoPopup';
 
 const ShowPendingReservations = () => {
 
+  const isGuest = localStorage.getItem('GuestOrHost');
+  const user_name = localStorage.getItem('name');
+
   const { PID } = useParams();
 
   const navigate = useNavigate();
@@ -51,6 +54,33 @@ const ShowPendingReservations = () => {
   const goToListing = useCallback(() => {
     navigate("/mylistings");
   }, []);
+
+
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+  
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+  
+    let color = '#';
+  
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    return color;
+  }
+  
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split(' ')[0][0]}`,
+    };
+  }
 
 
 
@@ -87,7 +117,7 @@ const ShowPendingReservations = () => {
 
 
 
-  const handleApproval = (GID, PID, check_in, check_out, total_price, rooms, guests) => {
+  const handleApproval = (GID, PID, check_in, check_out, total_price, rooms, guests, Email, Requested_on, city, country, requestFor, property_title) => {
 
     const approval = {
       GID: GID,
@@ -97,6 +127,13 @@ const ShowPendingReservations = () => {
       total_price: total_price,
       rooms: rooms,
       guests: guests,
+
+      Email: Email,
+      AppliedIn: Requested_on,
+      location: city + ", " + country, 
+      reservedForStart: requestFor, 
+      property_title: property_title,
+
     };
 
     console.log("Approval: ", approval);
@@ -144,10 +181,13 @@ const ShowPendingReservations = () => {
   id: item.User_ID, 
   GID: item.GID,
   PID: item.PID, 
+  city: item.City,
+  country: item.Country,
   check_in:new Date(item.CheckInDate),
   check_out: new Date(item.CheckOutDate),
   checkin: formatDateDisplay(new Date(item.CheckInDate)),
   checkout: formatDateDisplay(new Date(item.CheckOutDate)),
+  GuestFirstName: item.FirstName, 
   GuestName: item.FirstName + " " + item.LastName,
   Pricing: item.TotalPrice, 
   RequestedOn: formatDateDisplay(new Date(item.Requested_on)),
@@ -226,8 +266,11 @@ const ShowPendingReservations = () => {
       width: 50,
       renderCell: (params) => (
         <div>
-           <Avatar alt="Guest" src={params.row.pic} /> 
-           
+          {params.row.pic ? (
+            <Avatar alt="Guest" src={params.row.pic} />
+          ) : (
+            <Avatar   {...stringAvatar(params.row.GuestFirstName)} />
+          )}  
         </div>
       ),
       
@@ -244,7 +287,7 @@ const ShowPendingReservations = () => {
       headerName: 'Requested On',
       headerAlign: "center", 
       align: "center",
-      width: 170,
+      width: 160,
       
     },
     {
@@ -261,7 +304,7 @@ const ShowPendingReservations = () => {
         headerName: 'Pricing (BDT)',
         headerAlign: "center", 
         align: "center",
-        width: 200,
+        width: 180,
         
     },
     
@@ -274,7 +317,7 @@ const ShowPendingReservations = () => {
     renderCell: (params) => (
       <>
         <IconButton
-              onClick={() => handleApproval(params.row.GID, params.row.PID, params.row.check_in, params.row.check_out, params.row.Pricing, params.row.pending_Guests, params.row.pending_rooms)} 
+              onClick={() => handleApproval(params.row.GID, params.row.PID, params.row.check_in, params.row.check_out, params.row.Pricing, params.row.pending_Guests, params.row.pending_rooms, params.row.Email, params.row.RequestedOn, params.row.city, params.row.country, params.row.requestFor, propName)} 
         >
           <DoneRoundedIcon style={{ color: 'green', display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }} />
         </IconButton>
@@ -324,10 +367,11 @@ const ShowPendingReservations = () => {
 
     <> 
 
-    <IconPopup topMargin={6} />
+   
 
   
     <div className={styles.showPendingReservations}>
+       <IconPopup topMargin={6} name = {user_name} />
       <b className={styles.reservationheadingListing} onClick = {goToListing}>
         {"Listings "}
       </b>

@@ -18,8 +18,8 @@ const IconPopup = ({ topMargin, name }) => {
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
-      backgroundColor: '#44b700',
-      color: '#44b700',
+      backgroundColor: 'red',
+      color: 'red',
       boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
       '&::after': {
         position: 'absolute',
@@ -112,7 +112,7 @@ const IconPopup = ({ topMargin, name }) => {
   return (
     <div className={styles.iconpopup} style={{ top: topMargin }}>
 
-    <div onClick={togglePopup}> 
+    <div> 
           <Avatar
             alt="Default User"
           
@@ -126,7 +126,7 @@ const IconPopup = ({ topMargin, name }) => {
         overlap="circular"
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         variant="dot"
-        style = {{right: -277, top: -10, zIndex: 1010}} 
+        style = {{right: -277, top: -10, zIndex: 1200}} 
       > 
       
       </StyledBadge>

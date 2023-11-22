@@ -37,6 +37,8 @@ const MyPastReservations = () => {
   }, []);
 
   const isGuest = localStorage.getItem('GuestOrHost');
+  const user_name = localStorage.getItem('name');
+
 
   function formatDateDisplay(date, defaultText) {
     if (!date) return defaultText;
@@ -114,13 +116,13 @@ const MyPastReservations = () => {
 
   return (
     <div className={styles.mypastreservations}>
-      { isGuest ? (
+      { isGuest==='1' ? (
 
-      <IconPopupForGuest topMargin = {6} />
+      <IconPopupForGuest topMargin = {6} name = {user_name}/>
 
-      ) : !isGuest ? (
+      ) : isGuest==='0' ? (
 
-      <IconPopup topMargin = {6} />
+      <IconPopup topMargin = {6}  name = {user_name} />
 
       ) : null }
       <div className={styles.footer}>

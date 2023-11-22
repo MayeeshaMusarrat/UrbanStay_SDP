@@ -20,6 +20,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 
+import './myStyles.css'; 
 import { Link } from 'react-router-dom';
 import AvatarsFromBackend from './AvatarsFromBackend'; 
 
@@ -211,6 +212,7 @@ const MyDataGrid = ({ data }) => {
       align: "center",
       headerClassName: 'custom-header-class',
       width: 99,
+      cellClassName: 'custom-cell-class', 
      
       renderCell: (params) => (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
@@ -261,6 +263,8 @@ const MyDataGrid = ({ data }) => {
           overlayColor="rgba(113, 113, 113, 0.3)"
           placement="Centered"
           onOutsideClick={closePopupProperty}
+
+         
         >
           <PropertyDetailsPopup rowData={selectedRowProperty} onClose={closePopupProperty} />
         </PortalPopup>

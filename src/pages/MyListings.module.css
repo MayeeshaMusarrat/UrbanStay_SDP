@@ -513,7 +513,8 @@
   left: 40px;
   width: 1450px;
   height: 1494px;
-  z-index: 1001;
+  z-index: 10;
+ 
 }
 
 .listingsDatagridWrapper {
@@ -522,7 +523,6 @@
   left: -7px;
   width: 1525px;
   height: 1534px;
- 
 }
 
 .whiterectangle {

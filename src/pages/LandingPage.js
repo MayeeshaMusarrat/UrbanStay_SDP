@@ -122,7 +122,7 @@ const LandingPage = ({ onClose }) => {
   }, [storedValue]);
 
 
-  const isGuest = localStorage.getItem('GuestOrHost');
+  const [isGuest, setIsGuest] = useState(1);
   
   const [name, setName] = useState("");
   const [visible, setVisible] = useState(true);
@@ -164,6 +164,8 @@ const LandingPage = ({ onClose }) => {
   }, []); 
 
   const user_name = localStorage.getItem('name');
+
+
 
 
 
@@ -1185,7 +1187,7 @@ const handleSubmit = (e) => {
           </div>
 
 
-          { loggedIn && isGuest === '1' ? (
+          { loggedIn && isGuest === 1 ? (
 
             <IconPopupForGuest topMargin = {23} name = {user_name} />
 
@@ -1194,7 +1196,7 @@ const handleSubmit = (e) => {
             <IconPopupSign topMargin = {23} />
 
 
-            ) :  loggedIn && isGuest==='0' ? (
+            ) :  loggedIn && isGuest=== 0 ? (
 
             <IconPopup topMargin = {23} name = {user_name} />
 

@@ -10,14 +10,16 @@ const PropertyDetailsPopup = ({ rowData, onClose }) => {
       style={{
         borderRadius: "10px",
         width: "1167px",
-        height: "800px",
-        overflowY: "auto",
+        top: "-25px",
+        height: "900px",
         maxWidth: "100%",
-        maxHeight: "100%",
-        overflow: "auto",
+        
+        overflow: "hidden",
         textAlign: "left",
         fontSize: "14px",
         color: "#000",
+        position: "relative",
+        zIndex: "1000000005",
         fontFamily: "Poppins",
       }}
     >
@@ -36,7 +38,7 @@ const PropertyDetailsPopup = ({ rowData, onClose }) => {
       <img
         style={{
           position: "absolute",
-          bottom: "339px",
+          bottom: "490px",
           left: "73px",
           borderRadius: "12px",
           width: "251px",
