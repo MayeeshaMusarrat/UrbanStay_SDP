@@ -19,6 +19,17 @@ import { PinDrop } from "@mui/icons-material";
 import IconPopupForGuest from '../components/IconPopupForGuest';
 import IconPopup from '../components/IconPopup';
 import IconPopupSign from '../components/IconPopupSign';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+
+import Avatar from '@mui/material/Avatar';
+import ReviewComponent from '../components/ReviewComponent';
+
+import PropertyMap from './PropertyMap';
+
+import Rating from '@mui/material/Rating';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 
 
 const ViewDetails = ({ onClose }) => {
@@ -26,8 +37,40 @@ const ViewDetails = ({ onClose }) => {
   const decodedPropValueString = decodeURIComponent(prop);
   const propValue = JSON.parse(decodedPropValueString);
 
+  ///string avatar
+
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+  
+    let color = '#';
+  
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+   
+    return color;
+  }
+  
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    };
+  }
+
+
+  //======
+
   const PID = propValue.PID;
-  console.log("passed PID: ", PID);
+  console.log("prop: ", propValue);
 
   localStorage.setItem('PID', PID);
 
@@ -62,52 +105,224 @@ const ViewDetails = ({ onClose }) => {
 
   
 
+  
+
+  const [hostInfo, setHostInfo] = useState({
+    hostName: '',
+    joinedIn: '',
+    contact: '',
+    userPic: '',
+    host_rating: '',
+    host_description: '',
+  });
+
   /*
 
-  //const [host, setHost] = useState(null); // Initialize host as null
-
-  const host = useSelector((state) => state.host);
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    fetch(`http://localhost:5001/getHostResult/${PID}`)
+    fetch(`http://localhost:5001/getHostAndAmenities/${PID}`)
       .then((response) => response.json())
       .then((data) => {
-        const hostInfo = data.hostResults.map((result) => ({
+        const result = data.hostResults[0]; 
+        const newHostInfo = {
           hostName: result.firstname + ' ' + result.lastname,
-          joinedIn: result.joinedIn,
+          joinedIn: new Date(result.joinedIn).toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+          }),
           contact: result.contact,
           userPic: result.userPic,
           host_rating: result.rating,
           host_description: result.description,
-        }));
-        dispatch({ type: 'SET_HOST', payload: hostInfo });
+        };
+        setHostInfo(newHostInfo);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, [PID]); */
+
+
+  const [amenitiesData, setAmenitiesData] = useState([]);
+  
+  useEffect(() => {
+    fetch(`http://localhost:5001/getHostAndAmenities/${PID}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((fetchedData) => {
+        if (fetchedData) {
+
+          const combinedResults = {
+            hostResults: fetchedData.hostResults,
+            amenitiesResults: fetchedData.amenitiesResults,
+          };
+
+          const newHostInfo = {
+            hostName: combinedResults.hostResults[0].firstname + ' ' + combinedResults.hostResults[0].lastname,
+            joinedIn: new Date(combinedResults.hostResults[0].joinedIn).toLocaleDateString('en-GB', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric'
+            }),
+            contact: combinedResults.hostResults[0].contact,
+            userPic: combinedResults.hostResults[0].userPic,
+            host_rating: combinedResults.hostResults[0].rating,
+            host_description: combinedResults.hostResults[0].description,
+          };
+
+          setHostInfo(newHostInfo);
+          setAmenitiesData(combinedResults.amenitiesResults);
+          
+        } else {
+          console.error('Fetched data is not an array:', fetchedData);
+        }
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
   }, [PID]);
 
-  if (!host) {
-    return <div>Loading...</div>;
-  }
+  
+  const [reviewData, setReviewData] = useState([]);
+  const [propName, setPropName] = useState("");
+  const [pieData, setPieData] = useState([]);
+  const [barData, setBarData] = useState([]);
+  const [loading, setLoading] = useState(1);
 
-  const HostName = host[0] ? host[0].hostName : '';
-  const joinedIn = host[0] ? host[0].joinedIn : '';
-  const userPic = host[0] ? host[0].userPic : '';
-  const contact = host[0] ? host[0].contact : '';
-  const host_rating = host[0] ? host[0].host_rating : '';
-  const host_description = host[0] ? host[0].host_description : '';
+  useEffect(() => {
+    fetch(`http://localhost:5001/getReviews/${PID}`)
+      .then(response => response.json())
+      .then(data => {
+        
+       
+        const formattedReviewData = data.searchResults.map(result => ({
+          
+          accuracy: result.Accuracy_rating,
+          cleanliness: result.Cleanliness_rating,
+          comment: result.Comment,
+          location: result.Location_rating,
+          overall: result.Overall_rating,
+          reception: result.Reception_rating,
+          scenery: result.Scenery_rating,
+          service: result.Service_rating,
+          created: new Date(result.Review_Created).toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+          }),
+          guestFirstname: result.Guest_First_name,
+          guestFullName: result.Guest_First_name + " " + result.Guest_Last_name,
+          guestRating: result.Guest_avg_rating,
+          guestJoin: result.Guest_joining_date,
+          guestDescription: result.Guest_description,
+          guestPhone: result.Guest_contact,
+          guestEmail: result.Guest_Email,
+          guestPic: result.Guest_profile_pic,
+          
+        }));
+        
+        setReviewData(formattedReviewData);
+        
+
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, [PID]);
+
+  useEffect(() => {
+    fetch(`http://localhost:5001/getRatings/${PID}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((fetchedData) => {
+        if (fetchedData) {
+
+          const combinedResults = {
+            pieResults: fetchedData.pieResults,
+            barResults: fetchedData.barResults,
+            propertyNameResults:  fetchedData.propertyNameResults
+          }
+
+            const barInfo = {
+              scenery_1:  combinedResults.barResults[0].scenery_1_star,
+              scenery_2: combinedResults.barResults[0].scenery_2_star,
+              scenery_3: combinedResults.barResults[0].scenery_3_star,
+              scenery_4: combinedResults.barResults[0].scenery_4_star,
+              scenery_5: combinedResults.barResults[0].scenery_5_star,
+
+              accuracy_1: combinedResults.barResults[0].accuracy_1_star,
+              accuracy_2: combinedResults.barResults[0].accuracy_2_star,
+              accuracy_3: combinedResults.barResults[0].accuracy_3_star,
+              accuracy_4: combinedResults.barResults[0].accuracy_4_star,
+              accuracy_5: combinedResults.barResults[0].accuracy_5_star,
 
 
-  */
+              reception_1: combinedResults.barResults[0].reception_1_star,
+              reception_2: combinedResults.barResults[0].reception_2_star,
+              reception_3: combinedResults.barResults[0].reception_3_star,
+              reception_4: combinedResults.barResults[0].reception_4_star,
+              reception_5: combinedResults.barResults[0].reception_5_star,
 
 
+              clean_1: combinedResults.barResults[0].cleanliness_1_star,
+              clean_2: combinedResults.barResults[0].cleanliness_2_star,
+              clean_3: combinedResults.barResults[0].cleanliness_3_star,
+              clean_4: combinedResults.barResults[0].cleanliness_4_star,
+              clean_5: combinedResults.barResults[0].cleanliness_5_star,
+
+              service_1: combinedResults.barResults[0].service_1_star,
+              service_2: combinedResults.barResults[0].service_2_star,
+              service_3: combinedResults.barResults[0].service_3_star,
+              service_4: combinedResults.barResults[0].service_4_star,
+              service_5: combinedResults.barResults[0].service_5_star,
+
+              location_1: combinedResults.barResults[0].location_1_star,
+              location_2: combinedResults.barResults[0].location_2_star,
+              location_3: combinedResults.barResults[0].location_3_star,
+              location_4: combinedResults.barResults[0].location_4_star,
+              location_5: combinedResults.barResults[0].location_5_star,
+          };
+
+          const pieInfo = {
+            overall_point_5: combinedResults.pieResults[0].overall_point_5_start,
+            overall_1_point_5: combinedResults.pieResults[0].overall_1_point_5_start,
+            overall_2: combinedResults.pieResults[0].overall_2_start,
+            overall_2_point_5: combinedResults.pieResults[0].overall_2_point_5_start,
+            overall_3: combinedResults.pieResults[0].overall_3_start,
+            overall_3_point_5: combinedResults.pieResults[0].overall_3_point_5_start,
+            overall_4: combinedResults.pieResults[0].overall_4_start,
+            overall_4_point_5: combinedResults.pieResults[0].overall_4_point_5_start,
+            overall_5: combinedResults.pieResults[0].overall_5_start,
+            overall_1: combinedResults.pieResults[0].overall_1_start,
+
+          }
+
+          console.log("combined: ", combinedResults);
+          
+          setPieData(pieInfo);
+          setBarData(barInfo);
+         // setIsLoading(false);
+         
+        } else {
+          console.error('Fetched data is not an array:', fetchedData);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, [PID]);
 
   
-  
 
-  console.log("Pic array sent as prop to gallery func: ", pic_array);
+  const [review, setReviewDetails] = useState([]);
+
+
 
 
   const [selectedRange, setSelectedRange] = useState(null);
@@ -131,7 +346,7 @@ const ViewDetails = ({ onClose }) => {
 
  
   const timeDiff = checkOut - checkIn;
-  const daysDiff = Math.floor(timeDiff / (24*60*60*1000)) + 1;
+  const daysDiff = (Math.floor(timeDiff / (24*60*60*1000))) + 1;
   
 
 
@@ -155,6 +370,8 @@ const ViewDetails = ({ onClose }) => {
   const user_price_per_night = parseInt(propValue.price,10)*parseInt(daysDiff,10);
 
 
+  const user_name = localStorage.getItem('name');
+
 
   /* pic chart stuff */
   const chartSetting = {
@@ -172,57 +389,53 @@ const ViewDetails = ({ onClose }) => {
   /// use useEffect and PID from propValue to fetch the amenities and show them in a list here!
   /// also do this for the reviews! 
 
-
-  /**************   barchart stuff */
-
   const dataset = [
-    
     {
-      five: 50,
-      four: 20,
-      three: 14,
-      two: 0,
-      one: 100,
+      five: barData.scenery_5,
+      four: barData.scenery_4,
+      three: barData.scenery_3,
+      two: barData.scenery_2,
+      one: barData.scenery_1,
       month: 'Scenery',
     },
     {
-      five: 100,
-      four: 20,
-      three: 5,
-      two: 0,
-      one: 100,
+      five: barData.accuracy_5,
+      four: barData.accuracy_4,
+      three: barData.accuracy_3,
+      two: barData.accuracy_2,
+      one: barData.accuracy_1,
       month: 'Accuracy',
     },
     {
-      five: 100,
-      four: 20,
-      three: 5,
-      two: 0,
-      one: 100,
+      five: barData.reception_5,
+      four: barData.reception_4,
+      three: barData.reception_3,
+      two: barData.reception_2,
+      one: barData.reception_1,
       month: 'Reception',
     },
     {
-      five: 100,
-      four: 20,
-      three: 5,
-      two: 0,
-      one: 100,
+      five: barData.clean_5,
+      four: barData.clean_4,
+      three: barData.clean_3,
+      two: barData.clean_2,
+      one: barData.clean_1,
       month: 'Cleanliness',
     },
     {
-      five: 100,
-      four: 20,
-      three: 5,
-      two: 0,
-      one: 100,
+      five: barData.location_5,
+      four: barData.location_4,
+      three: barData.location_3,
+      two: barData.location_2,
+      one: barData.location_1,
       month: 'Location',
     },
     {
-      five: 100,
-      four: 20,
-      three: 5,
-      two: 0,
-      one: 100,
+      five: barData.service_5,
+      four: barData.service_4,
+      three: barData.service_3,
+      two: barData.service_2,
+      one: barData.service_1,
       month: 'Services',
     },
   ];
@@ -235,15 +448,8 @@ const ViewDetails = ({ onClose }) => {
   const storedValue = localStorage.getItem('email');
   const [loggedIn, setLoggedIn] = useState(storedValue);
 
-  const [isGuest, setIsGuest] = useState(false);
-  const hostOrGuest = localStorage.getItem('GuestOrHost');
+  const isGuest = localStorage.getItem('GuestOrHost');
 
-
-  useEffect(() => {
-      if (hostOrGuest) {
-        setIsGuest(true);
-      }
-    }, [hostOrGuest]);
 
 
   useEffect(() => {
@@ -270,9 +476,11 @@ const ViewDetails = ({ onClose }) => {
     else navigate("/sign-in-page");
   };
 
-  const openReviewDetailsPopup = useCallback(() => {
+  const openReviewDetailsPopup = (review) => {
+    console.log("openReviewDetailPopup: ", review);
+    setReviewDetails(review);
     setReviewDetailsPopupOpen(true);
-  }, []);
+  };
 
   const closeReviewDetailsPopup = useCallback(() => {
     setReviewDetailsPopupOpen(false);
@@ -357,7 +565,7 @@ const ViewDetails = ({ onClose }) => {
   }, []);
 
   const onItemLink11Click = useCallback(() => {
-    navigate("/");
+    navigate("/browse");
   }, [navigate]);
 
 
@@ -366,7 +574,7 @@ const ViewDetails = ({ onClose }) => {
     navigate(`/confirm-reservation/${propertyParam}`);
   };
 
-
+  
   return (
     <>
 
@@ -797,6 +1005,7 @@ const ViewDetails = ({ onClose }) => {
                 </div>
               </div>
             </div>
+          {/* 
             <div className={styles.divb9672i7}>
               <div className={styles.button1}>
                 <div className={styles.showAllAmenities}>
@@ -804,26 +1013,40 @@ const ViewDetails = ({ onClose }) => {
                 </div>
               </div>
             </div>
+          */}
+
             <div className={styles.lineParent}>
               <div className={styles.groupChild} />
               <div className={styles.groupItem} />
-              <img className={styles.usericon} alt="" src="/usericon3@2x.png" />
+
+              <Avatar
+                alt={hostInfo.hostName}
+                className = {styles.usericon}
+                src={hostInfo.userPic}
+                sx={{ width: 56, height: 56 }}
+              />
+
+
+
               <div className={styles.hostedByMayeeshaContainer}>
                 <span className={styles.txt}>
                   <p className={styles.hostedByMayeeshaMusarrat}>
                     <span>
                       <span className={styles.hostedByMayeesha}>
-                        {"hosted by host"}
+                        {"hosted by " + hostInfo.hostName}
                       </span>
                     </span>
                   </p>
                   <p className={styles.joinedOn23September2023}>
                     <span>
-                      <span>{"Joined on "}</span>
+                      <span>{"Joined in " + hostInfo.joinedIn}</span>
                     </span>
                   </p>
                 </span>
               </div>
+
+
+
               <div className={styles.fluentcall16RegularParent}>
                 <img
                   className={styles.fluentcall16RegularIcon}
@@ -927,42 +1150,35 @@ const ViewDetails = ({ onClose }) => {
 
           <div className={styles.mapPicture} >
 
-            {/* <MapContainer center={position} zoom={13}>
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
-        <Marker position={position}>
-          <Popup>A sample marker with a popup.</Popup>
-        </Marker>
-      </MapContainer>
-        */}
+           
+           <PropertyMap Address_line = {propValue.address} />
 
           </div>
 
-             
-
- 
-
-
-
-
+     
           <div className={styles.whereYoullBe}>Where You’ll Be</div>
           <div className={styles.groupParent}>
-            <img className={styles.groupIcon} alt="" src="/group-1991.svg" />
+           
             <div className={styles.vectorParent}>
-              <img className={styles.vectorIcon} alt="" src="/vector.svg" />
+             
+              <LocationOnOutlinedIcon />
+
               <div className={styles.tampaksiringBaliIndonesia}>
-                {propValue.address+', '+propValue.destination}
+                {propValue.address}
               </div>
             </div>
           </div>
         </div>
+
+
+        {/* 
         <div className={styles.divb9672i71}>
           <div className={styles.button1}>
             <div className={styles.showAllReviews}>Show all reviews</div>
           </div>
         </div>
+
+        */}
 
 
 
@@ -1134,11 +1350,17 @@ const ViewDetails = ({ onClose }) => {
               series={[
                 {
                   data: [
-                    { id: 0, value: 100, label: '5 stars' },
-                    { id: 1, value: 30, label: '4 Stars' },
-                    { id: 2, value: 15, label: '3 stars' },
-                    { id: 3, value: 10, label: '2 stars' },
-                    { id: 4, value: 5, label: '1 stars' },
+                    { id: 0, value: pieData.overall_5, label: '5 stars',  },
+                    { id: 1, value: pieData.overall_4_point_5, label: '4.5 Stars' },
+                    { id: 2, value: pieData.overall_4, label: '4 stars' },
+                    { id: 3, value: pieData.overall_3_point_5, label: '3.5 stars' },
+                    { id: 4, value: pieData.overall_3, label: '3 stars' },
+                    { id: 5, value: pieData.overall_2_point_5, label: '2.5 stars' },
+  
+                    { id: 6, value: pieData.overall_2, label: '2 stars' },
+                    { id: 7, value: pieData.overall_1_point_5, label: '1.5 stars' },
+                    { id: 8, value: pieData.overall_1, label: '1 star' },
+                    { id: 9, value: pieData.overall_point_5, label: '0.5 stars' },
                   ],
                   innerRadius: 30,
                   outerRadius: 100,
@@ -1150,7 +1372,7 @@ const ViewDetails = ({ onClose }) => {
                   cy: 95,
                 },
               ]}
-              width={400}
+              width={500}
               height={200}
             />
 
@@ -1179,51 +1401,66 @@ const ViewDetails = ({ onClose }) => {
 
 
 
-
-          <div
-            className={styles.reviewcomponent}
-            onClick={openReviewDetailsPopup}
-          >
-            <img className={styles.usericon1} alt="" src="/usericon@2x.png" />
-            <div className={styles.mayeeshaMusarrat23SeptemberContainer}>
-              <span className={styles.txt}>
-                <p className={styles.mayeeshaMusarrat}>
-                  <span>
-                    <span className={styles.hostedByMayeesha}>
-                      mayeesha Musarrat
-                    </span>
-                  </span>
-                </p>
-                <p className={styles.september2023}>23 September 2023</p>
-              </span>
-            </div>
-            <div className={styles.asSoonAsContainer}>
-              <span className={styles.txt}>
-                <span>{`As soon as we arrived we were greeted by the villa staff so beautifully, as they put some flowers on our necks and welcoming drinks. Our stay was amazing we felt at peace. Also Agus and his wife made us wonderful welcoming dinner every bite was delicious. Thank you for the wonderful stay. `}</span>
-                <span className={styles.seeMore}>See More</span>
-              </span>
-            </div>
+         <div className = {styles.somanyReviews} >
+          {reviewData.length > 0 ? (
+        reviewData.map((review, index) => (
+          <div className={styles.reviewcomponent} >
+          {review.guestPic ? (
+          <Avatar
+            alt={review.guestFullName}
+            className={styles.usericon}
+            src={review.guestPic}
+            sx={{ width: 56, height: 56 }}
+          />
+        ) : (
+          <Avatar
+            alt="Default User"
+            className={styles.usericon}
+            {...stringAvatar(review.guestFullName)}
+            
+          />
+        )}
+          <div className={styles.mayeeshaMusarrat}>
+            <span className={styles.urbanstayTxt}>
+              <p className={styles.mayeeshaMusarrat1}>{review.guestFullName}</p>
+            </span>
           </div>
-          <div
-            className={styles.reviewcomponent1}
-            onClick={openReviewDetailsPopup1}
-          >
-            <img className={styles.usericon1} alt="" src="/usericon@2x.png" />
-            <div className={styles.mayeeshaMusarrat23SeptemberContainer}>
-              <span className={styles.txt}>
-                <p className={styles.mayeeshaMusarrat}>Sahil Rahman</p>
-                <p className={styles.september2023}>3 October 2023</p>
+          <div className={styles.nov2023}>{review.created}</div>
+          <div className={styles.asSoonAsContainer}>
+            <span className={styles.urbanstayTxt}>
+              <span>{review.comment}  </span>
+              <span className={styles.seeMore} onClick={() => openReviewDetailsPopup(review)} >
+                See More
               </span>
-            </div>
-            <div className={styles.asSoonAsContainer}>
-              <span className={styles.txt}>
-                <span>{`Excellent time we had here.we were a group of 8 people and Ramita along with her husband and Ganga had been super helpful.we felt right at home.I would definitely recommend it to any family or friends group.thanks guys 💯❤️. `}</span>
-                <span className={styles.seeMore}>See More</span>
-              </span>
-            </div>
+            </span>
           </div>
-          <img className={styles.reviewframeItem} alt="" src="/star-2.svg" />
+          <div className={styles.ratingstar}>
+            <Box
+              sx={{
+                '& > legend': { mt: 2 },
+              }}
+            >
+              <Rating name="simple-controlled" readOnly precision = {0.5} value={review.overall} />
+            </Box>
+          </div>
         </div>
+        ))
+      ) : (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '1200px' }}>
+        <p>No reviews available.</p>
+      </div>
+      )}
+
+      </div>
+    
+
+
+      </div>
+
+
+
+
+      
 
 
 
@@ -1245,20 +1482,22 @@ const ViewDetails = ({ onClose }) => {
           </div>
 
 
-          { loggedIn && isGuest ? (
 
-          <IconPopupForGuest topMargin = {23} />
+          { loggedIn && isGuest==='1' ? (
 
-          ) :  !loggedIn ?  (
+            <IconPopupForGuest topMargin = {23} />
 
-          <IconPopupSign topMargin = {23} />
+            ) :  !loggedIn ?  (
+
+            <IconPopupSign topMargin = {23} />
 
 
-          ) :  loggedIn && !isGuest ? (
+            ) :  loggedIn && isGuest==='0' ? (
 
-          <IconPopup topMargin = {23} />
+            <IconPopup topMargin = {23} name = {user_name} />
 
-          ) : null }
+            ) : null }
+
 
 
           <div className={styles.itemLinkParent}>
@@ -1281,7 +1520,7 @@ const ViewDetails = ({ onClose }) => {
               <b className={styles.photos}>Photos</b>
             </div>
             <div className={styles.itemLink11} onClick={onItemLink11Click}>
-              <div className={styles.contactUs}>HOME</div>
+              <div className={styles.contactUs}>BROWSE</div>
             </div>
           </div>
         </div>
@@ -1292,7 +1531,7 @@ const ViewDetails = ({ onClose }) => {
           placement="Centered"
           onOutsideClick={closeReviewDetailsPopup}
         >
-          <ReviewDetails onClose={closeReviewDetailsPopup} />
+          <ReviewDetails onClose={closeReviewDetailsPopup} review = {review} />
         </PortalPopup>
       )}
       {isReviewDetailsPopup1Open && (

@@ -116,15 +116,7 @@ const MyPastReservations = () => {
 
   return (
     <div className={styles.mypastreservations}>
-      { isGuest==='1' ? (
-
-      <IconPopupForGuest topMargin = {6} name = {user_name}/>
-
-      ) : isGuest==='0' ? (
-
-      <IconPopup topMargin = {6}  name = {user_name} />
-
-      ) : null }
+     
       <div className={styles.footer}>
         <div className={styles.divfooterTop}>
           <div className={styles.divcontainer}>
@@ -345,9 +337,6 @@ const MyPastReservations = () => {
 
 
 
-
-
-
       <div className={styles.stickyNavBar}>
         <div className={styles.whiterectangle} />
         <div className={styles.urbanstayParent} onClick={onGroupContainerClick}>
@@ -359,6 +348,17 @@ const MyPastReservations = () => {
           </div>
           <img className={styles.image31} alt="" src="/image-3-1@2x.png" />
         </div>
+
+
+        { isGuest==='1' ? (
+
+        <IconPopupForGuest topMargin = {23} name = {user_name}/>
+
+        ) : isGuest==='0' ? (
+
+        <IconPopup topMargin = {23}  name = {user_name} />
+
+        ) : null }
 
         <div className={styles.itemLinkParent}>
           <div className={styles.itemLink5} onClick={onItemLink5Click}>

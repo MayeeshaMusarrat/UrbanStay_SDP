@@ -91,9 +91,7 @@ const GivePropertyReview = () => {
     (sceneryValue + locationValue + accuracyValue + receptionValue + serviceValue + cleanValue) / 6;
     const roundedOverallValue = Math.ceil(calculatedOverallValue * 2) / 2;
     setOverallValue(roundedOverallValue);
-    console.log("calculated: ", calculatedOverallValue);
-    console.log("roundedOverallValue: ", roundedOverallValue);
-    console.log("Overall: ", overallValue);
+
   }, [sceneryValue, locationValue, accuracyValue, receptionValue, serviceValue, cleanValue]);
 
 
@@ -174,6 +172,7 @@ const handleSubmit = (e) => {
     <div className={styles.givepropertyreview}>
       <div className={styles.stickyNavBar}>
         <div className={styles.whiterectangle} />
+       
         <div className={styles.urbanstayParent} onClick={onGroupContainerClick}>
           <div className={styles.urbanstay}>
             <span className={styles.urbanstayTxt}>
@@ -183,6 +182,8 @@ const handleSubmit = (e) => {
           </div>
           <img className={styles.image31} alt="" src="/image-3-1@2x.png" />
         </div>
+
+        
       </div>
       <div className={styles.footer}>
         <div className={styles.divfooterTop}>

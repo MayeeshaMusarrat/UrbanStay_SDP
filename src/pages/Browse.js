@@ -304,17 +304,15 @@ const [isPopupOpen, setPopupOpen] = useState(false);
           <div className={styles.filterframe}>
             <div className={styles.filterframeChild} />
             <div className={styles.filtersParent}>
-              <button className={styles.filters} onClick = {openPopup} >Filters</button>
+              <button className={styles.filters} style = {{zIndex: 2000}} onClick = {openPopup} >Filters</button>
               <img className={styles.mifilterIcon} alt="" src="/mifilter.svg" />
             </div>
           </div>
         </div>
 
         {isPopupOpen && (
-
-<FilterPopup />
-
-)}
+        <FilterPopup onClose={closePopup} />
+      )}
 
         
 <div className={styles.sortByParent}>

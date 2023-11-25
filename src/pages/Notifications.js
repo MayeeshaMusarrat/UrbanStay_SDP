@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import styles from "./Notifications.module.css";
 import IconPopup from "../components/IconPopup";
+import IconPopupForGuest from "../components/IconPopupForGuest";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import SuccessNotification from "../components/Notifications/SuccessNotification";
@@ -13,16 +14,13 @@ const Notifications = () => {
     navigate("/");
   }, []);
 
-
-
-  
+  const storedNotifications = localStorage.getItem('notifications');
+  const notificationsArray = JSON.parse(storedNotifications) || [];
+  const isGuest = localStorage.getItem('GuestOrHost');
 
   return (
     <div className={styles.notifications}>
-
       <Footer />
-      
-
       <b className={styles.h3}>Notifications</b>
 
       <div className={styles.stickyNavBar}>
@@ -39,17 +37,31 @@ const Notifications = () => {
       </div>
 
 
+      { isGuest ==='1' ? (
+
+      <IconPopupForGuest topMargin = {6} name = {""} />
+
+      ) : isGuest==='0'? (
+
+      <IconPopup topMargin = {6} name = {""} />
+
+      ) : null }
 
 
-    <RejectionNotification />
-    <SuccessNotification />
-
-
-
-
-
-
-     
+      {notificationsArray && notificationsArray.length > 0 &&
+        notificationsArray.map((notification, index) => {
+         
+          switch (notification.type) {
+            case 'success':
+              return <SuccessNotification key={index} Heading={notification.Heading} comment={notification.comment} />;
+            case 'error':
+              return <RejectionNotification key={index} Heading={notification.Heading} comment={notification.comment} />;
+            case 'info':
+              return <PendingNotification key={index} Heading={notification.Heading} comment={notification.comment} />;
+            default:
+              return null;
+          }
+        })}
     </div>
   );
 };

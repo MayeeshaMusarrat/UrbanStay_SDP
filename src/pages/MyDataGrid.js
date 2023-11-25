@@ -167,10 +167,10 @@ const MyDataGrid = ({ data }) => {
             total={5}
             
           >
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-            <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-            <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
+            <Avatar alt="Mayeesha Musarrat" src="/static/images/avatar/1.jpg" />
+            <Avatar alt="Travis Scott" src="/static/images/avatar/2.jpg" />
+            <Avatar alt="Emily Emily" src="/static/images/avatar/4.jpg" />
+            <Avatar alt="Bobby Henderson" src="/static/images/avatar/5.jpg" />
           </AvatarGroup>
        </Link>
         </div>
@@ -194,10 +194,10 @@ const MyDataGrid = ({ data }) => {
           total={24}
           style={{ cursor: "pointer" }}
         >
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+          <Avatar alt="Hello Hi" src="/static/images/avatar/1.jpg" />
           <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
           <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-          <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
+         
         </AvatarGroup>
           </Link>
         </>

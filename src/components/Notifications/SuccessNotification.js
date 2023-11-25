@@ -2,7 +2,9 @@
 import React from 'react';
 import styles from './notifications.module.css';  
 
-const SuccessNotification = () => {
+const SuccessNotification = ({ Heading, comment }) => {
+
+  console.log("info", Heading);
   return (
     <> 
 
@@ -16,13 +18,10 @@ const SuccessNotification = () => {
           <div className={styles.congratulationsYourPendingContainer}>
             <span className={styles.urbanstayTxt}>
               <p className={styles.congratulationsYourPending}>
-                Congratulations! Your pending reservation has been approved.
+                {Heading}
               </p>
               <p className={styles.yourReservationApplied}>
-                Your Reservation applied in 6 Oct, 2023 has been approved by the
-                host. The property titled “Cozy Coop” located in Dhaka,
-                Bangladesh has been reserved for 10 oct, 2023 - 15 oct, 2023.
-                Enjoy!
+                {comment}
               </p>
             </span>
           </div>

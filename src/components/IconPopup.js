@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 
-const IconPopup = ({ topMargin, name }) => {
+const IconPopup = ({ topMargin, name = "" }) => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const togglePopup = () => {
@@ -113,6 +113,7 @@ const IconPopup = ({ topMargin, name }) => {
     <div className={styles.iconpopup} style={{ top: topMargin }}>
 
     <div> 
+      {/*
           <Avatar
             alt="Default User"
           
@@ -120,16 +121,18 @@ const IconPopup = ({ topMargin, name }) => {
             {...stringAvatar(name)}
             
           />
+      */}
       <div className={styles.overall}>
-        
+        {/* 
       <StyledBadge
         overlap="circular"
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         variant="dot"
         style = {{right: -277, top: -10, zIndex: 1200}} 
       > 
-      
       </StyledBadge>
+
+      */}
     
         <img className={styles.profileIcon} alt="" src="/profile-icon@2x.png" onClick={togglePopup} />
      

@@ -448,11 +448,11 @@ const TempProfile = () => {
 
           { isGuest === '1' ? (
 
-          <IconPopupForGuest topMargin = {20} name = {user_name} />
+          <IconPopupForGuest topMargin = {20} name = {""} />
 
           ) : isGuest === '0' ? (
 
-          <IconPopup topMargin = {23} name = {user_name} />
+          <IconPopup topMargin = {23} name = {""} />
 
           ) : null } 
 

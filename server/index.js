@@ -1,16 +1,16 @@
 const express = require('express');
 const app = express();
-var mysql = require('mysql');
+var mysql = require('mysql2');
 const cors = require('cors');
 app.use(cors(), express.json());
 
 const pool = mysql.createPool({
-  host: 'mysql-264db198-musarratmayeesha-0001.a.aivencloud.com',
-  user: 'avnadmin',
-  password: 'AVNS_TvZaCuiGGGrRVds4PvY',
-  database: 'defaultdb',
-  port: "16798", 
-  ssl: true,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  ssl: process.env.DB_SSL,
 });
 
 
@@ -187,7 +187,7 @@ async function connectAndStartServer()
 
 
 
-  app.get('/getHostResult/:PID', async (req, res) => {
+  app.get('/getHostAndAmenities/:PID', async (req, res) => {
     const PID = req.params.PID;
   
     console.log("HOST er pid: ", PID);
@@ -198,34 +198,49 @@ async function connectAndStartServer()
         return res.status(500).json({ message: 'Database Connection Error' });
       }
   
-      const getHost = `SELECT UID from Property where PID = ?`;
-      const value = [PID];
-  
-      connection.query(getHost, value, (err, uidResult) => {
-        if (err) {
-          console.log("Error hoise");
-          connection.release(); // Release the connection in case of an error
-          return res.status(500).json({ message: 'Database Query Error' });
-        } else {
-          const UID = uidResult[0].UID;
-          console.log(UID);
-          const getHostInfo = `SELECT * FROM seeAllHosts WHERE userUID = ?`;
-          const getHostInfoValue = [UID];
-  
-          connection.query(getHostInfo, getHostInfoValue, (hostErr, hostResults) => {
-            if (hostErr) {
-              console.log("Error fetching host info", hostErr);
-              connection.release(); // Release the connection in case of an error
-              return res.status(500).json({ message: 'Database Query Error' });
+      const hostSql = `SELECT * from seeAllHosts where userUID = (SELECT UID from property where PID = '${PID}')`;
+      const amenitiesSql = `SELECT Name from amenities where property_PID = '${PID}'`;
+
+      Promise.all([
+        new Promise((resolve, reject) => {
+          connection.query(hostSql, (err, hostResults) => {
+            if (err) {
+              reject(err);
+            } else {
+              console.log("host: ", hostResults);
+              resolve({ hostResults: hostResults });
             }
-  
-            console.log('host results:', hostResults);
-            res.json({ hostResults });
-  
-            connection.release(); // Release the connection after a successful query
           });
-        }
+        }),
+        new Promise((resolve, reject) => {
+          connection.query(amenitiesSql, (err, amenitiesResults) => {
+            if (err) {
+              reject(err);
+            } else {
+              console.log("Amenities: ", amenitiesResults);
+              resolve({ amenitiesResults: amenitiesResults });
+            }
+          });
+        }),
+      ]).then(([s1, s2]) => {
+          
+        const responseObj = {
+          hostResults: s1.hostResults,
+          amenitiesResults: s2.amenitiesResults,
+        };
+
+        console.log("Response object: ", responseObj);
+
+        res.status(200).json(responseObj);
+        connection.release(); 
+      })
+      .catch((error) => {
+        console.error('Error executing SQL queries:', error);
+        res.status(500).json({ message: 'Error executing SQL queries' });
+        connection.release(); 
       });
+  
+     
     });
   });
   
@@ -235,14 +250,13 @@ async function connectAndStartServer()
   app.get('/browse', async (req, res) => {
     const { destination, checkIn, checkOut, rooms, guests} = req.query;
 
-    const check_in = new Date(checkIn);
-    const check_out = new Date(checkOut);
-
-    check_in.setDate(check_in.getDate() + 1);
-    check_out.setDate(check_out.getDate() + 1);
+    const check_in = checkIn;
+    const check_out = checkOut;
 
    
-    console.log(req.query);
+    console.log("property info: ", req.query);
+
+    console.log("checkin: ", check_in);
 
     pool.getConnection((err, connection) => {
       if (err) throw err;
@@ -369,6 +383,8 @@ async function connectAndStartServer()
     const startDate = new Date(availability[0]);
     const endDate = new Date(availability[1]);
 
+    startDate.setDate(startDate.getDate() + 1);
+    endDate.setDate(endDate.getDate() + 1);
 
 
     console.log("endDate: ", endDate);
@@ -544,23 +560,35 @@ async function connectAndStartServer()
   });
   
 
-  
 
 
-  
-  app.post('/approve-reservation', async (req, res) => {
-    const { GID, PID, checkin, checkout, total_price, rooms, guests, Email, 
+    
+  app.post('/approve-reservation', (req, res) => {
+    const {
+      GID,
+      PID,
+      checkin,
+      checkout,
+      total_price,
+      rooms,
+      guests,
+      Email,
       AppliedIn,
-      location, 
+      location,
       reservedForStart,
       property_title
     } = req.body;
   
-    console.log(req.body);
+    console.log("Appproved one: ", req.body);
   
-    // 8-15  --->> 7 -14 (checkin ke ek barao, checkout ke ek barao)
-    console.log("Approved reservation: ");
-    console.log(req.body);
+    const check_in = new Date(checkin);
+    const check_out = new Date(checkout);
+    check_in.setDate(check_in.getDate() + 1);
+    check_out.setDate(check_out.getDate() + 1);
+
+    console.log("check_in: ", check_in);
+    const CHECK_IN_A = check_in.toISOString().split('T')[0];
+    const CHECK_IN_B = check_out.toISOString().split('T')[0];
   
     const currentDate = new Date();
   
@@ -570,33 +598,73 @@ async function connectAndStartServer()
         return res.status(500).json({ message: 'Database Connection Error' });
       }
   
-      const notificationSql = `INSERT INTO notifications (email, notification_text, Created, Heading, type, seen)
-        VALUES (?, ?, ?, ?, ?, ?);
-      `;
-      const notificationValues = [Email, 
-        "Your Reservation applied in " + AppliedIn + " has been approved by the host. The property titled " + property_title + " located in " + location + " has been reserved for " + reservedForStart + ", Enjoy!",
-        currentDate, 
-        " Congratulations! Your pending reservation has been approved.",
-        "success",
-        "0"
-      ];
-  
-      connection.query(notificationSql, notificationValues, (notifErr, notifResults) => {
-        if(notifErr) {
-          // Handle notification query error if needed
-          console.error("Error executing notification query:", notifErr);
+      // Insert into property_reserved_on table
+      const p_r_oSql = 'INSERT INTO property_reserved_on (PID, Start_date, End_date) VALUES (?,?,?)';
+      const p_r_oValues = [PID, check_in, check_out];
+      connection.query(p_r_oSql, p_r_oValues, (p_r_oErr, p_r_oResults) => {
+        if (p_r_oErr) {
+          console.error('Error updating data:', p_r_oErr);
           connection.release();
-          return res.status(500).json({ message: 'Notification Query Error' });
+          return res.status(500).json({ message: 'Updating Error' });
         }
-        
-        // Continue with the rest of your logic
-        connection.release();
-        res.json(notifResults);
+  
+        console.log("property reserved on updated!");
+        console.log(p_r_oResults);
+  
+        // Insert into reservations table
+        const gidSql =
+          'INSERT INTO reservations (PID, GID, Check_in_date, Check_out_date, total_price, pending_Guests, pending_Rooms) VALUES (?, ?, ?, ?, ?,  ? , ?)';
+        const gidValues = [PID, GID, check_in, check_out, total_price, guests, rooms];
+        connection.query(gidSql, gidValues, (gidErr, gidResults) => {
+          if (gidErr) {
+            console.error("Error executing GID query:", gidErr);
+            connection.release();
+            return res.status(500).json({ message: 'Database Query Error' });
+          }
+  
+          console.log("Into the reservations");
+  
+          // Delete overlapping pending reservations
+          const againSql =
+            'DELETE FROM reservation_requests WHERE (Check_in BETWEEN ? AND ?) AND (Check_out BETWEEN ? AND ?) AND PID = ?';
+          const againValues = [CHECK_IN_A, CHECK_IN_B, CHECK_IN_A, CHECK_IN_B, PID];
+          connection.query(againSql, againValues, (fetchErr, againResults) => {
+            if (fetchErr) {
+              console.error("Error executing INSERT query:", fetchErr);
+              connection.release();
+              return res.status(500).json({ message: 'Database Query Error' });
+            }
+  
+            console.log("Overlapping pending reservations are gone! yay!");
+            console.log(againResults);
+  
+            // Insert into notifications table
+            const notificationSql =
+              'INSERT INTO notifications (email, notification_text, Created, Heading, type, seen) VALUES (?, ?, ?, ?, ?, ?)';
+            const notificationValues = [
+              Email,
+              `Your Reservation applied in ${AppliedIn} has been approved by the host. The property titled ${property_title} located in ${location} has been reserved for ${reservedForStart}, Enjoy!`,
+              currentDate,
+              'Congratulations! Your pending reservation has been approved.',
+              'success',
+              '0'
+            ];
+            connection.query(notificationSql, notificationValues, (notifErr, notifResults) => {
+              if (notifErr) {
+                console.error("Error executing notification query:", notifErr);
+                connection.release();
+                return res.status(500).json({ message: 'Notification Query Error' });
+              }
+  
+              connection.release();
+              res.json({ message: 'Reservation approved successfully' });
+            });
+          });
+        });
       });
     });
   });
   
-
     
 
 
@@ -1068,6 +1136,37 @@ app.get('/getReviews/:PID', async (req, res) => {
 
 
 
+app.get('/getNotifications/:email', async (req, res) => {
+  const email = req.params.email;
+ 
+  console.log("email received in notif :");
+  console.log(email);
+
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+
+    const searchSql = `SELECT * FROM notifications WHERE email = ?`;
+
+    const searchValues = [email];
+
+    connection.query(searchSql, searchValues, (searchErr, searchResults) => {
+      if (searchErr) {
+        console.error('Error fetching data:', searchErr);
+        res.status(500).json({ message: 'Fetching Error' });
+      } else {
+        console.log('Data fetched from notifications successfully.');
+        console.log(searchResults);
+        res.json({ searchResults });
+      }
+    });
+    
+    connection.release(); 
+  });
+});
+
+
+
+
 app.get('/getRatings/:PID', async (req, res) => {
   const PID = req.params.PID;
  
@@ -1189,10 +1288,6 @@ app.get('/getRatings/:PID', async (req, res) => {
     });
   });
 });
-
-
-  
-  
 
   app.listen(5001, () => {
     console.log(`Example app listening on port 5001`);

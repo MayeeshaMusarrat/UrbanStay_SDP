@@ -110,7 +110,7 @@ const PastReservationDatagrid = ({ data }) => {
       width: 140,
       renderCell: (params) => (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
-            {params.row.Status === "Completed" ? <CompletedChip /> : <CancelledChip />}
+            {params.row.Status === null ? <CompletedChip /> : <CancelledChip />}
         </div>
     ),
     },

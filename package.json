@@ -46,7 +46,9 @@
     "react-scripts": "5.0.1",
     "react-trip-date": "^1.13.1",
     "redux": "^4.2.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "websocket": "^1.0.34",
+    "ws": "^8.14.2"
   },
   "scripts": {
     "start": "react-scripts start",

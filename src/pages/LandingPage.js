@@ -163,10 +163,44 @@ const LandingPage = ({ onClose }) => {
       });
   }, []); 
 
+  const [notifInfo, setNotifInfo] = useState(0);
+
+  useEffect(() => {
+    fetch(`http://localhost:5001/getNotifications/${storedValue}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+         
+        console.log(data);
+        const formattedNotifData = data.searchResults.map(result => ({
+
+          Created: new Date(result.Created).toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+          }),
+          Heading: result.Heading,
+          comment: result.notification_text,
+          seen: result.seen,
+          type: result.type,
+          
+        }));
+        setNotifInfo(formattedNotifData);
+       
+
+      })
+      .catch((error) => {
+        console.error('Error fetching notid:', error);
+      });
+  }, []); 
+
   const user_name = localStorage.getItem('name');
 
-
-
+  localStorage.setItem('notifications', JSON.stringify(notifInfo));
 
 
   const [popupLogin, setPopupLogin] = useState(false);

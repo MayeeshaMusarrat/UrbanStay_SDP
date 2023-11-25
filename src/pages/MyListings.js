@@ -397,13 +397,13 @@ const toggle = () => {
 
         { isGuest ==='1' ? (
 
-<IconPopupForGuest topMargin = {6} name = {user_name} />
+        <IconPopupForGuest topMargin = {6} name = {user_name} />
 
-) : isGuest==='0'? (
+        ) : isGuest==='0'? (
 
-<IconPopup topMargin = {6} name = {user_name} />
+        <IconPopup topMargin = {6} name = {user_name} />
 
-) : null }
+        ) : null }
 
       </div>
 

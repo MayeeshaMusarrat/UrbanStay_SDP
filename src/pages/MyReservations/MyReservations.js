@@ -109,8 +109,8 @@ const MyReservations = () => {
       rooms: item.pending_Rooms,
       location: item.City,
       reservationID: "-",
-      Check_in: formatDateDisplay(new Date(item.CheckInDate).getTime() + oneDay),
-      Check_out: formatDateDisplay(new Date(item.CheckOutDate).getTime() + oneDay),
+      Check_in: formatDateDisplay(new Date(item.CheckInDate)),
+      Check_out: formatDateDisplay(new Date(item.CheckOutDate)),
       price: item.TotalPrice + ' BDT',
       price_night: item.Price_per_night,
       pics: item.pics,
@@ -424,15 +424,7 @@ const getCellClassName = (params) => {
         </PortalPopup>
       )}
 
-        { isGuest === '1' ? (
-
-        <IconPopupForGuest topMargin = {6} name = {userName} />
-
-        ) : isGuest === '0' ? (
-
-        <IconPopup topMargin = {6} name = {userName} />
-
-        ) : null }           
+             
 
 
         <div className={styles.stickyNavBar}>
@@ -450,6 +442,16 @@ const getCellClassName = (params) => {
             <img className={styles.image31} alt="" src="/image-3-11@2x.png" />
           </div>
 
+
+          { isGuest === '1' ? (
+
+            <IconPopupForGuest topMargin = {23} name = {userName} />
+
+            ) : isGuest === '0' ? (
+
+            <IconPopup topMargin = {23} name = {userName} />
+
+            ) : null }     
 
       
 

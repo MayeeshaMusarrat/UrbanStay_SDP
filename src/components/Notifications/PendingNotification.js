@@ -2,7 +2,7 @@
 import React from 'react';
 import styles from './notifications.module.css';  
 
-const PendingNotification = () => {
+const PendingNotification = (info) => {
   return (
     <> 
 

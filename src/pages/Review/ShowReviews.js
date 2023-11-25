@@ -14,8 +14,6 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { format } from "date-fns";
 import Spinner from '../Chips/Spinner';
-
-
 import ReviewComponent from '../../components/ReviewComponent';
 
 const ShowReviews = () => {
@@ -234,10 +232,6 @@ const ShowReviews = () => {
     },
   ];
   
-
-
-
-
   return (
     <>
       < div className={styles.showReviews}>
@@ -526,17 +520,12 @@ const ShowReviews = () => {
             {...chartSetting}
           />
 
-
-
           </div>
 
         </div>
 
-
-       
-       
-
         <div className={styles.somanyreviewframe}>
+
       {reviewData.length > 0 ? (
         reviewData.map((review, index) => (
           <div className={styles.reviewcomponent} >
@@ -575,7 +564,7 @@ const ShowReviews = () => {
                 '& > legend': { mt: 2 },
               }}
             >
-              <Rating name="simple-controlled" readOnly value={review.overall} />
+              <Rating name="simple-controlled" readOnly precision = {0.5} value={review.overall} />
             </Box>
           </div>
         </div>
