@@ -1,17 +1,16 @@
 const express = require('express');
 const app = express();
-require('dotenv').config();
+
 var mysql = require('mysql2');
 const cors = require('cors');
 app.use(cors(), express.json());
 
 const pool = mysql.createPool({
-  host: process.env.REACT_APP_DB_HOST,
-  port: process.env.REACT_APP_DB_PORT,
-  user: process.env.REACT_APP_DB_USER,
-  password: process.env.REACT_APP_DB_PASSWORD,
-  database: process.env.REACT_APP_DB_NAME,
-  ssl: process.env.REACT_APP_DB_SSL,
+  host: "mysql-264db198-musarratmayeesha-0001.a.aivencloud.com",
+  port: 16798,
+  user: "avnadmin",
+  password: "AVNS_TvZaCuiGGGrRVds4PvY",
+  database: "defaultdb",
 });
 
 
