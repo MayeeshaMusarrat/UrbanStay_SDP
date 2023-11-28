@@ -18,9 +18,6 @@ const port = 5001;
 
 async function connectAndStartServer() 
 {
-  
- 
-
   app.post('/guest-signup-page', async (req, res) => {
 
     const {firstname, lastname, phone_number, email, password} = req.body;
@@ -523,6 +520,8 @@ async function connectAndStartServer()
 
   app.get('/getPendingReservations/:PID', (req, res) => {
     const PID = req.params.PID;
+
+    console.log("Pending reservation shw: ", PID);
   
     pool.getConnection((err, connection) => {
       if (err) {
@@ -536,15 +535,18 @@ async function connectAndStartServer()
           connection.release();
           return res.status(500).json({ message: 'Error executing SQL query' });
         }
+
+        
   
         // Retrieve property details for the given PID
-        const getPropertyName = `SELECT Property_title FROM Property WHERE PID = '${PID}'`;
+        const getPropertyName = `SELECT Property_title FROM property WHERE PID = '${PID}'`;
         connection.query(getPropertyName, function (propErr, propResults, propFields) {
           if (propErr) {
             connection.release();
             return res.status(500).json({ message: 'Error executing SQL query' });
           }
   
+         
           // Combine pending reservation details with property details
           const combinedResults = {
             pendingReservations: results,
@@ -1235,7 +1237,7 @@ app.get('/getRatings/:PID', async (req, res) => {
     `;
 
 
-    const propertyNameSql = `SELECT Property_title FROM PROPERTY WHERE PID = '${PID}'`;
+    const propertyNameSql = `SELECT Property_title FROM property WHERE PID = '${PID}'`;
 
     Promise.all([
       new Promise((resolve, reject) => {
