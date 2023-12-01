@@ -557,6 +557,7 @@
 }
 .blankLine {
   margin: 0;
+  top : -20 px;
   font-size: var(--font-size-17xl);
 }
 .weHaveSent {
@@ -598,7 +599,7 @@
 }
 .setupprofilebtn {
   position: absolute;
-  top: 500px;
+  top: 750px;
   left: 558px;
   border-radius: 9.08px;
   background-color: var(--color-darkblue);
@@ -655,8 +656,8 @@
   position: relative;
   border-top: 1px solid var(--color-lightgray-200);
   box-sizing: border-box;
-  width: 432px;
-  height: 5px;
+  width: 450px;
+  height: 15px;
 }
 
 .carbonlocationIcon {
@@ -733,12 +734,13 @@
   align-items: center;
 }
 .profileCard {
+  top: 70px;
   bottom: 473px;
   left: -19px;
   border-radius: var(--br-24xl);
   background-color: var(--shade-01);
   box-shadow: 0 0 20px 2px rgba(26, 26, 26, 0.15);
-  height: 588px;
+  height: 500px;
   overflow: hidden;
   flex-direction: column;
   justify-content: center;
@@ -747,7 +749,7 @@
   gap: 35px;
 }
 .verifiedEmail {
-  top: 0;
+  top: -300;
   left: 42.99px;
   line-height: 70.19%;
   font-weight: 500;
@@ -763,7 +765,7 @@
   height: 23.3px;
 }
 .verifiedemail {
-  top: 709px;
+  top: 585px;
   left: 88px;
   width: 279px;
   height: 46px;
@@ -1056,3 +1058,19 @@
   color: var(--color-darkblue);
   font-family: var(--font-poppins);
 }
+
+/* Add these styles to your existing module.css file or create a new one */
+
+.emailSection {
+  margin-top: 60px;
+  font-weight: normal;
+}
+
+.phoneSection {
+  margin-top: 40px;
+  font-weight: normal;
+}
+
+
+/* Feel free to customize the styles based on your design preferences */
+

@@ -1,7 +1,8 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styles from "./PropertyDetailsForReservationP.module.css";
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
+import axios from 'axios';
 
 
 const PropertyDetailsForReservationP = ({ rowData, onClose }) => {
@@ -10,7 +11,29 @@ const PropertyDetailsForReservationP = ({ rowData, onClose }) => {
   }, []);
 
 
-  console.log(rowData);
+  console.log("rowData: ", rowData);
+
+  const [amenities, setAmenities] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAmenities = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5001/getAmenities/${rowData.pid}`);
+        setAmenities(response.data.searchResults);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching amenities:', error);
+      }
+    };
+
+    fetchAmenities();
+  }, [rowData.pid]);
+
+  const amenityNames = amenities.map((amenity) => amenity.Name).join(', ');
+
+
+
 
   return (
     <div className={styles.propertydetailsforreservationp}>
@@ -42,8 +65,8 @@ const PropertyDetailsForReservationP = ({ rowData, onClose }) => {
        
         <div className={styles.amenitiesProvidedFirstContainer}>
           <span className={styles.bdt4005nightTxtContainer}>
-            <span className={styles.span}>Amenities Provided:</span>
-            <span>{` First Aid kit, Air Conditioner, Heater, keelkelrkelrelrlerlerlerlerlelrkelrkrkelkrklerlekrle orerke eorerkeor okrekrekre rekekrperpe jroerkerkeor oekroekrrek krekroeroekr oekrroekreokr okreroek rkoekreokr `}</span>
+            <span className={styles.span}>Amenities Provided: </span>
+            <span>{amenityNames}</span>
           </span>
         </div>
         <div className={styles.lineDiv} />

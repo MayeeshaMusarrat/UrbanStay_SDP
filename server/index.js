@@ -6,12 +6,13 @@ const cors = require('cors');
 app.use(cors(), express.json());
 
 const pool = mysql.createPool({
-  host: "mysql-264db198-musarratmayeesha-0001.a.aivencloud.com",
-  port: 16798,
-  user: "avnadmin",
-  password: "AVNS_TvZaCuiGGGrRVds4PvY",
-  database: "defaultdb",
+  host: 'localhost',
+  user: 'root',
+  password: 'mayeesha8430',
+  database: 'urbanstay',
+  connectionLimit: 10, 
 });
+
 
 
 const port = 5001;
@@ -116,14 +117,17 @@ async function connectAndStartServer()
 
   app.post('/signin-page', async (req, res) => {
     const { email, password } = req.body;
+    console.log("came in: ", req.body);
 
     console.log("sign in");
   
     pool.getConnection((err, connection) => {
       if (err) throw err;
       var sql = `SELECT password FROM user WHERE Email = '${email}'`;
+
   
       connection.query(sql, function (err, results, fields) {
+       
         if (err) throw err;
          console.log(results[0].password);
         if (results.length > 0) 
@@ -245,40 +249,48 @@ async function connectAndStartServer()
 
 
   app.get('/browse', async (req, res) => {
-    const { destination, checkIn, checkOut, rooms, guests} = req.query;
-
+    const { destination, checkIn, checkOut, rooms, guests, proptype, minprice, maxprice } = req.query;
+  
     const check_in = checkIn;
     const check_out = checkOut;
-
-   
+  
     console.log("property info: ", req.query);
-
     console.log("checkin: ", check_in);
-
+  
     pool.getConnection((err, connection) => {
       if (err) throw err;
-
-      const searchSql = `
-      SELECT p.*
-      FROM property p
-      WHERE
-        (p.Country = ? OR p.City = ?)
-        AND p.Num_of_rooms >= ?
-        AND p.Num_of_guests >= ?
-        AND p.Check_in_date <= ?
-        AND p.Check_out_date >= ?
-        AND NOT EXISTS (
-          SELECT 1
-          FROM property_reserved_on r
-          WHERE p.PID = r.PID
-            AND ? <= r.End_date
-            AND ? >= r.Start_date
-        );`
-        ;
-
-      
-      const searchValues = [destination, destination, rooms, guests, check_in, check_out, check_in, check_out ];
-
+  
+      let searchSql = `
+        SELECT p.*
+        FROM property p
+        WHERE
+          (p.Country = ? OR p.City = ?)
+          AND p.Num_of_rooms >= ?
+          AND p.Num_of_guests >= ?
+          AND p.Check_in_date <= ?
+          AND p.Check_out_date >= ?
+          AND NOT EXISTS (
+            SELECT 1
+            FROM property_reserved_on r
+            WHERE p.PID = r.PID
+              AND ? <= r.End_date
+              AND ? >= r.Start_date
+          )`;
+  
+      const searchValues = [destination, destination, rooms, guests, check_in, check_out, check_in, check_out];
+  
+      if (proptype !== 'null') {
+        console.log("proptype is not null");
+        searchSql += ` AND p.Category = ?`;
+        searchValues.push(proptype);
+      }
+  
+      if (minprice !== 'null' && maxprice !== 'null') {
+        console.log("minprice and maxprice are not null");
+        searchSql += ` AND p.Price_per_night BETWEEN ? AND ?`;
+        searchValues.push(minprice, maxprice);
+      }
+  
       connection.query(searchSql, searchValues, (searchErr, searchResults) => {
         if (searchErr) {
           console.error('Error fetching data:', searchErr);
@@ -289,9 +301,9 @@ async function connectAndStartServer()
           res.json({ searchResults });
         }
       });
-      connection.release(); 
+  
+      connection.release();
     });
-
   });
 
 
@@ -535,10 +547,6 @@ async function connectAndStartServer()
           connection.release();
           return res.status(500).json({ message: 'Error executing SQL query' });
         }
-
-        
-  
-        // Retrieve property details for the given PID
         const getPropertyName = `SELECT Property_title FROM property WHERE PID = '${PID}'`;
         connection.query(getPropertyName, function (propErr, propResults, propFields) {
           if (propErr) {
@@ -546,21 +554,99 @@ async function connectAndStartServer()
             return res.status(500).json({ message: 'Error executing SQL query' });
           }
   
-         
-          // Combine pending reservation details with property details
           const combinedResults = {
             pendingReservations: results,
-            propertyDetails: propResults[0], // Assuming there's only one property matching the PID
+            propertyDetails: propResults[0],
           };
   
           console.log('Combined results:', combinedResults);
           res.status(200).json(combinedResults);
-          connection.release(); // Release the database connection
+          connection.release(); 
+        });
+      });
+    });
+  });
+
+
+
+
+  app.get('/getPresentReservations/:PID', (req, res) => {
+    const PID = req.params.PID;
+    const currentDate = new Date().toISOString().split('T')[0];
+    console.log("Present reservation shw -> ", PID);
+  
+    pool.getConnection((err, connection) => {
+      if (err) {
+        return res.status(500).json({ message: 'Database Connection Error' });
+      }
+  
+      const sql = `SELECT * FROM approvedreservations WHERE PID = '${PID}' and CheckOutDate >= '${currentDate}'`;
+  
+      connection.query(sql, function (err, results, fields) {
+        if (err) {
+          connection.release();
+          console.log("debug -> ", results);
+          return res.status(500).json({ message: 'Error executing SQL query' });
+        }
+      
+        const getPropertyName = `SELECT Property_title FROM property WHERE PID = '${PID}'`;
+        connection.query(getPropertyName, function (propErr, propResults, propFields) {
+          if (propErr) {
+            connection.release();
+            return res.status(500).json({ message: 'Error executing SQL query' });
+          }
+  
+          const combinedResults = {
+            presentReservations: results,
+            propertyDetails: propResults[0], 
+          };
+  
+          console.log('Combined results:', combinedResults);
+          res.status(200).json(combinedResults);
+          connection.release(); 
         });
       });
     });
   });
   
+  app.get('/getPastlyReservations/:PID', (req, res) => {
+    const PID = req.params.PID;
+    const currentDate = new Date().toISOString().split('T')[0];
+    console.log("Past reservation shw -> ", PID);
+  
+    pool.getConnection((err, connection) => {
+      if (err) {
+        return res.status(500).json({ message: 'Database Connection Error' });
+      }
+  
+      const sql = `SELECT * FROM approvedreservations WHERE PID = '${PID}' and CheckOutDate < '${currentDate}'`;
+  
+      connection.query(sql, function (err, results, fields) {
+        if (err) {
+          connection.release();
+          console.log("debug -> ", results);
+          return res.status(500).json({ message: 'Error executing SQL query' });
+        }
+      
+        const getPropertyName = `SELECT Property_title FROM property WHERE PID = '${PID}'`;
+        connection.query(getPropertyName, function (propErr, propResults, propFields) {
+          if (propErr) {
+            connection.release();
+            return res.status(500).json({ message: 'Error executing SQL query' });
+          }
+  
+          const combinedResults = {
+            presentReservations: results,
+            propertyDetails: propResults[0], 
+          };
+  
+          console.log('Combined results:', combinedResults);
+          res.status(200).json(combinedResults);
+          connection.release(); 
+        });
+      });
+    });
+  });
 
 
 
@@ -588,9 +674,12 @@ async function connectAndStartServer()
     check_in.setDate(check_in.getDate() + 1);
     check_out.setDate(check_out.getDate() + 1);
 
-    console.log("check_in: ", check_in);
+  
     const CHECK_IN_A = check_in.toISOString().split('T')[0];
     const CHECK_IN_B = check_out.toISOString().split('T')[0];
+
+    console.log("check_in: ", CHECK_IN_A);
+    console.log("check_out: ", CHECK_IN_B);
   
     const currentDate = new Date();
   
@@ -750,6 +839,71 @@ async function connectAndStartServer()
       const query = 'SELECT Profile_pic FROM PendingReservations WHERE PID = ?';
   
       connection.query(query, [PID], (fetchErr, fetchResults) => {
+        connection.release();
+  
+        if (fetchErr) {
+          return res.status(500).json({ error: 'Fetch query error' });
+        }
+  
+        console.log("profile_pics: ", fetchResults);
+
+        const avatarUrls = fetchResults.map((row) => row.Profile_pic);
+  
+        res.json({ avatars: avatarUrls });
+      });
+    });
+  });
+
+
+  /// ------------------------------------------------------- GET CURRENTLY RESERVED AVATAR =======================================
+
+  app.get('/getAvatarsPresentlyReserved/:userId', (req, res) => {
+    const PID = req.params.userId;
+    const currentDate = new Date();
+
+    console.log("Pid from backedn: ", PID);
+  
+    console.log("for avatar");
+  
+    pool.getConnection((err, connection) => {
+      if (err) {
+        return res.status(500).json({ error: 'Database connection error' });
+      }
+  
+      const query = 'SELECT Profile_pic FROM approvedreservations WHERE PID = ? AND CheckOutDate >= ?';
+  
+      connection.query(query, [PID, currentDate], (fetchErr, fetchResults) => {
+        connection.release();
+  
+        if (fetchErr) {
+          return res.status(500).json({ error: 'Fetch query error' });
+        }
+  
+        console.log("profile_pics: ", fetchResults);
+
+        const avatarUrls = fetchResults.map((row) => row.Profile_pic);
+  
+        res.json({ avatars: avatarUrls });
+      });
+    });
+  });
+
+  app.get('/getAvatarsPastlyReserved/:userId', (req, res) => {
+    const PID = req.params.userId;
+    const currentDate = new Date();
+
+    console.log("Pid from backedn: ", PID);
+  
+    console.log("for avatar");
+  
+    pool.getConnection((err, connection) => {
+      if (err) {
+        return res.status(500).json({ error: 'Database connection error' });
+      }
+  
+      const query = 'SELECT Profile_pic FROM approvedreservations WHERE PID = ? AND CheckOutDate < ?';
+  
+      connection.query(query, [PID, currentDate], (fetchErr, fetchResults) => {
         connection.release();
   
         if (fetchErr) {
@@ -1051,6 +1205,34 @@ app.get('/getPastReservations/:userEmail', async (req, res) => {
   });
 });
 
+
+app.get('/getAmenities/:PID', async (req, res) => {
+  const PID = req.params.PID;
+
+ 
+  const currentDate = new Date();
+  console.log("Current Date be like : ", currentDate);
+
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+
+    const searchSql = `SELECT Name FROM Amenities where property_PID = ?`;
+
+    const searchValues = [PID];
+
+    connection.query(searchSql, searchValues, (searchErr, searchResults) => {
+      if (searchErr) {
+        console.error('Error fetching data:', searchErr);
+        res.status(500).json({ message: 'Fetching Error' });
+      } else {
+        console.log('Data fetched from AMENITIES successfully.');
+        console.log(searchResults);
+        res.json({ searchResults });
+      }
+    });
+    connection.release(); 
+  });
+});
 
 app.post('/guest-give-review', async (req, res) => {
   const {

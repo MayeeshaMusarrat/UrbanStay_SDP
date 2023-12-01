@@ -1,9 +1,32 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const PropertyDetailsPopup = ({ rowData, onClose }) => {
   
-  console.log("rowData: ", rowData);
+
+  console.log("Popup rowData: ", rowData);
+
+  const [amenities, setAmenities] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAmenities = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5001/getAmenities/${rowData.id}`);
+        setAmenities(response.data.searchResults);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching amenities:', error);
+      }
+    };
+
+    fetchAmenities();
+  }, [rowData.id]);
+
+  const amenityNames = amenities.map((amenity) => amenity.Name).join(', ');
+
  
   return (
     <div
@@ -270,8 +293,8 @@ const PropertyDetailsPopup = ({ rowData, onClose }) => {
         }}
       >
         <span style={{ lineBreak: "anywhere", width: "100%" }}>
-          <span style={{ fontWeight: "500" }}>Amenities Provided:</span>
-          <span>{` Amenities `}</span>
+          <span style={{ fontWeight: "500" }}>Amenities Provided: </span>
+          <span>{  amenityNames }</span>
         </span>
       </div>
       <div

@@ -468,7 +468,7 @@ const ShowPendingReservations = () => {
 
 
 
-
+{/*
       <div className={styles.filter}>
         <div className={styles.filterChild} />
         <div className={styles.filterframe}>
@@ -551,6 +551,10 @@ const ShowPendingReservations = () => {
           </div>
         </div>
       </div>
+       */}
+
+
+
       <div className={styles.footer}>
         <div className={styles.divfooterTop}>
           <div className={styles.divcontainer}>

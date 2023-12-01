@@ -26,12 +26,16 @@ import AvatarsFromBackend from './AvatarsFromBackend';
 import AvatarsFromBackendPresentlyReserved from './AvatarsFromBackendPresentlyReserved';
 import AvatarsFromBackendPastlyReserved from './AvatarsFromBackendPastlyReserved';
 
+import DurationProgressBar from './DurationProgressBar';
 
-const MyDataGrid = ({ data }) => {
+
+const CurrentlyReservedDatagrid = ({ data }) => {
 
   const [errorPopupOpen, setErrorPopupOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [selectedRow, setSelectedRow] = useState(null);
+
+  
 
 
   const handleDeleteProperty = (PID) => {
@@ -52,6 +56,8 @@ const MyDataGrid = ({ data }) => {
       });
   };
 
+  const MAX_DURATION = 14;
+
 
 
   console.log("Data: ", data);
@@ -70,139 +76,63 @@ const MyDataGrid = ({ data }) => {
     console.log("Inside closePopupGuests function");
   };
 
+
+
   const columns: GridColDef[] = [
     
     {
-      field: "viewProperty",
-      headerName: "Actions",
-      headerAlign: "center", 
-      align: "center", 
-      headerClassName: 'custom-header-class',
-      width: 100,
-      renderCell: (params) => (
-        <>
-        
-       
-        <IconButton
-          onClick={() => {
-            setSelectedRowProperty(params.row);
-            setOpenPopupProperty(true);
-          }}
-        >
-          <FindInPageIcon style={{ color: '0F52BA', display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }} />
-        </IconButton>
-
-          <IconButton
-                onClick={() => handleDeleteProperty(params.row.id)} 
-          >
-            <DeleteRoundedIcon style={{ color: '0F52BA' , display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }} />
-          </IconButton>
-          </>
-
-      ),
-      disableSelectionOnClick: true,
-    },
+        field: "Guest",
+        headerName: "Guest Name",
+        headerAlign: "center", 
+        align: "center", 
+        headerClassName: 'custom-header-class',
+        width: 280,
+        disableSelectionOnClick: true,
+        renderCell: (params) => (
+            <div style={{ display: "flex", alignItems: "center" }}>
+            
+                <Avatar
+                  alt="Property Image 1"
+                  src={params.row.pic}
+                  sx={{ width: "50px", height: "50px" }}
+                />
+            
+               
+              <div style={{ marginLeft: 10 }}>{params.row.GuestName}</div>
+            </div>
+        )
+      },
+    
+    
     {
-      field: "propertyDetails",
-      headerName: "Property",
-      width: 280,
-      headerClassName: 'custom-header-class',
-      renderCell: (params) => (
-        <div style={{ display: "flex", alignItems: "center" }}>
-        
-          <AvatarGroup max={3} sx={{ borderRadius: "8px", overflow: "hidden" }}>
-         
-            <Avatar
-              alt="Property Image 1"
-              src={params.row.pic}
-              sx={{ borderRadius: "8px", width: "50px", height: "50px" }}
-            />
-        
-           
-          </AvatarGroup>
-          <div style={{ marginLeft: 10 }}>{params.row.Property}</div>
-        </div>
-      ),
-      disableSelectionOnClick: true,
-    },
-    {
-      field: "Created",
-      headerName: "Created",
-      headerAlign: "center", 
-      align: "center", 
-      headerClassName: 'custom-header-class',
-      width: 110,
-      disableSelectionOnClick: true,
-    },
-    {
-      field: "pendingReservations",
-      headerName: "Pending Reservation Requests",
-      width: 270,
-      headerAlign: "center",
-      headerClassName: 'custom-header-class',
-      align: "center",
-      renderCell: (params) => (
-        <div>
-          <Link to={`/show-pending-reservations/${params.row.id}`}>
-            <AvatarsFromBackend userId={params.row.id} firstname={params.row.GuestName} />
-          </Link>
-        </div>
-      ),
-      disableSelectionOnClick: true,
-    }, 
-
-    {
-      field: "reservedBypresent",
-      headerName: "Currently Reserved By",
-      headerAlign: "center", 
-      headerClassName: 'custom-header-class',
-      align: "center", 
-      width: 300,
-      renderCell: (params) => (
-        <div>
-           <Link to={`/show-reservations/${params.row.id}`}>
-            <AvatarsFromBackendPresentlyReserved userId={params.row.id} firstname={params.row.GuestName} />
-          </Link>
-        </div>
-      ),
-      disableSelectionOnClick: true,
-    },
-    {
-      field: "pastReserved",
-      headerName: "Past Reservations",
-      headerAlign: "center", 
-      headerClassName: 'custom-header-class',
-      align: "center", 
-      width: 280,
-      renderCell: (params) => (
-        <div>
-           <Link to={`/show-past-reservations/${params.row.id}`}>
-            <AvatarsFromBackendPastlyReserved userId={params.row.id} firstname={params.row.GuestName} />
-          </Link>
-        </div>
-      ),
+        field: "checkin",
+        headerName: "Check-in",
+        headerAlign: "center", 
+        align: "center", 
+        headerClassName: 'custom-header-class',
+        width: 150,
+        disableSelectionOnClick: true,
+      },
       
-    },
-
     {
-      field: "reviews",
-      headerName: "Reviews",
-      headerAlign: "center",
-      align: "center",
-      headerClassName: 'custom-header-class',
-      width: 99,
-      cellClassName: 'custom-cell-class', 
-     
-      renderCell: (params) => (
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
-          <Link to={`/show-reviews/${params.row.id}`}>
-            <IconButton>
-              <SpeakerNotesRoundedIcon style={{ color: '#0F52BA' }} />
-            </IconButton>
-          </Link>
-        </div>
-      ),
-    },
+        field: "checkout",
+        headerName: "Check-out",
+        headerAlign: "center", 
+        align: "center", 
+        headerClassName: 'custom-header-class',
+        width: 150,
+        disableSelectionOnClick: true,
+      },
+    
+      {
+        field: "paid",
+        headerName: "Amount Paid",
+        headerAlign: "center", 
+        align: "center", 
+        headerClassName: 'custom-header-class',
+        width: 150,
+        disableSelectionOnClick: true,
+      },
   ];
 
   const gridStyle = {
@@ -278,4 +208,4 @@ const MyDataGrid = ({ data }) => {
   );
 };
 
-export default MyDataGrid;
+export default CurrentlyReservedDatagrid;

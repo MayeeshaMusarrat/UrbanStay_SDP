@@ -6,12 +6,12 @@
   background-color: var(--shade-01);
   box-shadow: 0 4px 10px 6px rgba(0, 0, 0, 0.25);
   width: 847px;
-  height: 683px;
+  height: 600px;
 }
 .city,
 .state {
   position: absolute;
-  top: 541px;
+  top: 420px;
   left: 502px;
 }
 .city {
@@ -41,8 +41,8 @@
 }
 .saveWrapper {
   background-color: var(--color-darkblue);
-  top: 643px;
-  left: 418px;
+  top: 550px;
+  left: 678px;
   border-radius: 9.08px;
   width: 126.02px;
   height: 54.69px;
@@ -78,7 +78,7 @@
   width: 750px;
 }
 .whereDoYou {
-  top: 461px;
+  top: 350px;
   left: 103px;
   width: 624.57px;
   height: 65.79px;

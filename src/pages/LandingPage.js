@@ -82,6 +82,11 @@ const LandingPage = ({ onClose }) => {
        localStorage.clear();
   };
 
+
+  localStorage.setItem("proptype", null);
+  localStorage.setItem("minprice", null);
+  localStorage.setItem("maxprice", null);
+
   useEffect(() => {
     const { startDate, endDate } = selectedDateRange;
 

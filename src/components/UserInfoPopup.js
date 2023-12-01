@@ -172,6 +172,8 @@ const UserInfoPopup = ({ rowData, onClose }) => {
           height: "80px",
         }}
       >  {rowData.GuestDescription}</div>
+
+      {/* 
       <div
         style={{
           position: "absolute",
@@ -196,6 +198,7 @@ const UserInfoPopup = ({ rowData, onClose }) => {
           </Box>
 
       </div>
+      */}
       <div
         style={{
           position: "absolute",

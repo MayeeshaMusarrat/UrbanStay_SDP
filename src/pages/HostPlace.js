@@ -13,7 +13,7 @@ import axios from 'axios';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import IconPopup from "../components/IconPopup";
 
-import PropertyMap from './PropertyMap';
+import HostPlacePropertyMap from './HostPlacePropertyMap';
 
 const HostPlace = () => {
 
@@ -34,25 +34,25 @@ const HostPlace = () => {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
 
   const initialCheckboxes = [
-    { label: "CCTV Surveillance", value: "CCTV", isChecked: false, className: styles.amenityFrameInner },
-    { label: "Smoke Alarm", value: "Smoke", isChecked: false, className: styles.amenityFrameItem },
-    { label: "Emergency Radio", value: "Radio", isChecked: false, className: styles.groupFormcontrollabel },
+    { label: "CCTV Surveillance", value: "CCTV Surveillance", isChecked: false, className: styles.amenityFrameInner },
+    { label: "Smoke Alarm", value: "Smoke Alarm", isChecked: false, className: styles.amenityFrameItem },
+    { label: "Emergency Radio", value: "Emergency Radio", isChecked: false, className: styles.groupFormcontrollabel },
 
     { label: "Dryer", value: "Dryer", isChecked: false, className: styles.amenityFrameChild8 },
-    { label: "Carbon monoxide alarm", value: "CO", isChecked: false, className: styles.amenityFrameChild1 },
-    { label: "First aid kit", value: "firstAid", isChecked: false, className: styles.amenityFrameChild2 },
+    { label: "Carbon monoxide alarm", value: "Carbon Monoxide Alarm", isChecked: false, className: styles.amenityFrameChild1 },
+    { label: "First aid kit", value: "First Aid Kit", isChecked: false, className: styles.amenityFrameChild2 },
 
-    { label: "Fire extinguisher", value: "FireExtinguisher", isChecked: false, className: styles.amenityFrameChild3 },
-    { label: "Wi-fi", value: "wifi", isChecked: false, className: styles.amenityFrameChild4 },
-    { label: "Parking spot", value: "parking", isChecked: false, className: styles.amenityFrameChild5 },
-    { label: "Kitchen", value: "kitchen", isChecked: false, className: styles.amenityFrameChild6 },
+    { label: "Fire extinguisher", value: "Fire Extinguisher", isChecked: false, className: styles.amenityFrameChild3 },
+    { label: "Wi-fi", value: "Wi-fi", isChecked: false, className: styles.amenityFrameChild4 },
+    { label: "Parking spot", value: "Parking Spot", isChecked: false, className: styles.amenityFrameChild5 },
+    { label: "Kitchen", value: "Kitchen", isChecked: false, className: styles.amenityFrameChild6 },
 
-    { label: "Waterfront", value: "waterfront", isChecked: false, className: styles.amenityFrameChild7},
-    { label: "Washing Machine", value: "washer", isChecked: false, className: styles.amenityFrameChild9 },
-    { label: "Hot tub", value: "hotTub", isChecked: false, className: styles.amenityFrameChild10 },
+    { label: "Waterfront", value: "Waterfront", isChecked: false, className: styles.amenityFrameChild7},
+    { label: "Washing Machine", value: "Washer", isChecked: false, className: styles.amenityFrameChild9 },
+    { label: "Hot tub", value: "Hot Tub", isChecked: false, className: styles.amenityFrameChild10 },
     
-    { label: "TV", value: "tv", isChecked: false, className: styles.amenityFrameChild11 },
-    { label: "Workspace", value: "workspace", isChecked: false, className: styles.amenityFrameChild12 },
+    { label: "TV", value: "TV", isChecked: false, className: styles.amenityFrameChild11 },
+    { label: "Workspace", value: "Workspace", isChecked: false, className: styles.amenityFrameChild12 },
     { label: "Air Conditioning", value: "AC", isChecked: false, className: styles.amenityFrameChild13 }
     
   ];
@@ -676,7 +676,7 @@ const handleUpload = async () => {
           <div className={styles.MAP} > 
           
              
-            <PropertyMap Address_line = {address} />
+            <HostPlacePropertyMap Address_line = {address} />
       
         </div>
 

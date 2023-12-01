@@ -6,7 +6,7 @@
   background-color: var(--shade-01);
   box-shadow: 0 4px 10px 6px rgba(0, 0, 0, 0.25);
   width: 778px;
-  height: 1307px;
+  height: 700px;
 }
 .priceRange {
   top: 149px;
@@ -336,7 +336,7 @@
 .clearSelection,
 .filterPlacesWrapper {
   position: absolute;
-  top: 35px;
+  top: 15px;
   display: flex;
   align-items: center;
   height: 55px;
@@ -353,6 +353,7 @@
   flex-wrap: wrap;
   justify-content: center;
   box-sizing: border-box;
+  top: -600px; /* Adjusted top position */
 }
 .filterPlacesWrapper:hover {
   background-color: var(--color-blueviolet-100);
@@ -365,6 +366,7 @@
   line-height: 70.19%;
   font-weight: 500;
   width: 395px;
+  top: 0; /* Adjusted top position */
 }
 .groupItem {
   position: absolute;

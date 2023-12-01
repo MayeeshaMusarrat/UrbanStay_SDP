@@ -28,6 +28,11 @@ import CancelledChip from './Chips/cancelledChip';
 import GiveReview from './Review/GivePropertyReview';
 import { Link, useNavigate } from 'react-router-dom';
 
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+
+
 
 
 const PastReservationDatagrid = ({ data }) => {
@@ -52,7 +57,196 @@ const PastReservationDatagrid = ({ data }) => {
   const goToReview = (row) => {
     navigate(`/give-property-review/${row}`);
   }
-  
+
+
+  {/* 
+  const [name, setName] = useState("");
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const generatePdf = () => {
+    const templateDiv = document.createElement("div");
+    templateDiv.innerHTML = `
+    <head>
+    <style>
+    body {
+      margin: 0;
+      line-height: normal;
+    }
+  </style>
+</head>
+<body>
+  <div
+    style="
+      position: relative;
+      background-color: #fff;
+      width: 100%;
+      height: 457px;
+      overflow: hidden;
+      text-align: left;
+      font-size: 10px;
+      color: #000;
+      font-family: Inter;
+    "
+  >
+    <div
+      style="
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        background-color: #371dae;
+        width: 656px;
+        height: 57px;
+      "
+    ></div>
+    <div
+      style="
+        position: absolute;
+        top: -3px;
+        left: -10px;
+        width: 147px;
+        height: 90px;
+      "
+    >
+      <b
+        style="
+          position: absolute;
+          top: 8px;
+          left: 22px;
+          letter-spacing: -1px;
+          line-height: 70px;
+          text-transform: capitalize;
+          display: inline-block;
+          color: #fff;
+          width: 125px;
+          height: 57px;
+        "
+      >
+        URBANSTAY</b
+      >
+      <img
+        style="
+          position: absolute;
+          top: 8px;
+          left: 17px;
+          width: 73px;
+          height: 25px;
+          object-fit: cover;
+        "
+        alt=""
+        src="./public/urbanstaylogopic@2x.png"
+      />
+
+      <div
+        style="
+          position: absolute;
+          top: 85px;
+          left: 29px;
+          background-color: #d9d9d9;
+          width: 618px;
+          height: 21px;
+        "
+      ></div>
+      <div
+        style="
+          position: absolute;
+          top: 85px;
+          left: -124px;
+          letter-spacing: -1px;
+          line-height: 20px;
+          text-transform: capitalize;
+          font-weight: 500;
+          text-align: center;
+          display: inline-block;
+          width: 396px;
+          height: 20px;
+        "
+      >
+        Reservation Details
+      </div>
+      <div
+        style="
+          position: absolute;
+          top: 85px;
+          left: 29px;
+          background-color: #d9d9d9;
+          width: 618px;
+          height: 21px;
+        "
+      ></div>
+      <div
+        style="
+          position: absolute;
+          top: 85px;
+          left: -115px;
+          line-height: 20px;
+          text-transform: capitalize;
+          font-family: Poppins;
+          text-align: center;
+          display: inline-block;
+          width: 396px;
+          height: 20px;
+        "
+      >
+        Reservation Details
+      </div>
+      <div
+        style="
+          position: absolute;
+          top: 123px;
+          left: 32px;
+          line-height: 20px;
+          text-transform: capitalize;
+          font-weight: 500;
+          display: inline-block;
+          width: 396px;
+          height: 20px;
+        "
+      >
+        Property Name: prop
+      </div>
+    </div>
+    <div
+      style="
+        position: absolute;
+        top: -7px;
+        left: 0px;
+        font-size: 13px;
+        line-height: 70px;
+        text-transform: capitalize;
+        font-weight: 500;
+        color: #fff;
+        text-align: center;
+        display: inline-block;
+        width: 656px;
+        height: 61px;
+      "
+    >
+      RESERVATION RECEIPT
+    </div>
+  </div>
+  </body>
+    `;
+
+    const iframe = templateDiv.querySelector("iframe");
+
+  if (iframe) {
+    // Wait for iframe content to load
+    iframe.onload = () => {
+      html2canvas(templateDiv).then((canvas) => {
+       // const imgData = canvas.toDataURL("image/png");
+
+        const pdf = new jsPDF();
+       // pdf.addImage(imgData, "PNG", 10, 10);
+        pdf.save("your_file.pdf");
+      });
+    };
+  }
+};
+
+*/}
+
 
   const columns: GridColDef[] = [
     
@@ -110,7 +304,7 @@ const PastReservationDatagrid = ({ data }) => {
       width: 140,
       renderCell: (params) => (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
-            {params.row.Status === null ? <CompletedChip /> : <CancelledChip />}
+            <CompletedChip /> 
         </div>
     ),
     },
@@ -164,6 +358,8 @@ const PastReservationDatagrid = ({ data }) => {
       width: 80,
       renderCell: (params) => {
         const reviewDone = params.row.reviewDone;
+        const propName = params.row.Property;
+        localStorage.setItem('propName', propName);
         console.log("review: ", reviewDone);
        return (
       <IconButton disabled = {reviewDone}>
@@ -173,11 +369,11 @@ const PastReservationDatagrid = ({ data }) => {
           />
         </IconButton>
 
-      
        );
       },
 
     },
+    {/* 
     {
       field: "download",
       headerName: "Download",
@@ -188,15 +384,16 @@ const PastReservationDatagrid = ({ data }) => {
       renderCell: (params) => (
         <>
       
-        <IconButton>
+        <IconButton onClick = {generatePdf} >
           <DownloadRoundedIcon style={{ color: '0F52BA' , display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }} />
         </IconButton>
      
         </>
 
       ),
-
-    },
+       */}
+     
+    
   ];
 
   const gridStyle = {

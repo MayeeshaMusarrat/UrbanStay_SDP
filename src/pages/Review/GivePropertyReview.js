@@ -25,6 +25,9 @@ const GivePropertyReview = () => {
     navigate("/mypastreservations");
   }, []);
 
+
+  const propName = localStorage.getItem('propName');
+
   const labels = {
     0.5: 'Not Worth',
     1: 'Very Poor',
@@ -391,7 +394,7 @@ const handleSubmit = (e) => {
         </div>
       </div>
       <div className={styles.reservationheadingParent}>
-        <b className={styles.reservationheading}>{`> Review for PropName`}</b>
+        <b className={styles.reservationheading}>{`> Review for ` + propName}</b>
         <b className={styles.reservationheading1} onClick = {goPastReservation} >Past Reservations</b>
       </div>
       <TextField

@@ -43,7 +43,7 @@ const AvatarsFromBackend = ({  userId, firstname }) => {
     
     const fetchAvatars = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/getAvatars/${userId}`);
+        const response = await fetch(`http://localhost:5001/getAvatarsPresentlyReserved/${userId}`);
         const data = await response.json();
         setAvatars(data.avatars); 
       } catch (error) {

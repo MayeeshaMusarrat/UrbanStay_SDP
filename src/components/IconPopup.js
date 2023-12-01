@@ -148,8 +148,8 @@ const IconPopup = ({ topMargin, name = "" }) => {
             <button className={styles.profilebtn} id="accSettings" onClick={handleProfileClick}>
               <button className={styles.profile}> Profile</button>
             </button>
-            <button className={styles.wishlistbtn} id="accSettings">
-              <button className={styles.profile}> Wishlist</button>
+            <button className={styles.wishlistbtn} id="accSettings" onClick={handleProfileClick}>
+              <button className={styles.profile}> Account Settings </button>
             </button>
             <button className={styles.hostbtn} id="accSettings" onClick={handleHostPlaceClick}>
               <button className={styles.profile}> Host a place</button>

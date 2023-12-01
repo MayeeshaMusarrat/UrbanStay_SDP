@@ -15,6 +15,7 @@ import {Calendar} from "../components/Calendar";
 import dayjs from "dayjs";
 import PictureGallery from "./PictureGallery";
 import { PinDrop } from "@mui/icons-material";
+import GradeIcon from '@mui/icons-material/Grade';
 
 import IconPopupForGuest from '../components/IconPopupForGuest';
 import IconPopup from '../components/IconPopup';
@@ -30,12 +31,18 @@ import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import ChooseAmenities from "./ChooseAmenities";
+import ShowAmenities from './ShowAmenities';
+import { formatMeridiem } from "@mui/x-date-pickers/internals/utils/date-utils";
+import axios from 'axios';
 
 
 const ViewDetails = ({ onClose }) => {
   const { prop } = useParams();
   const decodedPropValueString = decodeURIComponent(prop);
   const propValue = JSON.parse(decodedPropValueString);
+
+
 
   ///string avatar
 
@@ -102,6 +109,24 @@ const ViewDetails = ({ onClose }) => {
         console.error('Error fetching data:', error);
       });
   }, []);
+
+
+  
+  const [amenities, setAmenities] = useState([]);
+  const [loadingAm, setLoadingAm] = useState(true);
+  useEffect(() => {
+    const fetchAmenities = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5001/getAmenities/${PID}`);
+        setAmenities(response.data.searchResults);
+        setLoadingAm(false);
+      } catch (error) {
+        console.error('Error fetching amenities:', error);
+      }
+    };
+
+    fetchAmenities();
+  }, [PID]);
 
   
 
@@ -192,6 +217,8 @@ const ViewDetails = ({ onClose }) => {
   const [pieData, setPieData] = useState([]);
   const [barData, setBarData] = useState([]);
   const [loading, setLoading] = useState(1);
+  const [Overall, setOverall] = useState(0.0);
+ 
 
   useEffect(() => {
     fetch(`http://localhost:5001/getReviews/${PID}`)
@@ -226,11 +253,12 @@ const ViewDetails = ({ onClose }) => {
         }));
         
         setReviewData(formattedReviewData);
-        
-
+        setOverall(formattedReviewData[0].overall);
+      
       })
       .catch(error => console.error('Error fetching data:', error));
   }, [PID]);
+
 
   useEffect(() => {
     fetch(`http://localhost:5001/getRatings/${PID}`)
@@ -442,9 +470,6 @@ const ViewDetails = ({ onClose }) => {
   
 
 
-
-
-
   const storedValue = localStorage.getItem('email');
   const [loggedIn, setLoggedIn] = useState(storedValue);
 
@@ -470,12 +495,22 @@ const ViewDetails = ({ onClose }) => {
     useState(false);
   const navigate = useNavigate();
 
+  const [isChooseAmenityOpen, setChooseAmenityOpen] = useState(false);
+
   const onButtonContainer4Click = () => {
     console.log("here");
     if(storedValue) navigate("/confirm-reservation");
     else navigate("/sign-in-page");
   };
 
+  
+  const openChooseAmenitiesPopup = () => {
+    setChooseAmenityOpen(true);
+  }
+
+  const closeChooseAmenities = () => {
+    setChooseAmenityOpen(false);
+  }
   const openReviewDetailsPopup = (review) => {
     console.log("openReviewDetailPopup: ", review);
     setReviewDetails(review);
@@ -851,6 +886,7 @@ const ViewDetails = ({ onClose }) => {
             </div>
           </div>
         </div>
+
         <div className={styles.amenitySectionParent}>
           <div
             className={styles.amenitySection}
@@ -859,162 +895,40 @@ const ViewDetails = ({ onClose }) => {
             <div className={styles.heading2}>
               <div className={styles.amenities}>Amenities</div>
             </div>
-            <div className={styles.divc16f2viy}>
-              <div className={styles.waterfront}>
-                <div className={styles.waterfront1}>
-                  <div className={styles.divi4wvyiymargin}>
-                    <img
-                      className={styles.frameIcon2}
-                      alt=""
-                      src="/frame2.svg"
-                    />
-                  </div>
-                  <div className={styles.divh2dCca3e21b}>
-                    <div className={styles.freeParkingOn}>Waterfront</div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.kitchen}>
-                <div className={styles.diviikjzje}>
-                  <div className={styles.divi4wvyiymargin}>
-                    <img
-                      className={styles.frameIcon2}
-                      alt=""
-                      src="/frame3.svg"
-                    />
-                  </div>
-                  <div className={styles.divh2dB0e29d5f}>
-                    <div className={styles.freeParkingOn}>Kitchen</div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.wifi}>
-                <div className={styles.diviikjzje1}>
-                  <div className={styles.divi4wvyiymargin}>
-                    <img
-                      className={styles.frameIcon2}
-                      alt=""
-                      src="/frame4.svg"
-                    />
-                  </div>
-                  <div className={styles.divh2d5c91f47a}>
-                    <div className={styles.freeParkingOn}>Wifi</div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.parking}>
-                <div className={styles.diviikjzje2}>
-                  <div className={styles.divi4wvyiymargin}>
-                    <img
-                      className={styles.frameIcon2}
-                      alt=""
-                      src="/frame5.svg"
-                    />
-                  </div>
-                  <div className={styles.divh2d92060c83}>
-                    <div className={styles.freeParkingOn}>
-                      Free parking on premises
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.hotTub}>
-                <div className={styles.diviikjzje3}>
-                  <div className={styles.divi4wvyiymargin}>
-                    <img
-                      className={styles.frameIcon2}
-                      alt=""
-                      src="/frame6.svg"
-                    />
-                  </div>
-                  <div className={styles.divh2dFbd87c70}>
-                    <div className={styles.freeParkingOn}>Private hot tub</div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.tv}>
-                <div className={styles.diviikjzje4}>
-                  <div className={styles.divi4wvyiymargin}>
-                    <img
-                      className={styles.frameIcon2}
-                      alt=""
-                      src="/frame7.svg"
-                    />
-                  </div>
-                  <div className={styles.divh2dEbcf5284}>
-                    <div className={styles.freeParkingOn}>TV</div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.washer}>
-                <div className={styles.diviikjzje5}>
-                  <div className={styles.divi4wvyiymargin}>
-                    <img
-                      className={styles.frameIcon2}
-                      alt=""
-                      src="/frame8.svg"
-                    />
-                  </div>
-                  <div className={styles.divh2d63128074}>
-                    <div className={styles.freeParkingOn}>Washer</div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.dryer}>
-                <div className={styles.diviikjzje6}>
-                  <div className={styles.divi4wvyiymargin}>
-                    <img
-                      className={styles.frameIcon2}
-                      alt=""
-                      src="/frame9.svg"
-                    />
-                  </div>
-                  <div className={styles.divh2d9f41df4e}>
-                    <div className={styles.freeParkingOn}>Dryer</div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.ac}>
-                <div className={styles.diviikjzje7}>
-                  <div className={styles.divi4wvyiymargin}>
-                    <img
-                      className={styles.frameIcon2}
-                      alt=""
-                      src="/frame10.svg"
-                    />
-                  </div>
-                  <div className={styles.divh2d8fa08396}>
-                    <div className={styles.freeParkingOn}>Window AC unit</div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.cctv}>
-                <div className={styles.diviikjzje8}>
-                  <div className={styles.divi4wvyiymargin}>
-                    <img
-                      className={styles.frameIcon2}
-                      alt=""
-                      src="/frame11.svg"
-                    />
-                  </div>
-                  <div className={styles.divh2d36b25a6b}>
-                    <div className={styles.freeParkingOn}>
-                      Security cameras on property
-                    </div>
-                  </div>
-                </div>
-              </div>
+
+            <div>
+              {loadingAm ? (
+                <p>Loading amenities...</p>
+              ) : (
+                <ul>
+                  <p>
+
+
+                  </p>
+
+                  <p>
+
+                    
+                  </p>
+                  {amenities.map((amenity) => (
+                    <li key={amenity.id}>{amenity.Name}</li>
+                  ))}
+                </ul>
+              )}
             </div>
-          {/* 
+
+          {/*   <ShowAmenities />
+            
+          {
             <div className={styles.divb9672i7}>
               <div className={styles.button1}>
-                <div className={styles.showAllAmenities}>
-                  Show all amenities
+                <div className={styles.showAllAmenities} onClick = {openChooseAmenitiesPopup}>
+                  Choose Amenities
                 </div>
               </div>
             </div>
+          }
           */}
-
             <div className={styles.lineParent}>
               <div className={styles.groupChild} />
               <div className={styles.groupItem} />
@@ -1123,7 +1037,7 @@ const ViewDetails = ({ onClose }) => {
                 src="/divs197t1q2margin.svg"
               />
               <div className={styles.divr1lutz1s}>
-                <span className={styles.div}>{propValue.rating}</span>
+                <span className={styles.div}>{Overall}</span>
               </div>
               <div className={styles.spanh2dDc59958f}>
                 <div className={styles.div}>·</div>
@@ -1131,7 +1045,7 @@ const ViewDetails = ({ onClose }) => {
 
               
               <div className={styles.link18}>
-                <span className={styles.reviews}>{propValue.rating_num+' reviews'}</span>
+                <span className={styles.reviews}>{reviewData.length +' reviews'}</span>
               </div>
               
 
@@ -1338,9 +1252,12 @@ const ViewDetails = ({ onClose }) => {
           className={styles.reviewframe}
           data-scroll-to="reviewFrameContainer"
         >
-          <div className={styles.div10}>4.5</div>
+        
+          <span> 
+          <div className={styles.div10}><GradeIcon />{Overall}</div>
+            </span>
           <div className={styles.reviews1}>Reviews</div>
-          <div className={styles.reviews2}>15 Reviews</div>
+          <div className={styles.reviews2}>{reviewData.length + " Reviews"}</div>
           <div className={styles.reviewframeChild} />
 
 
@@ -1552,6 +1469,18 @@ const ViewDetails = ({ onClose }) => {
           <SignoutConfirmationPopup onClose={closeSignoutConfirmationPopup} />
         </PortalPopup>
       )}
+
+      {isChooseAmenityOpen && (
+        <PortalPopup
+          overlayColor="rgba(113, 113, 113, 0.3)"
+          placement="Centered"
+          onOutsideClick={closeChooseAmenities}
+        >
+          <ChooseAmenities onClose={closeChooseAmenities} />
+        </PortalPopup>
+      )}
+
+
     </>
   );
 };

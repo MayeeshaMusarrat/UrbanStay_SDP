@@ -684,11 +684,10 @@
   width: 233px;
 }
 .MAP {
-  top: 320px;
+  top: 280px;
   left: 63px;
-  background-color: var(--color-gainsboro-200);
   width: 908px;
-  height: 400px;
+  height: 410px;
 }
 .locationFrame {
   position: absolute;

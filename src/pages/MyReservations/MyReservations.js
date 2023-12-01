@@ -42,7 +42,7 @@ const MyReservations = () => {
   const [selectedRowProperty, setSelectedRowProperty] = useState(null);
 
   const closePopupProperty = () => {
-    setSelectedRowProperty(null);
+   // setSelectedRowProperty(null);
     setOpenPopupProperty(false);
     console.log("Inside closePopupProperty function");
   };

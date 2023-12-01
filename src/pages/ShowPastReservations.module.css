@@ -1,282 +1,4 @@
-.reservationheading {
-    position: absolute;
-    top: 125px;
-    left: 146px;
-    letter-spacing: 0.1px;
-    line-height: 32px;
-    display: inline-block;
-    font-family: var(--font-poppins);
-    width: 818px;
-    height: 52px;
-    font-size: 20px;
-  }
-  .reservationheadingListing {
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    top: 125px;
-    left: 60px;
-    letter-spacing: 0.1px;
-    line-height: 32px;
-    display: inline-block;
-    font-family: var(--font-poppins);
-    width: 818px;
-    height: 52px;
-    font-size: 20px;
-  }
-  .reservationheadingListing:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
-
-  .whiterectangle {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: var(--color-white);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 1518px;
-    height: 105px;
-  }
-  .stay {
-    font-weight: 500;
-    color: #6c60fe;
-  }
-  .urbanstayTxt {
-    line-break: anywhere;
-    width: 100%;
-  }
-  .urbanstay {
-    position: absolute;
-    top: 49px;
-    left: 25px;
-    letter-spacing: -1px;
-    line-height: 70px;
-    text-transform: capitalize;
-    display: flex;
-    align-items: center;
-    width: 85px;
-    height: 20px;
-  }
-  .image31,
-  .urbanstayParent {
-    position: absolute;
-    width: 133px;
-  }
-  .image31 {
-    top: 0;
-    left: 0;
-    height: 46px;
-    object-fit: cover;
-  }
-  .urbanstayParent {
-    top: 22px;
-    left: 5px;
-    height: 69px;
-    cursor: pointer;
-  }
-  .stickyNavBar {
-    position: absolute;
-    top: -17px;
-    left: 0;
-    width: 1542px;
-    height: 119px;
-    overflow: hidden;
-    font-size: var(--font-size-base);
-   
-  }
-  .bigcalendar {
-    position: absolute;
-    top: 196px;
-    left: 62px;
-   
-    width: 1400px;
-    height: 685px;
-  }
-  .guestdatagrid {
-    position: absolute;
-    top: 730px;
-    left: 170px;
-    box-sizing: border-box;
-    width: 928px;
-    height: 660px;
-    overflow: hidden;
-    z-index: 1;
-  }
-  .filterChild {
-    position: absolute;
-    top: 17px;
-    left: 20px;
-    border-radius: 15px;
-    background-color: var(--color-white);
-    box-shadow: 0 0 13px rgba(0, 0, 0, 0.25);
-    width: 416px;
-    height: 630px;
-  }
-  .guestRating {
-    position: absolute;
-    top: 0;
-    left: 1px;
-    letter-spacing: -1px;
-    line-height: 20px;
-    text-transform: capitalize;
-    display: flex;
-    align-items: center;
-    width: 342px;
-  }
-  .maxguestrating,
-  .minguestrating {
-    border: 0;
-    background-color: transparent;
-    position: absolute;
-    height: calc(100% - 31px);
-    width: calc(100% - 202px);
-    top: 31px;
-    right: 202px;
-    bottom: 0;
-    left: 0;
-  }
-  .maxguestrating {
-    right: 0;
-    left: 202px;
-  }
-  .guestrating,
-  .guestratingChild {
-    position: absolute;
-    top: 53.5px;
-    left: 151px;
-    width: 36px;
-    height: 2px;
-  }
-  .guestrating {
-    top: 0;
-    left: 0;
-    width: 343px;
-    height: 81px;
-  }
-  .maxPrice,
-  .minPrice {
-    position: absolute;
-    top: 0;
-    left: 1px;
-    letter-spacing: -1px;
-    line-height: 20px;
-    text-transform: capitalize;
-    display: flex;
-    align-items: center;
-    width: 102px;
-  }
-  .maxPrice {
-    left: 202px;
-  }
-  .minguestrating1 {
-    border: 0;
-    background-color: transparent;
-    position: absolute;
-    height: calc(100% - 31px);
-    width: calc(100% - 200px);
-    top: 31px;
-    right: 200px;
-    bottom: 0;
-    left: 0;
-  }
-  .pricingChild {
-    position: absolute;
-    top: 54px;
-    left: 151px;
-    width: 36px;
-    height: 2px;
-  }
-  .pricing {
-    top: 236px;
-    width: 341px;
-    height: 81px;
-  }
-  .pricing,
-  .roomsGuests,
-  .sortBy {
-    position: absolute;
-    left: 0;
-  }
-  .roomsGuests {
-    top: 118px;
-    width: 341px;
-    height: 81px;
-  }
-  .sortBy {
-    top: 0;
-    line-height: 20px;
-    font-weight: 600;
-  }
-  .parent,
-  .sortby {
-    position: absolute;
-    top: 31px;
-    left: 0;
-  }
-  .sortby {
-    top: 354px;
-    left: 1px;
-    width: 340px;
-    height: 68px;
-  }
-  .filter1,
-  .filterbtn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .filter1 {
-    cursor: pointer;
-    border: 0;
-    padding: 0;
-    background-color: transparent;
-    position: relative;
-    font-size: var(--font-size-sm);
-    text-transform: capitalize;
-    font-weight: 700;
-    font-family: var(--font-inter);
-    color: white;
-    text-align: center;
-    width: 166px;
-    flex-shrink: 0;
-  }
-  .filterbtn {
-    position: absolute;
-    top: 480px;
-    left: 0;
-    border-radius: 9.08px;
-    background-color: var(--color-darkblue);
-    width: 343px;
-    height: 49px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: var(--padding-3xs);
-    box-sizing: border-box;
-  }
-  .filterbtn:hover {
-    background-color: rgba(88, 57, 227, 0.93);
-    gap: 10px;
-  }
-  .filter,
-  .filterframe {
-    position: absolute;
-    top: 64px;
-    left: 59px;
-    width: 343px;
-    height: 529px;
-    color: gray;
-  }
-  .filter {
-    top: 720px;
-    left: 1008px;
-    width: 452px;
-    height: 659px;
-    overflow: hidden;
-    font-size: var(--font-size-mini);
-    color: var(--color-slategray);
-  }
-  .heading4 {
+.heading4 {
     position: relative;
     line-height: 28.8px;
     font-weight: 600;
@@ -712,18 +434,94 @@
     left: 0;
     background-color: #10162e;
     height: 462.6px;
-    color: white;
-    font-family: var(--font-plus-jakarta-sans);
+    font-size: var(--font-size-5xl);
+    color: var(--color-white);
   }
-  .showPendingReservations {
+  .listings1 {
+    text-decoration: underline;
+  }
+  .reservationheading {
+    position: absolute;
+    top: 149px;
+    left: 83px;
+    letter-spacing: 0.1px;
+    line-height: 32px;
+    display: inline-block;
+    font-family: var(--font-poppins);
+    width: 818px;
+    height: 52px;
+  }
+  .whiterectangle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--color-white);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 1518px;
+    height: 105px;
+  }
+  .stay {
+    font-weight: 500;
+    color: #6c60fe;
+  }
+  .urbanstayTxt {
+    line-break: anywhere;
+    width: 100%;
+  }
+  .urbanstay {
+    position: absolute;
+    top: 49px;
+    left: 25px;
+    letter-spacing: -1px;
+    line-height: 70px;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    width: 85px;
+    height: 20px;
+  }
+  .image31,
+  .urbanstayParent {
+    position: absolute;
+    width: 133px;
+  }
+  .image31 {
+    top: 0;
+    left: 0;
+    height: 46px;
+    object-fit: cover;
+  }
+  .urbanstayParent {
+    top: 22px;
+    left: 5px;
+    height: 69px;
+    cursor: pointer;
+  }
+  .stickyNavBar {
+    position: absolute;
+    top: -6px;
+    left: 0;
+    width: 1542px;
+    height: 119px;
+    overflow: hidden;
+    font-family: var(--font-lato);
+  }
+  .showReservationsChild {
+    position: absolute;
+    top: 201px;
+    left: 220px;
+    width: 1000px;
+    height: 1158px;
+  }
+  .showReservations {
     position: relative;
     background-color: var(--color-white);
     width: 100%;
-    height: 1950px;
+    height: 1860px;
     overflow: hidden;
     text-align: left;
-    font-size: var(--font-size-5xl);
+    font-size: var(--font-size-base);
     color: var(--color-darkblue);
-    font-family: var(--font-lato);
+    font-family: var(--font-plus-jakarta-sans);
   }
   

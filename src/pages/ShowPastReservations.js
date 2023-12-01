@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./ShowReservations.module.css";
-import CurrentlyReservedDatagrid from "./CurrentlyReservedDatagrid";
+import CurrentlyReservedDatagrid from "./PastlyReservedDatagrid";
 import Footer from '../components/Footer';
 import { useParams } from 'react-router-dom';
 import { format } from "date-fns";
@@ -21,7 +21,7 @@ const ShowReservations = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`http://localhost:5001/getPresentReservations/${PID}`)
+    fetch(`http://localhost:5001/getPastlyReservations/${PID}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -88,7 +88,7 @@ const ShowReservations = () => {
     
       <b className={styles.reservationheading}>
         <span className={styles.listings1} onClick = {goListings}>Listings</span>
-        {` > Current Guests of ` + propName}
+        {` > Past Guests of ` + propName}
       </b>
       <div className={styles.stickyNavBar}>
         <div className={styles.whiterectangle} />

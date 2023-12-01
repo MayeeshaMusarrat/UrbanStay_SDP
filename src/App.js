@@ -31,6 +31,7 @@ import ShowReservations from "./pages/ShowReservations";
 import ShowPendingReservations from './pages/ShowPendingReservations';
 import OTPPage from "./pages/OTPPage";
 import GiveReviewForProperty from './pages/Review/GivePropertyReview';
+import ShowPastReservations from './pages/ShowPastReservations';
 
 function App() {
   const action = useNavigationType();
@@ -141,7 +142,11 @@ function App() {
          metaDescription = "";
          break;
       case "/give-property-review":
-      title = "Review Property";
+        title = "Review Property";
+        metaDescription = "";
+        break;
+      case "/show-past-reservations":
+        title = "Past Reservations";
         metaDescription = "";
         break;
   }
@@ -185,11 +190,11 @@ function App() {
       <Route path="/notifications" element={<Notifications />} />
       <Route path="/wishlist" element={<Wishlist />} />
       <Route path="/show-reviews/:PID" element={<ShowReviews />} />
-      <Route path="/show-reservations" element={<ShowReservations />} />
+      <Route path="/show-reservations/:PID" element={<ShowReservations />} />
       <Route path="/show-pending-reservations/:PID" element={<ShowPendingReservations />} />
       <Route path="/otp-page" element={<OTPPage />} />
       <Route path="/give-property-review/:PID" element={<GiveReviewForProperty />} />
-      
+      <Route path="/show-past-reservations/:PID" element={<ShowPastReservations />} />
 
     </Routes>
   );

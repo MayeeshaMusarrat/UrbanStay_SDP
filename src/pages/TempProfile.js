@@ -45,13 +45,15 @@ const TempProfile = () => {
           description : result.description,
           city : result.City,
           country : result.Country,
-          livesIn: `${result.City}, ${result.Country}`
+          livesIn: `${result.City}, ${result.Country}`,
+          phone : result.Phone,
+          pass : result.Password
           
         }));
         
         setUserData(formattedUserData);
 
-        const desc= result.description;
+        
         const city=result.City;
         const country = result.Country;
 
@@ -65,12 +67,16 @@ const TempProfile = () => {
   const joinDate = userData.length > 0 ? userData[0].joinDate : '';
   const livesIn = userData.length > 0 ? userData[0].livesIn : '';
   const description = userData.length > 0 ? userData[0].description : '';
+  const phone = userData.length > 0 ? userData[0].phone : '';
   const city = userData.length > 0 ? userData[0].city : '';
   const country = userData.length > 0 ? userData[0].country : '';
+  const pass = userData.length > 0 ? userData[0].pass : '';
 
   localStorage.setItem('Description', description);
   localStorage.setItem('City', city);
   localStorage.setItem('Country', country); 
+  localStorage.setItem('phone', phone); 
+  localStorage.setItem('pass', pass);
 
   const [isProfileDetailsPopupOpen, setProfileDetailsPopupOpen] =
     useState(false);
@@ -326,15 +332,8 @@ const TempProfile = () => {
             </div>
           </div>
         </div>
-        <div className={styles.rentedVsCancelledParent}>
-          <div className={styles.rentedVsCancelled}>Rented Vs Cancelled</div>
-          <div className={styles.ratingsAsA}>Ratings as a host</div>
-          <div className={styles.ratingsAsA1}>Ratings as a Guest</div>
-          <div className={styles.rentedvccanceled} />
-          <div className={styles.hostratingbreakdown} />
-          <div className={styles.guestratingbreakdown} />
-        </div>
-        <div className={styles.totalEarnings}>Total Earnings</div>
+        
+       
         <div className={styles.divb9672i7}>
           <div className={styles.button}>
             <div className={styles.showAllReviews}>Show all reviews</div>
@@ -357,6 +356,18 @@ const TempProfile = () => {
           </p>
           <p className={styles.weHaveSent}>
           <div className={styles.weHaveSent}>{description}</div>
+          <p className={styles.emailSection}>
+          <b>
+            <span>Email: {email}</span>
+          </b>
+        </p>
+
+        {/* New Phone Section */}
+        <p className={styles.phoneSection}>
+          <b>
+            <span>Phone: {phone}</span>
+          </b>
+        </p>
           </p>
         </div>
         <div
@@ -364,30 +375,9 @@ const TempProfile = () => {
           onClick={openProfileDetailsPopup}
         >
           <button className={styles.setUpA}>{`Set up a Profile `}</button>
-        </div>
-        <div className={styles.earningGraphWrapper}>
-          <div className={styles.earningGraph} >
+        
 
-          <BarChart
-            xAxis={[
-              {
-                id: 'barCategories',
-                data: ['Jan', 'Feb', 'Mar','Apr','May','June','Jul','Aug','Sept','Oct','Nov','Dec'],
-                scaleType: 'band',
-                label: "Months (2023)"
-              },
-            ]}
-          
-            series={[
-              {
-                data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              },
-            ]}
-            width={900}
-            height={300}
-          />
-
-          </div>
+        
         </div>
         <div className={styles.profileCardParent}>
          <div className={styles.profileCard}>
@@ -404,23 +394,16 @@ const TempProfile = () => {
               <div className={styles.joinedOn18}>Joined on {joinDate}</div>
               </div>
             </div>
-            <div className={styles.rating}>
-              <img
-                className={styles.ratingstarIcon}
-                alt=""
-                src="/ratingstar.svg"
-              />
-              <div className={styles.stars}>{` 0 stars `}</div>
-            </div>
+           
             <div className={styles.userlocation}>
               <img
                 className={styles.carbonlocationIcon}
                 alt=""
                 src="/carbonlocation.svg"
               />
-              <div className={styles.livesInDhaka}>
-              <div className={styles.livesInDhaka}>Lives in {livesIn}</div>
-              </div>
+              
+              
+              
             </div>
             
           </div>

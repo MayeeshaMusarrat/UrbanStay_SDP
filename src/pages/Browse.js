@@ -36,8 +36,7 @@ const Browse = ({ onClose }) => {
 
   useEffect(() => {
     const localStorageValue = localStorage.getItem('PID');
-    if (localStorageValue) 
-    {
+    if (localStorageValue) {
       localStorage.removeItem('PID');
     }
   }, []);
@@ -64,8 +63,8 @@ const Browse = ({ onClose }) => {
         height: 30.55,
         marginTop: 5.5,
         marginLeft: 179.99,
-        position: 'relative', 
-        zIndex: 1, 
+        position: 'relative',
+        zIndex: 1,
       },
       children: `${name.split(' ')[0][0]}`,
     };
@@ -75,18 +74,17 @@ const Browse = ({ onClose }) => {
 
 
 
-  const [dateShow, setDateShow]  = useState("19 Oct, 2023 - 25 Oct, 2023");
- 
+  const [dateShow, setDateShow] = useState("19 Oct, 2023 - 25 Oct, 2023");
+
   const name = localStorage.getItem('name');
-  
-  
+
+
   useEffect(() => {
-   
+
     if (localStorage.getItem('name')) {
-     
-    } 
-    else 
-    {
+
+    }
+    else {
       setVisible(false);
     }
   }, [name]);
@@ -95,11 +93,11 @@ const Browse = ({ onClose }) => {
   function formatDateDisplay(date, defaultText) {
     if (!date) return defaultText;
     return format(date, "d MMM, yyyy");
-}
+  }
 
-/******************************* FILTER POPUP ************************** */
+  /******************************* FILTER POPUP ************************** */
 
-const [isPopupOpen, setPopupOpen] = useState(false);
+  const [isPopupOpen, setPopupOpen] = useState(false);
 
   const openPopup = () => {
     setPopupOpen(true);
@@ -109,7 +107,7 @@ const [isPopupOpen, setPopupOpen] = useState(false);
     setPopupOpen(false);
   };
 
- 
+
 
 
 
@@ -117,6 +115,10 @@ const [isPopupOpen, setPopupOpen] = useState(false);
   /***************** I am extracting the parameters to be sent to nodeJS backend **************/
 
 
+
+  const propType = localStorage.getItem('proptype');
+  const minPrice = localStorage.getItem('minprice');
+  const maxPrice = localStorage.getItem('maxprice');
   const destination = localStorage.getItem('Destination');
   const rooms = localStorage.getItem('Rooms');
   const guests = localStorage.getItem('Guests');
@@ -136,21 +138,23 @@ const [isPopupOpen, setPopupOpen] = useState(false);
 
   /**************************** End ***********************************************************/
 
-//  dates: `${checkin_date_result} - ${checkout_date_result}`,
+  //  dates: `${checkin_date_result} - ${checkout_date_result}`,
 
   const [propertyData, setPropertyData] = useState([]);
-  
+
 
   useEffect(() => {
-    fetch(`http://localhost:5001/browse?destination=${destination}&checkIn=${checkIn}&checkOut=${checkOut}&rooms=${rooms}&guests=${guests}`)
+    fetch(`http://localhost:5001/browse?destination=${destination}&checkIn=${checkIn}&checkOut=${checkOut}&rooms=${rooms}&guests=${guests}&proptype=${propType}&minprice=${minPrice}&maxprice=${maxPrice}`)
       .then(response => response.json())
       .then(data => {
-        console.log("data: ",data);
-       
+        console.log("data: ", data);
+
+
+
         const formattedPropertyData = data.searchResults.map(result => ({
-          
+
           PID: result.PID,
-          imageUrl: result.pics, 
+          imageUrl: result.pics,
           property_title: result.Property_title,
           guests_prop: result.Num_of_guests,
           rooms_prop: result.Num_of_rooms,
@@ -160,7 +164,7 @@ const [isPopupOpen, setPopupOpen] = useState(false);
           description: result.description,
           destination: `${result.City}, ${result.Country}`,
           checkin_date_result: result.Check_in_date,
-          checkout_date_result: result.Check_out_date, 
+          checkout_date_result: result.Check_out_date,
           price: result.Price_per_night,
           rating: result.Avg_ratings,
           rating_num: result.Num_of_ratings,
@@ -168,11 +172,11 @@ const [isPopupOpen, setPopupOpen] = useState(false);
           area: result.Area,
           service_fee: result.service_fee,
           base_fee: result.base_fee
-          
+
         }));
-        
+
         setPropertyData(formattedPropertyData);
-       
+
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
@@ -180,15 +184,15 @@ const [isPopupOpen, setPopupOpen] = useState(false);
 
   const [selectedSortOption, setSelectedSortOption] = useState('default');
 
-  
+
   useEffect(() => {
-  
+
     const sortAndRenderCards = () => {
-      let sortedData = [...propertyData]; 
+      let sortedData = [...propertyData];
 
       if (selectedSortOption === 'High to low price') {
         sortedData.sort((a, b) => b.price - a.price);
-      } 
+      }
       else if (selectedSortOption === 'Low to high price') {
         sortedData.sort((a, b) => a.price - b.price);
       }
@@ -199,7 +203,7 @@ const [isPopupOpen, setPopupOpen] = useState(false);
         sortedData.sort((a, b) => a.area - b.area);
       }
 
-      setPropertyData(sortedData); 
+      setPropertyData(sortedData);
     };
 
     sortAndRenderCards();
@@ -269,7 +273,7 @@ const [isPopupOpen, setPopupOpen] = useState(false);
 
   const goProfile = useCallback(() => {
     navigate("/profile");
-  }, [navigate]); 
+  }, [navigate]);
 
   const onItemLink8Click = useCallback(() => {
     navigate("/");
@@ -295,49 +299,49 @@ const [isPopupOpen, setPopupOpen] = useState(false);
     navigate("/sign-in-page");
   }, [navigate]);
 
-  
+
 
   return (
     <>
       <div className={styles.browse}>
-           <div className={styles.filterframeWrapper}>
+        <div className={styles.filterframeWrapper}>
           <div className={styles.filterframe}>
             <div className={styles.filterframeChild} />
             <div className={styles.filtersParent}>
-              <button className={styles.filters} style = {{zIndex: 2000}} onClick = {openPopup} >Filters</button>
+              <button className={styles.filters} style={{ zIndex: 2000 }} onClick={openPopup} >Filters</button>
               <img className={styles.mifilterIcon} alt="" src="/mifilter.svg" />
             </div>
           </div>
         </div>
 
         {isPopupOpen && (
-        <FilterPopup onClose={closePopup} />
-      )}
+          <FilterPopup onClose={closePopup} />
+        )}
 
-        
-<div className={styles.sortByParent}>
-      <div className={styles.sortBy}>Sort By</div>
-      <FormControl className={styles.parent} sx={{ width: 298 }} variant="outlined">
-        <Select
-          onChange={(e) => setSelectedSortOption(e.target.value)}
-          id="sort-select"
-          color="info"
-          size="small"
-        >
-          <MenuItem value="High to low price">High to low price</MenuItem>
-          <MenuItem value="Low to high price">Low to high price</MenuItem>
-          <MenuItem value="Large to small area">
-            Large to small area
-          </MenuItem>
-          <MenuItem value="Small to large area">
-            Small to large area
-          </MenuItem>
-        </Select>
-        <FormHelperText />
-      </FormControl>
-    </div>
 
-    
+        <div className={styles.sortByParent}>
+          <div className={styles.sortBy}>Sort By</div>
+          <FormControl className={styles.parent} sx={{ width: 298 }} variant="outlined">
+            <Select
+              onChange={(e) => setSelectedSortOption(e.target.value)}
+              id="sort-select"
+              color="info"
+              size="small"
+            >
+              <MenuItem value="High to low price">High to low price</MenuItem>
+              <MenuItem value="Low to high price">Low to high price</MenuItem>
+              <MenuItem value="Large to small area">
+                Large to small area
+              </MenuItem>
+              <MenuItem value="Small to large area">
+                Small to large area
+              </MenuItem>
+            </Select>
+            <FormHelperText />
+          </FormControl>
+        </div>
+
+
 
 
         <div className={styles.footer} data-scroll-to="footerContainer">
@@ -548,66 +552,63 @@ const [isPopupOpen, setPopupOpen] = useState(false);
 
 
 
-        
+
         <div className={styles.somanypropertycardsFrame}>
 
-          
-        <Box>
-      <Grid container spacing={0} columns={10}>
-        {propertyData.map((property, index) => (
-          <Grid key={index}>
-            
-            <div className={styles.card} onClick={() => openPropertyFrame(property)}>
-                  <img className={styles.imageIcon} src={property.imageUrl} alt="" />
-                  <img className={styles.heartIcon} src="/heart.svg" alt="" />
-                  <div className={styles.locationDates}>
-                    <div className={styles.info}>
-                      <b className={styles.line1}>{property.property_title}</b>
-                      <div className={styles.dates}>{property.destination}</div>
-                    {  <div className={styles.dates}>{formatDateDisplay(new Date (property.checkin_date_result))+ ' - ' + formatDateDisplay(new Date (property.checkout_date_result))}</div> }
-                    </div>
-                    <div className={styles.price}>
-                      <div className={styles.dates}>
-                        <b>BDT {property.price}</b>
-                        <span> night</span>
+
+          <Box>
+            <Grid container spacing={0} columns={10}>
+              {propertyData.map((property, index) => (
+                <Grid key={index}>
+
+                  <div className={styles.card} onClick={() => openPropertyFrame(property)}>
+                    <img className={styles.imageIcon} src={property.imageUrl} alt="" />
+                   
+                    <div className={styles.locationDates}>
+                      <div className={styles.info}>
+                        <b className={styles.line1}>{property.property_title}</b>
+                        <div className={styles.dates}>{property.destination}</div>
+                        {<div className={styles.dates}>{formatDateDisplay(new Date(property.checkin_date_result)) + ' - ' + formatDateDisplay(new Date(property.checkout_date_result))}</div>}
+                      </div>
+                      <div className={styles.price}>
+                        <div className={styles.dates}>
+                          <b>BDT {property.price}</b>
+                          <span> night</span>
+                        </div>
                       </div>
                     </div>
+                   
+                   
                   </div>
-                  <div className={styles.star}>
-                    <img className={styles.starChild} src="/star-1.svg" alt="" />
-                    <div className={styles.dates}>{property.rating}</div>
-                  </div>
-                  <img className={styles.ellipsesIcon} src="/ellipses.svg" alt="" />
-                </div>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
 
 
 
 
-    </div>
-     
-      
-
-        { loggedIn && isGuest ? (
-
-                <IconPopupForGuest />
-
-        ) :  !loggedIn ?  (
-                 
-                <IconPopupSign topMargin = {7} />
+        </div>
 
 
-        ) :  loggedIn && !isGuest ? (
-            
-                <IconPopup />
 
-        ) : null }
+        {loggedIn && isGuest ? (
+
+          <IconPopupForGuest />
+
+        ) : !loggedIn ? (
+
+          <IconPopupSign topMargin={7} />
 
 
-        <div className={styles.showing647Places}>{"Showing "+propertyData.length+" Places"}</div>
+        ) : loggedIn && !isGuest ? (
+
+          <IconPopup />
+
+        ) : null}
+
+
+        <div className={styles.showing647Places}>{"Showing " + propertyData.length + " Places"}</div>
         <div className={styles.browseChild} data-scroll-to="rectangle" />
         <div className={styles.stickyNavBar}>
           <div className={styles.whiterectangle} />
@@ -627,15 +628,15 @@ const [isPopupOpen, setPopupOpen] = useState(false);
 
 
 
-       {/*   {
+          {/*   {
           visible ? (
             <div onClick={toggleLogin}>
               <Avatar {...stringAvatar(name)} />
             </div>
           ) : null 
         }
-        */} 
-         
+        */}
+
 
 
 
@@ -655,75 +656,75 @@ const [isPopupOpen, setPopupOpen] = useState(false);
           </div>
 
 
-        
-          <form > 
-          <div className={styles.searchbarParent}>
-            <div className={styles.searchbar}>
-              
-              <div
-              //  onClick={toggle}
-                className={styles.roomsAndGuestsSearchBar}
-               
-                style={{
-                  width: 282,
-                //  color: contentColor,
-                  textAlign: 'left',
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: 15,
-                  fontFamily: 'Roboto',
-                  fontSize: 'medium', 
-                }}
-              >
-             
-              </div>
-             
-             
-              <div className={styles.reservationDates} 
-             // onClick = {toggleCalender}
-              style={{
-              //  color: fontColor,
-                textAlign: 'left',
-                display: 'flex',
-                alignItems: 'center',
-                padding: 15,
-                fontFamily: 'Roboto',
-                fontSize: 'medium', 
-              }}
-              >
-             
-              </div>
-              
-              <TextField
-                className={styles.destination}
-                required={true}
-                size="medium"
-                sx={{ width: 425 }}
-                placeholder="Enter Country or City"
-                fullWidth={true}
-                variant="outlined"
-                type="text"
-                value = {destination}
-                onChange = {(e) => setDestination(e.target.value)}
 
+          <form >
+            <div className={styles.searchbarParent}>
+              <div className={styles.searchbar}>
+
+                <div
+                  //  onClick={toggle}
+                  className={styles.roomsAndGuestsSearchBar}
+
+                  style={{
+                    width: 282,
+                    //  color: contentColor,
+                    textAlign: 'left',
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: 15,
+                    fontFamily: 'Roboto',
+                    fontSize: 'medium',
+                  }}
+                >
+
+                </div>
+
+
+                <div className={styles.reservationDates}
+                  // onClick = {toggleCalender}
+                  style={{
+                    //  color: fontColor,
+                    textAlign: 'left',
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: 15,
+                    fontFamily: 'Roboto',
+                    fontSize: 'medium',
+                  }}
+                >
+
+                </div>
+
+                <TextField
+                  className={styles.destination}
+                  required={true}
+                  size="medium"
+                  sx={{ width: 425 }}
+                  placeholder="Enter Country or City"
+                  fullWidth={true}
+                  variant="outlined"
+                  type="text"
+                  value={destination}
+                  onChange={(e) => setDestination(e.target.value)}
+
+                />
+              </div>
+              <img
+                //  onClick={handleSubmit}
+                className={styles.searchbuttonIcon}
+                alt=""
+                src="/searchbutton1.svg"
               />
             </div>
-            <img
-            //  onClick={handleSubmit}
-              className={styles.searchbuttonIcon}
-              alt=""
-              src="/searchbutton1.svg"
-            />
-          </div>
           </form>
-        
-       
 
 
 
 
 
-  
+
+
+
 
 
 
