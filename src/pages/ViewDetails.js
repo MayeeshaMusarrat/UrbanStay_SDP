@@ -360,11 +360,11 @@ const ViewDetails = ({ onClose }) => {
     console.log(initialMonthAndYear);
   }, [initialMonthAndYear]);
 
-  const datesCalendar = JSON.parse(localStorage.getItem('dateRange'));
+  const datesCalendar = JSON.parse(localStorage.getItem('rangeValues'));
   const dates = {
-    startDate: datesCalendar.startDate,
-    endDate: datesCalendar.endDate,
-    key: datesCalendar.key
+    startDate: datesCalendar.from,
+    endDate: datesCalendar.to,
+  
   };
   const checkIn = new Date(dates.startDate);
   const checkOut = new Date(dates.endDate);

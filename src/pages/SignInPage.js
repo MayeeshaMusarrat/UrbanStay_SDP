@@ -37,7 +37,7 @@ const SignInPage = () => {
       .then((response) => {
         if (response.status === 200) {
           localStorage.setItem('email', email);
-          navigate("/temp-profile");
+          navigate("/");
           return response.json();
         } 
         else if(response.status === 404) {

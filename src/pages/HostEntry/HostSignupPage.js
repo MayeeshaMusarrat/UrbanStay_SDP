@@ -47,6 +47,24 @@ const MyComponent = () => {
 }
 
 
+const getPasswordHelperText = (password) => {
+      if(password.length == 0) return '';
+      else if (password.length < 8) {
+        return 'Password must be at least 8 characters long';
+      }
+
+      if (!/[A-Z]/.test(password)) {
+        return 'Password must contain at least one capital letter';
+      }
+
+      if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+        return 'Password must contain at least one special symbol';
+      }
+
+      return '';
+}
+
+
 
 const HostSignupPage = () => {
 
@@ -138,6 +156,44 @@ const HostSignupPage = () => {
   const [phone, setPhone] = useState("");
   const [profile_pic, setProfilePic] = useState("");
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+
+
+    const user = {
+      firstname: firstname,
+      lastname: lastname,
+      phone_number: phone,
+      birthdate: birthdateInputDateTimePickerValue,
+      email: email,
+      password: password,
+      profile_pic: imageUrls[0]
+    };
+
+
+
+    fetch("http://localhost:5001/host-signup-page", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then(result => {
+
+        if (result.status == 200) {
+
+          navigate("/");
+          
+        }
+        else {
+          console.log("oops");
+
+        }
+      })
+  }
+
 
 
   const form = useRef();
@@ -198,41 +254,7 @@ const HostSignupPage = () => {
 
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
 
-
-
-    const user = {
-      firstname: firstname,
-      lastname: lastname,
-      phone_number: phone,
-      birthdate: birthdateInputDateTimePickerValue,
-      email: email,
-      password: password,
-      profile_pic: imageUrls[0]
-    };
-
-
-    fetch("http://localhost:5001/host-signup-page", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(user),
-    })
-      .then(result => {
-
-        if (result.status == 200) {
-
-          navigate("/");
-        }
-        else {
-          console.log("oops");
-
-        }
-      })
-  }
 
 
 
@@ -391,13 +413,14 @@ const HostSignupPage = () => {
           <TextField
             className={styles.pwdinput}
             color="info"
-            placeholder="Choose a password (At least 8 characters long)"
-            //      required={true}
+            placeholder="Choose a password"
             sx={{ width: 482 }}
             variant="outlined"
             type={showPassword1 ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            error={getPasswordHelperText(password) !== ''}
+            helperText={getPasswordHelperText(password)}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -414,16 +437,16 @@ const HostSignupPage = () => {
             }}
           />
           <TextField
-            className={styles.emailinput}
-            color="info"
-            placeholder="Enter Email"
-            //       required={true}
-            fullWidth={true}
-            sx={{ width: 496 }}
-            variant="outlined"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          className={styles.emailinput}
+          color="info"
+          placeholder="Enter Email"
+          fullWidth={true}
+          sx={{ width: 496 }}
+          variant="outlined"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+         
+        />
           <TextField
             className={styles.pwdconfirminput}
             color="info"

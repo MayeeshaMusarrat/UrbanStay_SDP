@@ -17,7 +17,6 @@ import HostPlacePropertyMap from './HostPlacePropertyMap';
 
 const HostPlace = () => {
 
-  const position = [51.505, -0.09]; 
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -30,6 +29,8 @@ const HostPlace = () => {
 
   const [picURL, setPicURL] = useState([]);
   const [Name, setName] = useState("");
+
+  const user_name = localStorage.getItem('name');
 
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
 
@@ -995,7 +996,7 @@ const handleUpload = async () => {
 
 
 
-        <IconPopup topMargin={23} />
+        <IconPopup topMargin={23} name = {user_name}/>
 
 
 

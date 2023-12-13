@@ -26,6 +26,8 @@ const HostingIntro = () => {
     setSignoutConfirmationPopupOpen(false);
   }, []);
 
+  const user_name = localStorage.getItem('name');
+
   return (
     <>
       <div className={styles.hostingIntro}>
@@ -84,7 +86,7 @@ const HostingIntro = () => {
 
 
       
-         <IconPopup topMargin={23}/>
+         <IconPopup topMargin={23} name = {user_name} />
         
 
         </div>

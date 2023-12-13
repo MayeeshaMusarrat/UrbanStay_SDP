@@ -113,7 +113,7 @@ const IconPopup = ({ topMargin, name = "" }) => {
     <div className={styles.iconpopup} style={{ top: topMargin }}>
 
     <div> 
-      {/*
+      
           <Avatar
             alt="Default User"
           
@@ -121,7 +121,7 @@ const IconPopup = ({ topMargin, name = "" }) => {
             {...stringAvatar(name)}
             
           />
-      */}
+      
       <div className={styles.overall}>
         {/* 
       <StyledBadge

@@ -5,9 +5,11 @@ import SignoutConfirmationPopup from "../components/SignoutConfirmationPopup";
 import { useNavigate } from "react-router-dom";
 import styles from "./TempProfile.module.css";
 import { BarChart } from '@mui/x-charts/BarChart';
-
 import IconPopupForGuest from '../components/IconPopupForGuest';
 import IconPopup from '../components/IconPopup';
+import Footer from '../components/Footer';
+import Avatar from '@mui/material/Avatar';
+
 
 const TempProfile = () => {
 
@@ -22,6 +24,7 @@ const TempProfile = () => {
   const email = localStorage.getItem('email');
 
   const [userData, setUserData] = useState([]);
+ 
 
   useEffect(() => {
     fetch(`http://localhost:5001/temp-profile?email=${email}`)
@@ -47,7 +50,8 @@ const TempProfile = () => {
           country : result.Country,
           livesIn: `${result.City}, ${result.Country}`,
           phone : result.Phone,
-          pass : result.Password
+          pass : result.Password,
+          pic: result.Profile_picture,
           
         }));
         
@@ -71,6 +75,9 @@ const TempProfile = () => {
   const city = userData.length > 0 ? userData[0].city : '';
   const country = userData.length > 0 ? userData[0].country : '';
   const pass = userData.length > 0 ? userData[0].pass : '';
+  const picSrc = userData.length > 0 ? userData[0].pic : '';
+
+  console.log(picSrc);
 
   localStorage.setItem('Description', description);
   localStorage.setItem('City', city);
@@ -127,222 +134,18 @@ const TempProfile = () => {
   return (
     <>
       <div className={styles.tempProfile}>
-        <div className={styles.footer}>
-          <div className={styles.divfooterTop}>
-            <div className={styles.divcontainer}>
-              <div className={styles.divrow}>
-                <div className={styles.divcolLg4}>
-                  <div className={styles.divfooterAppContent}>
-                    <div className={styles.divfooterContentHeading}>
-                      <div className={styles.heading4}>Get Our App</div>
-                      <div className={styles.downloadTheApp}>
-                        Download the app and book your property
-                      </div>
-                    </div>
-                    <div className={styles.divdownloadApp}>
-                      <div className={styles.link}>
-                        <img
-                          className={styles.googlePaypngIcon}
-                          alt=""
-                          src="/googlepaypng@2x.png"
-                        />
-                      </div>
-                      <div className={styles.link}>
-                        <img
-                          className={styles.appStorepngIcon}
-                          alt=""
-                          src="/appstorepng@2x.png"
-                        />
-                      </div>
-                    </div>
-                    <div className={styles.divsocialLinks}>
-                      <div className={styles.heading41}>Connect with us</div>
-                      <div className={styles.list}>
-                        <div className={styles.itemmargin}>
-                          <div className={styles.itemLink}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className={styles.itemmargin}>
-                          <div className={styles.itemLink1}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className={styles.itemmargin}>
-                          <div className={styles.itemLink2}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className={styles.itemmargin}>
-                          <div className={styles.itemLink3}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className={styles.itemmargin}>
-                          <div className={styles.itemLink4}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className={styles.item}>
-                          <div className={styles.itemLink1}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.divcolLg2}>
-                  <div className={styles.divfooterWidgetList}>
-                    <div className={styles.heading42}>
-                      <div className={styles.explore}>Explore</div>
-                    </div>
-                    <div className={styles.list1}>
-                      <div className={styles.item1}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Listings</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item2}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Register</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item3}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Login</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item4}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Blogs</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item5}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Hosts</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.divcolLg21}>
-                  <div className={styles.divfooterWidgetList}>
-                    <div className={styles.heading43}>
-                      <div className={styles.explore}>Categories</div>
-                    </div>
-                    <div className={styles.list1}>
-                      <div className={styles.item6}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Apartments</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item7}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Home</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item8}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Office</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item9}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Villas</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item10}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Flat</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.divcolLg22}>
-                  <div className={styles.divfooterWidgetList}>
-                    <div className={styles.heading44}>
-                      <div className={styles.explore}>Locations</div>
-                    </div>
-                    <div className={styles.list1}>
-                      <div className={styles.item11}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>United States</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item12}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Canada</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item13}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>India</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item14}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>UK</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item15}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Australia</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.divfooterBottom}>
-            <div className={styles.p}>
-              <div className={styles.copyright2023}>
-                Copyright 2023 - All right reserved UrbanStay
-              </div>
-            </div>
-          </div>
-        </div>
+       
+       <Footer />
         
        
-        <div className={styles.divb9672i7}>
-          <div className={styles.button}>
-            <div className={styles.showAllReviews}>Show all reviews</div>
-          </div>
-        </div>
+       
         <div className={styles.testimonialSection}>
           <div className={styles.h3}>Welcome to Your Profile, {userName}!</div>
         </div>
-        <img className={styles.pseudoIcon} alt="" src="/pseudo2@2x.png" />
+
+       
+
+        
         <div className={styles.h31}>
           <p className={styles.thankYouForCreatingAnAcco}>
             <b>
@@ -381,7 +184,14 @@ const TempProfile = () => {
         </div>
         <div className={styles.profileCardParent}>
          <div className={styles.profileCard}>
-            <img className={styles.usericon} alt="" src="/usericon1@2x.png" />
+
+
+         <Avatar className={styles.usericon} alt="" src={picSrc} />
+
+
+
+
+
             <div className={styles.userName}>{userName}</div>
             <div className={styles.profileCardChild} />
             <div className={styles.userjoin}>
@@ -431,11 +241,11 @@ const TempProfile = () => {
 
           { isGuest === '1' ? (
 
-          <IconPopupForGuest topMargin = {20} name = {""} />
+          <IconPopupForGuest topMargin = {20} name = {user_name} />
 
           ) : isGuest === '0' ? (
 
-          <IconPopup topMargin = {23} name = {""} />
+          <IconPopup topMargin = {23} name = {user_name} />
 
           ) : null } 
 

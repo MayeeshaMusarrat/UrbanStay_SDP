@@ -8,24 +8,24 @@ export const Calendar = ({
   onRangeChange,
   initialMonthAndYear,
   setOnRangeDateInScreen,
-  initialDisabledBeforeDate, // Add this prop
-  initialDisabledAfterDate, // Add this prop
+  initialDisabledBeforeDate, 
+  initialDisabledAfterDate, 
 }) => {
   const PID = localStorage.getItem('PID');
   
-  const datesCalendar = JSON.parse(localStorage.getItem('dateRange'));
-  const checkIn = dayjs(datesCalendar.startDate).format("YYYY-MM-DD");
-  const checkOut = dayjs(datesCalendar.endDate).format("YYYY-MM-DD");
+  const datesCalendar = JSON.parse(localStorage.getItem('rangeValues'));
+  const checkIn = dayjs(datesCalendar.from).format("YYYY-MM-DD");
+  const checkOut = dayjs(datesCalendar.to).format("YYYY-MM-DD");
   
-  const [disabledBeforeDate, setDisabledBeforeDate] = useState(initialDisabledBeforeDate); // Initialize with the prop
-  const [disabledAfterDate, setDisabledAfterDate] = useState(initialDisabledAfterDate); // Initialize with the prop
+  const [disabledBeforeDate, setDisabledBeforeDate] = useState(initialDisabledBeforeDate); 
+  const [disabledAfterDate, setDisabledAfterDate] = useState(initialDisabledAfterDate); 
   
   const [disabledDates, setDisabledDates] = useState([]);
   
   useEffect(() => {
     axios.get(`http://localhost:5001/disabled-dates/${PID}`)
       .then((response) => {
-        // Assuming your server returns data in the format { Start_date: "date", End_date: "date" }
+        
         const data = response.data;
         const disabledDatesArray = data.flatMap((range) => {
           const startDate = dayjs(range.Start_date);

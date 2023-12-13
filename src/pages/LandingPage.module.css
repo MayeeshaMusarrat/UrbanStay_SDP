@@ -533,12 +533,30 @@
 .datePopup {
   position: absolute;
   top: 680px;
-  padding-left: 10px;
-  left: 320px;
-  width: 910px;
-  height: 440px;
+  border-radius: 10px;
+  left: 410px;
+  width: 760px;
+  height: 400px;
+  background-color: white;
+  color: black;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
  
 }
+.datePopup {
+  opacity: 0; 
+  visibility: hidden; 
+  transform: translateY(-10px); 
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0s linear 0.3s; 
+}
+
+.datePopup.active {
+  opacity: 1; 
+  visibility: visible; 
+  transform: translateY(0); 
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+
 .roomsAndGuestsPopup {
   position: absolute;
   top: 680px;
@@ -550,6 +568,23 @@
   max-height: 100%;
   overflow: auto;
 }
+
+.roomsAndGuestsPopup {
+  opacity: 0; 
+  visibility: hidden; 
+  transform: translateY(-10px); 
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0s linear 0.3s; 
+}
+
+.roomsAndGuestsPopup.active {
+  opacity: 1; 
+  visibility: visible; 
+  transform: translateY(0); 
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+
+
 .experienceNewerOffers {
   position: absolute;
   top: 0;

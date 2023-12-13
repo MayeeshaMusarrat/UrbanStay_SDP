@@ -89,7 +89,7 @@ const ProfileDetailsPopup = () => {
         label="Edit Password"
         sx={{ width: 348 }}
         variant="outlined"
-        value={pass}
+       
         onChange={handleStateChange}
       />
       <TextField

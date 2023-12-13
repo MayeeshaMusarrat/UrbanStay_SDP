@@ -23,10 +23,20 @@ import IconPopup from '../components/IconPopup';
 import IconPopupSign from '../components/IconPopupSign';
 
 import Footer from '../components/Footer';
+import ChooseCalendar from '../components/ChooseCalendar';
+import dayjs from "dayjs";
+
 
 
 const LandingPage = ({ onClose }) => {
   
+  const [selectedRange, setSelectedRange] = useState(null);
+  const [initialMonthAndYear, setInitialMonthAndYear] = useState(dayjs());
+
+  useEffect(() => {
+    console.log(initialMonthAndYear);
+  }, [initialMonthAndYear]);
+
 
   const [selectedDateRange, setSelectedDateRange] = useState({
        startDate: new Date(),
@@ -46,43 +56,10 @@ const LandingPage = ({ onClose }) => {
        console.log(ranges.selection);
   };
 
-   const onClickDone = () => {
 
-      const datesCalendar = JSON.parse(localStorage.getItem('dateRange'));
-      if(datesCalendar!==null)
-      {
-        const dates = {
-          startDate: datesCalendar.startDate,
-          endDate: datesCalendar.endDate,
-          key: datesCalendar.key
-        };
-        const dateToFormatStart = new Date(dates.startDate);
-        const dateToFormatEnd = new Date(dates.endDate);
+ 
 
-        const formattedDateStart = formatDateDisplay(dateToFormatStart, 'N/A');
-        const formattedDateEnd = formatDateDisplay(dateToFormatEnd, 'N/A');
-
-        setDateShow(`${formattedDateStart} - ${formattedDateEnd}`);
-        setFontColor('black');
-        
-        setCheckIn(dateToFormatStart);
-        setCheckOut(dateToFormatEnd);
-      }
-      setPopupCalender(!popupCalender);
-   };
-
-
-  const onClickClear = () => {
-       setSelectedDateRange({
-            startDate: new Date(),
-            endDate: new Date(),
-            key: "selection"
-       });
-       setShow(false);
-       localStorage.clear();
-  };
-
-
+ 
   localStorage.setItem("proptype", null);
   localStorage.setItem("minprice", null);
   localStorage.setItem("maxprice", null);
@@ -104,9 +81,7 @@ const LandingPage = ({ onClose }) => {
   }, [selectedDateRange]);
 
   
-  const [dateShow, setDateShow]  = useState("19 Oct, 2023 - 25 Oct, 2023");
-  const [fontColor, setFontColor] = useState('#c2c2c2');
-
+  
   const [contentColor, setContentColor] = useState('#c2c2c2');
   
   
@@ -125,6 +100,41 @@ const LandingPage = ({ onClose }) => {
       console.log('Email does not exist in localStorage');
     }
   }, [storedValue]);
+
+
+
+
+  const [dateShow, setDateShow] = useState("19 Oct, 2023 - 25 Oct, 2023");
+  const [fontColor, setFontColor] = useState('#c2c2c2');
+  
+  const storedRangeValues = localStorage.getItem("rangeValues");
+  const rangeValues = storedRangeValues ? JSON.parse(storedRangeValues) : null;
+  
+  useEffect(() => {
+    if (rangeValues !== null) {
+      const dates = {
+        startDate: new Date(rangeValues.from).toISOString(), // Convert numeric timestamp to ISO string
+        endDate: rangeValues.to ? new Date(rangeValues.to).toISOString() : null,   // Convert numeric timestamp to ISO string
+      };
+      const dateToFormatStart = new Date(dates.startDate);
+      const dateToFormatEnd = new Date(dates.endDate);
+  
+      const formattedFrom = formatDateDisplay(dateToFormatStart, 'N/A');
+      const formattedTo = formatDateDisplay(dateToFormatEnd, 'N/A');
+  
+      setDateShow(`${formattedFrom} - ${formattedTo}`);
+      setFontColor('black');
+  
+      setCheckIn(dateToFormatStart);
+      setCheckOut(dateToFormatEnd);
+    } else {
+      setDateShow("19 Oct, 2023 - 25 Oct, 2023");
+      setFontColor('#c2c2c2');
+      setCheckIn(null); // Set your default check-in value
+      setCheckOut(null); // Set your default check-out value
+    }
+  }, [rangeValues]);
+  
 
 
   const [isGuest, setIsGuest] = useState(1);
@@ -439,42 +449,19 @@ const handleSubmit = (e) => {
         <div className={styles.landingpageItem} />
 
         { 
-        popupCalender && (
-        <div className={styles.datePopup}>
+       
+        <div 
+        className={`${styles.datePopup} ${popupCalender ? styles.active : ''}`}>
             
-            <React.Fragment>
-               <div className="shadow d-inline-block">
-                    <DateRangePicker
-                         onChange={handleSelect}
-                         showSelectionPreview={true}
-                         moveRangeOnFirstSelection={false}
-                         months={2}
-                         ranges={[selectedDateRange]}
-                         direction="horizontal"
-                    />
-                    <div className="text-right position-relative rdr-buttons-position mt-2 mr-3" >
-                         <button
-                              className="btn btn-transparent text-primary rounded-0 px-4 mr-2"
-                              onClick={onClickDone}
-                         >
-                              Done
-                         </button>
-
-                         <button
-                              className="btn text-danger rounded-0 px-4"
-                              onClick={onClickClear}
-                         >
-                              Clear
-                         </button>
-                    </div>
-               </div>
-
-              
-          </React.Fragment>
+            <ChooseCalendar 
+            initialRangeValuesProps={selectedRange}
+            onRangeChange={(e) => setSelectedRange(e)}
+            setOnRangeDateInScreen={(e) => setInitialMonthAndYear(e.start)}
+            />
 
         </div>
 
-        )}
+        }
 
         <div
           className={styles.searchPropertyComponent}
@@ -546,8 +533,12 @@ const handleSubmit = (e) => {
 
       
 
-      { popup && (
-        <div className={styles.roomsAndGuestsPopup}>
+      { 
+        <div 
+      
+        className={`${styles.roomsAndGuestsPopup} ${popup ? styles.active : ''}`}
+        
+        >
           <div className={styles.roomandguestrectangle}>
             <div className={styles.roomandguestrectangleChild} />
             <button className={styles.roomframe}>
@@ -634,7 +625,7 @@ const handleSubmit = (e) => {
           </div>
         </div>
 
-      )}
+      }
 
 
 
@@ -726,6 +717,64 @@ const handleSubmit = (e) => {
 
       
       <Footer />
+
+      <div className={styles.preferenceSection}>
+        <div className={styles.divtitle1Parent}>
+          <div className={styles.divtitle1}>
+            <div className={styles.spanlabel1}>
+              <div className={styles.preference}>Preference</div>
+            </div>
+            <b className={styles.selectSuitableProperties}>
+              Select Suitable Properties that Fit your taste!
+            </b>
+            <div className={styles.separator1} />
+          </div>
+          <div className={styles.divrow1}>
+            <div className={styles.divwowmargin}>
+              <img
+                className={styles.divfindCitiesIcon}
+                alt=""
+                src="/divfindcities@2x.png"
+              />
+            </div>
+            <div className={styles.divwowmargin1}>
+              <img
+                className={styles.divfindCitiesIcon}
+                alt=""
+                src="/divfindcities1@2x.png"
+              />
+            </div>
+            <div className={styles.divwowmargin2}>
+              <img
+                className={styles.divfindCitiesIcon}
+                alt=""
+                src="/divfindcities2@2x.png"
+              />
+            </div>
+            <div className={styles.divwowmargin3}>
+              <img
+                className={styles.divfindCitiesIcon}
+                alt=""
+                src="/divfindcities3@2x.png"
+              />
+            </div>
+            <div className={styles.divwowmargin4}>
+              <img
+                className={styles.divfindCitiesIcon}
+                alt=""
+                src="/divfindcities4@2x.png"
+              />
+            </div>
+            <div className={styles.divwowmargin5}>
+              <img
+                className={styles.divfindCitiesIcon}
+                alt=""
+                src="/divfindcities5@2x.png"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
 
 
         <div className={styles.testimonialSection}>

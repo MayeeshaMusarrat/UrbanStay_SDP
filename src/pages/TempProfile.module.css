@@ -611,7 +611,7 @@
   box-sizing: border-box;
 }
 .setupprofilebtn:hover {
-  background-color: var(--color-red);
+  background-color: var(--color-blueviolet);
   gap: var(--gap-3xs);
 }
 .earningGraph {
@@ -634,7 +634,7 @@
 }
 .usericon {
   position: relative;
-  width: 138.27px;
+  width: 180.73px;
   height: 180.73px;
   object-fit: cover;
 }
@@ -1051,7 +1051,7 @@
   position: relative;
   background-color: var(--shade-01);
   width: 100%;
-  height: 1930px;
+  height: 1530px;
   overflow: hidden;
   text-align: left;
   font-size: var(--font-size-5xl);

@@ -111,8 +111,17 @@ const OTPPage = () => {
   };
 
   return (
+    <> 
+    
+    <img
+    className={styles.guestSignupPageChild}
+    alt=""
+    src="/group-1945@2x.png"
+  />
     <div className={styles.container}>
+     
       <div className={styles.formContainer}>
+      
         <h2 className={styles.formTitle}>Enter OTP</h2>
         <form onSubmit={handleSubmit}>
           <TextField
@@ -134,6 +143,7 @@ const OTPPage = () => {
         </form>
       </div>
     </div>
+    </>
   );
 };
 
