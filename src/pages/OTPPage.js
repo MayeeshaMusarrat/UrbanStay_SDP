@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { TextField, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import styles from "./OTPPage.module.css"; // Import the CSS module
+import styles from "./OTPPage.module.css"; 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const OTPPage = () => {
   const [otp, setOTP] = useState("");
@@ -9,6 +11,31 @@ const OTPPage = () => {
 
   // Get the value from local storage
 
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+
+  const handleClick = () => {
+    setOpenSnackbar(true);
+    setTimeout(() => {
+      setOpenSnackbar(false);
+    }, 1050);
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const goToHome = () => {
+    setTimeout(() => {
+      navigate("/");
+    }, 2000);
+}
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,11 +48,14 @@ const OTPPage = () => {
 
     console.log("OTP is ", otp);
     console.log("OTP from local storage is ", storedOTP);
+  
 
     if (otp === storedOTP.toString() && localStorage.getItem('ishost') === '1') {
-      console.log("i m doin host sign-up");
-      console.log("OTP did match");
-      alert("OTP MATCHED! E-mail verified! You can Sign In now!");
+     
+
+
+
+
       // OTP matched, proceed with the fetch request
       const storedFirstname = localStorage.getItem("firstname");
       const storedLastname = localStorage.getItem("lastname");
@@ -56,7 +86,8 @@ const OTPPage = () => {
       })
         .then((result) => {
           if (result.status === 200) {
-            navigate("/");
+            handleClick();
+            goToHome();
           } else {
             console.log("Oops");
           }
@@ -65,7 +96,12 @@ const OTPPage = () => {
     else if (otp === storedOTP.toString() && localStorage.getItem('ishost') === '0') {
       console.log("i m doin guest sign-up");
       console.log("OTP did match");
-      alert("OTP MATCHED! E-mail verified! You can Sign In now!");
+     
+      <Snackbar open={openSnackbar} autoHideDuration={1050} onClose={handleCloseSnackbar}>
+      <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+        Email is verified! You have successfully registered as a guest in UrbanStay.
+      </Alert>
+     </Snackbar>
       // OTP matched, proceed with the fetch request
       const storedFirstname = localStorage.getItem("firstname");
       const storedLastname = localStorage.getItem("lastname");
@@ -113,6 +149,13 @@ const OTPPage = () => {
   return (
     <> 
     
+    <Snackbar open={openSnackbar} autoHideDuration={2000} onClose={handleCloseSnackbar}>
+      <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+        Email is verified! You have successfully registered in UrbanStay.
+      </Alert>
+    </Snackbar>
+
+
     <img
     className={styles.guestSignupPageChild}
     alt=""

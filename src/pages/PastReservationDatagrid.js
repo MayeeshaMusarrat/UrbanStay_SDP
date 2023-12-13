@@ -275,7 +275,7 @@ const PastReservationDatagrid = ({ data }) => {
     {
       field: "propertyDetails",
       headerName: "Property",
-      width: 260,
+      width: 250,
       headerClassName: 'custom-header-class',
       renderCell: (params) => (
         <div style={{ display: "flex", alignItems: "center" }}>

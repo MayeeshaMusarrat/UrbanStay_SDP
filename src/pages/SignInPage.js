@@ -1,7 +1,10 @@
 import { useState, useCallback } from "react";
+import * as React from 'react';
 import { TextField, InputAdornment, Icon, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import styles from "./SignInPage.module.css";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const SignInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,6 +21,48 @@ const SignInPage = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [openSnackbar2, setOpenSnackbar2] = React.useState(false);
+
+  const handleClick = () => {
+    setOpenSnackbar(true);
+    setTimeout(() => {
+      setOpenSnackbar(false);
+    }, 2000);
+  };
+
+  const handleClick2 = () => {
+    setOpenSnackbar2(true);
+    setTimeout(() => {
+      setOpenSnackbar2(false);
+    }, 2000);
+  };
+  
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
+  const handleCloseSnackbar2 = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar2(false);
+  };
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const goToHome = () => {
+    setTimeout(() => {
+      navigate("/");
+    }, 2000);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -37,15 +82,12 @@ const SignInPage = () => {
       .then((response) => {
         if (response.status === 200) {
           localStorage.setItem('email', email);
-          navigate("/");
+          handleClick();
+          goToHome();
           return response.json();
         } 
-        else if(response.status === 404) {
-          alert("No such user found.");
-          throw new Error("Sign in failed");
-        }
         else if(response.status === 500) {
-          alert("Invalid sign-in attempt.");
+          handleClick2();
           throw new Error("Sign in failed");
         }
       })
@@ -64,6 +106,20 @@ const SignInPage = () => {
 
   return (
     <div className={styles.signInPage}>
+
+
+    <Snackbar open={openSnackbar} autoHideDuration={2000} onClose={handleCloseSnackbar}>
+      <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+        Sign-in successful!
+      </Alert>
+    </Snackbar>
+
+    <Snackbar open={openSnackbar2} autoHideDuration={1200} onClose={handleCloseSnackbar2}>
+      <Alert onClose={handleCloseSnackbar2} severity="error" sx={{ width: '100%' }}>
+        Invalid sign-in attempt! Please try again.
+      </Alert>
+    </Snackbar>
+
       <div className={styles.gradient}>
         <div className={styles.chooseWrapper}>
           <div className={styles.choose}>Reserve</div>
