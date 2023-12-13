@@ -251,8 +251,8 @@ async function connectAndStartServer()
   app.get('/browse', async (req, res) => {
     const { destination, checkIn, checkOut, rooms, guests, proptype, minprice, maxprice } = req.query;
   
-    const check_in = checkIn;
-    const check_out = checkOut;
+    const check_in = (new Date(checkIn)).toISOString().split('T')[0];
+    const check_out = (new Date(checkOut)).toISOString().split('T')[0];
   
     console.log("property info: ", req.query);
     console.log("checkin: ", check_in);
@@ -1146,7 +1146,63 @@ async function connectAndStartServer()
     });
   });
 
+  
 
+  app.get('/seenNotifYet', async (req, res) => {
+    const {email} = req.query;
+  
+    console.log("seenNotif? email :");
+    console.log(email);
+  
+  
+    pool.getConnection((err, connection) => {
+      if (err) throw err;
+  
+      const searchSql = `SELECT seen FROM notifications WHERE email = ?`;
+  
+      const searchValues = [email];
+  
+      connection.query(searchSql, searchValues, (searchErr, searchResults) => {
+        if (searchErr) {
+          console.error('Error fetching data:', searchErr);
+          res.status(500).json({ message: 'Fetching Error' });
+        } else {
+          console.log('Data fetched from notification successfully.');
+          console.log(searchResults);
+          res.json({ searchResults });
+        }
+      });
+      connection.release(); 
+    });
+  });
+
+  app.get('/notifSeen', async (req, res) => {
+    const {email} = req.query;
+  
+    console.log("seenNotif? email :");
+    console.log(email);
+  
+  
+    pool.getConnection((err, connection) => {
+      if (err) throw err;
+  
+      const searchSql = `Update notifications SET seen = '1' WHERE email = ?`;
+  
+      const searchValues = [email];
+  
+      connection.query(searchSql, searchValues, (searchErr, searchResults) => {
+        if (searchErr) {
+          console.error('Error fetching data:', searchErr);
+          res.status(500).json({ message: 'Fetching Error' });
+        } else {
+          console.log('Data fetched from notification successfully.');
+          console.log(searchResults);
+          res.json({ searchResults });
+        }
+      });
+      connection.release(); 
+    });
+  });
 
 app.get('/temp-profile', async (req, res) => {
   const {email} = req.query;

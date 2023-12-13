@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import styles from "./Notifications.module.css";
 import IconPopup from "../components/IconPopup";
 import IconPopupForGuest from "../components/IconPopupForGuest";
@@ -17,6 +17,20 @@ const Notifications = () => {
   const storedNotifications = localStorage.getItem('notifications');
   const notificationsArray = JSON.parse(storedNotifications) || [];
   const isGuest = localStorage.getItem('GuestOrHost');
+
+  const storedValue = localStorage.getItem('email');
+  
+  useEffect(() => {
+    fetch(`http://localhost:5001/notifSeen?email=${storedValue}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log("data: ", data);
+        
+      
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
 
   return (
     <div className={styles.notifications}>

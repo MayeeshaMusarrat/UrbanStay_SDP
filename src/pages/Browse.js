@@ -74,9 +74,13 @@ const Browse = ({ onClose }) => {
   const [visible, setVisible] = useState(true);
   const isGuest = localStorage.getItem('GuestOrHost');
 
+  const countRooms = localStorage.getItem('Rooms');
+  const countGuests = localStorage.getItem('Guests');
+
+  let content = `${countRooms} Room${countRooms > 1 ? 's' : ''}, ${countGuests} Guest${countGuests > 1 ? 's' : ''}`;
 
 
-  const [dateShow, setDateShow] = useState("19 Oct, 2023 - 25 Oct, 2023");
+
 
   const name = localStorage.getItem('name');
 
@@ -124,16 +128,25 @@ const Browse = ({ onClose }) => {
   const destination = localStorage.getItem('Destination');
   const rooms = localStorage.getItem('Rooms');
   const guests = localStorage.getItem('Guests');
-  const datesCalendar = JSON.parse(localStorage.getItem('rangeValues'));
+
+
+  const storedRangeValues = localStorage.getItem("rangeValues");
+  const rangeValues = storedRangeValues ? JSON.parse(storedRangeValues) : null;
+
   const dates = {
-    startDate: datesCalendar.from,
-    endDate: datesCalendar.to,
-   
+    startDate: new Date(rangeValues.from).toISOString(), // Convert numeric timestamp to ISO string
+    endDate: rangeValues.to ? new Date(rangeValues.to).toISOString() : null,   // Convert numeric timestamp to ISO string
   };
-  let checkIn = new Date(dates.startDate);
-  let checkOut = new Date(dates.endDate);
-  checkIn = checkIn.toISOString().split('T')[0];
-  checkOut = checkOut.toISOString().split('T')[0];
+  const checkIn = new Date(dates.startDate);
+  const checkOut = new Date(dates.endDate);
+
+  const formattedFrom = formatDateDisplay(checkIn, 'N/A');
+  const formattedTo = formatDateDisplay(checkOut, 'N/A');
+
+ 
+ 
+  const [dateShow, setDateShow] = useState(`${formattedFrom} - ${formattedTo}`);
+
 
   const [resultCount, setResultCount] = useState(0);
 
@@ -358,9 +371,12 @@ const Browse = ({ onClose }) => {
               {propertyData.map((property, index) => (
                 <Grid key={index}>
 
+
+
+
                   <div className={styles.card} onClick={() => openPropertyFrame(property)}>
                     <img className={styles.imageIcon} src={property.imageUrl} alt="" />
-                   
+                    <img className={styles.heartIcon} alt="" src="/heart.svg" />
                     <div className={styles.locationDates}>
                       <div className={styles.info}>
                         <b className={styles.line1}>{property.property_title}</b>
@@ -374,7 +390,13 @@ const Browse = ({ onClose }) => {
                         </div>
                       </div>
                     </div>
-                   
+                    <div className={styles.star}>
+                      
+                      <img className={styles.starChild} alt="" src="/star-1.svg" />
+                      <div className={styles.dates}>4.91</div>
+                    </div>
+                    <img className={styles.ellipsesIcon} alt="" src="/ellipses.svg" />
+                              
                    
                   </div>
                 </Grid>
@@ -463,47 +485,55 @@ const Browse = ({ onClose }) => {
 
                   style={{
                     width: 282,
-                    //  color: contentColor,
+                    color: 'black',
                     textAlign: 'left',
                     display: 'flex',
                     alignItems: 'center',
-                    padding: 15,
+                    padding: 17,
                     fontFamily: 'Roboto',
                     fontSize: 'medium',
                   }}
                 >
+
+                {content}
 
                 </div>
 
 
                 <div className={styles.reservationDates}
-                  // onClick = {toggleCalender}
+                  
                   style={{
-                    //  color: fontColor,
+                    color: 'black',
                     textAlign: 'left',
                     display: 'flex',
                     alignItems: 'center',
                     padding: 15,
                     fontFamily: 'Roboto',
+                    borderColor: 'lightgray',
                     fontSize: 'medium',
                   }}
                 >
 
+                 {dateShow}
+
                 </div>
 
-                <TextField
+                <div
                   className={styles.destination}
-                  required={true}
-                  size="medium"
-                  sx={{ width: 425 }}
-                  placeholder="Enter Country or City"
-                  fullWidth={true}
-                  variant="outlined"
-                  type="text"
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
+                  style={{
+                    color: 'black',
+                    textAlign: 'left',
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: 17,
+                    fontFamily: 'Roboto',
+                    borderColor: 'gray',
+                    fontSize: 'medium',
+                  }}
 
-                />
+                >
+                  {destination}
+                  </div>
               </div>
               <img
                 //  onClick={handleSubmit}

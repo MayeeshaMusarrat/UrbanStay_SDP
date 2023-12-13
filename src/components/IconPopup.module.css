@@ -24,6 +24,7 @@
 
 
 
+
 /*  ====================== ANIMATION =================  */
 
 .loginPopupWithLogoutGrp {
@@ -39,6 +40,28 @@
   transform: translateY(0); 
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
+
+.blinkingText {
+  color: red;
+  animation: blink 1s infinite; 
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+    color: red;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    color: red;
+  }
+  
+}
+
+
 
 
 /*  ====================== ANIMATION =================  */

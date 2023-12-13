@@ -11,6 +11,8 @@ import Avatar from '@mui/material/Avatar';
 const IconPopup = ({ topMargin, name = "" }) => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
+  const storedValue = localStorage.getItem('email');
+
   const togglePopup = () => {
     setIsPopupVisible(!isPopupVisible);
     
@@ -31,26 +33,10 @@ const IconPopup = ({ topMargin, name = "" }) => {
         animation: 'ripple 1.2s infinite ease-in-out',
         border: '1px solid currentColor',
         content: '""',
-        
       },
-    },
-    '@keyframes ripple': {
-      '0%': {
-        transform: 'scale(.8)',
-        opacity: 1,
-      },
-      '100%': {
-        transform: 'scale(2.4)',
-        opacity: 0,
-      },
-    },
+    }
   }));
-  
-  const SmallAvatar = styled(Avatar)(({ theme }) => ({
-    width: 22,
-    height: 22,
-    border: `2px solid ${theme.palette.background.paper}`,
-  }));
+
 
   const [invisible, setInvisible] = useState(false);
 
@@ -107,6 +93,22 @@ const IconPopup = ({ topMargin, name = "" }) => {
       children: `${name.split(' ')[0][0]}`,
     };
   }
+
+
+  const [seenValue, setSeenValue] = useState(1);
+  
+  useEffect(() => {
+    fetch(`http://localhost:5001/seenNotifYet?email=${storedValue}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log("data: ", data);
+        setSeenValue(data.searchResults[0].seen);
+      
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+  const notificationTextStyles = seenValue === 0 ? styles.blinkingText : '';
   
 
   return (
@@ -123,16 +125,14 @@ const IconPopup = ({ topMargin, name = "" }) => {
           />
       
       <div className={styles.overall}>
-        {/* 
-      <StyledBadge
-        overlap="circular"
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        variant="dot"
-        style = {{right: -277, top: -10, zIndex: 1200}} 
-      > 
-      </StyledBadge>
-
-      */}
+      {seenValue === 0 && (
+          <StyledBadge
+            overlap="circular"
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            variant="dot"
+            style={{ right: -277, top: -10, zIndex: 1000 }}
+          />
+        )}
     
         <img className={styles.profileIcon} alt="" src="/profile-icon@2x.png" onClick={togglePopup} />
      
@@ -155,7 +155,13 @@ const IconPopup = ({ topMargin, name = "" }) => {
               <button className={styles.profile}> Host a place</button>
             </button>
             <button className={styles.notifbtn} id="accSettings" onClick = {handleNotificationClick} >
-              <button className={styles.profile}> Notifications</button>
+            <button className={`${styles.profile} ${notificationTextStyles}`}>
+              
+              Notifications
+              
+              
+              
+              </button>
             </button>
             <button className={styles.signoutbtn} id="accSettings">
               <button className={styles.signOut} onClick={openSignoutConfirmationPopup}>
