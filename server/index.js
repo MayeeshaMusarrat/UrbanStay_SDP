@@ -6,11 +6,11 @@ const cors = require('cors');
 app.use(cors(), express.json());
 
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'mayeesha8430',
-  database: 'urbanstay',
-  connectionLimit: 10, 
+  host: "mysql-264db198-musarratmayeesha-0001.a.aivencloud.com",
+  port: 16798,
+  user: "avnadmin",
+  password: "AVNS_TvZaCuiGGGrRVds4PvY",
+  database: "defaultdb",
 });
 
 
