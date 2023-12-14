@@ -19,6 +19,7 @@ const Notifications = () => {
   const isGuest = localStorage.getItem('GuestOrHost');
 
   const storedValue = localStorage.getItem('email');
+  const user_name = localStorage.getItem('name');
   
   useEffect(() => {
     fetch(`http://localhost:5001/notifSeen?email=${storedValue}`)
@@ -53,11 +54,11 @@ const Notifications = () => {
 
       { isGuest ==='1' ? (
 
-      <IconPopupForGuest topMargin = {6} name = {""} />
+      <IconPopupForGuest topMargin = {6} name = {user_name} />
 
       ) : isGuest==='0'? (
 
-      <IconPopup topMargin = {6} name = {""} />
+      <IconPopup topMargin = {6} name = {user_name} />
 
       ) : null }
 

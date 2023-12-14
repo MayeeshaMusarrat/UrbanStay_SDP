@@ -13,6 +13,7 @@ import axios from 'axios';
 import { setDayWithOptions } from "date-fns/fp";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import IconPopup from '../components/IconPopup';
 
 const ConfirmListing = () => {
 
@@ -84,7 +85,8 @@ const ConfirmListing = () => {
            hotTub: 2,
            TV: 1,
            workspace: 2,
-           AC: 1
+           AC: 1,
+           Dryer: 2,
           };
     
           amenities.forEach(amenity => {
@@ -282,7 +284,7 @@ const ConfirmListing = () => {
        {/* <div className={styles.yourRevenue}>Your Revenue</div> */}
         <div
           className={styles.urbanstayFixesA}
-        >{`UrbanStay fixes a base price of your property based on the amenities, service fee and location provided! You can always increase your revenue by filling up the form below. `}</div>
+        >{`UrbanStay fixes a base price of your property based on per square feet of area hosted! Service Charge is only applicable based on the amenities requested by the guests.`}</div>
         <div className={styles.confirmListingChild} />
         <div className={styles.confirmListingItem} />
        

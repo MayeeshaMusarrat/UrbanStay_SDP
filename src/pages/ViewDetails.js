@@ -36,13 +36,31 @@ import ShowAmenities from './ShowAmenities';
 import { formatMeridiem } from "@mui/x-date-pickers/internals/utils/date-utils";
 import axios from 'axios';
 import Footer from '../components/Footer';
-import StickyNode from 'react-stickynode';
+
+
+// ============================ AMENITY COMPONENTS =================================
+
+import Cctv from '../components/Amenities/Cctv';
+import Parking from '../components/Amenities/Parking';
+import Ac from '../components/Amenities/Ac';
+import Dryer from '../components/Amenities/Dryer';
+import Hottub from '../components/Amenities/Hottub';
+import Tv from '../components/Amenities/Tv';
+import Washer from '../components/Amenities/Washer';
+import Waterfront from '../components/Amenities/Waterfront';
+import Kitchen from '../components/Amenities/Kitchen';
+import Wifi from '../components/Amenities/Wifi';
 
 
 const ViewDetails = ({ onClose }) => {
   const { prop } = useParams();
   const decodedPropValueString = decodeURIComponent(prop);
   const propValue = JSON.parse(decodedPropValueString);
+
+  console.log("Prop: ", propValue);
+
+  const [calculatedServiceFee, setCalculatedServiceFee] = useState(0);
+
 
 
 
@@ -74,6 +92,57 @@ const ViewDetails = ({ onClose }) => {
       children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };
   }
+
+
+
+  const renderAmenitiesColumns = () => {
+    const columnCount = 2;
+    const amenitiesPerColumn = Math.ceil(amenities.length / columnCount);
+
+    const columns = [];
+    for (let i = 0; i < columnCount; i++) {
+      const startIdx = i * amenitiesPerColumn;
+      const endIdx = startIdx + amenitiesPerColumn;
+      const columnAmenities = amenities.slice(startIdx, endIdx);
+
+      columns.push(
+        <div key={i}>
+          {columnAmenities.map((amenity) => (
+            <div key={amenity.id} style = {{marginBottom: 10}}>
+              {renderAmenityComponent(amenity.Name)}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return columns;
+  };
+
+ 
+  const renderAmenityComponent = (amenityName) => {
+  
+    switch (amenityName) {
+      case 'CCTV':
+        return <Cctv />;
+      case 'Parking':
+        return <Parking />;
+      case 'HotTub':
+        return <Hottub />;
+      case 'Wifi':
+        return <Wifi />;
+      case 'Waterfront':
+        return <Waterfront />;
+      case 'Dryer':
+        return <Dryer />;
+      case 'AC':
+        return <Ac />;
+      case 'TV':
+        return <Tv />; 
+      default:
+        return null;
+    }
+  };
   
 
 
@@ -236,6 +305,7 @@ const ViewDetails = ({ onClose }) => {
           comment: result.Comment,
           location: result.Location_rating,
           overall: result.Overall_rating,
+          rating: result.Avg_ratings, 
           reception: result.Reception_rating,
           scenery: result.Scenery_rating,
           service: result.Service_rating,
@@ -256,7 +326,7 @@ const ViewDetails = ({ onClose }) => {
         }));
         
         setReviewData(formattedReviewData);
-        setOverall(formattedReviewData[0].overall);
+        setOverall(formattedReviewData[0].rating);
       
       })
       .catch(error => console.error('Error fetching data:', error));
@@ -399,6 +469,80 @@ const ViewDetails = ({ onClose }) => {
   const user_check_out_for_ease = formatDateDisplayForEase(checkOut);
 
   const user_price_per_night = parseInt(propValue.price,10)*parseInt(daysDiff,10);
+
+  const [TotalPrice, setTotalPrice] = useState(propValue.base_fee + user_price_per_night);
+  const [right, setRight] = useState([]);
+  const [service, setService] = useState(0);
+  let serviceCharge = 0;
+
+  useEffect(() => {
+    const storedRightList = localStorage.getItem('rightList');
+
+   
+    const parsedRightList = storedRightList ? JSON.parse(storedRightList) : [];
+
+    parsedRightList.forEach(item => {
+      if (item === 'wifi') {
+        right.push('wifi');
+      } 
+      else if (item === 'parking') {
+        right.push('parking');
+      }
+      else if (item === 'CCTV') {
+        right.push('CCTV');
+      }
+      else if (item === 'Waterfront') {
+        right.push('waterfront');
+      }
+      else if (item === 'washer') {
+        right.push('Washer');
+      }
+      else if (item === 'Dryer') {
+        right.push('Dryer');
+      }
+      else if (item === 'TV') {
+        right.push('TV');
+      }
+      else if (item === 'AC') {
+        right.push('AC');
+      }
+
+    });
+
+
+    //setRight(parsedRightList);
+ 
+    
+  
+
+    const amenityBasePrices = {
+      CCTV: 1,
+      washer: 1,
+      wifi: 2,
+      parking: 3,
+      waterfront: 1,
+      hotTub: 2,
+      TV: 1,
+      workspace: 2,
+      AC: 1,
+      Dryer: 2,
+     };
+  
+     right.forEach(amenity => {
+       if (amenityBasePrices[amenity]) {
+         console.log("scharge for "+amenity);
+         serviceCharge += (10*amenityBasePrices[amenity]);
+       }
+     });
+    
+     setService(serviceCharge);
+     setTotalPrice(TotalPrice+serviceCharge);
+     localStorage.setItem('serviceFee',serviceCharge);
+
+  }, []);
+
+ 
+
 
 
   const user_name = localStorage.getItem('name');
@@ -608,8 +752,8 @@ const ViewDetails = ({ onClose }) => {
 
 
   const handleSubmit = (property) => {
-    const propertyParam = encodeURIComponent(JSON.stringify(property));
-    navigate(`/confirm-reservation/${propertyParam}`);
+    const param = encodeURIComponent(JSON.stringify(property));
+    navigate(`/confirm-reservation/${param}`);
   };
 
   
@@ -617,9 +761,11 @@ const ViewDetails = ({ onClose }) => {
     <>
 
 
+
+
       <div className={styles.viewDetails}>
         
-       <Footer />
+      
 
 
 
@@ -635,6 +781,7 @@ const ViewDetails = ({ onClose }) => {
  
           </div>
 
+<Footer />
 
 
         <div  className={styles.Calendar} style={{ marginTop: '870px',  marginRight: '65px',  marginLeft: '75px'}}>
@@ -654,37 +801,8 @@ const ViewDetails = ({ onClose }) => {
           {propValue.property_title}
           </div>
         </div>
-        <div className={styles.div88xxct}>
-          <div className={styles.div1jdtwz4}>
-
-
-            <div className={styles.divC2acbpmargin}>
-              <div className={styles.button}>
-                <div className={styles.div5kaapu}>
-                  <div className={styles.span14tkmhrmargin}>
-                    <img className={styles.frameIcon} alt="" src="/frame.svg" />
-                  </div>
-                  <div className={styles.share}>Share</div>
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.divh2d611e11b6}>
-              <div className={styles.buttonAddToWishlist}>
-                <div className={styles.div5kaapu1}>
-                  <div className={styles.span14tkmhrmargin}>
-                    <img
-                      className={styles.frameIcon}
-                      alt=""
-                      src="/frame1.svg"
-                    />
-                  </div>
-                  <div className={styles.share}>Save</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+       
+        
 
         <div className={styles.amenitySectionParent}>
           <div
@@ -695,28 +813,17 @@ const ViewDetails = ({ onClose }) => {
               <div className={styles.amenities}>Amenities</div>
             </div>
 
-            <div>
-              {loadingAm ? (
-                <p>Loading amenities...</p>
-              ) : (
-                <ul>
-                  <p>
+            <div >
+            {loadingAm ? (
+          <p>Loading amenities...</p>
+        ) : (
+          <div className={styles.amenitiesColumnsContainer}>
+            {renderAmenitiesColumns()}
+          </div>
+        )}
+          </div>
 
-
-                  </p>
-
-                  <p>
-
-                    
-                  </p>
-                  {amenities.map((amenity) => (
-                    <li key={amenity.id}>{amenity.Name}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-
-          {/*   <ShowAmenities />
+            
             
           {
             <div className={styles.divb9672i7}>
@@ -727,7 +834,7 @@ const ViewDetails = ({ onClose }) => {
               </div>
             </div>
           }
-          */}
+          
             <div className={styles.lineParent}>
               <div className={styles.groupChild} />
               <div className={styles.groupItem} />
@@ -836,7 +943,7 @@ const ViewDetails = ({ onClose }) => {
                 src="/divs197t1q2margin.svg"
               />
               <div className={styles.divr1lutz1s}>
-                <span className={styles.div}>{Overall}</span>
+                <span className={styles.div}>{propValue.rating}</span>
               </div>
               <div className={styles.spanh2dDc59958f}>
                 <div className={styles.div}>·</div>
@@ -984,7 +1091,7 @@ const ViewDetails = ({ onClose }) => {
                   <div className={styles.cleaningFee}>Base fee</div>
                   <div className={styles.div7}>{"BDT " + propValue.base_fee}</div>
                   <div className={styles.serviceFee}>Service fee</div>
-                  <div className={styles.div8}>{"BDT " + propValue.service_fee}</div>
+                  <div className={styles.div8}>{"BDT " + service}</div>
                   <div className={styles.div6q0vike}>
                     <div className={styles.div3u0me7}>
                       <div className={styles.span18x3iiu}>
@@ -993,7 +1100,7 @@ const ViewDetails = ({ onClose }) => {
                         </div>
                       </div>
                       <div className={styles.span1qs94rc}>
-                        <div className={styles.divTot}>{"BDT " + user_price_per_night}</div>
+                        <div className={styles.divTot}>{"BDT " + TotalPrice}</div>
                       </div>
                     </div>
                   </div>
@@ -1027,7 +1134,7 @@ const ViewDetails = ({ onClose }) => {
         >
         
           <span> 
-          <div className={styles.div10}><GradeIcon />{Overall}</div>
+          <div className={styles.div10}><GradeIcon />{propValue.rating}</div>
             </span>
           <div className={styles.reviews1}>Reviews</div>
           <div className={styles.reviews2}>{reviewData.length + " Reviews"}</div>

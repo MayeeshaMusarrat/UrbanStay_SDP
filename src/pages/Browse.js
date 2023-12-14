@@ -38,8 +38,12 @@ const Browse = ({ onClose }) => {
 
   useEffect(() => {
     const localStorageValue = localStorage.getItem('PID');
+    const rightList = localStorage.getItem('rightList');
     if (localStorageValue) {
       localStorage.removeItem('PID');
+    }
+    if (rightList) {
+      localStorage.removeItem('rightList');
     }
   }, []);
 
@@ -393,7 +397,7 @@ const Browse = ({ onClose }) => {
                     <div className={styles.star}>
                       
                       <img className={styles.starChild} alt="" src="/star-1.svg" />
-                      <div className={styles.dates}>4.91</div>
+                      <div className={styles.dates}>{property.rating}</div>
                     </div>
                     <img className={styles.ellipsesIcon} alt="" src="/ellipses.svg" />
                               

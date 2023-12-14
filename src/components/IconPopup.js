@@ -7,6 +7,7 @@ import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
+import emailjs from "@emailjs/browser";
 
 const IconPopup = ({ topMargin, name = "" }) => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -17,6 +18,30 @@ const IconPopup = ({ topMargin, name = "" }) => {
     setIsPopupVisible(!isPopupVisible);
     
   };
+
+
+
+
+  const MyComponent = () => {
+    useEffect(() => {
+      const emailJsScript = document.createElement('script');
+      emailJsScript.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
+      emailJsScript.async = true;
+      document.head.appendChild(emailJsScript);
+  
+      emailJsScript.onload = () => {
+        emailjs.init("FjbpWqPaNlRVTl0tE");
+      };
+  
+      return () => {
+        document.head.removeChild(emailJsScript);
+      };
+    }, []);
+  
+  }
+  
+
+  
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -94,21 +119,56 @@ const IconPopup = ({ topMargin, name = "" }) => {
     };
   }
 
-
   const [seenValue, setSeenValue] = useState(1);
-  
+  const [msg, setMsg] = useState(1);
+
   useEffect(() => {
     fetch(`http://localhost:5001/seenNotifYet?email=${storedValue}`)
       .then(response => response.json())
       .then(data => {
         console.log("data: ", data);
         setSeenValue(data.searchResults[0].seen);
-      
+        setMsg(data.searchResults[0].notification_text)
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
+  
+  useEffect(() => {
+    const sendEmail = async () => {
+      const emailData = {
+        to_name: `Dear guest`,
+        from_name: "UrbanStay",
+        message: `${msg}`,
+        email: `${storedValue}`,
+      };
+  
+      try {
+        // Send the email using EmailJS
+        const emailResponse = await emailjs.send(
+          "service_7yhjxvg",
+          "template_66yihk3",
+          emailData,
+          "FjbpWqPaNlRVTl0tE"
+        );
+  
+        // Log the response
+        console.log("Email sent successfully:", emailResponse);
+      } catch (error) {
+        // Log any errors
+        console.error("Error sending email:", error);
+      };
+    };
+  
+    // Check if seenValue is 0 before sending the email
+    if (seenValue === 0) {
+      sendEmail();
+    }
+  }, [seenValue]);
+  
 
   const notificationTextStyles = seenValue === 0 ? styles.blinkingText : '';
+
+  console.log("sEEN:", seenValue);
   
 
   return (
@@ -130,7 +190,7 @@ const IconPopup = ({ topMargin, name = "" }) => {
             overlap="circular"
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             variant="dot"
-            style={{ right: -277, top: -10, zIndex: 1000 }}
+            style={{ right: -277, top: -10, zIndex: 1400 }}
           />
         )}
     

@@ -680,8 +680,9 @@
   font-weight: 500;
 }
 .line34 {
-  left: 371px;
+  left: 340px;
   font-weight: 600;
+  width: 100%;
 }
 .groupItem {
   position: absolute;
@@ -709,14 +710,21 @@
 }
 .line24 {
   bottom: 172px;
-  left: 375px;
+  left: 340px;
+  width: 100%;
 }
 .line23,
-.line26,
 .line27 {
   position: absolute;
   bottom: 118px;
   left: 389px;
+  width: 100%;
+}
+.line26 {
+  position: absolute;
+  bottom: 118px;
+  width: 100%;
+  left: 370px;
 }
 .line23,
 .line27 {

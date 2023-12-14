@@ -1148,7 +1148,8 @@ async function connectAndStartServer()
 
   
 
-  app.get('/seenNotifYet', async (req, res) => {
+
+    app.get('/seenNotifYet', async (req, res) => {
     const {email} = req.query;
   
     console.log("seenNotif? email :");
@@ -1158,7 +1159,7 @@ async function connectAndStartServer()
     pool.getConnection((err, connection) => {
       if (err) throw err;
   
-      const searchSql = `SELECT seen FROM notifications WHERE email = ?`;
+      const searchSql = `SELECT seen, notification_text FROM notifications WHERE email = ?`;
   
       const searchValues = [email];
   
@@ -1175,6 +1176,10 @@ async function connectAndStartServer()
       connection.release(); 
     });
   });
+
+
+
+
 
   app.get('/notifSeen', async (req, res) => {
     const {email} = req.query;
@@ -1203,6 +1208,9 @@ async function connectAndStartServer()
       connection.release(); 
     });
   });
+
+
+
 
 app.get('/temp-profile', async (req, res) => {
   const {email} = req.query;
@@ -1271,7 +1279,7 @@ app.get('/getAmenities/:PID', async (req, res) => {
 
  
   const currentDate = new Date();
-  console.log("Current Date be like : ", currentDate);
+  console.log("Current PID be like : ", PID);
 
   pool.getConnection((err, connection) => {
     if (err) throw err;
@@ -1293,6 +1301,39 @@ app.get('/getAmenities/:PID', async (req, res) => {
     connection.release(); 
   });
 });
+
+app.get('/getAmenitiesChoose/:PID', async (req, res) => {
+  const PID = req.params.PID;
+
+ 
+  const currentDate = new Date();
+  console.log("Current PID be like : ", PID);
+
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+
+    const searchSql = `SELECT Name FROM Amenities where property_PID = ?`;
+
+    const searchValues = [PID];
+
+    connection.query(searchSql, searchValues, (searchErr, searchResults) => {
+      if (searchErr) {
+        console.error('Error fetching data:', searchErr);
+        res.status(500).json({ message: 'Fetching Error' });
+      } else {
+        console.log('Data fetched from AMENITIES successfully.');
+        console.log(searchResults);
+        res.json({ searchResults });
+      }
+    });
+    connection.release(); 
+  });
+});
+
+
+
+
+
 
 app.post('/guest-give-review', async (req, res) => {
   const {

@@ -16,17 +16,48 @@ export default function ChooseAmenities() {
   const [right, setRight] = React.useState([]);
 
   React.useEffect(() => {
-    // Fetch amenity names from your backend API
+    
     fetchAmenities();
-  }, []); // Empty dependency array ensures this effect runs once when the component mounts
+  }, []); 
 
+  const handleConfirm = () => {
+    
+ 
+  const parsedRightList = right;
+  const temp_arr = [];
+
+  parsedRightList.forEach(item => {
+    if (item === 'Wifi') {
+      temp_arr.push('wifi');
+    } 
+    else if (item === 'Parking') {
+      temp_arr.push('parking');
+    }
+    else if (item === 'Dryer') {
+      temp_arr.push('Dryer');
+    }
+    else if (item === 'TV') {
+      temp_arr.push('TV');
+    }
+    else if (item === 'AC') {
+      temp_arr.push('AC');
+    }
+    else if (item === 'Waterfront') {
+      temp_arr.push('Waterfront');
+    }
+  });
+
+  localStorage.setItem('rightList', JSON.stringify(temp_arr));
+  };
+
+
+  const PID = localStorage.getItem('PID');
   const fetchAmenities = async () => {
     try {
-      const response = await fetch('http://localhost:5001/getAmenities'); // Replace with your backend API endpoint
+      const response = await fetch(`http://localhost:5001/getAmenitiesChoose/${PID}`);
       const data = await response.json();
 
       console.log("amenities: " , data);
-      // Set the fetched amenity names to the left state
       setLeft(data.searchResults.map((result) => result.Name));
     } catch (error) {
       console.error('Error fetching amenities:', error);
@@ -107,8 +138,8 @@ export default function ChooseAmenities() {
         <Divider />
         <List
           sx={{
-            width: 200,
-            height: 230,
+            width: 500,
+            height: 350,
             bgcolor: 'background.paper',
             overflow: 'auto',
           }}
@@ -141,9 +172,14 @@ export default function ChooseAmenities() {
   );
 
   return (
-    <Grid container spacing={5} justifyContent="center" alignItems="center" backgroundColor="white">
-      <Grid item>{customList('Choices', left)}</Grid>
+    <> 
+    <div style = {{backgroundColor: "white", height: "490px", width: "900px", borderRadius: "10px"}}> 
+    <Grid container spacing={7} justifyContent="center" alignItems="center">
+      <Grid item style = {{width: "400px"}}> {customList('Choices', left)}  </Grid>
       <Grid item>
+
+
+
         <Grid container direction="column" alignItems="center">
           <Button
             sx={{ my: 0.5 }}
@@ -167,7 +203,29 @@ export default function ChooseAmenities() {
           </Button>
         </Grid>
       </Grid>
-      <Grid item>{customList('Chosen', right)}</Grid>
+
+
+    
+      <Grid item style = {{width: "400px"}}> {customList('Chosen', right)} </Grid>
+
+      <Button
+      variant = "outlined"
+      
+      size = "small"
+      style = {{
+        left: "400px",
+        top: "-60px",
+      }}
+      onClick={handleConfirm}
+      
+      > Confirm </Button>
+
+
+
+
     </Grid>
+    </div>
+    </>
+    
   );
 }

@@ -14,6 +14,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import IconPopup from "../components/IconPopup";
 
 import HostPlacePropertyMap from './HostPlacePropertyMap';
+import Footer from '../components/Footer';
 
 const HostPlace = () => {
 
@@ -35,22 +36,22 @@ const HostPlace = () => {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
 
   const initialCheckboxes = [
-    { label: "CCTV Surveillance", value: "CCTV Surveillance", isChecked: false, className: styles.amenityFrameInner },
-    { label: "Smoke Alarm", value: "Smoke Alarm", isChecked: false, className: styles.amenityFrameItem },
-    { label: "Emergency Radio", value: "Emergency Radio", isChecked: false, className: styles.groupFormcontrollabel },
+    { label: "CCTV Surveillance", value: "CCTV", isChecked: false, className: styles.amenityFrameInner },
+    { label: "Smoke Alarm", value: "Smoke", isChecked: false, className: styles.amenityFrameItem },
+    { label: "Emergency Radio", value: "Radio", isChecked: false, className: styles.groupFormcontrollabel },
 
     { label: "Dryer", value: "Dryer", isChecked: false, className: styles.amenityFrameChild8 },
-    { label: "Carbon monoxide alarm", value: "Carbon Monoxide Alarm", isChecked: false, className: styles.amenityFrameChild1 },
+    { label: "Carbon monoxide alarm", value: "COAlarm", isChecked: false, className: styles.amenityFrameChild1 },
     { label: "First aid kit", value: "First Aid Kit", isChecked: false, className: styles.amenityFrameChild2 },
 
-    { label: "Fire extinguisher", value: "Fire Extinguisher", isChecked: false, className: styles.amenityFrameChild3 },
-    { label: "Wi-fi", value: "Wi-fi", isChecked: false, className: styles.amenityFrameChild4 },
-    { label: "Parking spot", value: "Parking Spot", isChecked: false, className: styles.amenityFrameChild5 },
+    { label: "Fire extinguisher", value: "FireExtinguisher", isChecked: false, className: styles.amenityFrameChild3 },
+    { label: "Wi-fi", value: "Wifi", isChecked: false, className: styles.amenityFrameChild4 },
+    { label: "Parking spot", value: "Parking", isChecked: false, className: styles.amenityFrameChild5 },
     { label: "Kitchen", value: "Kitchen", isChecked: false, className: styles.amenityFrameChild6 },
 
     { label: "Waterfront", value: "Waterfront", isChecked: false, className: styles.amenityFrameChild7},
     { label: "Washing Machine", value: "Washer", isChecked: false, className: styles.amenityFrameChild9 },
-    { label: "Hot tub", value: "Hot Tub", isChecked: false, className: styles.amenityFrameChild10 },
+    { label: "Hot tub", value: "HotTub", isChecked: false, className: styles.amenityFrameChild10 },
     
     { label: "TV", value: "TV", isChecked: false, className: styles.amenityFrameChild11 },
     { label: "Workspace", value: "Workspace", isChecked: false, className: styles.amenityFrameChild12 },
@@ -774,211 +775,7 @@ const handleUpload = async () => {
           <p className={styles.blankLine}>&nbsp;</p>
           <p className={styles.fillUpThe}>Help the renters find your home!</p>
         </div>
-        <div className={styles.footer}>
-          <div className={styles.divfooterTop}>
-            <div className={styles.divcontainer}>
-              <div className={styles.divrow}>
-                <div className={styles.divcolLg4}>
-                  <div className={styles.divfooterAppContent}>
-                    <div className={styles.divfooterContentHeading}>
-                      <div className={styles.heading4}>Get Our App</div>
-                      <div className={styles.downloadTheApp}>
-                        Download the app and book your property
-                      </div>
-                    </div>
-                    <div className={styles.divdownloadApp}>
-                      <div className={styles.link}>
-                        <img
-                          className={styles.googlePaypngIcon}
-                          alt=""
-                          src="/googlepaypng@2x.png"
-                        />
-                      </div>
-                      <div className={styles.link}>
-                        <img
-                          className={styles.appStorepngIcon}
-                          alt=""
-                          src="/appstorepng@2x.png"
-                        />
-                      </div>
-                    </div>
-                    <div className={styles.divsocialLinks}>
-                      <div className={styles.heading41}>Connect with us</div>
-                      <div className={styles.list}>
-                        <div className={styles.itemmargin}>
-                          <div className={styles.itemLink4}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className={styles.itemmargin}>
-                          <div className={styles.itemLink5}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className={styles.itemmargin}>
-                          <div className={styles.itemLink6}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className={styles.itemmargin}>
-                          <div className={styles.itemLink7}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className={styles.itemmargin}>
-                          <div className={styles.itemLink8}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className={styles.item}>
-                          <div className={styles.itemLink5}>
-                            <div className={styles.ifaBrands}>
-                              <div className={styles.symbol}></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.divcolLg2}>
-                  <div className={styles.divfooterWidgetList}>
-                    <div className={styles.heading42}>
-                      <div className={styles.explore}>Explore</div>
-                    </div>
-                    <div className={styles.list1}>
-                      <div className={styles.item1}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>  </div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item2}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Register</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item3}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Login</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item4}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Blogs</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item5}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Hosts</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.divcolLg21}>
-                  <div className={styles.divfooterWidgetList}>
-                    <div className={styles.heading43}>
-                      <div className={styles.explore}>Categories</div>
-                    </div>
-                    <div className={styles.list1}>
-                      <div className={styles.item6}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Apartments</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item7}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Home</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item8}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Office</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item9}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Villas</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item10}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Flat</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.divcolLg22}>
-                  <div className={styles.divfooterWidgetList}>
-                    <div className={styles.heading44}>
-                      <div className={styles.explore}>Locations</div>
-                    </div>
-                    <div className={styles.list1}>
-                      <div className={styles.item11}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>United States</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item12}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Canada</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item13}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>India</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item14}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>UK</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                      <div className={styles.item15}>
-                        <div className={styles.link3}>
-                          <div className={styles.listings}>Australia</div>
-                        </div>
-                        <div className={styles.symbol6}></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.divfooterBottom}>
-            <div className={styles.p}>
-              <div className={styles.copyright2023}>
-                Copyright 2023 - All right reserved UrbanStay
-              </div>
-            </div>
-          </div>
-        </div>
+       <Footer />
         <div className={styles.stickyNavBar}>
           <div className={styles.whiterectangle} />
           <div

@@ -210,11 +210,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className={styles.divb9672i7}>
-        <div className={styles.button}>
-          <div className={styles.showAllReviews}>Show all reviews</div>
-        </div>
-      </div>
+     
       </>
   );
 };

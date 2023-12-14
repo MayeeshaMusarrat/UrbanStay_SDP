@@ -535,7 +535,7 @@
     width: 1542px;
     height: 119px;
     overflow: hidden;
-    z-index: 100;
+    
     color: var(--color-darkblue);
     font-family: var(--font-lato);
   }

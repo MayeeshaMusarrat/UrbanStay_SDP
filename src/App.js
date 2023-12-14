@@ -65,10 +65,7 @@ function App() {
         title = "";
         metaDescription = "";
         break;
-      case "/confirm-reservation":
-        title = "";
-        metaDescription = "";
-        break;
+      
       case "/mylistings":
         title = "";
         metaDescription = "";
@@ -172,7 +169,7 @@ function App() {
       <Route path="/guest-welcome" element={<GuestWelcome />} />
       <Route path="/host-welcome" element={<HostWelcome />} />
       <Route path="/leading-page" element={<LeadingPage />} />
-      <Route path="/confirm-reservation/:propertyParam" element={<ConfirmReservation />} />
+      <Route path="/confirm-reservation/:param" element={<ConfirmReservation />} />
       <Route path="/mylistings" element={<MyListings />} />
       <Route path="/guest-signup-page" element={<GuestSignupPage />} />
       <Route path="/sign-in-page" element={<SignInPage />} />

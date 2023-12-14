@@ -557,14 +557,24 @@
   line-height: 26px;
   font-weight: 600;
 }
+
+.amenitiesContainer {
+  margin-top: 20px; 
+}
+
+
+
 .heading2 {
-  position: absolute;
+  position: relative;
   width: calc(100% + 6px);
   top: -6px;
   right: 9px;
   left: -15px;
-  height: 26px;
+  height: 35px;
   font-size: var(--header-22pt-regular-size);
+ 
+  padding-bottom: 5px;
+ 
 }
 .frameIcon2 {
   position: relative;
@@ -917,14 +927,19 @@
   left: -6px;
   border-radius: var(--br-5xs);
   background-color: var(--shade-01);
-  border: 1px solid var(--shade-02);
+  border: 1px solid var(--neutral-06);
   box-sizing: border-box;
   width: 188px;
   height: 48px;
 }
+
+.button1:hover {
+  border: 1px solid var(--shade-02);
+  cursor: pointer;
+}
 .divb9672i7 {
   position: absolute;
-  top: 270px;
+  top: 290px;
   left: -10px;
   width: 653.32px;
   height: 47.6px;
@@ -1700,10 +1715,15 @@
   border-radius: var(--br-5xs);
   background: linear-gradient(90deg, #2c2e97, #371dae 50%, #2c2e97);
   height: 48px;
-  cursor: pointer;
+ 
   text-align: center;
   font-size: var(--font-size-base);
   color: var(--shade-01);
+}
+.button4:hover {
+ 
+  background: var(--color-slateblue-100);
+  cursor: pointer;
 }
 .divWgmchy {
   top: 0;
