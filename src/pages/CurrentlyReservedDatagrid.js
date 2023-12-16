@@ -83,8 +83,7 @@ const CurrentlyReservedDatagrid = ({ data }) => {
     {
         field: "Guest",
         headerName: "Guest Name",
-        headerAlign: "center", 
-        align: "center", 
+       
         headerClassName: 'custom-header-class',
         width: 280,
         disableSelectionOnClick: true,
