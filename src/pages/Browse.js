@@ -333,9 +333,20 @@ const Browse = ({ onClose }) => {
           </div>
         </div>
 
-        {isPopupOpen && (
-          <FilterPopup onClose={closePopup} />
-        )}
+       
+
+
+    {isPopupOpen && (
+        <PortalPopup
+          overlayColor="rgba(113, 113, 113, 0.3)"
+          placement="Centered"
+          onOutsideClick={closePopup}
+        >
+          <FilterPopup onClose={closePopup}/>
+        </PortalPopup>
+      )}
+
+
 
 
         <div className={styles.sortByParent}>

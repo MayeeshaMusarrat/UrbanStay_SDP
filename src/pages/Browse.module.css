@@ -629,7 +629,7 @@
   font-size: var(--body-copy-14pt-regular-size);
   color: var(--neutral-08);
   font-family: var(--font-poppins);
-  z-index: 300;
+ 
 }
 .parent,
 .sortBy {
@@ -691,7 +691,7 @@
   background-color: #31328f;
   width: 1777px;
   height: 105px;
-  z-index: 100;
+ 
 }
 .stay {
   font-weight: 500;
@@ -1388,7 +1388,7 @@
   overflow: hidden;
   font-size: var(--font-size-base);
   color: var(--color-darkblue);
-  z-index: 200;
+  
 }
 .browse {
   position: relative;
@@ -1400,4 +1400,5 @@
   font-size: var(--font-size-lg);
   color: var(--color-darkslategray-100);
   font-family: var(--font-lato);
+  
 }

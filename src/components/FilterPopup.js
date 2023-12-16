@@ -1,9 +1,10 @@
-import { useState, useCallback } from "react";
-import { TextField, Checkbox, FormControlLabel } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import styles from "./FilterPopup.module.css";
+import PriceSlider from './PriceSlider';
+import { useNavigate } from "react-router-dom";
+import { useState, useCallback } from "react";
 
-const FilterPopup = ({ onClose }) => {
+const FilterPopup = ({onClose}) => {
+
   const navigate = useNavigate();
 
   const [propType, setPropType] = useState("");
@@ -21,8 +22,6 @@ const FilterPopup = ({ onClose }) => {
     if (isPressedHouse) setPropType("House");
     console.log("house is pressed");
     localStorage.setItem("proptype", propType);
-    
-    
   };
 
   const handleButtonClick2 = () => {
@@ -43,150 +42,113 @@ const FilterPopup = ({ onClose }) => {
     localStorage.setItem("proptype", propType);
   };
 
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
 
-  const handleMinPriceChange = (event) => {
-    setMinPrice(event.target.value);
-  };
-
-  const handleMaxPriceChange = (event) => {
-    setMaxPrice(event.target.value);
-  };
-
-  const onFrameButtonClick = useCallback(() => {
-    // Save min and max prices to local storage
-    localStorage.setItem("minprice", minPrice);
-    localStorage.setItem("maxprice", maxPrice);
-
-    // Navigate to "/browse"
+  const close = () => {
+    onClose();
     navigate("/browse");
-  }, [minPrice, maxPrice, navigate]);
-
+  }
 
   return (
     <div className={styles.filterPopup}>
-      <div className={styles.filterPopupContent}>
-        <div className={styles.filterPopupChild} />
+      <div className={styles.filterinner}>
         <div className={styles.priceRange}>Price Range</div>
         <div className={styles.filterAccordingTo}>
           Filter according to your preferred nightly prices.
         </div>
         <div className={styles.propertyType}>Property Type</div>
-        {/* Removed "Amenities" section */}
-        <div className={styles.filterPopupItem} />
-        <div className={styles.filterPopupInner} />
-        <div className={styles.lineDiv} />
-        <TextField
-          className={styles.minprice}
-          color="info"
-          rows={1}
-          maxRows={1}
-          label="Minimum"
-          fullWidth={true}
-          sx={{ width: 301 }}
-          variant="outlined"
-          onChange={handleMinPriceChange}
-          value={minPrice}
-        />
-        <TextField
-          className={styles.minprice1}
-          color="info"
-          rows={1}
-          maxRows={1}
-          label="Maximum"
-          fullWidth={true}
-          sx={{ width: 301 }}
-          variant="outlined"
-          onChange={handleMaxPriceChange}
-          value={maxPrice}
-        />
-        <div className={styles.filterPopupChild1} />
-        <div className={styles.propertyType1}>
-          <div className={styles.textIcon}>
-            <button
-              className={styles.propertyTypeIcon}
-              onClick={handleButtonClick1}
-              style={{ background: isPressedHouse ? 'white' : 'lightgray' }}
-            >
-              <img alt="" src="/property-type1.svg" />
-              <div className={styles.house}>House</div>
-            </button>
-          </div>
-        </div>
-        <div className={styles.propertyTypeParent}>
-          <div className={styles.propertyType2}>
+        <div className={styles.filterinnerChild} />
+        <div className={styles.filterinnerChild2} />
+        <div className={styles.filterinnerChild3} />
+        <div className={styles.apartmentprop}>
+          <div className={styles.propertyType1}
+          onClick={handleButtonClick2}
+          style={{ background: isPressedAp ? 'white' : 'lightgray' }}
+          >
             <div className={styles.textIcon}>
-              <button
+              <img
                 className={styles.propertyTypeIcon}
-                onClick={handleButtonClick2}
-                style={{ background: isPressedAp ? 'white' : 'lightgray' }}
-              >
-                <img alt="" src="/property-type2.svg" />
-                <div className={styles.house}>Apartment</div>
-              </button>
+                alt=""
+                src="/property-type1.svg"
+              />
+              <div className={styles.house}>Apartment</div>
             </div>
           </div>
+        
         </div>
-        <div className={styles.propertyTypeGroup}>
-          <div className={styles.propertyType2}>
+        <button className={styles.houseprop}
+       
+        >
+          <div className={styles.propertyType1}
+           onClick={handleButtonClick1}
+           style={{ background: isPressedHouse ? 'white' : 'lightgray' }}
+           >
             <div className={styles.textIcon}>
-              <button
-                className={styles.propertyTypeIcon}
-                onClick={handleButtonClick3}
-                style={{ background: isPressedGuest ? 'white' : 'lightgray' }}
-              >
-                <img alt="" src="/property-type2.svg" />
-                <div className={styles.house}>Guesthouse</div>
-              </button>
+              <img
+                
+                alt=""
+                src="/property-type.svg"
+              />
+              <div className={styles.house1}>House</div>
             </div>
           </div>
-          <img
-            className={styles.propertyTypeIcon4}
-            alt=""
-            src="/property-type4.svg"
-          />
+         
+        </button>
+        <div className={styles.guesthouseprop}>
+          <div className={styles.propertyType1}
+          onClick={handleButtonClick3}
+          style={{ background: isPressedGuest ? 'white' : 'lightgray' }}
+          >
+            <div className={styles.textIcon}>
+              <img
+                className={styles.propertyTypeIcon}
+                alt=""
+                src="/property-type2.svg"
+              />
+              <div className={styles.house}>Guesthouse</div>
+            </div>
+          </div>
+         
         </div>
-        <div className={styles.groupParent}>
+        <div className={styles.hotelprop}>
           <div className={styles.propertyTypeWrapper}>
-            <div className={styles.propertyType4}>
+            <div className={styles.propertyType4}
+            onClick={handleButtonClick4}
+            style={{ background: isPressedHotel ? 'white' : 'lightgray' }}
+            >
               <div className={styles.textIcon}>
-                <button
+                <img
                   className={styles.propertyTypeIcon}
-                  onClick={handleButtonClick4}
-                  style={{ background: isPressedHotel ? 'white' : 'lightgray' }}
-                >
-                  <img alt="" src="/property-type2.svg" />
-                  <div className={styles.house}>Hotel</div>
-                </button>
+                  alt=""
+                  src="/property-type3.svg"
+                />
+                <div className={styles.house}>Hotel</div>
               </div>
             </div>
           </div>
-          <img
-            className={styles.propertyTypeIcon6}
-            alt=""
-            src="/property-type5.svg"
-          />
-        </div>
-        {/* ... other checkboxes and labels ... */}
-      </div>
-      <div className={styles.rectangleParent}>
-        <div className={styles.groupChild} />
-        <div className={styles.filterPlacesWrapper} onClick={onFrameButtonClick}>
-          <button className={styles.filterPlaces}>Filter Places</button>
-        </div>
         
-        <div className={styles.groupItem} />
+        </div>
+        <div className={styles.priceslider} >
+
+          <PriceSlider />
+
+        </div>
       </div>
-      <div className={styles.rectangleGroup}>
-        <div className={styles.groupInner} />
-        <img className={styles.crossIcon} alt="" src="/cross1.svg" />
-        <div className={styles.groupChild1} />
+      <div className={styles.footer}>
+        <div className={styles.footerChild} />
+        <button className={styles.filterPlacesWrapper}>
+          <button className={styles.filterPlaces} onClick={close}>Filter Places</button>
+        </button>
+        <div className={styles.clearSelection}>Clear selection</div>
+        <div className={styles.footerItem} />
+      </div>
+      <div className={styles.header}>
+        <div className={styles.heading} />
+        <img className={styles.crossIcon} alt="" src="/cross.svg" />
+        <div className={styles.headerChild} />
         <button className={styles.filters}>Filters</button>
       </div>
     </div>
   );
 };
-  
 
 export default FilterPopup;
